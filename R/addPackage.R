@@ -13,3 +13,57 @@
 ## put the package into the most recent manifest
 
 
+.getDir <- function(tarball){
+    sep <- .Platform$file.sep
+    notTar <- paste("^",sep,".*",sep, sep="")
+    tar <-  sub(notTar,"",tarball, perl=TRUE)
+    sub("_.*gz","", tar, perl=TRUE)
+}
+
+.cleanDESCRIPTION <- function(dir){
+    con <- file(file.path(dir, "DESCRIPTION"))
+    DESC <- readLines(con)
+    DESC <- DESC[!grepl("Packaged:",DESC)]
+    writeLines(DESC, con)
+}
+
+.removeUnwantedDirs <- function(dir){
+    instDoc <- file.path(dir, "inst", "doc")
+    if(file.exists(instDoc)){
+        unlink(instDoc, recursive=TRUE)
+    }
+    buildDir <- file.path(dir, "build")
+    if(file.exists(buildDir)){
+        unlink(buildDir, recursive=TRUE)
+    }
+}
+
+
+clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
+    ## 1st re-run the checker from Dan to make sure we have the right thing...
+    ## TODO: call Dans checker here.
+    
+    ## access the tarball
+    untar(tarball)
+    ## get the name of the actual dir that tarball will unpack to
+    dir <- .getDir(tarball)
+    ## clean up DESCRIPTION file
+    .cleanDESCRIPTION(dir)
+    ## remove build and inst/doc dirs
+    .removeUnwantedDirs(dir)
+    ## cp the dir to a default svn dir.
+    if(copyToSvnDir){
+        file.copy(from=dir, to=svnDir, recursive=TRUE)
+    }
+}
+
+
+
+############################################################################
+#### Test example for how I want this to work:
+##  library(BiocContributions); tarball <- system.file("testpackages", "savR_0.99.1.tar.gz", package="BiocContributions");
+
+## use helper argument for testing...
+
+## clean(tarball, copyToSvnDir=FALSE)
+
