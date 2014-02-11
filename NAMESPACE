@@ -1,1 +1,1 @@
-export(clean)
+export(clean, makeBins)

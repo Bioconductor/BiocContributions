@@ -22,8 +22,8 @@
 
 ## for pkg in `ls ./*.tar.gz` ## lists dirs
 ## do 
-##     pkgName=${pkg%_R_x86_64-unknown-linux-gnu.tar.gz}
-##     pkgReal=`echo $pkg | cut -d _ -f 1` 
+##     pkgName=${pkg%_R_x86_64-unknown-linux-gnu.tar.gz}       ## ./savR_0.99.1
+##     pkgReal=`echo $pkg | cut -d _ -f 1`                     ## ./savR
 ## #     echo $pkgName
 ## #     echo $pkgReal
 ##     rm -f ${pkgReal}/MD5 ## new line
@@ -44,14 +44,13 @@
 .windowIzeDESCRIPTION <- function(dir){
     dirPath <- file.path(dir, "DESCRIPTION")
     DESC <- read.dcf(dirPath)
- #   DESC[,'Packaged'] <- 
-    
+    DESC[,'Built'] <- sub('unix', 'windows', DESC[,'Built']) 
     write.dcf(DESC, file=dirPath)
 }
 
 
 ## So 1st thing is that this function is implicitly a unix only command.
-makeBin <- function(tarball){
+makeBins <- function(tarball){
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}
 
@@ -65,19 +64,39 @@ makeBin <- function(tarball){
     ## now get the unmangled package name
     pkg <- .getLongPkgName(tarball)
     builtPkg <- paste(pkg, "_R_x86_64-unknown-linux-gnu.tar.gz", sep="")
-    file.copy(pkg, to=paste(pkg,".tgz",sep=""))
-
+    macPkg <- paste(pkg,".tgz",sep="")
+    file.copy(builtPkg, to=macPkg) 
 
     ###############################################
     ## make the Windows Binary
-    ## Now untar the old package  ### tar zxf $pkg
-    untar(tarball)
+    ## untar the built package  ### tar zxf $pkg
+    untar(builtPkg)
     
-    ## now also need the 'true' packagename (aka the dir name)
+    ## also need the 'true' packagename (aka the dir name)
     pkgDir <- .getShortPkgName(tarball)
 
-    ## And change important line in DESCRIPTION to be windows.
-#    .windowIzeDESCRIPTION(dir=pkgDir)
-    
-    
+    ## and change important line in DESCRIPTION to be windows.
+    .windowIzeDESCRIPTION(dir=pkgDir)
+
+    ## remove any MD5 files
+    MD5File <- file.path(pkgDir,"MD5")
+    if(file.exists(MD5File)){
+        unlink(MD5File)
+    }
+    ## zip up the tarball
+    zip(paste(pkg,".zip",sep=""),files=pkgDir)
+
+    ## remove the unpacked pkgDir along with the builtPkg
+    if(file.exists(pkgDir)){
+        unlink(pkgDir, recursive=TRUE)
+    }
+    if(file.exists(builtPkg)){
+        unlink(builtPkg)
+    }
 }
+
+
+##  library(BiocContributions); tarball <- system.file("testpackages", "hgu95av2.db_2.10.1.tar.gz", package="BiocContributions");
+
+## makeBins(tarball)
+
