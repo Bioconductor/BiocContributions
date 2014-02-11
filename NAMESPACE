@@ -1,1 +1,4 @@
-export(clean, makeBins)
+export(clean,
+       makeBins,
+       emailExisting,
+       emailNewUser)

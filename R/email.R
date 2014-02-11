@@ -250,7 +250,7 @@ Thanks for contributing to the Bioconductor project!
 }
 
 
-emailExisting <- function(tarball){
+emailNewUser <- function(tarball){
     require("sendmailR")
     ## untar
     untar(tarball)
