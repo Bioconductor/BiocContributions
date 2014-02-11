@@ -41,7 +41,11 @@
 clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
     ## 1st re-run the checker from Dan to make sure we have the right thing...
     ## TODO: call Dans checker here.
-    
+
+    ## make sure we are in unix (otherwise default arg for svnDir is no good)
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}
+  
     ## access the tarball
     untar(tarball)
     ## get the name of the actual dir that tarball will unpack to
@@ -54,6 +58,8 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
     if(copyToSvnDir){
         file.copy(from=dir, to=svnDir, recursive=TRUE)
     }
+    ## TODO: add param for svnAccountExists=TRUE, and if true, call
+    ## emailExisting(tarball)
 }
 
 
@@ -65,4 +71,5 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
 ## use helper argument for testing...
 
 ## clean(tarball, copyToSvnDir=FALSE)
+
 
