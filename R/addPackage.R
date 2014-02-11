@@ -13,7 +13,7 @@
 ## put the package into the most recent manifest
 
 
-.getDir <- function(tarball){
+.getShortPkgName <- function(tarball){
     sep <- .Platform$file.sep
     notTar <- paste("^",sep,".*",sep, sep="")
     tar <-  sub(notTar,"",tarball, perl=TRUE)
@@ -21,10 +21,10 @@
 }
 
 .cleanDESCRIPTION <- function(dir){
-    con <- file(file.path(dir, "DESCRIPTION"))
-    DESC <- readLines(con)
-    DESC <- DESC[!grepl("Packaged:",DESC)]
-    writeLines(DESC, con)
+    dirPath <- file.path(dir, "DESCRIPTION")
+    DESC <- read.dcf(dirPath)
+    DESC <- DESC[,!grepl("Packaged",colnames(DESC)),drop=FALSE]
+    write.dcf(DESC, file=dirPath)
 }
 
 .removeUnwantedDirs <- function(dir){
@@ -38,7 +38,6 @@
     }
 }
 
-
 clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
     ## 1st re-run the checker from Dan to make sure we have the right thing...
     ## TODO: call Dans checker here.
@@ -46,7 +45,7 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
     ## access the tarball
     untar(tarball)
     ## get the name of the actual dir that tarball will unpack to
-    dir <- .getDir(tarball)
+    dir <- .getShortPkgName(tarball)
     ## clean up DESCRIPTION file
     .cleanDESCRIPTION(dir)
     ## remove build and inst/doc dirs

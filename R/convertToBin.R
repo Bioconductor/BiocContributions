@@ -32,3 +32,52 @@
 ##     rm -rf $pkg
 ## done
 
+
+
+.getLongPkgName <- function(tarball){
+    sep <- .Platform$file.sep
+    notTar <- paste("^",sep,".*",sep, sep="")
+    tar <-  sub(notTar,"",tarball, perl=TRUE)
+    sub(".tar.gz","", tar, perl=TRUE)
+}
+
+.windowIzeDESCRIPTION <- function(dir){
+    dirPath <- file.path(dir, "DESCRIPTION")
+    DESC <- read.dcf(dirPath)
+ #   DESC[,'Packaged'] <- 
+    
+    write.dcf(DESC, file=dirPath)
+}
+
+
+## So 1st thing is that this function is implicitly a unix only command.
+makeBin <- function(tarball){
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}
+
+    ###############################################
+    ## use system to call R CMD INSTALL -- build
+    cmd <- paste("R CMD INSTALL --build", tarball)
+    system(cmd)
+
+    ###############################################
+    ## make the Mac binary:
+    ## now get the unmangled package name
+    pkg <- .getLongPkgName(tarball)
+    builtPkg <- paste(pkg, "_R_x86_64-unknown-linux-gnu.tar.gz", sep="")
+    file.copy(pkg, to=paste(pkg,".tgz",sep=""))
+
+
+    ###############################################
+    ## make the Windows Binary
+    ## Now untar the old package  ### tar zxf $pkg
+    untar(tarball)
+    
+    ## now also need the 'true' packagename (aka the dir name)
+    pkgDir <- .getShortPkgName(tarball)
+
+    ## And change important line in DESCRIPTION to be windows.
+#    .windowIzeDESCRIPTION(dir=pkgDir)
+    
+    
+}
