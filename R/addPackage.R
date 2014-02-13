@@ -41,7 +41,7 @@
 clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
                   svnAccountExists=FALSE){
     ## 1st re-run the checker from Dan to make sure we have the right thing...
-    ## TODO: call Dans checker here.
+    ## TODO: call Dans checker here?
 
     ## make sure we are in unix (otherwise default arg for svnDir is no good)
     if(.Platform$OS.type != "unix"){
@@ -59,7 +59,7 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
     if(copyToSvnDir){
         file.copy(from=dir, to=svnDir, recursive=TRUE)
     }
-    ## TODO: add param for svnAccountExists=TRUE, and if true, call
+    ## email, but only if the user is known to exist already..
     if(svnAccountExists == TRUE){
         emailExistingUser(tarball)
     }
