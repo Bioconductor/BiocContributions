@@ -17,21 +17,29 @@
 ## lets start with a function to send an email when the user already
 ## has a svn account.
 
-.extractEmail <- function(dir){
+## This just gets the contents for the Maintainer field
+## (There might be multiple emails returned from here)
+.extractEmails <- function(dir){
     dirPath <- file.path(dir, "DESCRIPTION")
     DESC <- read.dcf(dirPath)
-    DESC[,grepl("Maintainer",colnames(DESC)),drop=FALSE]
+    rawEmail <- DESC[,grepl("Maintainer",colnames(DESC)),drop=FALSE]
+    ## if there are multiples, clean them up
+    emails <- unlist(strsplit(rawEmail, "> ?"))
+    ## remove newlines and reattach ">'s", then return character() 
+    paste(sub("\n"," ", emails),">",sep="")  
 }
 
-.scrubOutEmailAddress <-function(rawEmail){
+## This just extracts email adresses from a Maintainer field.
+.scrubOutEmailAddresses <-function(rawEmail){
     as.character(sub(">$","",sub("^.*<","", rawEmail)))
 }
 
-.scrubOutNameFromEmail <-function(rawEmail){
+## This just extracts names from a Maintainer field
+.scrubOutNamesFromEmails <-function(rawEmail){
     sub("\\s.?<.*$","", rawEmail, perl=TRUE)
 }
 
-## wrapper so that I don't have to do this more than once
+## Email wrapper so that I don't have to do this more than once
 ## NOTE: for sendmailR (or even command line mail) to run, you must
 ## have set /etc/mailname.  Mine was set to: gamay.fhcrc.org
 .sendEmailMessage <- function(email, msg, subject){
@@ -40,6 +48,14 @@
              subject=subject, msg=msg)
 }
 
+## And for when we want to send multiple messages:
+.sendEmailMessages <- function(emails, msgs, subject){
+    for(i in seq_along(emails)){
+        .sendEmailMessage(emails[i], msgs[i], subject)
+    }
+}
+
+## and code to define a single message template
 .makeExistingUserMsg <- function(authorName, packageName){
     existingMsg <- paste(
                          "Hi ",
@@ -105,32 +121,43 @@ Thanks for contributing to the Bioconductor project!
     existingMsg 
 }
 
-    
+## General purpose multiplier for functions that take authorName, packageName and that also have a function to define the message based on that.
+.makeMessages <- function(authorNames, packageName, FUN){
+    msgs <- character()
+    for(i in seq_along(authorNames)){
+        msgs[i] <- FUN(authorName=authorNames[i], packageName)
+    }
+    msgs
+}
+
 emailExistingUser <- function(tarball){
     ## untar
     untar(tarball)
     ## get dir
     dir <- .getShortPkgName(tarball)
     ## extract email from DESCRIPTION file
-    email <- .extractEmail(dir)
+    emails <- .extractEmails(dir)
     ## clean the email out
-    cleanEmail <- .scrubOutEmailAddress(email)
+    cleanEmails <- .scrubOutEmailAddresses(emails)    
     ## extract name
-    name <- .scrubOutNameFromEmail(email)
-    ## format msg
-    msg <- .makeExistingUserMsg(authorName=name, packageName=dir)
+    names <- .scrubOutNamesFromEmails(emails)
+    ## format msgs
+    msgs <- .makeMessages(authorName=names, packageName=dir,
+                          FUN=.makeExistingUserMsg)
     ## subject
     subject <- paste("Congratulations.  Package",dir,
                      "has been added to the repository.")
-
     ## send an email at this time.
-    .sendEmailMessage(email=cleanEmail, msg=msg, subject=subject)
+    .sendEmailMessages(email=cleanEmails, msg=msgs, subject=subject)
 }
 
 
 ##############################################
 ##  example
-##  library(BiocContributions); tarball <- system.file("testpackages", "savR_0.99.1.tar.gz", package="BiocContributions");
+##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
+
+
+
 
 
 
@@ -265,6 +292,12 @@ Thanks for contributing to the Bioconductor project!
     existingMsg 
 }
 
+.writeOutEmailTemplates <- function(paths, msgs){
+    for(i in seq_along(paths)){
+        con <- file(paths[i])
+        writeLines(text=msgs[i], con=con)
+    }
+}
 
 emailNewUser <- function(tarball){
     require("sendmailR")
@@ -273,22 +306,26 @@ emailNewUser <- function(tarball){
     ## get dir
     dir <- .getShortPkgName(tarball)
     ## extract email from DESCRIPTION file
-    email <- .extractEmail(dir)
+    emails <- .extractEmails(dir)
     ## clean the email out
-    cleanEmail <- .scrubOutEmailAddress(email)
+    cleanEmails <- .scrubOutEmailAddresses(emails)
     ## extract name
-    name <- .scrubOutNameFromEmail(email)
+    names <- .scrubOutNamesFromEmails(emails)
     ## format msg
-    msg <- .makeNewUserMsg(authorName=name, packageName=dir)
+    msgs <- .makeMessages(authorName=names, packageName=dir,
+                          FUN=.makeNewUserMsg)
     ## write the result to a file for convenience.
-    con <- file(paste(dir,"_cngrtsEml_<",cleanEmail,">_.txt",sep=""))
-    writeLines(text=msg,con=con)
+    paths <- paste(dir,"_cngrtsEml_<",cleanEmails,">_.txt",sep="")
+    ## now make connections and write results out.
+    .writeOutEmailTemplates(paths, msgs)
 }
 
 
+##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
+## emailNewUser(tarball)
 
-
+## works
 
 
 
@@ -299,23 +336,7 @@ emailNewUser <- function(tarball){
 ## email for new svn accounts.  This one takes a tarball and sends an
 ## email to Carl at scicomp regarding new accounts.
 
-emailNewSvn <- function(tarball){
-    ## require("sendmailR")
-    ## ## untar
-    ## untar(tarball)
-    ## ## get dir
-    ## dir <- .getShortPkgName(tarball)
-    ## ## extract email from DESCRIPTION file
-    ## email <- .extractEmail(dir)
-    ## ## clean the email out
-    ## cleanEmail <- .scrubOutEmailAddress(email)
-    ## ## extract name
-    ## name <- .scrubOutNameFromEmail(email)
-    ## ## format msg
-    ## msg <- .makeNewUserMsg(authorName=name, packageName=dir)
-    ## ## write the result to a file for convenience.
-    ## con <- file(paste(dir,"_cngrtsEml_<",cleanEmail,">_.txt",sep=""))
-    ## writeLines(text=msg,con=con)
+emailNewSvnAccount <- function(tarball){
 }
 
 

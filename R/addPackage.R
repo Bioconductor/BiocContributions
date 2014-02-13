@@ -13,6 +13,9 @@
 ## put the package into the most recent manifest
 
 
+## This retrieves the short name for a package or it's true name (so
+## no version numbers or extensions it's basically what the source dir
+## would be called)
 .getShortPkgName <- function(tarball){
     sep <- .Platform$file.sep
     notTar <- paste("^",sep,".*",sep, sep="")
@@ -20,6 +23,7 @@
     sub("_.*gz","", tar, perl=TRUE)
 }
 
+## This throws away unwanted extra lines and junk from the DESCRIPTION file
 .cleanDESCRIPTION <- function(dir){
     dirPath <- file.path(dir, "DESCRIPTION")
     DESC <- read.dcf(dirPath)
@@ -27,6 +31,7 @@
     write.dcf(DESC, file=dirPath)
 }
 
+## This throws away dirs that are inserted into the tarball by 'R CMD build.'
 .removeUnwantedDirs <- function(dir){
     instDoc <- file.path(dir, "inst", "doc")
     if(file.exists(instDoc)){
@@ -38,6 +43,9 @@
     }
 }
 
+## This is for cleaning up build tarballs, and then putting them into
+## svn (and emailing the authors to let them know this - when they
+## already have an account)
 clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
                   svnAccountExists=FALSE){
     ## 1st re-run the checker from Dan to make sure we have the right thing...
@@ -69,7 +77,7 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 
 ############################################################################
 #### Test example for how I want this to work:
-##  library(BiocContributions); tarball <- system.file("testpackages", "savR_0.99.1.tar.gz", package="BiocContributions");
+##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
 ## use helper argument for testing...
 
