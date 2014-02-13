@@ -1,7 +1,17 @@
-## I plan to put email generating functions here.  I need to send
-## emails to Carl, new/older authors, as well as prospective authors.
-## These should all be functions if for no other reason than to allow
-## their contents to be edited by all team members via svn.
+
+########################################################
+##
+## TODO: deal with multiple maintainers more elegantly!
+## TODO: fix the 451 smtp email bug
+##
+########################################################
+
+
+
+## I need to send emails to Carl, new/older authors, as well as
+## prospective authors.  These should all be functions if for no other
+## reason than to allow their contents to be edited by all team
+## members via svn.
 
 
 ## lets start with a function to send an email when the user already has an account.
@@ -68,7 +78,7 @@ If you change email addresses, please make sure the Maintainer field
 in the DESCRIPTION file of your package contains your current email
 address. We may need to reach you if there are issues building your
 package (this could happen as a result of changes to R or to packages
-you depend on). If we can't reach you, we may have to drop your
+you depend on). If we cannot reach you, we may have to drop your
 package from Bioconductor.  If you have multiple developers on your
 project who wish to help maintain it, we allow multiple names (with
 addresses) in the maintainer field.  Let us know if you need more
@@ -100,22 +110,41 @@ emailExisting <- function(tarball){
     name <- .scrubOutNameFromEmail(email)
     ## format msg
     msg <- .makeExistingUserMsg(authorName=name, packageName=dir)
-    ## use sendmail to send a message
-    ##  sendmail(from='mcarlson@fhcrc.org', to=cleanEmail,
-    ##           subject="Congratulations", body=existingMsg)
+
+
+    ## system()
+
 }
 
+## SOME progress using 'mail' command line tool
+## command line email (only works from shrew - not from gamay)
+## echo “The body of the mail.” | mail -s “Hello world” mrjc42@gmail.com -- -f mcarlson@fhcrc.org
+## This works from shrew:
+## system("echo 'The body of the mail.' | mail -s 'Hello world' mrjc42@gmail.com")
+## So this should also work (and does - but only from shrew)
+## msg <- "body 'bar' message"; email<-'mrjc42@gmail.com'
+## system(paste("echo ",msg," | mail -s 'Hello world' ",email,"-- -f mcarlson@fhcrc.org"))
 
 
 
+
+
+
+#########################################################
+## abortive attempts to use R packages.  :P
+    ## use sendmail package to send a message    
+    ##  sendmail(from='mcarlson@fhcrc.org', to='mrjc42@gmail.com', subject="Congratulations", body='test', control=list(smtpServer='zimbra.fhcrc.org'))
+
+    ## using the mail library I could do it like this
+    ##  sendmail(recipient=cleanEmail,
+    ##           subject="Congratulations", message='test')
+
+
+
+##############################################
+##  example
 ##  library(BiocContributions); tarball <- system.file("testpackages", "savR_0.99.1.tar.gz", package="BiocContributions");
 
-
-## example of how sendmail should work:
-##  sendmail(from='mcarlson@fhcrc.org', to='mrjc42@gmail.com', subject="Congratulations", body=existingMsg)
-
-## the above will give me a 451 error.  To work around that I probably
-## need to pass some args as a list to the control parameter...
 
 
 
@@ -178,14 +207,14 @@ Bioconductor devel packages:
 
 A package is made publicly available only if it passes the CHECK test
 with no error (it can have warnings though). Then the easiest (and
-recommended) way to install it is with biocLite():
+recommended) way to install it is with biocLite().  You can learn more
+about how to use biocLite() here:
 
-  > source('http://bioconductor.org/biocLite.R')
-  > biocLite('mypackage')
+http://www.bioconductor.org/install/
 
 However, if your package is already published and you make changes
 to it, the new version will not replace the old version unless
-you have bumped z in the version number x.y.z. DON'T FORGET TO
+you have bumped z in the version number x.y.z. DO NOT FORGET TO
 BUMP Z! or the last version of your package will not be pushed
 to the public repository.
 
@@ -230,7 +259,7 @@ If you change email addresses, please make sure the Maintainer field
 in the DESCRIPTION file of your package contains your current email
 address. We may need to reach you if there are issues building your
 package (this could happen as a result of changes to R or to packages
-you depend on). If we can't reach you, we may have to drop your
+you depend on). If we cannot reach you, we may have to drop your
 package from Bioconductor.  If you have multiple developers on your
 project who wish to help maintain it, we allow multiple names (with
 addresses) in the maintainer field.  Let us know if you need more
@@ -271,6 +300,45 @@ emailNewUser <- function(tarball){
 
 
 
-########################################################
-## TODO: deal with multiple maintainers more elegantly!
-## TODO: fix the 451 smtp email bug
+
+
+
+
+
+
+
+##########################################################################
+##########################################################################
+## email for new svn accounts.  This one takes a tarball and sends an
+## email to Carl at scicomp regarding new accounts.
+
+emailNewSvn <- function(tarball){
+    ## require("sendmailR")
+    ## ## untar
+    ## untar(tarball)
+    ## ## get dir
+    ## dir <- .getShortPkgName(tarball)
+    ## ## extract email from DESCRIPTION file
+    ## email <- .extractEmail(dir)
+    ## ## clean the email out
+    ## cleanEmail <- .scrubOutEmailAddress(email)
+    ## ## extract name
+    ## name <- .scrubOutNameFromEmail(email)
+    ## ## format msg
+    ## msg <- .makeNewUserMsg(authorName=name, packageName=dir)
+    ## ## write the result to a file for convenience.
+    ## con <- file(paste(dir,"_cngrtsEml_<",cleanEmail,">_.txt",sep=""))
+    ## writeLines(text=msg,con=con)
+}
+
+
+
+
+
+
+
+
+
+
+
+
