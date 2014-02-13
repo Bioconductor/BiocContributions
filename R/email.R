@@ -138,9 +138,9 @@ emailExistingUser <- function(tarball){
 
 ## Carl set up gamay for me by 'setting /etc/mainname' to gamay.fhcrc.org
 ## And now from gamay, I can send command line messages AND also I can now use sthe sendmailR package like this
+## AND:
 ## sendmail(from='mcarlson@fhcrc.org', to='mrjc42@gmail.com', subject="Congratulations", msg="newer 'test' from sendmailR")
-
-## and this is preferred since sendmailR does not strip out the single quotes from the message 
+## and sendmailR preferred since sendmailR does not strip out the single quotes from the message 
 
 
 
