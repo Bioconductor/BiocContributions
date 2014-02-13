@@ -59,7 +59,7 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
         file.copy(from=dir, to=svnDir, recursive=TRUE)
     }
     ## TODO: add param for svnAccountExists=TRUE, and if true, call
-    ## emailExisting(tarball)
+    ## emailExistingUser(tarball)
 }
 
 

@@ -2,7 +2,7 @@
 ########################################################
 ##
 ## TODO: deal with multiple maintainers more elegantly!
-## TODO: fix the 451 smtp email bug
+## TODO: fix the email bug
 ##
 ########################################################
 
@@ -28,6 +28,15 @@
 
 .scrubOutNameFromEmail <-function(rawEmail){
     sub("\\s.?<.*$","", rawEmail, perl=TRUE)
+}
+
+## wrapper so that I don't have to do this more than once
+.sendEmailMessage <- function(email, msg, subject){
+    ## system(paste("echo ",msg," | mail -s '",subject,"' ",email,
+    ##              "-- -f mcarlson@fhcrc.org"))
+    require("sendmailR")
+    sendmail(from='mcarlson@fhcrc.org', to=email,
+             subject=subject, msg=msg)
 }
 
 .makeExistingUserMsg <- function(authorName, packageName){
@@ -78,7 +87,7 @@ If you change email addresses, please make sure the Maintainer field
 in the DESCRIPTION file of your package contains your current email
 address. We may need to reach you if there are issues building your
 package (this could happen as a result of changes to R or to packages
-you depend on). If we cannot reach you, we may have to drop your
+you depend on). If we can't reach you, we may have to drop your
 package from Bioconductor.  If you have multiple developers on your
 project who wish to help maintain it, we allow multiple names (with
 addresses) in the maintainer field.  Let us know if you need more
@@ -96,8 +105,7 @@ Thanks for contributing to the Bioconductor project!
 }
 
     
-emailExisting <- function(tarball){
-    require("sendmailR")
+emailExistingUser <- function(tarball){
     ## untar
     untar(tarball)
     ## get dir
@@ -110,10 +118,12 @@ emailExisting <- function(tarball){
     name <- .scrubOutNameFromEmail(email)
     ## format msg
     msg <- .makeExistingUserMsg(authorName=name, packageName=dir)
+    ## subject
+    subject <- paste("Congratulations.  Package",dir,
+                     "has been added to the repository.")
 
-
-    ## system()
-
+    ## send an email at this time.
+    .sendEmailMessage(email=cleanEmail, msg=msg, subject=subject)
 }
 
 ## SOME progress using 'mail' command line tool
@@ -126,18 +136,11 @@ emailExisting <- function(tarball){
 ## system(paste("echo ",msg," | mail -s 'Hello world' ",email,"-- -f mcarlson@fhcrc.org"))
 
 
+## Carl set up gamay for me by 'setting /etc/mainname' to gamay.fhcrc.org
+## And now from gamay, I can send command line messages AND also I can now use sthe sendmailR package like this
+## sendmail(from='mcarlson@fhcrc.org', to='mrjc42@gmail.com', subject="Congratulations", msg="newer 'test' from sendmailR")
 
-
-
-
-#########################################################
-## abortive attempts to use R packages.  :P
-    ## use sendmail package to send a message    
-    ##  sendmail(from='mcarlson@fhcrc.org', to='mrjc42@gmail.com', subject="Congratulations", body='test', control=list(smtpServer='zimbra.fhcrc.org'))
-
-    ## using the mail library I could do it like this
-    ##  sendmail(recipient=cleanEmail,
-    ##           subject="Congratulations", message='test')
+## and this is preferred since sendmailR does not strip out the single quotes from the message 
 
 
 
@@ -214,7 +217,7 @@ http://www.bioconductor.org/install/
 
 However, if your package is already published and you make changes
 to it, the new version will not replace the old version unless
-you have bumped z in the version number x.y.z. DO NOT FORGET TO
+you have bumped z in the version number x.y.z. DON'T FORGET TO
 BUMP Z! or the last version of your package will not be pushed
 to the public repository.
 
@@ -259,7 +262,7 @@ If you change email addresses, please make sure the Maintainer field
 in the DESCRIPTION file of your package contains your current email
 address. We may need to reach you if there are issues building your
 package (this could happen as a result of changes to R or to packages
-you depend on). If we cannot reach you, we may have to drop your
+you depend on). If we can't reach you, we may have to drop your
 package from Bioconductor.  If you have multiple developers on your
 project who wish to help maintain it, we allow multiple names (with
 addresses) in the maintainer field.  Let us know if you need more
