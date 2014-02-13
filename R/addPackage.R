@@ -38,7 +38,8 @@
     }
 }
 
-clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
+clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
+                  svnAccountExists=FALSE){
     ## 1st re-run the checker from Dan to make sure we have the right thing...
     ## TODO: call Dans checker here.
 
@@ -59,7 +60,9 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
         file.copy(from=dir, to=svnDir, recursive=TRUE)
     }
     ## TODO: add param for svnAccountExists=TRUE, and if true, call
-    ## emailExistingUser(tarball)
+    if(svnAccountExists == TRUE){
+        emailExistingUser(tarball)
+    }
 }
 
 
@@ -71,5 +74,9 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE){
 ## use helper argument for testing...
 
 ## clean(tarball, copyToSvnDir=FALSE)
+
+## if we know that the user has an svn account, then I can just email
+## them at the same time that we add their code to the repos.
+## clean(tarball, svnAccountExists=TRUE)
 
 

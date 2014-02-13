@@ -2,7 +2,7 @@
 ########################################################
 ##
 ## TODO: deal with multiple maintainers more elegantly!
-## TODO: fix the email bug
+## TODO: write email function to request svn account from Carl.
 ##
 ########################################################
 
@@ -13,8 +13,9 @@
 ## reason than to allow their contents to be edited by all team
 ## members via svn.
 
-
-## lets start with a function to send an email when the user already has an account.
+####################################################################
+## lets start with a function to send an email when the user already
+## has a svn account.
 
 .extractEmail <- function(dir){
     dirPath <- file.path(dir, "DESCRIPTION")
@@ -31,9 +32,9 @@
 }
 
 ## wrapper so that I don't have to do this more than once
+## NOTE: for sendmailR (or even command line mail) to run, you must
+## have set /etc/mailname.  Mine was set to: gamay.fhcrc.org
 .sendEmailMessage <- function(email, msg, subject){
-    ## system(paste("echo ",msg," | mail -s '",subject,"' ",email,
-    ##              "-- -f mcarlson@fhcrc.org"))
     require("sendmailR")
     sendmail(from='mcarlson@fhcrc.org', to=email,
              subject=subject, msg=msg)
@@ -125,23 +126,6 @@ emailExistingUser <- function(tarball){
     ## send an email at this time.
     .sendEmailMessage(email=cleanEmail, msg=msg, subject=subject)
 }
-
-## SOME progress using 'mail' command line tool
-## command line email (only works from shrew - not from gamay)
-## echo “The body of the mail.” | mail -s “Hello world” mrjc42@gmail.com -- -f mcarlson@fhcrc.org
-## This works from shrew:
-## system("echo 'The body of the mail.' | mail -s 'Hello world' mrjc42@gmail.com")
-## So this should also work (and does - but only from shrew)
-## msg <- "body 'bar' message"; email<-'mrjc42@gmail.com'
-## system(paste("echo ",msg," | mail -s 'Hello world' ",email,"-- -f mcarlson@fhcrc.org"))
-
-
-## Carl set up gamay for me by 'setting /etc/mainname' to gamay.fhcrc.org
-## And now from gamay, I can send command line messages AND also I can now use sthe sendmailR package like this
-## AND:
-## sendmail(from='mcarlson@fhcrc.org', to='mrjc42@gmail.com', subject="Congratulations", msg="newer 'test' from sendmailR")
-## and sendmailR preferred since sendmailR does not strip out the single quotes from the message 
-
 
 
 ##############################################
