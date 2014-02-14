@@ -71,6 +71,8 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
     if(svnAccountExists == TRUE){
         emailExistingUser(tarball)
     }
+    ## cleanup
+    unlink(dir, recursive=TRUE)
 }
 
 

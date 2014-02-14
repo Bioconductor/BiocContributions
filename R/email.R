@@ -149,6 +149,8 @@ emailExistingUser <- function(tarball){
                      "has been added to the repository.")
     ## send an email at this time.
     .sendEmailMessages(email=cleanEmails, msg=msgs, subject=subject)
+    ## cleanup
+    unlink(dir, recursive=TRUE)
 }
 
 
@@ -156,7 +158,7 @@ emailExistingUser <- function(tarball){
 ##  example
 ##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
-
+## emailExistingUser(tarball)
 
 
 
@@ -174,7 +176,7 @@ emailExistingUser <- function(tarball){
 
 ## 1st we need our new user greeting:
 .makeNewUserMsg <- function(authorName, packageName){
-    existingMsg <- paste(
+    newUserMsg <- paste(
                          "Hi ",
                          authorName,
                      ",
@@ -289,7 +291,7 @@ Thanks for contributing to the Bioconductor project!
 
   Marc", sep="")
     ## then return
-    existingMsg 
+    newUserMsg 
 }
 
 .writeOutEmailTemplates <- function(paths, msgs){
@@ -318,6 +320,8 @@ emailNewUser <- function(tarball){
     paths <- paste(dir,"_cngrtsEml_<",cleanEmails,">_.txt",sep="")
     ## now make connections and write results out.
     .writeOutEmailTemplates(paths, msgs)
+    ## cleanup
+    unlink(dir, recursive=TRUE)
 }
 
 
@@ -336,17 +340,69 @@ emailNewUser <- function(tarball){
 ## email for new svn accounts.  This one takes a tarball and sends an
 ## email to Carl at scicomp regarding new accounts.
 
+.makeNewSvnUserRequestMsg <- function(emailsAndUserNames){
+    msg <- paste("Hi Carl,
+
+Could you please create a new svn account on hedgehog for
+
+",emailsAndUserNames,"
+
+Thanks!
+
+    Marc", sep="")
+    ## then return
+    msg 
+}
+
+.generateProposedUsername <- function(names){
+    res <- character()
+    for(i in seq_along(names)){
+        firstName <- unlist(strsplit(names[i]," "))[1]
+        init <- tolower(substr(firstName,1,1))
+        numNames <- length(unlist(strsplit(names[i]," ")))
+        lastName <- tolower(unlist(strsplit(names[i]," "))[numNames])
+        res[i] <- paste(init, lastName, sep=".") 
+    }
+    res
+}
+
 emailNewSvnAccount <- function(tarball){
+    ## untar
+    untar(tarball)
+    ## get dir
+    dir <- .getShortPkgName(tarball)
+    ## extract email from DESCRIPTION file
+    emails <- .extractEmails(dir)
+    ## clean the email out
+    cleanEmails <- .scrubOutEmailAddresses(emails)    
+    ## extract name
+    names <- .scrubOutNamesFromEmails(emails)
+    ## make a proposed username.
+    usernames <- .generateProposedUsername(names)
+
+    ## generate emails and UserNames
+    emailsAndUserNames <- paste(
+                                paste(emails,
+                                      "\n\n  proposed username:",
+                                      usernames,
+                                      "\n"),
+                                collapse="\n\n AND \n\n")
+    
+    ## format msgs
+    msg <- .makeNewSvnUserRequestMsg(emailsAndUserNames)
+    ## send an email at this time.
+    ## .sendEmailMessage(email="scicomp@fhcrc.org", msg=msg,
+    ##                   subject="new svn account")
+    
+    .sendEmailMessage(email="mcarlson@fhcrc.org", msg=msg,
+                      subject="new svn account")
+
+    ## cleanup
+    unlink(dir, recursive=TRUE)
 }
 
 
 
+##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
-
-
-
-
-
-
-
-
+## emailNewSvnAccount(tarball)
