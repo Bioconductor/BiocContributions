@@ -366,7 +366,7 @@ Thanks!
     res
 }
 
-emailNewSvnAccount <- function(tarball){
+emailNewSvnAccount <- function(tarball, sendMail=TRUE){
     ## untar
     untar(tarball)
     ## get dir
@@ -390,13 +390,17 @@ emailNewSvnAccount <- function(tarball){
     
     ## format msgs
     msg <- .makeNewSvnUserRequestMsg(emailsAndUserNames)
-    ## send an email at this time.
-    ## .sendEmailMessage(email="scicomp@fhcrc.org", msg=msg,
-    ##                   subject="new svn account")
-    
-    .sendEmailMessage(email="mcarlson@fhcrc.org", msg=msg,
-                      subject="new svn account")
+    if(sendMail){
+        ## send an email at this time.
+        ## .sendEmailMessage(email="scicomp@fhcrc.org", msg=msg,
+        ##                   subject="new svn account")
 
+        .sendEmailMessage(email="mcarlson@fhcrc.org", msg=msg,
+                          subject="new svn account")
+    }else{
+        con <- file(paste(dir,"_svnRequest_<scicomp@fhcrc.org>_.txt",sep=""))
+        writeLines(text=msg, con=con)
+    }
     ## cleanup
     unlink(dir, recursive=TRUE)
 }
@@ -406,6 +410,5 @@ emailNewSvnAccount <- function(tarball){
 ##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
 ## emailNewSvnAccount(tarball)
-
 
 ## TODO: add option to write out the request when account exists.
