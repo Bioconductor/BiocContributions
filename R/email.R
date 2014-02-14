@@ -44,7 +44,8 @@
 ## have set /etc/mailname.  Mine was set to: gamay.fhcrc.org
 .sendEmailMessage <- function(email, msg, subject){
     require("sendmailR")
-    sendmail(from='mcarlson@fhcrc.org', to=email,
+    fromEmail = getOption("fromEmail")
+    sendmail(from=fromEmail, to=email,
              subject=subject, msg=msg)
 }
 

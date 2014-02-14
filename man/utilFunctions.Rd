@@ -55,6 +55,12 @@
   file to send later?}
 }
 
+\details{
+In order to use the email functions you should put a line in your .Rprofile
+file that looks like this:
+
+options( fromEmail = 'emailAddress@someplace.com')
+}
 
 \value{
    This varies with the function.  
