@@ -411,4 +411,7 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 ## emailNewSvnAccount(tarball)
 
-## TODO: add option to write out the request when account exists.
+## works
+
+
+## emailNewSvnAccount(tarball, sendMail=FALSE)
