@@ -299,6 +299,7 @@ Thanks for contributing to the Bioconductor project!
     for(i in seq_along(paths)){
         con <- file(paths[i])
         writeLines(text=msgs[i], con=con)
+        close(con)
     }
 }
 
@@ -401,6 +402,7 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
     }else{
         con <- file(paste(dir,"_svnRequest_<scicomp@fhcrc.org>_.txt",sep=""))
         writeLines(text=msg, con=con)
+        close(con)
     }
     ## cleanup
     unlink(dir, recursive=TRUE)
@@ -416,3 +418,92 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 
 ## emailNewSvnAccount(tarball, sendMail=FALSE)
+
+
+
+
+
+##############################################################################
+## I need a tool for getting latest svn perms from hedgehog...
+## scp svn@hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz .
+
+## Problem: the above requires a passphrase, so I need to copy my public key up to authorized keys in .ssh on hedgehog
+## I am going to email scicomp to see if they can help me square that away.
+
+
+## Helper to read in 'bioconductor.authz'
+.extractUsernamesFromAuthz <- function(){
+    if(file.exists('bioconductor.authz')){
+        con <- file('bioconductor.authz')
+        res <- readLines(con)
+        close(con)
+        cats <- c("^bioconductor-readers =","^bioconductor-write0 =")
+        res <- res[ grepl(cats[1], res) | grepl(cats[2], res)  ]
+        res <- unlist(strsplit(res, ","))
+        unique(sub(" ","",sub(cats[2],"",sub(cats[1],"",res))))
+    }
+}
+
+####################################################################
+## Check if a username exists in svn
+## I need this to be a public and private way of looking at whether an
+## svn user exists for Bioconductor.
+## So all the above emails should use this check 1) make sure that a user exists
+
+
+## These return TRUE or FALSE
+.svnUserExists <- function(name){
+    names <- .extractUsernamesFromAuthz()
+    ## now grep
+    any(grepl(name, names))
+}
+
+.svnUsersExist <- function(names){
+    unlist(lapply(names, .svnUserExists))
+}
+
+
+## these returns matches (so you can think about it better)
+.svnUserMatcher <- function(name){
+    names <- .extractUsernamesFromAuthz()
+    ## now grep
+    names[grepl(name, names)]
+}
+
+svnUserMatches <- function(names){
+    unlist(lapply(names, .svnUserMatcher))
+}
+
+
+
+
+## Check if a tarball is in svn yet or not.
+## (for quickly assessing - a standalone function)
+existingSvnUsers <- function(tarball){
+    ## untar
+    untar(tarball)
+    ## get dir
+    dir <- .getShortPkgName(tarball)
+    ## extract email from DESCRIPTION file
+    emails <- .extractEmails(dir)
+    ## extract names
+    names <- .scrubOutNamesFromEmails(emails)
+    ## get the answer
+    res <- svnUserMatches(names)
+    ## cleanup
+    unlink(dir, recursive=TRUE)
+    res
+}
+
+
+
+##############################################
+##  example
+##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
+
+## existingSvnUsers(tarball)
+
+
+
+
+## TODO: make use of the above helpers in the other email functions (but ONLY after we get better access to the .authz file)

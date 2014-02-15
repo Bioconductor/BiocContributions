@@ -2,4 +2,5 @@ export(clean,
        makeBins,
        emailExistingUser,
        emailNewUser,
-       emailNewSvnAccount)
+       emailNewSvnAccount,
+       existingSvnUsers)
