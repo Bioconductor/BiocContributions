@@ -488,8 +488,10 @@ existingSvnUsers <- function(tarball){
     emails <- .extractEmails(dir)
     ## extract names
     names <- .scrubOutNamesFromEmails(emails)
+    ## make a proposed username.
+    usernames <- .generateProposedUsername(names)
     ## get the answer
-    res <- svnUserMatches(names)
+    res <- svnUserMatches(usernames)
     ## cleanup
     unlink(dir, recursive=TRUE)
     res
