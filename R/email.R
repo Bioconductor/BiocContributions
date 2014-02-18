@@ -446,8 +446,10 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
         cats <- c("^bioconductor-readers =","^bioconductor-write0 =")
         res <- res[ grepl(cats[1], res) | grepl(cats[2], res)  ]
         res <- unlist(strsplit(res, ","))
-        unique(sub(" ","",sub(cats[2],"",sub(cats[1],"",res))))
+        res <- unique(sub(" ","",sub(cats[2],"",sub(cats[1],"",res))))
     }
+    unlink("bioconductor.authz")
+    res
 }
 
 ####################################################################
