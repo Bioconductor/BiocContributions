@@ -433,6 +433,12 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 ## Helper to read in 'bioconductor.authz'
 .extractUsernamesFromAuthz <- function(){
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}    
+    ## Just get the latest file from hedgehog (this will require you
+    ## to enter your passphrase
+    system('rsync svn@hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz .')
+    
     if(file.exists('bioconductor.authz')){
         con <- file('bioconductor.authz')
         res <- readLines(con)
