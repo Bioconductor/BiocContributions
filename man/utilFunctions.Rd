@@ -4,6 +4,7 @@
 \alias{emailExistingUser}
 \alias{emailNewUser}
 \alias{emailNewSvnAccount}
+\alias{existingSvnUsers}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -34,6 +35,11 @@
   one character manually and then send it.  Again, this could be
   improved if we had access to a local copy of the the svn credentials
   file.
+
+  existingSvnUsers: used to list all existing svn accounts that look
+  like the user you would expect to generate based on a taball.  It
+  searches the maintainer field of a tarball, generates a user name and
+  then looks at all the svn users to see if any are similar to that.
 }
 
 \usage{
@@ -43,6 +49,7 @@
   emailExistingUser(tarball)
   emailNewUser(tarball)
   emailNewSvnAccount(tarball, sendMail=TRUE)
+  existingSvnUsers(tarball)
 }
 
 \arguments{
@@ -93,6 +100,9 @@ options( fromEmail = 'emailAddress@someplace.com')
     tarball <- system.file("testpackages", "hgu95av2.db_2.10.1.tar.gz",
                            package="BiocContributions");
     makeBins(tarball)
+
+    ## list existing svn users that are similar to this tarballs maintainers
+    existingSvnUsers(tarball)
   }
 
 }
