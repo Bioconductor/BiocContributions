@@ -6,7 +6,11 @@ Author: Marc Carlson
 Maintainer: Marc Carlson <mcarlson@fhcrc.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to the repository, and for emailing people etc.
 Suggests: sendmailR
-Collate: addPackage.R email.R convertToBin.R
+Collate: addPackage.R 
+	 email.R 
+	 convertToBin.R 
+	 installDependencies.R 
+	 tallyManifests.R
 License: Artistic-2.0
 biocViews: Infrastructure
 LazyLoad: yes
