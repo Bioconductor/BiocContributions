@@ -7,9 +7,14 @@
     if (is.null(input)) return(NULL)
     output <- gsub("\\s", "", input)
     output <- gsub("\\([^)]*\\)", "", output)
-    res <- strsplit(output, ",")[[1]]
-    res[which(res != "R")]
+    if(dim(output)[2] ==0){
+        stop("There are no dependencies to install.")
+    }else{
+        res <- strsplit(output, ",")[[1]]
+        res[which(res != "R")]
+    }
 }
+
 
 ## Helper to extract all dependencies and the return them as a character vector
 .extractDependencies <- function(dir){
@@ -32,3 +37,5 @@ installDeps <- function(tarball){
 
 ## library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 ## installDeps(tarball)
+
+##  library(BiocContributions); installDeps('genomationData_0.99.tar.gz')
