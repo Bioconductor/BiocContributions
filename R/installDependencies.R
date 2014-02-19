@@ -1,14 +1,5 @@
-## usage: installDeps("AnnotationDbi")
-## installDeps <- function(pkgName){
-##   d <- packageDescription(pkgName)
-##   dep <- paste(d$Depends, d$Imports, d$Suggests, sep=",")
-##   dep <- gsub("\n", "", dep)
-##   dep <- gsub(" ", "", dep)
-##   dep <- unlist(strsplit(dep, split=","))
-##   library(BiocInstaller)
-##   biocLite(dep)
-## }
-
+## Code to install dependencies even if it's a new tarball that is not
+## yet in the project manifest/biocLite.
 
 
 ## Helper based on code that Dan originally needed for BiocCheck
@@ -34,7 +25,7 @@ installDeps <- function(pkgName){
     untar(tarball)
     dir <- .getShortPkgName(tarball)
     dep <- .extractDependencies(dir)    
-    library(BiocInstaller)
+    require(BiocInstaller)
     biocLite(dep)
 }
 
