@@ -8,7 +8,7 @@
     output <- gsub("\\s", "", input)
     output <- gsub("\\([^)]*\\)", "", output)
     if(dim(output)[2] ==0){
-        stop("There are no dependencies to install.")
+        return(NULL)
     }else{
         res <- strsplit(output, ",")[[1]]
         res[which(res != "R")]
@@ -23,7 +23,13 @@
     deps <- .depToCharacter(DESC[,grepl("Depends",colnames(DESC)),drop=FALSE])
     sugs <- .depToCharacter(DESC[,grepl("Suggests",colnames(DESC)),drop=FALSE])
     imps <- .depToCharacter(DESC[,grepl("Imports",colnames(DESC)),drop=FALSE])
-    c(deps, sugs, imps)
+    enhs <- .depToCharacter(DESC[,grepl("Enhances",colnames(DESC)),drop=FALSE])
+    lnkt <- .depToCharacter(DESC[,grepl("LinkingTo",colnames(DESC)),drop=FALSE])
+    res <- c(deps, sugs, imps, enhs, lnkt)
+    if(length(res) == 0){
+        stop("there are no dependencies to install.")
+    }
+    res
 }
 
 installDeps <- function(tarball){
