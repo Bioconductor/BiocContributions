@@ -21,7 +21,7 @@
     c(deps, sugs, imps)
 }
 
-installDeps <- function(pkgName){
+installDeps <- function(tarball){
     untar(tarball)
     dir <- .getShortPkgName(tarball)
     dep <- .extractDependencies(dir)    
