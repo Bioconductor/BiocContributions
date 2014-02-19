@@ -3,4 +3,7 @@ export(clean,
        emailExistingUser,
        emailNewUser,
        emailNewSvnAccount,
-       existingSvnUsers)
+       existingSvnUsers,
+       installDeps,
+       getPackageTotals,
+       plotPackageTotals)

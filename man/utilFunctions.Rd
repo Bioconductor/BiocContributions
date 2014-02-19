@@ -5,6 +5,9 @@
 \alias{emailNewUser}
 \alias{emailNewSvnAccount}
 \alias{existingSvnUsers}
+\alias{getPackageTotals}
+\alias{plotPackageTotals}
+\alias{installDeps}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -40,6 +43,15 @@
   like the user you would expect to generate based on a taball.  It
   searches the maintainer field of a tarball, generates a user name and
   then looks at all the svn users to see if any are similar to that.
+
+  getPackageTotals: looks at the manifests and gives package counts for
+  each. This may need to be updated to reflect new manifests...
+
+  plotPackageTotals: makes a simple plot of package growth over time.
+
+  installDeps: Given a tarball, this will install all its dependencies
+  using biocLite().  This works even for tarballs that are not yet
+  available themselves via biocLite().
 }
 
 \usage{
@@ -103,6 +115,13 @@ options( fromEmail = 'emailAddress@someplace.com')
 
     ## list existing svn users that are similar to this tarballs maintainers
     existingSvnUsers(tarball)
+
+    ## list how many packages are in each known release of Bioconductor
+    getPackageTotals()
+
+    ## Install all the dependencies for a tarball you need to review
+    ## (but that isn't yet in biocLite itself)
+    installDeps(tarball)
   }
 
 }
