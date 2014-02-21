@@ -43,6 +43,13 @@
     }
 }
 
+.removeUnwantedFiles <- function(dir){
+    srcDir <- file.path(dir, "src")
+    if(file.exists(srcDir)){
+        unlink(file.path(srcDir,"*.o"))
+    }
+}
+
 ## This is for cleaning up build tarballs, and then putting them into
 ## svn (and emailing the authors to let them know this - when they
 ## already have an account)
@@ -63,6 +70,8 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
     .cleanDESCRIPTION(dir)
     ## remove build and inst/doc dirs
     .removeUnwantedDirs(dir)
+    ## remove unwanted files    
+    .removeUnwantedFiles(dir)
     ## cp the dir to a default svn dir.
     if(copyToSvnDir){
         file.copy(from=dir, to=svnDir, recursive=TRUE)
