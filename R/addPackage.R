@@ -99,3 +99,66 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 ## clean(tarball, svnAccountExists=TRUE)
 
 
+
+
+
+
+###########################################################################
+## Another clean function (this time for cleaning data packages)
+cleanDataPkg <- function(tarball,
+                         svnDir1="~/proj/experiment/pkgs",
+                         svnDir2="~/proj/experiment/data_store",
+                         copyToSvnDir=TRUE,
+                  svnAccountExists=FALSE){
+    ## 1st re-run the checker from Dan to make sure we have the right thing...
+    ## TODO: call Dans checker here?
+
+    ## make sure we are in unix (otherwise default arg for svnDir is no good)
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}
+  
+    ## access the tarball
+    untar(tarball)
+    ## get the name of the actual dir that tarball will unpack to
+    dir <- .getShortPkgName(tarball)
+    ## clean up DESCRIPTION file
+    .cleanDESCRIPTION(dir)
+    ## remove build and inst/doc dirs
+    .removeUnwantedDirs(dir)
+    ## remove unwanted files    
+    .removeUnwantedFiles(dir)
+
+    
+    ## cp the dir to a default svn dir.
+    if(copyToSvnDir){
+        file.copy(from=dir, to=svnDir1, recursive=TRUE)
+        svd1 <- file.path(svnDir1, dir)
+        ## for now just touch this file.
+        extDataStore = file.path(svd1,'external_data_store.txt')
+        system(paste0('touch ',extDataStore))
+        ## and then check the following:
+        dataDir <- file.path(svd1,'data')
+        if(file.exists(dataDir)){
+            unlink(dataDir, recursive=TRUE)
+            ## TODO: now add that line to extDataStore
+        }
+        extdataDir <- file.path(svd1,'extdata')
+        if(file.exists(extdataDir)){
+            unlink(extdataDir, recursive=TRUE)
+            ## TODO: now add that line to extDataStore
+        }
+        
+        ## TODO: finish this so it removes pretty much everything that
+        ## isn't the stuff we tossed out in svd1...
+        file.copy(from=dir, to=svnDir2, recursive=TRUE)
+        svd2 <- file.path(svnDir2, dir)
+        
+        
+    }
+    ## email, but only if the user is known to exist already..
+    if(svnAccountExists == TRUE){
+        emailExistingUser(tarball)
+    }
+    ## cleanup
+    unlink(dir, recursive=TRUE)
+}
