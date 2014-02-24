@@ -102,7 +102,6 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 
 
 
-
 ###########################################################################
 ## Another clean function (this time for cleaning data packages)
 cleanDataPkg <- function(tarball,
@@ -135,31 +134,35 @@ cleanDataPkg <- function(tarball,
         ## for now just touch this file.
         extDataStore <- file.path(svd1,'external_data_store.txt')
         extDataCon <- file(extDataStore)
-        paths <- character()
+        basePaths <- character()
         system(paste0('touch ',extDataStore))
         ## and then check the following:
         dataDir <- file.path(svd1,'data')
         if(file.exists(dataDir)){
             unlink(dataDir, recursive=TRUE)
-            paths <- c(paths, 'data')
+            basePaths <- c(basePaths, 'data')
         }
         extdataDir <- file.path(svd1,'inst','extdata')
         if(file.exists(extdataDir)){
             unlink(extdataDir, recursive=TRUE)
-            paths <- c(paths, 'inst/extdata')
+            basePaths <- c(basePaths, 'inst/extdata')
         }
-        writeLines(paths, con = extDataCon)       
+        writeLines(basePaths, con = extDataCon)       
         ## And here it just removes pretty much everything that isn't
         ## the stuff we tossed out in svd1...
         file.copy(from=dir, to=svnDir2, recursive=TRUE)
         svd2 <- file.path(svnDir2, dir)
-        contents <- dir(svd2, recursive=TRUE)
+        ## get all contents of current dir
+        contents <- dir(svd2, include.dirs=TRUE ,recursive=TRUE)
+        ## then make all contents and paths "fully pathed"
         contents <- file.path(svd2, contents)
-        paths <- file.path(svd2, paths)
-        ## filter out the keepers.
+        fullBasePaths <- file.path(svd2, basePaths)
+        paths <- unique(dir(fullBasePaths, recursive=TRUE))
+        paths <- c(file.path(fullBasePaths, paths), fullBasePaths)
+        ## filter out the paths we want to keep.
         contents <- contents[!contents %in% paths]
         ## and throw out the rest.
-        unlink(contents)
+        unlink(contents, recursive=TRUE)
     }
     ## email, but only if the user is known to exist already..
     if(svnAccountExists == TRUE){
@@ -175,4 +178,10 @@ cleanDataPkg <- function(tarball,
 
 
 ## local test
-## tarball = 'CopyNumber450k_0.99.4.tar.gz'; library(BiocContributions); cleanDataPkg(tarball, svnDir1="~/tasks/PkgReviews/AboutToAdd/expr/test/data", svnDir2="~/tasks/PkgReviews/AboutToAdd/expr/test/pkgs")
+## tarball = 'CopyNumber450kData_0.99.1.tar.gz'; library(BiocContributions); debug(BiocContributions:::cleanDataPkg)
+## cleanDataPkg(tarball, svnDir1="~/tasks/PkgReviews/AboutToAdd/expr/test/pkgs", svnDir2="~/tasks/PkgReviews/AboutToAdd/expr/test/data")
+
+## two bugs:
+## ## 1) I am deleting contents of saved dirs from the
+# ## 2) I am NOT deleting the man dir (must combine dir() with recursive dir())
+
