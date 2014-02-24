@@ -99,7 +99,10 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 ## clean(tarball, svnAccountExists=TRUE)
 
 
-
+## helper for making paths
+.makeFullPaths <- function(x, name){
+ file.path(name, unlist(x))
+}
 
 
 ###########################################################################
@@ -147,7 +150,8 @@ cleanDataPkg <- function(tarball,
             unlink(extdataDir, recursive=TRUE)
             basePaths <- c(basePaths, 'inst/extdata')
         }
-        writeLines(basePaths, con = extDataCon)       
+        writeLines(basePaths, con = extDataCon)
+        close(extDataCon)
         ## And here it just removes pretty much everything that isn't
         ## the stuff we tossed out in svd1...
         file.copy(from=dir, to=svnDir2, recursive=TRUE)
@@ -155,10 +159,18 @@ cleanDataPkg <- function(tarball,
         ## get all contents of current dir
         contents <- dir(svd2, include.dirs=TRUE ,recursive=TRUE)
         ## then make all contents and paths "fully pathed"
-        contents <- file.path(svd2, contents)
+        contents <- file.path(svd2, contents)        
         fullBasePaths <- file.path(svd2, basePaths)
-        paths <- unique(dir(fullBasePaths, recursive=TRUE))
-        paths <- c(file.path(fullBasePaths, paths), fullBasePaths)
+        ## Then we have to get all the indiv, stuff in each basePath
+        pathList <- lapply(fullBasePaths, FUN='dir', recursive=TRUE)
+        pathList <- mapply(.makeFullPaths, pathList, fullBasePaths)
+        paths <- unlist(pathList, use.names=FALSE) 
+        paths <- unique(c(paths, fullBasePaths))        
+        ## exception for 'inst':
+        if(any(grepl('inst', basePaths))){
+            instPath <- file.path(svd2, 'inst')
+            paths <- c(instPath, paths)
+        }
         ## filter out the paths we want to keep.
         contents <- contents[!contents %in% paths]
         ## and throw out the rest.
@@ -181,7 +193,5 @@ cleanDataPkg <- function(tarball,
 ## tarball = 'CopyNumber450kData_0.99.1.tar.gz'; library(BiocContributions); debug(BiocContributions:::cleanDataPkg)
 ## cleanDataPkg(tarball, svnDir1="~/tasks/PkgReviews/AboutToAdd/expr/test/pkgs", svnDir2="~/tasks/PkgReviews/AboutToAdd/expr/test/data")
 
-## two bugs:
-## ## 1) I am deleting contents of saved dirs from the
-# ## 2) I am NOT deleting the man dir (must combine dir() with recursive dir())
 
+## tarball = 'Affymoe430Expr_0.99.0.tar.gz'; library(BiocContributions); debug(BiocContributions:::cleanDataPkg); cleanDataPkg(tarball, svnDir1="~/tasks/PkgReviews/AboutToAdd/expr/test/pkgs", svnDir2="~/tasks/PkgReviews/AboutToAdd/expr/test/data")
