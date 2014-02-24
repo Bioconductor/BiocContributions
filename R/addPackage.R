@@ -156,7 +156,6 @@ cleanDataPkg <- function(tarball,
         contents <- dir(svd2, recursive=TRUE)
         contents <- file.path(svd2, contents)
         paths <- file.path(svd2, paths)
-        drop ones that we are keeping
         ## filter out the keepers.
         contents <- contents[!contents %in% paths]
         ## and throw out the rest.
@@ -173,3 +172,7 @@ cleanDataPkg <- function(tarball,
 
 ## ## need an example here (TODO: add an example to inst/testpackages)
 ## cleanDataPkg(tarball)
+
+
+## local test
+## tarball = 'CopyNumber450k_0.99.4.tar.gz'; library(BiocContributions); cleanDataPkg(tarball, svnDir1="~/tasks/PkgReviews/AboutToAdd/expr/test/data", svnDir2="~/tasks/PkgReviews/AboutToAdd/expr/test/pkgs")
