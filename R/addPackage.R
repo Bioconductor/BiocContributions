@@ -128,32 +128,39 @@ cleanDataPkg <- function(tarball,
     ## remove unwanted files    
     .removeUnwantedFiles(dir)
 
-    
     ## cp the dir to a default svn dir.
     if(copyToSvnDir){
         file.copy(from=dir, to=svnDir1, recursive=TRUE)
         svd1 <- file.path(svnDir1, dir)
         ## for now just touch this file.
-        extDataStore = file.path(svd1,'external_data_store.txt')
+        extDataStore <- file.path(svd1,'external_data_store.txt')
+        extDataCon <- file(extDataStore)
+        paths <- character()
         system(paste0('touch ',extDataStore))
         ## and then check the following:
         dataDir <- file.path(svd1,'data')
         if(file.exists(dataDir)){
             unlink(dataDir, recursive=TRUE)
-            ## TODO: now add that line to extDataStore
+            paths <- c(paths, 'data')
         }
-        extdataDir <- file.path(svd1,'extdata')
+        extdataDir <- file.path(svd1,'inst','extdata')
         if(file.exists(extdataDir)){
             unlink(extdataDir, recursive=TRUE)
-            ## TODO: now add that line to extDataStore
+            paths <- c(paths, 'inst/extdata')
         }
-        
-        ## TODO: finish this so it removes pretty much everything that
-        ## isn't the stuff we tossed out in svd1...
+        writeLines(paths, con = extDataCon)       
+        ## And here it just removes pretty much everything that isn't
+        ## the stuff we tossed out in svd1...
         file.copy(from=dir, to=svnDir2, recursive=TRUE)
         svd2 <- file.path(svnDir2, dir)
-        
-        
+        contents <- dir(svd2, recursive=TRUE)
+        contents <- file.path(svd2, contents)
+        paths <- file.path(svd2, paths)
+        drop ones that we are keeping
+        ## filter out the keepers.
+        contents <- contents[!contents %in% paths]
+        ## and throw out the rest.
+        unlink(contents)
     }
     ## email, but only if the user is known to exist already..
     if(svnAccountExists == TRUE){
@@ -162,3 +169,7 @@ cleanDataPkg <- function(tarball,
     ## cleanup
     unlink(dir, recursive=TRUE)
 }
+
+
+## ## need an example here (TODO: add an example to inst/testpackages)
+## cleanDataPkg(tarball)

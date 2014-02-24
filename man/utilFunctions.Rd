@@ -1,5 +1,6 @@
 \name{clean}
 \alias{clean}
+\alias{cleanDataPkg}
 \alias{makeBins}
 \alias{emailExistingUser}
 \alias{emailNewUser}
@@ -57,21 +58,31 @@
 \usage{
   clean(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
         svnAccountExists=FALSE)
+  cleanDataPkg(tarball,
+               svnDir1="~/proj/experiment/pkgs",
+               svnDir2="~/proj/experiment/data_store",
+               copyToSvnDir=TRUE,
+               svnAccountExists=FALSE)
   makeBins(tarball)
   emailExistingUser(tarball)
   emailNewUser(tarball)
   emailNewSvnAccount(tarball, sendMail=TRUE)
   existingSvnUsers(tarball)
+  svnUserMatches(names)
 }
 
 \arguments{
   \item{tarball}{The tarball (as build by R CMD build}
   \item{svnDir}{The dir where the svn repos is located}
+  \item{svnDir1}{The dir where the pkgs repos if located (data pkgs)}
+  \item{svnDir2}{The dir where the data repos is located (data pkgs)}
   \item{copyToSvnDir}{TRUE/FALSE do we copy the cleaned dir to svnDir?}
   \item{svnAccountExists}{TRUE/FALSE does the maintainer of this tarball
-  have an svn account alread?}
+    have an svn account alread?}
   \item{sendMail}{TRUE/FALSE do we call sendmail or do we print out a
-  file to send later?}
+    file to send later?}
+  \item{names}{A character vector of strings that you think might be
+    user names.}
 }
 
 \details{
@@ -98,6 +109,9 @@ options( fromEmail = 'emailAddress@someplace.com')
     ## clean up a tarball and copy it to the repos
     clean(tarball)
 
+    ## clean up a data tarball and copy it to the svn repositories.
+    cleanDataPkg(tarball)
+
     ## email someone who has an account
     emailExistingUser(tarball)
 
@@ -115,6 +129,9 @@ options( fromEmail = 'emailAddress@someplace.com')
 
     ## list existing svn users that are similar to this tarballs maintainers
     existingSvnUsers(tarball)
+
+    ## list svn users like 'carlson'
+    svnUserMatches('carlson')
 
     ## list how many packages are in each known release of Bioconductor
     getPackageTotals()
