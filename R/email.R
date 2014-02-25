@@ -368,6 +368,8 @@ Thanks!
     res
 }
 
+## TODO: maybe I should modify this to take a SERIES of tarballs...
+## BUT 1st I need to refactor my functions that access svn logs.
 emailNewSvnAccount <- function(tarball, sendMail=TRUE){
     ## untar
     untar(tarball)
@@ -396,8 +398,8 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
         ## send an email at this time.
         ## .sendEmailMessage(email="scicomp@fhcrc.org", msg=msg,
         ##                   subject="new svn account")
-
-        .sendEmailMessage(email="mcarlson@fhcrc.org", msg=msg,
+        email = getOption("fromEmail")
+        .sendEmailMessage(email=email, msg=msg,
                           subject="new svn account")
     }else{
         con <- file(paste(dir,"_svnRequest_<scicomp@fhcrc.org>_.txt",sep=""))
@@ -424,7 +426,7 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 
 ##############################################################################
-## I need a tool for getting latest svn perms from hedgehog...
+## I need a tool for getting latest svn perms 
 
 ## Problem: the above requires a passphrase to access the content.
 ## I am going to email scicomp to see if they can help me square that away.
@@ -434,7 +436,7 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 .extractUsernamesFromAuthz <- function(){
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}    
-    ## Just get the latest file from hedgehog (this will require you
+    ## Just get the latest file  (this will require you
     ## to enter your passphrase
     permFile = getOption("permFile")
     cmd <- paste0('rsync ',permFile,' .')
