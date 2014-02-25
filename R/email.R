@@ -425,9 +425,8 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 ##############################################################################
 ## I need a tool for getting latest svn perms from hedgehog...
-## scp svn@hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz .
 
-## Problem: the above requires a passphrase, so I need to copy my public key up to authorized keys in .ssh on hedgehog
+## Problem: the above requires a passphrase to access the content.
 ## I am going to email scicomp to see if they can help me square that away.
 
 
@@ -437,7 +436,9 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
         stop("Sorry this function is only available from Unix")}    
     ## Just get the latest file from hedgehog (this will require you
     ## to enter your passphrase
-    system('rsync svn@hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz .')
+    permFile = getOption("permFile")
+    cmd <- paste0('rsync ',permFile,' .')
+    system(cmd)
     
     if(file.exists('bioconductor.authz')){
         con <- file('bioconductor.authz')
