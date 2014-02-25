@@ -503,9 +503,11 @@ existingSvnUsers <- function(tarball){
     ## cleanup
     unlink(dir, recursive=TRUE)
     if(length(res) == 0){
-        message("NO matching users found.  Please consider: ", usernames)
+        message("No matching users found.  Please consider: ", usernames,"\n",
+                "with the following emails: ", emails)
     }else{
-        message("I found the following MATCHES: ", res)
+        message("FOUND THE FOLLOWING MATCHES: ", res,"\n",
+                "MATCHES HAVE THESE EMAILS: ", emails)
     }
 }
 
