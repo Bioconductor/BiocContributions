@@ -432,7 +432,8 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 ## I am going to email scicomp to see if they can help me square that away.
 
 
-## Helper to read in 'bioconductor.authz'
+## this extractor is for when you only want to know if someone has
+## access to bioconductor or not.
 .extractUsernamesFromAuthz <- function(){
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}    
@@ -455,6 +456,29 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
     res
 }
 
+## This extractor is final word for knowing if an svn account exists at all...
+## This is generally the conservative choice for most testing.
+.extractUsernamesFromUsers <- function(){
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}    
+    ## Just get the latest file  (this will require you
+    ## to enter your passphrase
+    usersFile = getOption("usersFile")
+    cmd <- paste0('rsync ',usersFile,' .')
+    system(cmd)
+    
+    if(file.exists('users')){
+        con <- file('users')
+        res <- readLines(con)
+        close(con)
+        res <- strsplit(res, ":")
+        res <- unique(unlist(lapply(res, function(x){x[1]})))
+    }
+    unlink("users")
+    res
+}
+
+
 ####################################################################
 ## Check if a username exists in svn
 ## I need this to be a public and private way of looking at whether an
@@ -464,7 +488,7 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 ## These return TRUE or FALSE
 .svnUserExists <- function(name){
-    names <- .extractUsernamesFromAuthz()
+    names <- .extractUsernamesFromUsers()
     ## now grep
     any(grepl(name, names))
 }
@@ -476,7 +500,7 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
 
 ## these returns matches (so you can think about it better)
 .svnUserMatcher <- function(name){
-    names <- .extractUsernamesFromAuthz()
+    names <- .extractUsernamesFromUsers()
     ## now grep
     names[grepl(name, names)]
 }
