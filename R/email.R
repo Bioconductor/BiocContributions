@@ -478,6 +478,12 @@ emailNewSvnAccount <- function(tarball, sendMail=TRUE){
     res
 }
 
+##
+## TODO: make helper for extracting data from getOption("userDbFile")
+## This will allow checking to see if the email in the package is the
+## same as the one we have on record.
+##
+
 
 ####################################################################
 ## Check if a username exists in svn
