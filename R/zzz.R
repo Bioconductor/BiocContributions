@@ -17,7 +17,7 @@ stash <- new.env(parent=emptyenv())
 .onLoad <- function(libname, pkgname)
 {
     if(.Platform$OS.type != "unix"){
-        warning("Sorry the users file is only available from Unix")}
+        warning("Sorry the users file is only available from Unix, if you need to use functions that depend on it they are not going to work from here")}
     usersFile <- getOption("usersFile")
     tempDir <- tempdir()
     cmd <- paste0('rsync ',usersFile,' ',tempDir)

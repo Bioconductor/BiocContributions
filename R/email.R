@@ -439,8 +439,9 @@ requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
 ## I am going to email scicomp to see if they can help me square that away.
 
 
-## this extractor is for when you only want to know if someone has
-## access to bioconductor or not.
+## this (old) extractor is for when you only want to know if someone has
+## access to bioconductor or not. ## TODO; if we ever start to use
+## this we will want to also load it to the zzz.R file etc.
 .extractUsernamesFromAuthz <- function(){
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}    
