@@ -473,9 +473,11 @@ requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
     ## usersFile = getOption("usersFile")
     ## cmd <- paste0('rsync ',usersFile,' .')
     ## system(cmd)
+    tempDir <- get('tempDir', BiocContributions:::stash)
+    usersFile <- file.path(tempDir, 'users') 
     
-    if(file.exists('users')){
-        con <- file('users')
+    if(file.exists(usersFile)){
+        con <- file(usersFile)
         res <- readLines(con)
         close(con)
         res <- strsplit(res, ":")
