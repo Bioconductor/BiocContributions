@@ -36,7 +36,8 @@
 
 ## This just extracts names from a Maintainer field
 .scrubOutNamesFromEmails <-function(rawEmail){
-    sub("\\s.?<.*$","", rawEmail, perl=TRUE)
+    names <- sub("\\s.?<.*$","", rawEmail, perl=TRUE)
+    sub(",","",sub(", ","", names))
 }
 
 ## Email wrapper so that I don't have to do this more than once
@@ -131,7 +132,7 @@ Thanks for contributing to the Bioconductor project!
     msgs
 }
 
-emailExistingUser <- function(tarball){
+emailExistingUser <- function(tarball, sendMail=TRUE){
     ## untar
     untar(tarball)
     ## get dir
@@ -148,8 +149,15 @@ emailExistingUser <- function(tarball){
     ## subject
     subject <- paste("Congratulations.  Package",dir,
                      "has been added to the repository.")
-    ## send an email at this time.
-    .sendEmailMessages(email=cleanEmails, msg=msgs, subject=subject)
+    ## either send emails OR write out messages
+    if(sendMail){
+        ## send an email at this time.
+        .sendEmailMessages(email=cleanEmails, msg=msgs, subject=subject)
+    }else{
+        paths <- paste(dir,"_cngrtsEml_existing_<",cleanEmails,">_.txt",sep="")
+        ## now make connections and write results out.
+        .writeOutEmailTemplates(paths, msgs)
+    }
     ## cleanup
     unlink(dir, recursive=TRUE)
 }

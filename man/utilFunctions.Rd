@@ -64,7 +64,7 @@
                copyToSvnDir=TRUE,
                svnAccountExists=FALSE)
   makeBins(tarball)
-  emailExistingUser(tarball)
+  emailExistingUser(tarball, sendMail=TRUE)
   emailNewUser(tarball)
   emailNewSvnAccount(tarball, sendMail=TRUE)
   existingSvnUsers(tarball)
