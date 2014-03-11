@@ -312,7 +312,6 @@ Thanks for contributing to the Bioconductor project!
 }
 
 emailNewUser <- function(tarball){
-    require("sendmailR")
     ## untar
     untar(tarball)
     ## get dir
@@ -422,12 +421,12 @@ requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
 
 ##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
-## emailNewSvnAccount(tarball)
+## requestNewSvnAccountFromSciComp(tarball)
 
 ## works
 
 
-## emailNewSvnAccount(tarball, sendMail=FALSE)
+## requestNewSvnAccountFromSciComp(tarball, sendMail=FALSE)
 
 
 
