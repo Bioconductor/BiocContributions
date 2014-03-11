@@ -4,7 +4,7 @@
 \alias{makeBins}
 \alias{emailExistingUser}
 \alias{emailNewUser}
-\alias{emailNewSvnAccount}
+\alias{requestNewSvnAccountFromScicomp}
 \alias{svnUserMatches}
 \alias{existingSvnUsers}
 \alias{getPackageTotals}
@@ -65,9 +65,9 @@
                copyToSvnDir=TRUE,
                svnAccountExists=FALSE)
   makeBins(tarball)
-  emailExistingUser(tarball, sendMail=TRUE)
+  emailExistingUser(tarball, sendMail=FALSE)
   emailNewUser(tarball)
-  emailNewSvnAccount(tarball, sendMail=TRUE)
+  requestNewSvnAccountFromScicomp(tarball, sendMail=FALSE)
   existingSvnUsers(tarball)
   svnUserMatches(names)
 }
@@ -119,8 +119,8 @@ options( fromEmail = 'emailAddress@someplace.com')
     ## generate an email for someone who needs svn credentials
     emailNewUser(tarball)
 
-    ## send an email to Carl asking for a new account.
-    emailNewSvnAccount(tarball)
+    ## send an email to Scicomp asking for a new account.
+    requestNewSvnAccountFromScicomp(tarball)
 
 
     ## make mac and windows binaries for a package.

@@ -132,7 +132,7 @@ Thanks for contributing to the Bioconductor project!
     msgs
 }
 
-emailExistingUser <- function(tarball, sendMail=TRUE){
+emailExistingUser <- function(tarball, sendMail=FALSE){
     ## untar
     untar(tarball)
     ## get dir
@@ -378,7 +378,7 @@ Thanks!
 
 ## TODO: maybe I should modify this to take a SERIES of tarballs...
 ## BUT 1st I need to refactor my functions that access svn logs.
-emailNewSvnAccount <- function(tarball, sendMail=TRUE){
+requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
     ## untar
     untar(tarball)
     ## get dir
@@ -541,6 +541,7 @@ existingSvnUsers <- function(tarball){
     names <- .scrubOutNamesFromEmails(emails)
     ## make a proposed username.
     usernames <- .generateProposedUsername(names)
+    finalUserNames <- paste(usernames, collapse=", ")
     ## get the answer
     res <- svnUserMatches(usernames)
     finalMatches <-  paste(res, collapse=", ")
@@ -548,8 +549,8 @@ existingSvnUsers <- function(tarball){
     unlink(dir, recursive=TRUE)
     if(length(res) == 0){
         message("No matching users found...  Please consider: \n\n",
-                emails,"\n\n",
-                "proposed username: ", usernames, "\n")
+                finalEmail,"\n\n",
+                "proposed usernames: ", finalUserNames, "\n")
     }else{
         message("FOUND THE FOLLOWING MATCHES: ", finalMatches,"\n",
                 "MATCHES HAVE THESE EMAILS: ", finalEmail, "\n")
