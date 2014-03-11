@@ -11,6 +11,7 @@ Collate: addPackage.R
 	 convertToBin.R 
 	 installDependencies.R 
 	 tallyManifests.R
+	 zzz.R
 License: Artistic-2.0
 biocViews: Infrastructure
 LazyLoad: yes

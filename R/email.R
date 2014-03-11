@@ -470,9 +470,9 @@ requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
         stop("Sorry this function is only available from Unix")}    
     ## Just get the latest file  (this will require you
     ## to enter your passphrase
-    usersFile = getOption("usersFile")
-    cmd <- paste0('rsync ',usersFile,' .')
-    system(cmd)
+    ## usersFile = getOption("usersFile")
+    ## cmd <- paste0('rsync ',usersFile,' .')
+    ## system(cmd)
     
     if(file.exists('users')){
         con <- file('users')
@@ -481,9 +481,16 @@ requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
         res <- strsplit(res, ":")
         res <- unique(unlist(lapply(res, function(x){x[1]})))
     }
-    unlink("users")
+    ## unlink("users")
     res
 }
+
+## TODO/Bug fix: change the arrangement so that the file above is
+## extracted ONCE per call of the highest level function (and then the
+## file handle is passed down).  This will get rid of the bug where we
+## have to type in the passphrase every time that we have a new user
+## name...  Once call per functions should really be more than enough.  In fact,
+## better would be to call it only once when we first load the package!
 
 ##
 ## TODO: make helper for extracting data from getOption("userDbFile")
