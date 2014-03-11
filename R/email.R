@@ -26,7 +26,11 @@
     ## if there are multiples, clean them up
     emails <- unlist(strsplit(rawEmail, "> ?"))
     ## remove newlines and reattach ">'s", then return character() 
-    paste(sub("\n"," ", emails),">",sep="")  
+    emails <- paste(sub("\n"," ", emails),">",sep="")
+    ## remove commas with whitespace after, and also lonely commas,
+    emails <- sub("^\\s+?","",sub(",","",emails),perl=TRUE)
+    ## and make sure we have only one whitespace followed by < before email 
+    sub("<"," <",sub("\\s+?<","<",emails))
 }
 
 ## This just extracts email adresses from a Maintainer field.
@@ -544,8 +548,7 @@ existingSvnUsers <- function(tarball){
     dir <- .getShortPkgName(tarball)
     ## extract email from DESCRIPTION file
     emails <- .extractEmails(dir)
-    cleanerEmails <- sub(",","",sub(", ","",emails))
-    finalEmail <- paste(cleanerEmails, collapse=", ")
+    finalEmail <- paste(emails, collapse=", ")
     ## extract names
     names <- .scrubOutNamesFromEmails(emails)
     ## make a proposed username.
