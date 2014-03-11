@@ -5,6 +5,7 @@
 \alias{emailExistingUser}
 \alias{emailNewUser}
 \alias{emailNewSvnAccount}
+\alias{svnUserMatches}
 \alias{existingSvnUsers}
 \alias{getPackageTotals}
 \alias{plotPackageTotals}

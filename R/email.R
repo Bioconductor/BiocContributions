@@ -535,12 +535,15 @@ existingSvnUsers <- function(tarball){
     dir <- .getShortPkgName(tarball)
     ## extract email from DESCRIPTION file
     emails <- .extractEmails(dir)
+    cleanerEmails <- sub(",","",sub(", ","",emails))
+    finalEmail <- paste(cleanerEmails, collapse=", ")
     ## extract names
     names <- .scrubOutNamesFromEmails(emails)
     ## make a proposed username.
     usernames <- .generateProposedUsername(names)
     ## get the answer
     res <- svnUserMatches(usernames)
+    finalMatches <-  paste(res, collapse=", ")
     ## cleanup
     unlink(dir, recursive=TRUE)
     if(length(res) == 0){
@@ -548,8 +551,8 @@ existingSvnUsers <- function(tarball){
                 emails,"\n\n",
                 "proposed username: ", usernames, "\n")
     }else{
-        message("FOUND THE FOLLOWING MATCHES: ", res,"\n",
-                "MATCHES HAVE THESE EMAILS: ", emails, "\n")
+        message("FOUND THE FOLLOWING MATCHES: ", finalMatches,"\n",
+                "MATCHES HAVE THESE EMAILS: ", finalEmail, "\n")
     }
 }
 
