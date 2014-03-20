@@ -560,12 +560,14 @@ existingSvnUsers <- function(tarball){
     ## cleanup
     unlink(dir, recursive=TRUE)
     if(length(res) == 0){
-        message("No matching users found...  Please consider: \n\n",
+        message("For package: ",tarball, " :\n",
+                "No matching users found...  Please consider: \n\n",
                 finalEmail,"\n\n",
-                "proposed usernames: ", finalUserNames, "\n")
+                "proposed usernames: ", finalUserNames, "\n\n")
     }else{
-        message("FOUND THE FOLLOWING MATCHES: ", finalMatches,"\n",
-                "MATCHES HAVE THESE EMAILS: ", finalEmail, "\n")
+        message("For package: ",tarball, " :\n",
+                "FOUND THE FOLLOWING MATCHES: ", finalMatches,"\n",
+                "MATCHES HAVE THESE EMAILS: ", finalEmail, "\n\n")
     }
 }
 
