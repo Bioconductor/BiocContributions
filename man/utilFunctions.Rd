@@ -9,6 +9,7 @@
 \alias{existingSvnUsers}
 \alias{getPackageTotals}
 \alias{plotPackageTotals}
+\alias{getPackageDeltas}
 \alias{installDeps}
 
 \title{Convenience functions for managing behind the scenes operations
@@ -49,6 +50,10 @@
   getPackageTotals: looks at the manifests and gives package counts for
   each. This may need to be updated to reflect new manifests...
 
+  getPackageDeltas: looks at the manifests and gives package the deltas
+  for each manifest transition.  So you can see how many packages were
+  added with each release.
+  
   plotPackageTotals: makes a simple plot of package growth over time.
 
   installDeps: Given a tarball, this will install all its dependencies
