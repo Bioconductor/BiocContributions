@@ -37,4 +37,15 @@ plotPackageTotals <- function(path = "~/proj/Rpacks/"){
 ## plotPackageTotals()
 
 
-
+getPackageDeltas <- function(){
+    tots <- getPackageTotals()
+    res <- integer()
+    names <- character()
+    for(i in seq_along(tots)){
+        res[i] <- tots[i+1] - tots[i]
+        names[i] <- paste0(names(tots[i]),"_TO_",names(tots[i+1]))
+        names(res) <- names
+    }
+    res <- res[1:(length(res)-1)]
+    res
+}

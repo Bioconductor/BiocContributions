@@ -8,4 +8,5 @@ export(clean,
        svnUserMatches,
        installDeps,
        getPackageTotals,
-       plotPackageTotals)
+       plotPackageTotals,
+       getPackageDeltas)
