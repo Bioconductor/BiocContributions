@@ -583,3 +583,106 @@ existingSvnUsers <- function(tarball){
 
 
 ## TODO: make use of the above helpers in the other email functions (but ONLY after we get better access to the .authz file)
+
+
+
+
+
+
+##############################################################################
+## helper for generating the stuff we put into the permissions file
+## 1st: lets do the really annoying part at the end.
+## then do the middle part, but don't worry about the 1st part.
+
+## things to bear in mind:
+## This will tell you what version you are using
+## biocVersion()  ## BiocInstaller:::BIOC_VERSION
+## You need to use this string to format the tedious part later
+
+## You need to also make sure we are using devel in order to even try
+## to use this function.  (non-devel is not permitted)
+## this will tell if you are using devel or not
+## isDevel <- function(){packageVersion("BiocInstaller")$minor %% 2 == 1}
+
+
+## tarballs is a character vector of tarball paths.
+generatePermissionEdits <- function(tarballs){
+
+    ### For each package (helper1):
+    ## get pkgName
+    ## get userName
+
+    ## store the above in a list object
+    ## lapply()
+
+    
+    ### For all packages in list:
+
+    ## write out association part (for each - helper2)
+    
+    ## write out the tedious part (for each - helper3)
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+## Output should look like:
+## , y.shen, t.carroll, w.yang, f.zhang, j.schumann, a.waardenberg
+
+## ASSIGN = y.shen
+## ChIPQC = t.carrol, r.stark
+## ABSSeq = w.yang
+## FRGEpistasis = f.zhang
+## flowCyBar = j.schumann
+## CompGO = a.waardenberg
+## Rariant = j.gehring
+
+## [/trunk/madman/Rpacks/ASSIGN]
+## @ASSIGN = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/ASSIGN]
+## @ASSIGN = rw
+
+## [/trunk/madman/Rpacks/ChIPQC]
+## @ChIPQC = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/ChIPQC]
+## @ChIPQC = rw
+
+## [/trunk/madman/Rpacks/ABSSeq]
+## @ABSSeq = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/ABSSeq]
+## @ABSSeq = rw
+
+## [/trunk/madman/Rpacks/FRGEpistasis]
+## @FRGEpistasis = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/FRGEpistasis]
+## @FRGEpistasis = rw
+
+## [/trunk/madman/Rpacks/flowCyBar]
+## @flowCyBar = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/flowCyBar]
+## @flowCyBar = rw
+
+## [/trunk/madman/Rpacks/CompGO]
+## @CompGO = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/CompGO]
+## @CompGO = rw
+
+## [/trunk/madman/Rpacks/Rariant]
+## @Rariant = rw
+
+## [/branches/RELEASE_2_13/madman/Rpacks/Rariant]
+## @Rariant = rw

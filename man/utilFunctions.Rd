@@ -11,6 +11,7 @@
 \alias{plotPackageTotals}
 \alias{getPackageDeltas}
 \alias{installDeps}
+\alias{generatePermissionEdits}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -59,6 +60,9 @@
   installDeps: Given a tarball, this will install all its dependencies
   using biocLite().  This works even for tarballs that are not yet
   available themselves via biocLite().
+
+  generatePermissionEdits: Takes a vector of tarball paths, and prints
+  output that can be pasted (after some scrutiny) into the permissions file.
 }
 
 \usage{

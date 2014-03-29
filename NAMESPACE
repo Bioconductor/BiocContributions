@@ -9,4 +9,5 @@ export(clean,
        installDeps,
        getPackageTotals,
        plotPackageTotals,
-       getPackageDeltas)
+       getPackageDeltas,
+       generatePermissionEdits)
