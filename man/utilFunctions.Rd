@@ -79,6 +79,7 @@
   requestNewSvnAccountFromScicomp(tarball, sendMail=FALSE)
   existingSvnUsers(tarball)
   svnUserMatches(names)
+  generatePermissionEdits(tarballsPath=".", suffix=".tar.gz$")
 }
 
 \arguments{
@@ -93,6 +94,9 @@
     file to send later?}
   \item{names}{A character vector of strings that you think might be
     user names.}
+  \item{tarballsPath}{The path to a group of tarballs to process}
+  \item{suffix}{The suffix to use for recognizing tarball files
+  (normally '.tar.gz' - so no need to specify it)}
 }
 
 \details{
@@ -149,6 +153,9 @@ options( fromEmail = 'emailAddress@someplace.com')
     ## Install all the dependencies for a tarball you need to review
     ## (but that isn't yet in biocLite itself)
     installDeps(tarball)
+
+    ## Generate permission edits for a directory of new tarballs
+    generatePermissionEdits()
   }
 
 }

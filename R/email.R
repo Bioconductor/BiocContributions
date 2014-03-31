@@ -604,23 +604,71 @@ existingSvnUsers <- function(tarball){
 ## this will tell if you are using devel or not
 ## isDevel <- function(){packageVersion("BiocInstaller")$minor %% 2 == 1}
 
+## Helper to retrieve userName and packageName
+.getPkgNameAndUser <- function(tarball){
+    ## untar
+    untar(tarball)
+    ## get pkgName
+    pkgName <- .getShortPkgName(tarball)
+    ## extract email from DESCRIPTION file
+    emails <- .extractEmails(pkgName)
+    finalEmail <- paste(emails, collapse=", ")
+    ## extract names
+    names <- .scrubOutNamesFromEmails(emails)
+    ## make a proposed username.
+    usernames <- .generateProposedUsername(names)
+    finalUserNames <- paste(usernames, collapse=", ")
+    ## get the answer
+    res <- svnUserMatches(usernames)
+    finalUserNames <-  paste(res, collapse=", ")
+    ## Combine and return
+    names(finalUserNames) <- pkgName
+    finalUserNames
+}
+
+## helper for ONLY getting tarballs (used instead of dir())
+.getTars <- function(path=".",suffix=".tar.gz$"){
+    res <- dir(path)
+    res[grepl(suffix,res)]
+}
+
+.printAssociations <- function(elem){
+    paste0(names(elem), " = " , elem, "\n")
+}
+
+.printTediousStuff <- function(elem){
+    pkg <- names(elem)
+    version <- biocVersion()
+    part1 <- strsplit(as.character(version),split='[.]')[[1]][1]
+    part2 <- strsplit(as.character(version),split='[.]')[[1]][2]
+    part2 <- as.character(as.integer(part2) - 1)
+    version <- paste0(part1,"_",part2) 
+    paste0("[/trunk/madman/Rpacks/",pkg,"]\n@",pkg,
+           " = rw\n\n",
+           "[/branches/RELEASE_",version,"/madman/Rpacks/",pkg,"]\n@",pkg,
+           " = rw\n\n")
+}
+
+## helper to test if we are in devel
+.isDevel <- function(){packageVersion("BiocInstaller")$minor %% 2 == 1}
 
 ## tarballs is a character vector of tarball paths.
-generatePermissionEdits <- function(tarballs){
-
-    ### For each package (helper1):
-    ## get pkgName
-    ## get userName
-
+generatePermissionEdits <- function(tarballsPath=".", suffix=".tar.gz$"){
+    if(!.isDevel()){
+        stop("TROUBLE!  You should only run this function if you are using an approved devel version of R.")
+    }
+    ## start with tarballs in whatever dir we have here...
+    tarballs <- .getTars(path=tarballsPath, suffix=suffix)
     ## store the above in a list object
-    ## lapply()
-
+    data <- lapply(tarballs, .getPkgNameAndUser)
     
-    ### For all packages in list:
+    ### For all packages in that list:
 
     ## write out association part (for each - helper2)
+    message(paste(sapply(data, .printAssociations), collapse=""))
     
     ## write out the tedious part (for each - helper3)
+    message(paste(sapply(data, .printTediousStuff), collapse=""))
     
 }
 
