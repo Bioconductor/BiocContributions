@@ -541,7 +541,7 @@ svnUserMatches <- function(names){
 
 ## Check if a tarball is in svn yet or not.
 ## (for quickly assessing - a standalone function)
-existingSvnUsers <- function(tarball){
+.existingSvnUsers <- function(tarball){
     ## untar
     untar(tarball)
     ## get dir
@@ -571,13 +571,19 @@ existingSvnUsers <- function(tarball){
     }
 }
 
+existingSvnUsers <- function(tarballsPath=".", suffix=".tar.gz$"){
+    tarballs <- .getTars(path=tarballsPath, suffix=suffix)
+    message("\n")
+    res <- lapply(tarballs, .existingSvnUsers)
+    ifelse(length(res)>0, TRUE, FALSE)
+}
 
 
 ##############################################
 ##  example
 ##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
 
-## existingSvnUsers(tarball)
+## existingSvnUsers()
 
 
 

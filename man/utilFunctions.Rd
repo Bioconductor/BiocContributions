@@ -77,7 +77,7 @@
   emailExistingUser(tarball, sendMail=FALSE)
   emailNewUser(tarball)
   requestNewSvnAccountFromScicomp(tarball, sendMail=FALSE)
-  existingSvnUsers(tarball)
+  existingSvnUsers(tarballsPath=".", suffix=".tar.gz$")
   svnUserMatches(names)
   generatePermissionEdits(tarballsPath=".", suffix=".tar.gz$")
 }
@@ -141,8 +141,9 @@ options( fromEmail = 'emailAddress@someplace.com')
                            package="BiocContributions");
     makeBins(tarball)
 
-    ## list existing svn users that are similar to this tarballs maintainers
-    existingSvnUsers(tarball)
+    ## list existing svn users that are similar to tarball maintainers
+    ## for all the tarballs in the working directory
+    existingSvnUsers()
 
     ## list svn users like 'carlson'
     svnUserMatches('carlson')
