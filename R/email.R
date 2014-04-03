@@ -634,6 +634,9 @@ existingSvnUsers <- function(tarballsPath=".", suffix=".tar.gz$"){
 
 ## helper for ONLY getting tarballs (used instead of dir())
 .getTars <- function(path=".",suffix=".tar.gz$"){
+    if(grepl(suffix,path)){
+        stop("You need to supply a path that contains tarballs: not an actual tarball...")
+    }
     res <- dir(path)
     res[grepl(suffix,res)]
 }
