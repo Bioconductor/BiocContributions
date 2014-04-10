@@ -45,3 +45,12 @@ installDeps <- function(tarball){
 ## installDeps(tarball)
 
 ##  library(BiocContributions); installDeps('genomationData_0.99.tar.gz')
+
+
+
+## Just a helper to unpack a directory of tarballs for indiv changes
+## (version bumps etc.)
+untarAllTarballs <- function(tarballsPath=".", suffix=".tar.gz$"){
+    tars <- .getTars(path=tarballsPath, suffix=suffix)
+    lapply(tars, function(x){ system(paste0('tar zxvf ',x))})
+}

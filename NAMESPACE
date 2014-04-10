@@ -10,4 +10,5 @@ export(clean,
        getPackageTotals,
        plotPackageTotals,
        getPackageDeltas,
-       generatePermissionEdits)
+       generatePermissionEdits,
+       untarAllTarballs)
