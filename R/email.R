@@ -267,11 +267,12 @@ channel for communication between developers and for important
 announcements like release schedules, build system news, etc...).
 
 If you have not already done so, we urge you to also subscribe to both
-the bioc-devel AND the bioconductor mailing lists. The former for your
+the bioc-devel AND the bioconductor support site. The former for your
 own benefit and the latter so that you can answer questions from users
 of your package and respond to bug reports promptly.
 
-You can subscribe to our mailing lists here:
+You can subscribe to our Bioc-devel mailing list and get to the
+support site from here:
 
 http://www.bioconductor.org/help/mailing-list/
 
