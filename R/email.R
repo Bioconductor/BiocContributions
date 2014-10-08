@@ -648,11 +648,11 @@ existingSvnUsers <- function(tarballsPath=".", suffix=".tar.gz$"){
 
 .printTediousStuff <- function(elem){
     pkg <- names(elem)
-#    version <- biocVersion() ## re-enable this in fall 
-    version <- "2.15" ## Temp hack till fall (because we went to '3.0'
+    version <- biocVersion() ## re-enable this in fall 
+#    version <- "2.15" ## Temp hack till fall (because we went to '3.0'
     part1 <- strsplit(as.character(version),split='[.]')[[1]][1]
     part2 <- strsplit(as.character(version),split='[.]')[[1]][2]
-    part2 <- as.character(as.integer(part2) - 1)
+#    part2 <- as.character(as.integer(part2) - 1) ## no longer needed?
     version <- paste0(part1,"_",part2) 
     paste0("[/trunk/madman/Rpacks/",pkg,"]\n@",pkg,
            " = rw\n\n",
