@@ -26,6 +26,8 @@
     enhs <- .depToCharacter(DESC[,grepl("Enhances",colnames(DESC)),drop=FALSE])
     lnkt <- .depToCharacter(DESC[,grepl("LinkingTo",colnames(DESC)),drop=FALSE])
     res <- c(deps, sugs, imps, enhs, lnkt)
+    ip <- rownames(installed.packages())
+    res <- res[!res %in% ip]
     if(length(res) == 0){
         stop("there are no dependencies to install.")
     }
