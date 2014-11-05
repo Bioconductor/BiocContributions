@@ -7,7 +7,7 @@
     manis1 <- paste0(path, "bioc_1.",range1,".manifest")
     range2 <- 0:14
     manis2 <- paste0(path, "bioc_2.",range2,".manifest")
-    range3 <- 0
+    range3 <- 0:1
     manis3 <- paste0(path, "bioc_3.",range3,".manifest")
     c(manis1, manis2, manis3)
 }
