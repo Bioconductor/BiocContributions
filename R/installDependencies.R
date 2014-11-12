@@ -35,7 +35,8 @@
 }
 
 installDeps <- function(tarball){
-    untar(tarball)
+    if(!file.info(tarball)$isdir)
+        untar(tarball)
     dir <- .getShortPkgName(tarball)
     dep <- .extractDependencies(dir)    
     require(BiocInstaller)
