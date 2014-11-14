@@ -89,10 +89,38 @@ And for data packages it will be at:
 http://bioconductor.org/rss/build/data/packages/",packageName,".rss
 
 
-For more general questions or advice about the development/maintenance of
-your package, please use the Bioc-devel mailing list (our primary channel
-for communication between developers and for important announcements like
-release schedules, build system news, etc...).
+Mailing lists
+-------------
+
+For more general questions or advice about the development/maintenance
+of your package, please use the Bioc-devel mailing list (our primary
+channel for communication between developers and for important
+announcements like release schedules, build system news, etc...).
+
+If you have not already done so, we urge you to also subscribe to both
+the bioc-devel AND the bioconductor support site. The former for your
+own benefit and the latter so that you can answer questions from users
+of your package and respond to bug reports promptly.
+
+You can subscribe to our Bioc-devel mailing list and get to the
+support site from here:
+
+http://www.bioconductor.org/help/mailing-list/
+
+We recommend that you 'follow' tags that match your own package (such
+as your package name) so that you will know be able to know when
+someone is asking a question about your package or that relates to
+your work.  You can edit your profile on the site to be notified when
+certain tags are used to describe your package.
+
+Also, when your package will pass the CHECK test for the first time,
+we strongly encourage you to send a note to Bioc-devel to announce
+its public availability (with a short description) so other people
+can start to test it.
+
+
+Version Control
+---------------
 
 Also, there is a page on our website that describes how to get set up
 using svn (if you are unfamiliar).
@@ -105,6 +133,8 @@ use the Bioconductor Git-svn bridge which is documented at:
 http://www.bioconductor.org/developers/how-to/git-svn/
 
 
+Package Maintainer field
+------------------------
 
 If you change email addresses, please make sure the Maintainer field
 in the DESCRIPTION file of your package contains your current email
@@ -275,6 +305,12 @@ You can subscribe to our Bioc-devel mailing list and get to the
 support site from here:
 
 http://www.bioconductor.org/help/mailing-list/
+
+We recommend that you 'follow' tags that match your own package (such
+as your package name) so that you will know be able to know when
+someone is asking a question about your package or that relates to
+your work.  You can edit your profile on the site to be notified when
+certain tags are used to describe your package.
 
 Also, when your package will pass the CHECK test for the first time,
 we strongly encourage you to send a note to Bioc-devel to announce
