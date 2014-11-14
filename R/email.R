@@ -110,8 +110,8 @@ http://www.bioconductor.org/help/mailing-list/
 We recommend that you 'follow' tags that match your own package (such
 as your package name) so that you will know be able to know when
 someone is asking a question about your package or that relates to
-your work.  You can edit your profile on the site to be notified when
-certain tags are used to describe your package.
+your work.  You can edit your profile on the support site to be
+notified when certain tags are used to describe your package.
 
 Also, when your package will pass the CHECK test for the first time,
 we strongly encourage you to send a note to Bioc-devel to announce
@@ -309,8 +309,8 @@ http://www.bioconductor.org/help/mailing-list/
 We recommend that you 'follow' tags that match your own package (such
 as your package name) so that you will know be able to know when
 someone is asking a question about your package or that relates to
-your work.  You can edit your profile on the site to be notified when
-certain tags are used to describe your package.
+your work.  You can edit your profile on the support site to be
+notified when certain tags are used to describe your package.
 
 Also, when your package will pass the CHECK test for the first time,
 we strongly encourage you to send a note to Bioc-devel to announce
