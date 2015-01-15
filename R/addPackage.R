@@ -41,6 +41,10 @@
     if(file.exists(buildDir)){
         unlink(buildDir, recursive=TRUE)
     }
+    gitDir <- file.path(dir, ".git")
+    if(file.exists(gitDir)){
+        unlink(gitDir, recursive=TRUE)
+    }
 }
 
 .removeUnwantedFiles <- function(dir){
