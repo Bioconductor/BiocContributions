@@ -11,4 +11,5 @@ export(clean,
        plotPackageTotals,
        getPackageDeltas,
        generatePermissionEdits,
-       untarAllTarballs)
+       untarAllTarballs,
+       getUnassignedIDsAndFileNames)

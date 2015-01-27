@@ -1,7 +1,7 @@
 Package: BiocContributions
 Type: Package
 Title: Convenience functions for adding packages to the svn repository.
-Version: 0.99.9
+Version: 0.99.10
 Author: Marc Carlson
 Maintainer: Marc Carlson <mcarlson@fhcrc.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to the repository, and for emailing people etc.
@@ -11,6 +11,7 @@ Collate: addPackage.R
 	 convertToBin.R 
 	 installDependencies.R 
 	 tallyManifests.R
+	 trackerCode.R
 	 zzz.R
 License: Artistic-2.0
 biocViews: Infrastructure
