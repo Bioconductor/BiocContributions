@@ -13,4 +13,5 @@ export(clean,
        generatePermissionEdits,
        untarAllTarballs,
        getUnassignedIDsAndFileNames,
-       rebuildIssueTarball)
+       rebuildIssueTarball,
+       removeDeadTrackerIssue)

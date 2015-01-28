@@ -9,7 +9,6 @@ rebuildIssueTarball <- function(issueNumber,
                                 pythonPath='~/proj/IssueTracker/spb_history/'){
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}
-
     
     ###############################################
     ## use system to call the python script
@@ -134,25 +133,29 @@ getUnassignedIDsAndFileNames <- function(){
 
 ##############################################################################
 ## And make a function that will use the command line to remove dead issues
-
-removeDeadIssues <- function(){
-
+## For now lets just remove ONE dead issue (safety)
+removeDeadTrackerIssue <- function(issueNumber){
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}
+    ## we really don't want a space between issue and issueNumber variable...
+    adminCmd <- paste0("roundup-admin ",
+                       "-i /var/www-trackers/bioc_submit retire issue",
+                       issueNumber)
+    cmd <- paste("ssh habu '" ,adminCmd, "'")
+    system(cmd)
 }
 
+
+## usage of  this function:
+## removeDeadTrackerIssue('1114')
 
 
 
 ## The command-line interface is called roundup-admin, so when you
-
 ## ssh www-data@habu
-
 ## you can do
-
 ## roundup-admin --help
-
 ## For help. Our tracker is at /var/www-trackers/bioc_submit so any
 ## actual command should start out:
-
 ## roundup-admin -i /var/www-trackers/bioc_submit ...
-
 ## Where ... is the actual subcommand you want to run.
