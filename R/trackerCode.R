@@ -5,15 +5,15 @@
 ## And you have to know where you put the python code.
 ## It should probably do some arg checking on it's two arguments too.
 rebuildIssueTarball <- function(issueNumber,
-                                tarballPath,
-                                pythonPath='~/proj/IssueTracker/spb_history/'){
+                                tarballUrlPath){
+    pythonPath<-'~/proj/IssueTracker/spb_history/'
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}
     
     ###############################################
     ## use system to call the python script
     pythonCmd <- paste0("python ",pythonPath,"rerun_build.py")
-    cmd <- paste("ssh habu '", pythonCmd, issueNumber, tarballPath,"'")
+    cmd <- paste("ssh habu '", pythonCmd, issueNumber, tarballUrlPath,"'")
     system(cmd)
 }
 
@@ -82,9 +82,6 @@ rebuildIssueTarball <- function(issueNumber,
 ## SELECT issue._title,issue.id,file._name,file._activity FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._activity LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._activity LIKE '2015%') AS file WHERE file._creator=issue._creator;
 
 
-##https://tracker.bioconductor.org/file5126/OGSA_0.99.tar.gz
-##https://tracker.bioconductor.org/file5124/OGSA_1.0.tar.gz
-
 
 ## Ok so this function will just get the basic information about the file names and the Issue IDs for those issues that are still unassigned.
 getUnassignedIDsAndFileNames <- function(){
@@ -108,23 +105,22 @@ getUnassignedIDsAndFileNames <- function(){
 
 
 
-
-##############################################################################
-## Then make a function that creates that into an email.
-
-
-
-
-
-
 ##############################################################################
 ## Then make a function that will get all records from the tracker that have not been checked in a while.
 
 
+##############################################################################
+## And make a function that will look at records that are accepted but which have not been put into the manifest yet...
+
+
+
+
 
 
 ##############################################################################
-## And make a function that will look at records that are accepted but which have not been put into the manifest yet...
+## Optionally: make a function that creates results from
+## getUnassignedIDsAndFileNames into an email for potential reviewers?
+
 
 
 
