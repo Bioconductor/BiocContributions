@@ -14,7 +14,7 @@ rebuildIssueTarball <- function(issueNumber,
     ###############################################
     ## use system to call the python script
     pythonCmd <- paste0("python ",pythonPath,"rerun_build.py")
-    cmd <- paste(pythonCmd, issueNumber, tarballPath)
+    cmd <- paste("ssh habu '", pythonCmd, issueNumber, tarballPath,"'")
     system(cmd)
 }
 
@@ -23,11 +23,8 @@ rebuildIssueTarball <- function(issueNumber,
 ## this will be respected)
 ## And actually the above won't work unless I 1st wrap it in an ssh command (IOW it won't work except on habu)
 
-## example
-## rebuildIssueTarball(1135,'https://tracker.bioconductor.org/file5026/geneplast_0.99.91.tar.gz')
-
-
-
+## example - test it out on sbptest:
+## rebuildIssueTarball(558,'https://tracker.bioconductor.org/file4845/spbtest_0.99.0.tar.gz')
 
 
 

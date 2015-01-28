@@ -12,4 +12,5 @@ export(clean,
        getPackageDeltas,
        generatePermissionEdits,
        untarAllTarballs,
-       getUnassignedIDsAndFileNames)
+       getUnassignedIDsAndFileNames,
+       rebuildIssueTarball)
