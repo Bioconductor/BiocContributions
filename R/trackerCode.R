@@ -128,7 +128,7 @@ removeDeadTrackerIssue <- function(issueNumber){
 
 
 ## Ok so this function will just get the basic information about the file names and the Issue IDs for those issues that are still unassigned.
-getFilteredIDsAndFileNames <- function(status=c('new-package'), year=2015){
+getFilteredIDsAndFileNames <- function(status=c('new-package'), date=2015){
     pswd <- getOption("trackerPSWD")
     statusIds <- unlist(lapply(status,.getStatus))
     fmtStatusIds <- paste0(statusIds, collapse="','")
@@ -145,17 +145,17 @@ getFilteredIDsAndFileNames <- function(status=c('new-package'), year=2015){
                   "FROM ",
                   "(SELECT * FROM _issue ",
                   "WHERE _issue._status IN ('",fmtStatusIds,"') ",
-                  "AND _issue._activity LIKE '",year,"%') ",
+                  "AND _issue._activity LIKE '",date,"%') ",
                   "AS issue, ",
                   "(SELECT * FROM _file ",
-                  "WHERE _file._activity LIKE '",year,"%') ",
+                  "WHERE _file._activity LIKE '",date,"%') ",
                   "AS file ",
                   "WHERE file._creator=issue._creator")
     dbGetQuery(con, sql)
 }
 
 
-## Usage: getFilteredIDsAndFileNames(status=c('new-package','preview-in-progress'), year=2015)
+## Usage: getFilteredIDsAndFileNames(status=c('new-package','preview-in-progress'), date=2015)
 
 
 
