@@ -27,6 +27,40 @@ rebuildIssueTarball <- function(issueNumber,
 
 
 
+##############################################################################
+## And make a function that will use the command line to remove dead issues
+## For now lets just remove ONE dead issue (safety)
+removeDeadTrackerIssue <- function(issueNumber){
+    if(.Platform$OS.type != "unix"){
+        stop("Sorry this function is only available from Unix")}
+    ## we really don't want a space between issue and issueNumber variable...
+    adminCmd <- paste0("roundup-admin ",
+                       "-i /var/www-trackers/bioc_submit retire issue",
+                       issueNumber)
+    cmd <- paste("ssh habu '" ,adminCmd, "'")
+    system(cmd)
+}
+
+
+## usage of  this function:
+## removeDeadTrackerIssue('1114')
+
+
+
+## The command-line interface is called roundup-admin, so when you
+## ssh www-data@habu
+## you can do
+## roundup-admin --help
+## For help. Our tracker is at /var/www-trackers/bioc_submit so any
+## actual command should start out:
+## roundup-admin -i /var/www-trackers/bioc_submit ...
+## Where ... is the actual subcommand you want to run.
+
+
+
+
+
+
 
 ##############################################################################
 ##################################################################
@@ -81,11 +115,23 @@ rebuildIssueTarball <- function(issueNumber,
 ## Try again, but this time use 'creator' instead of 'actor' to join (GOOD!)
 ## SELECT issue._title,issue.id,file._name,file._activity FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._activity LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._activity LIKE '2015%') AS file WHERE file._creator=issue._creator;
 
+.getStatus <- function(str){
+    switch(str,
+           'new-package'=1,
+           'preview-in-progress'=2,
+           'sent-back'=3,
+           'modified-package'=4,
+           'review-in-progress'=5,
+           'accepted'=6,
+           'rejected'=7)
+}
 
 
 ## Ok so this function will just get the basic information about the file names and the Issue IDs for those issues that are still unassigned.
-getUnassignedIDsAndFileNames <- function(){
+getFilteredIDsAndFileNames <- function(status=c('new-package'), year=2015){
     pswd <- getOption("trackerPSWD")
+    statusIds <- unlist(lapply(status,.getStatus))
+    fmtStatusIds <- paste0(statusIds, collapse="','")
     if(!exists('pswd')){
         stop("You need to set a password for the issue tracker in .Rprofile")
     }
@@ -95,11 +141,21 @@ getUnassignedIDsAndFileNames <- function(){
                     dbname='roundup_bioc_submit',
                     user='roundup',
                     pass=pswd)
-    sql <- "SELECT issue._title,issue.id,file._name,file._activity FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._activity LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._activity LIKE '2015%') AS file WHERE file._creator=issue._creator"
+    sql <- paste0("SELECT issue._title,issue.id,file._name,file._activity ",
+                  "FROM ",
+                  "(SELECT * FROM _issue ",
+                  "WHERE _issue._status IN ('",fmtStatusIds,"') ",
+                  "AND _issue._activity LIKE '",year,"%') ",
+                  "AS issue, ",
+                  "(SELECT * FROM _file ",
+                  "WHERE _file._activity LIKE '",year,"%') ",
+                  "AS file ",
+                  "WHERE file._creator=issue._creator")
     dbGetQuery(con, sql)
 }
 
 
+## Usage: getFilteredIDsAndFileNames(status=c('new-package','preview-in-progress'), year=2015)
 
 
 
@@ -126,32 +182,3 @@ getUnassignedIDsAndFileNames <- function(){
 
 
 
-
-##############################################################################
-## And make a function that will use the command line to remove dead issues
-## For now lets just remove ONE dead issue (safety)
-removeDeadTrackerIssue <- function(issueNumber){
-    if(.Platform$OS.type != "unix"){
-        stop("Sorry this function is only available from Unix")}
-    ## we really don't want a space between issue and issueNumber variable...
-    adminCmd <- paste0("roundup-admin ",
-                       "-i /var/www-trackers/bioc_submit retire issue",
-                       issueNumber)
-    cmd <- paste("ssh habu '" ,adminCmd, "'")
-    system(cmd)
-}
-
-
-## usage of  this function:
-## removeDeadTrackerIssue('1114')
-
-
-
-## The command-line interface is called roundup-admin, so when you
-## ssh www-data@habu
-## you can do
-## roundup-admin --help
-## For help. Our tracker is at /var/www-trackers/bioc_submit so any
-## actual command should start out:
-## roundup-admin -i /var/www-trackers/bioc_submit ...
-## Where ... is the actual subcommand you want to run.
