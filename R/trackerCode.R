@@ -128,7 +128,12 @@ removeDeadTrackerIssue <- function(issueNumber){
 
 
 ## Ok so this function will just get the basic information about the file names and the Issue IDs for those issues that are still unassigned.
-getFilteredIDsAndFileNames <- function(status=c('new-package'), date=2015){
+getFilteredIDsAndFileNames <- function(status=c('new-package'), datePrefix='2015'){
+    validStatuses <- c('new-package','preview-in-progress','sent-back',
+                       'modified-package','review-in-progress','accepted',
+                       'rejected')
+    match.arg(status, choices=validStatuses, several.ok=TRUE)
+    if(!isSingleString(datePrefix)) stop("datePrefix must be single string")
     pswd <- getOption("trackerPSWD")
     statusIds <- unlist(lapply(status,.getStatus))
     fmtStatusIds <- paste0(statusIds, collapse="','")
@@ -145,18 +150,23 @@ getFilteredIDsAndFileNames <- function(status=c('new-package'), date=2015){
                   "FROM ",
                   "(SELECT * FROM _issue ",
                   "WHERE _issue._status IN ('",fmtStatusIds,"') ",
-                  "AND _issue._activity LIKE '",date,"%') ",
+                  "AND _issue._activity LIKE '",datePrefix,"%') ",
                   "AS issue, ",
                   "(SELECT * FROM _file ",
-                  "WHERE _file._activity LIKE '",date,"%') ",
+                  "WHERE _file._activity LIKE '",datePrefix,"%') ",
                   "AS file ",
                   "WHERE file._creator=issue._creator")
     dbGetQuery(con, sql)
 }
 
 
-## Usage: getFilteredIDsAndFileNames(status=c('new-package','preview-in-progress'), date=2015)
+## Usage: getFilteredIDsAndFileNames(status=c('new-package','preview-in-progress'), datePrefix='2015')
 
+## And datePrefix can be made more specific.  So for example:
+## Usage: getFilteredIDsAndFileNames(status=c('new-package','preview-in-progress'), datePrefix='2014-12')
+## NOTE: the use of quotes is needed for datePrefix!
+## 'full' dates are formatted like this: 'YYYY-MM-DD timestamp'
+## for example: '2007-05-07 18:50:11'
 
 
 

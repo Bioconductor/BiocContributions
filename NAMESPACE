@@ -1,3 +1,5 @@
+importFrom(S4Vectors, isSingleString)
+
 export(clean,
        cleanDataPkg,
        makeBins,

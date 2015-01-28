@@ -1,10 +1,11 @@
 Package: BiocContributions
 Type: Package
 Title: Convenience functions for adding packages to the svn repository.
-Version: 0.99.13
+Version: 0.99.14
 Author: Marc Carlson
 Maintainer: Marc Carlson <mcarlson@fhcrc.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to the repository, and for emailing people etc.
+Imports: S4Vectors
 Suggests: sendmailR, BiocInstaller
 Collate: addPackage.R 
 	 email.R 
