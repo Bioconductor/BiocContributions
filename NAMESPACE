@@ -15,5 +15,6 @@ export(clean,
        generatePermissionEdits,
        untarAllTarballs,
        filterIssues,
+       coneOfShame,
        rebuildIssueTarball,
        removeDeadTrackerIssue)

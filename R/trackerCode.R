@@ -115,6 +115,20 @@ removeDeadTrackerIssue <- function(issueNumber){
 ## Try again, but this time use 'creator' instead of 'actor' to join (GOOD!)
 ## SELECT issue._title,issue.id,file._name,file._activity FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._activity LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._activity LIKE '2015%') AS file WHERE file._creator=issue._creator;
 
+.getRoundupCon <- function(){
+    pswd <- getOption("trackerPSWD")
+    if(!exists('pswd')){
+        stop("You need to set a password for the issue tracker in .Rprofile")
+    }
+    require(RMySQL)
+    dbConnect(dbDriver('MySQL'),
+              host='habu.fhcrc.org',
+              dbname='roundup_bioc_submit',
+              user='roundup',
+              pass=pswd)
+}
+
+
 .getStatus <- function(str){
     switch(str,
            'new-package'=1,
@@ -131,23 +145,16 @@ removeDeadTrackerIssue <- function(issueNumber){
 filterIssues <- function(status=c('new-package'),
                                            datePrefix='2015',
                                            getUserFiles=FALSE){
+    ## argument checking and processing
     validStatuses <- c('new-package','preview-in-progress','sent-back',
                        'modified-package','review-in-progress','accepted',
                        'rejected')
     match.arg(status, choices=validStatuses, several.ok=TRUE)
     if(!isSingleString(datePrefix)) stop("datePrefix must be single string")
-    pswd <- getOption("trackerPSWD")
     statusIds <- unlist(lapply(status,.getStatus))
     fmtStatusIds <- paste0(statusIds, collapse="','")
-    if(!exists('pswd')){
-        stop("You need to set a password for the issue tracker in .Rprofile")
-    }
-    require(RMySQL)
-    con = dbConnect(dbDriver('MySQL'),
-                    host='habu.fhcrc.org',
-                    dbname='roundup_bioc_submit',
-                    user='roundup',
-                    pass=pswd)
+    ## DB stuff
+    con <- .getRoundupCon()
     sql1 <- paste0("SELECT issue._title,issue.id,file._name,issue._activity ",
                    "FROM ",
                    "(SELECT * FROM _issue ",
@@ -220,23 +227,44 @@ filterIssues <- function(status=c('new-package'),
 
 ## So the final query will look something like this:
 
-## SELECT issue.dateDiff,issue._title,issue.id,issue._activity,_user._address,_user._username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY _activity DESC LIMIT 20;
+## SELECT issue.dateDiff,issue._title,issue.id,issue._activity,issue._actor,issue._assignedto,_user._address,_user._username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_actor,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY _activity DESC LIMIT 20;
 
+## tidy the outputs
+## SELECT issue.dateDiff,issue._title AS title,issue.id,issue._activity AS activity,issue._actor AS actor,issue._assignedto AS assignedto,_user._address AS address,_user._username AS username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_actor,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY activity DESC LIMIT 20;
+
+## This above query at least has all the information I need to proceed.
 
 ## That gets me most of what I want, but I still need to be able to filter based on the status AND (ideally) I also need to be able to know tho the last person to touch the issue was...
 
 ## So two remaining problems:
 ## 1) prefilter based on the _status like above (internal query) - DONE
 
-## 2) Find out who whether or not the last person to touch the issue was in fact that same person assigned to it... (I *think* this means when the _actor==_assignedto) - pretty sure thats right.  So then just filter out rows like that (be sure to include the _actor field from _issue in the subquery)
-## And VERIFY that _actor is the field that is the last person who touched the issue! - VERIFIED  :)
+## 2) Find out who whether or not the last person to touch the issue was in fact that same person assigned to it... (I *think* this means when the _actor!=_assignedto) - pretty sure thats right.  So then just filter out rows like that (be sure to include the _actor field from _issue in the subquery)
+## But 1st VERIFY that _actor is the field that is the last person who touched the issue! - VERIFIED  :)
+
+## I could probably also include more filtering right in the query
+## (could modify the subquery to only return records where the _actor
+## is not the same as _assignedto, but R is also fast at filtering,
+## and the code might be easier to read if I do it in R...
+
+## Also, just getting all that data might make it convenient later to
+## extend this work without recrafting queries...
+
+## So lets roll forward using the query as it now is.
 
 
-
-
-
-
-
+coneOfShame <- function(daysNeglected=14, daysToForget=30){
+    con <- .getRoundupCon()
+    sql <- "SELECT issue.dateDiff,issue._title AS title,issue.id,issue._activity AS activity,issue._actor AS actor,issue._assignedto AS assignedto,_user._address AS address,_user._username AS username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_actor,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY activity DESC"
+    res <- dbGetQuery(con, sql)
+    ## Remove records where the reviewer was the last person to touch the issue.
+    res <- res[res$actor!=res$assignedto,]
+    ## And then filter based on the dateDiff
+    res <- res[res$dateDiff > daysNeglected,]
+    ## And then filter based on things just being too damned old to matter
+    res <- res[res$dateDiff < daysToForget,]
+    res
+}
 
 
 
