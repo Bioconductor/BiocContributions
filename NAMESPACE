@@ -16,5 +16,6 @@ export(clean,
        untarAllTarballs,
        filterIssues,
        coneOfShame,
+       readyToAdd,
        rebuildIssueTarball,
        removeDeadTrackerIssue)

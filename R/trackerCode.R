@@ -121,7 +121,9 @@ filterIssues <- function(status=c('new-package'),
     fmtStatusIds <- paste0(statusIds, collapse="','")
     ## DB stuff
     con <- .getRoundupCon()
-    sql1 <- paste0("SELECT issue._title,issue.id,file._name,issue._activity ",
+    sql1 <- paste0("SELECT issue._title AS title ",
+                   ",issue.id, file._name AS name, ",
+                   "issue._activity AS activity ",
                    "FROM ",
                    "(SELECT * FROM _issue ",
                    "WHERE _issue._status IN ('",fmtStatusIds,"') ",
@@ -131,7 +133,7 @@ filterIssues <- function(status=c('new-package'),
                    "WHERE _file._activity LIKE '",datePrefix,"%') ",
                    "AS file ",
                    "WHERE file._creator=issue._creator")
-    sql2 <- paste0("SELECT _title, id, _activity ",
+    sql2 <- paste0("SELECT _title AS title, id, _activity AS activity ",
                    "FROM _issue ",
                    "WHERE _issue._status IN ('",fmtStatusIds,"') ",
                    "AND _issue._activity LIKE '",datePrefix,"%'")
@@ -185,7 +187,23 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
 ## code in tallyManifests.R
 
 
-
+readyToAdd <- function(datePrefix='2015',path = "~/proj/Rpacks/"){
+    ## get the accepted issues from this year and their files 
+    accepted <- filterIssues(status=c('accepted'),
+                             datePrefix=datePrefix,
+                             getUserFiles=TRUE)
+    ## get most recent manifest filename
+    maniNames <- .makeManifestNames(path)
+    lastMani <- maniNames[length(maniNames)]
+    ## use .scan to read in that file
+    res <- scan(lastMani, what="character",skip=1, quiet=TRUE)
+    ## extract the names
+    idxMani <- rep(c(FALSE,TRUE), length(res)/2)
+    pkgNames <- res[idxMani] 
+    ## filter the results using that list of names
+    idx <- !(accepted$title %in% pkgNames)
+    accepted[idx,]
+}
 
 
 ##############################################################################
