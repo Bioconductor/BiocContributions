@@ -187,11 +187,11 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
 ## code in tallyManifests.R
 
 
-readyToAdd <- function(datePrefix='2015',path = "~/proj/Rpacks/"){
+readyToAdd <- function(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=TRUE){
     ## get the accepted issues from this year and their files 
     accepted <- filterIssues(status=c('accepted'),
                              datePrefix=datePrefix,
-                             getUserFiles=TRUE)
+                             getUserFiles=getUserFiles)
     ## get most recent manifest filename
     maniNames <- .makeManifestNames(path)
     lastMani <- maniNames[length(maniNames)]
