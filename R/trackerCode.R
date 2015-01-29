@@ -179,7 +179,8 @@ filterIssues <- function(status=c('new-package'),
 ## 'full' dates are formatted like this: 'YYYY-MM-DD timestamp'
 ## for example: '2007-05-07 18:50:11'
 
-
+## And if you want the files too you can do this:
+## Usage: filterIssues(status=c('new-package','preview-in-progress'), datePrefix='2015', getUserFiles=TRUE)
 
 
 
@@ -188,14 +189,8 @@ filterIssues <- function(status=c('new-package'),
 
 ## basically  I only want records where within an _issue table there is a difference between the last two _activity values (after being grouped by issue) such that the difference is greater than two weeks.  Then I want to take that list of ids and merge with _user.
 
-## SELECT issue._title,issue.id,_user._address,issue._activity FROM (SELECT * FROM _issue) AS issue, _user WHERE _user._creator=issue._creator limit 4;
 
-## Closer
-## SELECT issue._title,issue.id,_user._address,_user._username,_user._activity FROM (SELECT * FROM _issue) AS issue, _user WHERE _user._creator=issue._creator ORDER BY _activity DESC limit 10;
-
-
-
-## I think this is correct for getting users paired with the package that they created.
+## I think this is correct for getting users paired with the package that "they" created.
 ## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._creator limit 20;
 
 ## IOW you want the 'id' from the table that is the 'subject' paired with the 'action' from the other table.  Here the _user.id matches the issue._creator
@@ -203,8 +198,44 @@ filterIssues <- function(status=c('new-package'),
 ## So to make it so that I get the ones where someone was assigned to an issue I do this:
 ## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._assignedto limit 20;
 
-## more recent ones:
-## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._assignedto ORDER BY _activity DESC limit 20;
+
+
+
+## And to quickly see the most recent ones:
+## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._assignedto ORDER BY _activity DESC LIMIT 20;
+
+
+## So now I just have to replace _issue (in the above) with a query that only keeps those records that are delinquint.  (compare the activity date to the current time)
+
+## Something like this:
+## SELECT NOW(),_activity,_title,id FROM _issue LIMIT 3;
+## OR even better:
+## SELECT DATE(NOW()),DATE(_activity),_activity,_title,id FROM _issue LIMIT 3;
+## And even better 
+## SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_title,id,_assignedto FROM _issue LIMIT 3;
+
+
+## TODO: make a query like the above that pre-filters bases on _status
+## SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5') LIMIT 3; 
+
+## So the final query will look something like this:
+
+## SELECT issue.dateDiff,issue._title,issue.id,issue._activity,_user._address,_user._username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY _activity DESC LIMIT 20;
+
+
+## That gets me most of what I want, but I still need to be able to filter based on the status AND (ideally) I also need to be able to know tho the last person to touch the issue was...
+
+## So two remaining problems:
+## 1) prefilter based on the _status like above (internal query) - DONE
+
+## 2) Find out who whether or not the last person to touch the issue was in fact that same person assigned to it... (I *think* this means when the _actor==_assignedto) - pretty sure thats right.  So then just filter out rows like that (be sure to include the _actor field from _issue in the subquery)
+## And VERIFY that _actor is the field that is the last person who touched the issue! - VERIFIED  :)
+
+
+
+
+
+
 
 
 
