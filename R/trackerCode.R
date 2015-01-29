@@ -195,7 +195,7 @@ readyToAdd <- function(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=T
     ## get most recent manifest filename
     maniNames <- .makeManifestNames(path)
     lastMani <- maniNames[length(maniNames)]
-    ## use .scan to read in that file
+    ## use scan to read in that file
     res <- scan(lastMani, what="character",skip=1, quiet=TRUE)
     ## extract the names
     idxMani <- rep(c(FALSE,TRUE), length(res)/2)
