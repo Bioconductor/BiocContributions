@@ -12,6 +12,12 @@
 \alias{getPackageDeltas}
 \alias{installDeps}
 \alias{generatePermissionEdits}
+\alias{rebuildIssueTarball}
+\alias{removeDeadTrackerIssue}
+\alias{filterIssues}
+\alias{coneOfShame}
+\alias{readyToAdd}
+
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -63,6 +69,36 @@
 
   generatePermissionEdits: Takes a vector of tarball paths, and prints
   output that can be pasted (after some scrutiny) into the permissions file.
+
+  rebuildIssueTarball: A helper so that you don't have to bother Dan to
+  rebuild a tarball when the tracker fails to do so for some reason.
+  This function does require that you have access to habu
+
+  removeDeadTrackerIssue: Another helper that will remove an issue
+  completely from the tracker.  Use this with caution!  This also
+  requires access to habu
+
+  filterIssues: This function will get issue IDs and even tarballs that
+  match certain date and status criteria.  So you want to know what
+  packages were accepted in march of 2014?  Or maybe just which packages
+  are classified as 'new-package' status from last month?  This function
+  should help with that.
+  
+  coneOfShame: This function is named after the 'cone of shame' from
+  UP.  Because sometimes you might get a false positive of the end user
+  just writes 'thank you' and has not bounced the ball back into your
+  court... But its still a useful funtion to seeing which packages are
+  getting neglected and by how much.  The hope is that this should spare
+  all of us the embarrassment of packages getting too far behind.
+
+  readyToAdd: This is just a convenience for listing those packages
+  that are accepted in the tracker but still not yet in the latest bioc
+  manifest.  IOW this is to list out packages that need to be added so
+  that we don't miss any.  We need to use this because that has happened
+  before!  One issue is that this function has to rely on the package
+  name in the title being accurate.  If those values are wrong, then
+  this will give false positives.
+
 }
 
 \usage{
@@ -80,6 +116,12 @@
   existingSvnUsers(tarballsPath=".", suffix=".tar.gz$")
   svnUserMatches(names)
   generatePermissionEdits(tarballsPath=".", suffix=".tar.gz$")
+
+  rebuildIssueTarball(issueNumber,tarballUrlPath)
+  removeDeadTrackerIssue(issueNumber)
+  filterIssues(status=c('new-package'),datePrefix='2015',getUserFiles=FALSE)
+  coneOfShame(daysNeglected=14, daysToForget=30)
+  readyToAdd(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=TRUE)
 }
 
 \arguments{
@@ -96,7 +138,23 @@
     user names.}
   \item{tarballsPath}{The path to a group of tarballs to process}
   \item{suffix}{The suffix to use for recognizing tarball files
-  (normally '.tar.gz' - so no need to specify it)}
+    (normally '.tar.gz' - so no need to specify it)}
+  \item{issueNumber}{The roundup tracker issue number}
+  \item{tarballUrlPath}{The url for a tarball that is to be checked}
+  \item{status}{Any of the following tracker based states:
+  'new-package', 'preview-in-progress', 'sent-back',
+  'modified-package', 'review-in-progress', 'accepted', 'rejected'}
+  \item{datePrefix}{Tracker dates are formatted like this:
+  'YYYY-MM-DD timestamp', so provide a string that is formatted to match
+  the amount of date that you intend to exactly match.  For example
+  '2007-05' would match things from may of 2007.  It probably won't be
+  useful to be more specific than that.}
+  \item{getUserFiles}{TRUE/FALSE get the tarball names associated with
+  issues that match?}
+  \item{daysNeglected}{Number of days to wait before including in a
+  cone of shame list}
+  \item{daysToForget}{Number of days before something is old enough that
+  we always want to exclude if from a cone of shame list}
 }
 
 \details{
@@ -157,6 +215,30 @@ options( fromEmail = 'emailAddress@someplace.com')
 
     ## Generate permission edits for a directory of new tarballs
     generatePermissionEdits()
+
+    ## rebuild tarball issue 558 (URL indicates which tarball to rebuild)
+    rebuildIssueTarball(558,
+          'https://tracker.bioconductor.org/file4845/spbtest_0.99.0.tar.gz')
+
+    ## remove issue 1114 from the tracker
+    removeDeadTrackerIssue('1114')
+
+    ## get issues that are from 2015 and that are either new or in
+    ## preview
+    filterIssues(status=c('new-package','preview-in-progress'),
+                 datePrefix='2015')
+
+    ## get similar issues that are from December of 2014
+    filterIssues(status=c('new-package','preview-in-progress'),
+                 datePrefix='2014-12')
+
+    ## list users who may be currently behind on their package reviews
+    ## by two weeks but not more than a month.
+    coneOfShame(daysNeglected=14, daysToForget=30)
+
+    ## list packages that may be ready to be added to the repos.
+    readyToAdd('2015')
+
   }
 
 }

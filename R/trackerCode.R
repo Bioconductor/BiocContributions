@@ -1,9 +1,8 @@
 ## This is a file for functions that interact with the issue tracker in some way
 
 ##############################################################################
-## 1st up I want a function that can build a particular tracker issue
-## again. (So that we don't have to bother Dan every time)
-## This function requires both unix AND that you have installed stompy
+## A function that can build a particular tracker issue again. (So
+## that we don't have to bother Dan every time)
 rebuildIssueTarball <- function(issueNumber,
                                 tarballUrlPath){
     pythonPath<-'~/proj/IssueTracker/spb_history/'
@@ -109,8 +108,8 @@ removeDeadTrackerIssue <- function(issueNumber){
 ## Make function that can get the links and DESCRIPTION files from the issue tracker DB for all unassigned issues.
 
 filterIssues <- function(status=c('new-package'),
-                                           datePrefix='2015',
-                                           getUserFiles=FALSE){
+                         datePrefix='2015',
+                         getUserFiles=FALSE){
     ## argument checking and processing
     validStatuses <- c('new-package','preview-in-progress','sent-back',
                        'modified-package','review-in-progress','accepted',
@@ -177,6 +176,7 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
     res
 }
 
+## Usage: coneOfShame(daysNeglected=14, daysToForget=30)
 
 
 
@@ -187,13 +187,13 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
 ## code in tallyManifests.R
 
 
-readyToAdd <- function(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=TRUE){
+readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles=TRUE){
     ## get the accepted issues from this year and their files 
     accepted <- filterIssues(status=c('accepted'),
                              datePrefix=datePrefix,
                              getUserFiles=getUserFiles)
     ## get most recent manifest filename
-    maniNames <- .makeManifestNames(path)
+    maniNames <- .makeManifestNames(svnDir)
     lastMani <- maniNames[length(maniNames)]
     ## use scan to read in that file
     res <- scan(lastMani, what="character",skip=1, quiet=TRUE)
@@ -209,6 +209,11 @@ readyToAdd <- function(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=T
 ##############################################################################
 ## Optionally: make a function that creates results from
 ## getUnassignedIDsAndFileNames into an email for potential reviewers?
+
+
+
+
+
 
 
 
