@@ -1,9 +1,9 @@
 ## This is a file for functions that interact with the issue tracker in some way
 
-## 1st up I want a function that can build a particular tracker issue again. (So that we don't have to bother Dan every time)
+##############################################################################
+## 1st up I want a function that can build a particular tracker issue
+## again. (So that we don't have to bother Dan every time)
 ## This function requires both unix AND that you have installed stompy
-## And you have to know where you put the python code.
-## It should probably do some arg checking on it's two arguments too.
 rebuildIssueTarball <- function(issueNumber,
                                 tarballUrlPath){
     pythonPath<-'~/proj/IssueTracker/spb_history/'
@@ -17,10 +17,6 @@ rebuildIssueTarball <- function(issueNumber,
     system(cmd)
 }
 
-## TODO: make this (and other functions in here) so that if the user
-## has set up their python path in the .Rprofile as an option that
-## this will be respected)
-## And actually the above won't work unless I 1st wrap it in an ssh command (IOW it won't work except on habu)
 
 ## example - test it out on sbptest:
 ## rebuildIssueTarball(558,'https://tracker.bioconductor.org/file4845/spbtest_0.99.0.tar.gz')
@@ -28,8 +24,7 @@ rebuildIssueTarball <- function(issueNumber,
 
 
 ##############################################################################
-## And make a function that will use the command line to remove dead issues
-## For now lets just remove ONE dead issue (safety)
+## A function that will use the command line to remove a dead issue
 removeDeadTrackerIssue <- function(issueNumber){
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}
@@ -47,33 +42,22 @@ removeDeadTrackerIssue <- function(issueNumber){
 
 
 
-## The command-line interface is called roundup-admin, so when you
-## ssh www-data@habu
-## you can do
-## roundup-admin --help
-## For help. Our tracker is at /var/www-trackers/bioc_submit so any
-## actual command should start out:
-## roundup-admin -i /var/www-trackers/bioc_submit ...
-## Where ... is the actual subcommand you want to run.
 
 
 
-
-
-
-
-##############################################################################
-##################################################################
+###############################################################################
+###############################################################################
 ## tracker SQL querying functions:
-
-
-
-##############################################################################
-## Make function that can get the links and DESCRIPTION files from the issue tracker DB for all unassigned issues.
-
-## From habu:
+###############################################################################
+###############################################################################
+##
+###############################################################################
+## Some notes about the MySQL DB:
+## Connect on habu like this:
 ## mysql -p -h habu.fhcrc.org -u roundup roundup_bioc_submit
-## contents of the tables
+###############################################################################
+
+## contents of the tables:
 ## (This is promising - IOW the data is there, but schema is pretty obscure)
 ## _issue = one record per issue.
 ## _file = lists all uploaded file names
@@ -90,31 +74,11 @@ removeDeadTrackerIssue <- function(issueNumber){
 ## user_queries = another graph (10 records)
 ## ***__journal = another set of tables that look a lot alike. These appear to be related to the graphs  (they all have info. about nodeids)
 ## sessions = appears to log sesssions for each user (one record per PC that they use to connect to the site?) - just a guess
-## 
 
 
-## So (for example), I want to ask for an _issue where the _status = 1 to get all unassigned issues.  And I want to also get the _issue 'ids' for those?-YES.  AND: I also want to get the associated file name for these (so get the records from _file as joined with _issue using _creator)
-
-## This is part of it
-## select count(*) from _file, _issue where _file._actor=_issue._actor AND _issue._status=1 AND _issue._creation LIKE '2015%';
-
-## Then I need to *not* do a full join like above but to 1st apply the criteria to the issues and *then* join
-
-## This gives the same thing as the inner join above
-## SELECT * FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._creation LIKE '2015%') AS issue, _file WHERE _file._actor=issue._actor;
-
-## SELECT * FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._creation LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._creation LIKE '2015%') AS file WHERE file._actor=issue._actor;
 
 
-## SELECT _title,_activity,_creator FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._creation LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._creation LIKE '2015%') AS file WHERE file._actor=issue._actor;
-
-## Now it's too strict (getting closer):
-## SELECT issue._title,issue.id,file._name,file._activity FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._activity LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._creation LIKE '2015%') AS file WHERE file._actor=issue._actor;
-
-
-## Try again, but this time use 'creator' instead of 'actor' to join (GOOD!)
-## SELECT issue._title,issue.id,file._name,file._activity FROM (SELECT * FROM _issue WHERE _issue._status=1 AND _issue._activity LIKE '2015%') AS issue, (SELECT * FROM _file WHERE _file._activity LIKE '2015%') AS file WHERE file._creator=issue._creator;
-
+## Helper to get connection to the roundup DB
 .getRoundupCon <- function(){
     pswd <- getOption("trackerPSWD")
     if(!exists('pswd')){
@@ -141,7 +105,9 @@ removeDeadTrackerIssue <- function(issueNumber){
 }
 
 
-## Ok so this function will just get the basic information about the file names and the Issue IDs for those issues that are still unassigned.
+###############################################################################
+## Make function that can get the links and DESCRIPTION files from the issue tracker DB for all unassigned issues.
+
 filterIssues <- function(status=c('new-package'),
                                            datePrefix='2015',
                                            getUserFiles=FALSE){
@@ -192,66 +158,9 @@ filterIssues <- function(status=c('new-package'),
 
 
 ##############################################################################
-## Then make a function that will get all records from the tracker that have not been checked for a couple of weeks or longer.  (all this is in _issue I think)
-
-## basically  I only want records where within an _issue table there is a difference between the last two _activity values (after being grouped by issue) such that the difference is greater than two weeks.  Then I want to take that list of ids and merge with _user.
-
-
-## I think this is correct for getting users paired with the package that "they" created.
-## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._creator limit 20;
-
-## IOW you want the 'id' from the table that is the 'subject' paired with the 'action' from the other table.  Here the _user.id matches the issue._creator
-
-## So to make it so that I get the ones where someone was assigned to an issue I do this:
-## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._assignedto limit 20;
-
-
-
-
-## And to quickly see the most recent ones:
-## SELECT _issue._title,_issue.id,_issue._activity,_user._address,_user._username FROM _issue, _user WHERE _user.id=_issue._assignedto ORDER BY _activity DESC LIMIT 20;
-
-
-## So now I just have to replace _issue (in the above) with a query that only keeps those records that are delinquint.  (compare the activity date to the current time)
-
-## Something like this:
-## SELECT NOW(),_activity,_title,id FROM _issue LIMIT 3;
-## OR even better:
-## SELECT DATE(NOW()),DATE(_activity),_activity,_title,id FROM _issue LIMIT 3;
-## And even better 
-## SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_title,id,_assignedto FROM _issue LIMIT 3;
-
-
-## TODO: make a query like the above that pre-filters bases on _status
-## SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5') LIMIT 3; 
-
-## So the final query will look something like this:
-
-## SELECT issue.dateDiff,issue._title,issue.id,issue._activity,issue._actor,issue._assignedto,_user._address,_user._username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_actor,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY _activity DESC LIMIT 20;
-
-## tidy the outputs
-## SELECT issue.dateDiff,issue._title AS title,issue.id,issue._activity AS activity,issue._actor AS actor,issue._assignedto AS assignedto,_user._address AS address,_user._username AS username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_actor,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY activity DESC LIMIT 20;
-
-## This above query at least has all the information I need to proceed.
-
-## That gets me most of what I want, but I still need to be able to filter based on the status AND (ideally) I also need to be able to know tho the last person to touch the issue was...
-
-## So two remaining problems:
-## 1) prefilter based on the _status like above (internal query) - DONE
-
-## 2) Find out who whether or not the last person to touch the issue was in fact that same person assigned to it... (I *think* this means when the _actor!=_assignedto) - pretty sure thats right.  So then just filter out rows like that (be sure to include the _actor field from _issue in the subquery)
-## But 1st VERIFY that _actor is the field that is the last person who touched the issue! - VERIFIED  :)
-
-## I could probably also include more filtering right in the query
-## (could modify the subquery to only return records where the _actor
-## is not the same as _assignedto, but R is also fast at filtering,
-## and the code might be easier to read if I do it in R...
-
-## Also, just getting all that data might make it convenient later to
-## extend this work without recrafting queries...
-
-## So lets roll forward using the query as it now is.
-
+## Then make a function that will get all records from the tracker
+## that have not been checked for a couple of weeks or longer.  (all
+## this is in _issue I think)
 
 coneOfShame <- function(daysNeglected=14, daysToForget=30){
     con <- .getRoundupCon()
