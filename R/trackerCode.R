@@ -187,7 +187,7 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
 ## code in tallyManifests.R
 
 
-readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles=TRUE){
+readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles=FALSE){
     ## get the accepted issues from this year and their files 
     accepted <- filterIssues(status=c('accepted'),
                              datePrefix=datePrefix,
@@ -195,6 +195,8 @@ readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles
     ## get most recent manifest filename
     maniNames <- .makeManifestNames(svnDir)
     lastMani <- maniNames[length(maniNames)]
+    ## And update the manifest file
+    system(paste0("svn up ", lastMani))
     ## use scan to read in that file
     res <- scan(lastMani, what="character",skip=1, quiet=TRUE)
     ## extract the names

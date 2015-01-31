@@ -121,7 +121,7 @@
   removeDeadTrackerIssue(issueNumber)
   filterIssues(status=c('new-package'),datePrefix='2015',getUserFiles=FALSE)
   coneOfShame(daysNeglected=14, daysToForget=30)
-  readyToAdd(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=TRUE)
+  readyToAdd(datePrefix='2015',path = "~/proj/Rpacks/", getUserFiles=FALSE)
 }
 
 \arguments{
