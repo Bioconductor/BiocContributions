@@ -23,6 +23,9 @@
 getPackageTotals <- function(path = "~/proj/Rpacks/"){
     manis <- .makeManifestNames(path)
     maniNames <- .makeManifestNames("")
+    ## Always update the most recent manifest file (at the very least)
+    lastMani <- manis[length(manis)]
+    system(paste0("svn up ", lastMani))
     setNames(unlist(lapply(manis, .scanMani)), maniNames)
 }
 

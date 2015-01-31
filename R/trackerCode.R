@@ -122,7 +122,8 @@ filterIssues <- function(status=c('new-package'),
     con <- .getRoundupCon()
     sql1 <- paste0("SELECT issue._title AS title ",
                    ",issue.id, file._name AS name, ",
-                   "issue._activity AS activity ",
+                   "issue._activity AS activity, ",
+                   "issue.__retired__ AS retired ",
                    "FROM ",
                    "(SELECT * FROM _issue ",
                    "WHERE _issue._status IN ('",fmtStatusIds,"') ",
@@ -132,16 +133,21 @@ filterIssues <- function(status=c('new-package'),
                    "WHERE _file._activity LIKE '",datePrefix,"%') ",
                    "AS file ",
                    "WHERE file._creator=issue._creator")
-    sql2 <- paste0("SELECT _title AS title, id, _activity AS activity ",
+    sql2 <- paste0("SELECT _title AS title, id, _activity AS activity, ",
+                   "__retired__ AS retired ",
                    "FROM _issue ",
                    "WHERE _issue._status IN ('",fmtStatusIds,"') ",
                    "AND _issue._activity LIKE '",datePrefix,"%'")
 
     if(getUserFiles==TRUE){
-        dbGetQuery(con, sql1)
+        res <- dbGetQuery(con, sql1)
     }else{
-        dbGetQuery(con, sql2)   
+        res <- dbGetQuery(con, sql2)   
     }
+    ## Only keep records where the issue was NOT retired
+    res <- res[res$retired==0,]
+    res <- res[,!names(res) %in% 'retired']
+    res
 }
 
 
@@ -165,10 +171,28 @@ filterIssues <- function(status=c('new-package'),
 
 coneOfShame <- function(daysNeglected=14, daysToForget=30){
     con <- .getRoundupCon()
-    sql <- "SELECT issue.dateDiff,issue._title AS title,issue.id,issue._activity AS activity,issue._actor AS actor,issue._assignedto AS assignedto,_user._address AS address,_user._username AS username FROM (SELECT DATEDIFF(DATE(NOW()), DATE(_activity)) AS dateDiff,_activity,_actor,_title,id,_assignedto FROM _issue WHERE _issue._status IN ('2','3','4','5')) AS issue, _user WHERE _user.id=issue._assignedto ORDER BY activity DESC"
+    sql <- paste0("SELECT issue.dateDiff,",
+                  "issue._title AS title,",
+                  "issue.id,",
+                  "issue._activity AS activity,",
+                  "issue._actor AS actor,",
+                  "issue._assignedto AS assignedto,",
+                  "issue.__retired__ AS retired,",
+                  "_user._address AS address,",
+                  "_user._username AS username ",
+                  "FROM (SELECT DATEDIFF(DATE(NOW()),DATE(_activity)) AS ",
+                  "dateDiff,_activity,_actor,_title,id,_assignedto,",
+                  "__retired__ ",
+                  "FROM _issue WHERE _issue._status IN ('2','3','4','5')) ",
+                  "AS issue, _user ",
+                  "WHERE _user.id=issue._assignedto ",
+                  "ORDER BY activity DESC")
     res <- dbGetQuery(con, sql)
     ## Remove records where the reviewer was the last person to touch the issue.
     res <- res[res$actor!=res$assignedto,]
+    ## Only keep records where the issue was NOT retired
+    res <- res[res$retired==0,]
+    res <- res[,!names(res) %in% 'retired']
     ## And then filter based on the dateDiff
     res <- res[res$dateDiff > daysNeglected,]
     ## And then filter based on things just being too damned old to matter
@@ -193,8 +217,8 @@ readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles
                              datePrefix=datePrefix,
                              getUserFiles=getUserFiles)
     ## get most recent manifest filename
-    maniNames <- .makeManifestNames(svnDir)
-    lastMani <- maniNames[length(maniNames)]
+    manis <- .makeManifestNames(svnDir)
+    lastMani <- manis[length(manis)]
     ## And update the manifest file
     system(paste0("svn up ", lastMani))
     ## use scan to read in that file
