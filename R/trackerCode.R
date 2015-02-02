@@ -210,14 +210,14 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
 ## then also compare to what is in the manifest already. Just see the
 ## code in tallyManifests.R
 
-
-readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles=FALSE){
-    ## get the accepted issues from this year and their files 
-    accepted <- filterIssues(status=c('accepted'),
-                             datePrefix=datePrefix,
-                             getUserFiles=getUserFiles)
+## Helper just gets manifest names based on a path
+.getAllPossibleManifestNames<- function(svnDir, software=TRUE){
     ## get most recent manifest filename
-    manis <- .makeManifestNames(svnDir)
+    if(software==TRUE){
+        manis <- .makeManifestNames(svnDir)
+    }else{
+        manis <- .makeExpManifestNames(svnDir)
+    }
     lastMani <- manis[length(manis)]
     ## And update the manifest file
     system(paste0("svn up ", lastMani))
@@ -225,7 +225,22 @@ readyToAdd <- function(datePrefix='2015',svnDir = "~/proj/Rpacks/", getUserFiles
     res <- scan(lastMani, what="character",skip=1, quiet=TRUE)
     ## extract the names
     idxMani <- rep(c(FALSE,TRUE), length(res)/2)
-    pkgNames <- res[idxMani] 
+    res[idxMani] 
+}
+
+readyToAdd <- function(datePrefix='2015',
+                       svnDir = "~/proj/Rpacks/",
+                       svnDir1="~/proj/experiment/pkgs/",
+                       getUserFiles=FALSE){
+    ## get the accepted issues from this year and their files 
+    accepted <- filterIssues(status=c('accepted'),
+                             datePrefix=datePrefix,
+                             getUserFiles=getUserFiles)
+    ## get most recent manifest filenames
+    softwareNames <- .getAllPossibleManifestNames(svnDir, software=TRUE)
+    experNames <- .getAllPossibleManifestNames(svnDir1, software=FALSE)
+    pkgNames <- c(softwareNames, experNames)
+    
     ## filter the results using that list of names
     idx <- !(accepted$title %in% pkgNames)
     accepted[idx,]

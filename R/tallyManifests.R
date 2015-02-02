@@ -12,6 +12,17 @@
     c(manis1, manis2, manis3)
 }
 
+.makeExpManifestNames <- function(path){
+    range2 <- 10:14
+    manis2 <- paste0(path, "bioc-data-experiment.2.",range2,".manifest")
+    range3 <- 0:1
+    manis3 <- paste0(path, "bioc-data-experiment.3.",range3,".manifest")
+    c(manis2, manis3)
+}
+
+
+
+
 ## Helper to just read in one manifest and get the total number of packages.
 .scanMani <- function(file){
     res <- scan(file, what="character",skip=1, quiet=TRUE)
