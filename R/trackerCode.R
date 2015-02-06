@@ -169,7 +169,7 @@ filterIssues <- function(status=c('new-package'),
 ## that have not been checked for a couple of weeks or longer.  (all
 ## this is in _issue I think)
 
-coneOfShame <- function(daysNeglected=14, daysToForget=30){
+coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30){
     con <- .getRoundupCon()
     sql <- paste0("SELECT issue.dateDiff,",
                   "issue._title AS title,",
@@ -197,11 +197,14 @@ coneOfShame <- function(daysNeglected=14, daysToForget=30){
     res <- res[res$dateDiff > daysNeglected,]
     ## And then filter based on things just being too damned old to matter
     res <- res[res$dateDiff < daysToForget,]
+    if(!is.null(userName)){
+        res <- res[res[['username']] %in% userName,]
+    }
     res
 }
 
-## Usage: coneOfShame(daysNeglected=14, daysToForget=30)
-
+## Usage: coneOfShame() ## show who is behind
+## Usage: coneOfShame(7, 'mcarlson') ## show which issues I am about to be behind on
 
 
 ##############################################################################

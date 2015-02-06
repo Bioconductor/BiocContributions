@@ -120,7 +120,7 @@
   rebuildIssueTarball(issueNumber,tarballUrlPath)
   removeDeadTrackerIssue(issueNumber)
   filterIssues(status=c('new-package'),datePrefix='2015',getUserFiles=FALSE)
-  coneOfShame(daysNeglected=14, daysToForget=30)
+  coneOfShame(daysNeglected=14, userName=NULL, daysToForget=30)
   readyToAdd(datePrefix='2015',svnDir="~/proj/Rpacks/",
              svnDir1="~/proj/experiment/pkgs/", getUserFiles=FALSE)
 }
@@ -154,6 +154,7 @@
   issues that match?}
   \item{daysNeglected}{Number of days to wait before including in a
   cone of shame list}
+  \item{userName}{username for a person whos activity you want to see}
   \item{daysToForget}{Number of days before something is old enough that
   we always want to exclude if from a cone of shame list}
 }
@@ -235,7 +236,10 @@ options( fromEmail = 'emailAddress@someplace.com')
 
     ## list users who may be currently behind on their package reviews
     ## by two weeks but not more than a month.
-    coneOfShame(daysNeglected=14, daysToForget=30)
+    coneOfShame()
+    ## use coneOfShame to only see which issues mcarlson has not touched for
+    ## more than one week
+    coneOfShame(7, 'mcarlson')
 
     ## list packages that may be ready to be added to the repos.
     readyToAdd('2015')
