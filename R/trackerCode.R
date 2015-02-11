@@ -103,6 +103,16 @@ removeDeadTrackerIssue <- function(issueNumber){
            'rejected'=7)
 }
 
+.getTextStatus <- function(no) {
+    switch(no,
+           '1' = 'new-package',
+           '2' = 'preview-in-progress',
+           '3' = 'sent-back',
+           '4' = 'modified-package',
+           '5' = 'review-in-progress',
+           '6' = 'accepted',
+           '7' = 'rejected')
+}
 
 ###############################################################################
 ## Make function that can get the links and DESCRIPTION files from the issue tracker DB for all unassigned issues.
@@ -258,9 +268,49 @@ readyToAdd <- function(datePrefix='2015',
 
 
 
+##########################################################################
+## function to find whose working on what in last 30 days. 
 
 
+.fullDb <- function() {
+    con <- .getRoundupCon()
+     sql <- paste0("SELECT issue.dateDiff,",
+                  "issue._title AS title,",
+                  "issue.id,",
+                  "issue._activity AS activity,",
+                  "issue._actor AS actor,",
+                  "issue._assignedto AS assignedto,",
+                  "issue.__retired__ AS retired,",
+                  "issue._status AS status, ",
+                  "_user._address AS address,",
+                  "_user._username AS username ",
+                  "FROM (SELECT DATEDIFF(DATE(NOW()),DATE(_activity)) AS ",
+                  "dateDiff,_activity,_actor,_title,id,_assignedto,_status,",
+                  "__retired__ ",
+                  "FROM _issue WHERE _issue._status IN ('2','3','4','5','6')) ",
+                  "AS issue, _user ",
+                  "WHERE _user.id=issue._assignedto ",
+                  "ORDER BY activity DESC")
+    
+    dbGetQuery(con, sql)
+}
 
+
+creditworthy <- function(creditDays= 30) {
+    df <- .fullDb()
+    corelist <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
+                 "sarora", "mtmorgan")
+    core_assignedto <- c( 208, 209, 7, 560, 210, 559, 18)
+    lapply(corelist, function(x) {
+	tempdf <- subset(df, df$username==x)
+	tempdf <- subset(tempdf, tempdf$dateDiff < creditDays)
+	tempdf$status <- apply(tempdf,1, function(x) .getTextStatus(x["status"]))
+	drop <- which(names(tempdf) %in% c("actor", "assignedto", "retired", 
+             "address"))
+        tempdf <- tempdf[, -drop]
+	
+    })
+}
 
 
 

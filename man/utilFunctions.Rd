@@ -17,7 +17,7 @@
 \alias{filterIssues}
 \alias{coneOfShame}
 \alias{readyToAdd}
-
+\alias{creditworthy}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -98,7 +98,9 @@
   before!  One issue is that this function has to rely on the package
   name in the title being accurate.  If those values are wrong, then
   this will give false positives.
-
+ 
+  creditworthy: gives credit to core Seattle members and finds out whose
+  done what in the last 30 days with respect to packages
 }
 
 \usage{
@@ -123,6 +125,7 @@
   coneOfShame(daysNeglected=14, userName=NULL, daysToForget=30)
   readyToAdd(datePrefix='2015',svnDir="~/proj/Rpacks/",
              svnDir1="~/proj/experiment/pkgs/", getUserFiles=FALSE)
+  creditworthy(creditDays=30)
 }
 
 \arguments{
@@ -157,6 +160,8 @@
   \item{userName}{username for a person whos activity you want to see}
   \item{daysToForget}{Number of days before something is old enough that
   we always want to exclude if from a cone of shame list}
+  \item{creditDays}{ Number of days for which you want to find out which
+  reviewer has done what}
 }
 
 \details{
@@ -244,6 +249,10 @@ options( fromEmail = 'emailAddress@someplace.com')
     ## list packages that may be ready to be added to the repos.
     readyToAdd('2015')
 
+    ## give credit to people for what they've worked on in the past 30 days
+    df <- creditworth()
+
+		
   }
 
 }

@@ -18,4 +18,5 @@ export(clean,
        coneOfShame,
        readyToAdd,
        rebuildIssueTarball,
-       removeDeadTrackerIssue)
+       removeDeadTrackerIssue,
+       creditworthy)
