@@ -299,7 +299,7 @@ readyToAdd <- function(datePrefix='2015',
 creditworthy <- function(creditDays= 30) {
     df <- .fullDb()
     corelist <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
-                 "sarora", "mtmorgan")
+                 "sarora", "mtmorgan", "mcarlson")
     core_assignedto <- c( 208, 209, 7, 560, 210, 559, 18)
     lapply(corelist, function(x) {
 	tempdf <- subset(df, df$username==x)
