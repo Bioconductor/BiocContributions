@@ -122,7 +122,7 @@
   rebuildIssueTarball(issueNumber,tarballUrlPath)
   removeDeadTrackerIssue(issueNumber)
   filterIssues(status=c('new-package'),datePrefix='2015',getUserFiles=FALSE)
-  coneOfShame(daysNeglected=14, userName=NULL, daysToForget=30)
+  coneOfShame(daysNeglected=14, userName=NULL, daysToForget=30,lastTouchedFilter=TRUE)
   readyToAdd(datePrefix='2015',svnDir="~/proj/Rpacks/",
              svnDir1="~/proj/experiment/pkgs/", getUserFiles=FALSE)
   creditworthy(creditDays=30)
@@ -160,6 +160,8 @@
   \item{userName}{username for a person whos activity you want to see}
   \item{daysToForget}{Number of days before something is old enough that
   we always want to exclude if from a cone of shame list}
+  \item{lastTouchedFilter}{ TRUE/FALSE Filter based on whether the
+  author was the last person to touch it?}
   \item{creditDays}{ Number of days for which you want to find out which
   reviewer has done what}
 }
@@ -245,6 +247,8 @@ options( fromEmail = 'emailAddress@someplace.com')
     ## use coneOfShame to only see which issues mcarlson has not touched for
     ## more than one week
     coneOfShame(7, 'mcarlson')
+    ## use coneOfShame to just see all issues assigned to mcarlson period:
+    coneOfShame(1, 'mcarlson', lastTouchedFilter=FALSE)
 
     ## list packages that may be ready to be added to the repos.
     readyToAdd('2015')

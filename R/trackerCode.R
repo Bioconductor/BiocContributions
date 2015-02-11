@@ -179,7 +179,8 @@ filterIssues <- function(status=c('new-package'),
 ## that have not been checked for a couple of weeks or longer.  (all
 ## this is in _issue I think)
 
-coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30){
+coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30,
+                        lastTouchedFilter=TRUE){
     con <- .getRoundupCon()
     sql <- paste0("SELECT issue.dateDiff,",
                   "issue._title AS title,",
@@ -199,7 +200,9 @@ coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30){
                   "ORDER BY activity DESC")
     res <- dbGetQuery(con, sql)
     ## Remove records where the reviewer was the last person to touch the issue.
-    res <- res[res$actor!=res$assignedto,]
+    if(lastTouchedFilter){
+        res <- res[res$actor!=res$assignedto,]
+    }
     ## Only keep records where the issue was NOT retired
     res <- res[res$retired==0,]
     res <- res[,!names(res) %in% 'retired']
@@ -215,7 +218,7 @@ coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30){
 
 ## Usage: coneOfShame() ## show who is behind
 ## Usage: coneOfShame(7, 'mcarlson') ## show which issues I am about to be behind on
-
+## Usage:  coneOfShame(1, 'mcarlson', lastTouchedFilter=FALSE) ## show which issues I have assigned to me that I have not finished yet...
 
 ##############################################################################
 ## And make a function that will look at records that are accepted but which have not been put into the manifest yet...
