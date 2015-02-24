@@ -19,7 +19,7 @@ stash <- new.env(parent=emptyenv())
     usersFile <- getOption("usersFile")
 
     if(is.null(usersFile)){
-        return(warning("Sorry you need to have set the usersFile option in .Rprofile.  If you need to use functions that depend on the users file they are not going to work untill you do that"))
+        return(warning("Sorry you need to have set the usersFile option in .Rprofile.  If you need to use functions that depend on the users file they are not going to work until you do that"))
     }
     
     if(.Platform$OS.type != "unix"){
