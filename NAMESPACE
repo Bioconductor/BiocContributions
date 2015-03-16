@@ -1,4 +1,6 @@
 importFrom(S4Vectors, isSingleString)
+importFrom(httr, GET, content)
+importFrom(XML, xmlValue)
 
 export(clean,
        cleanDataPkg,
@@ -19,4 +21,5 @@ export(clean,
        readyToAdd,
        rebuildIssueTarball,
        removeDeadTrackerIssue,
-       creditworthy)
+       creditworthy, 
+       getPackageRangeForRelease)

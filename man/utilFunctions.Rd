@@ -18,6 +18,8 @@
 \alias{coneOfShame}
 \alias{readyToAdd}
 \alias{creditworthy}
+\alias{getPackageRangeForRelease}
+
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -101,6 +103,13 @@
  
   creditworthy: gives credit to core Seattle members and finds out whose
   done what in the last 30 days with respect to packages
+ 
+  getPackageRangeForRelease: Every 6 months, core Seattle members are given
+  a range and they need to ensure that all packages in that range pass without
+  any errors and warnings. This helper function takes in the name of reviewer
+  and gives back the number of packages assigned to them, number of packages
+  with errors and number of packages with warnings. 
+
 }
 
 \usage{
@@ -126,6 +135,7 @@
   readyToAdd(datePrefix='2015',svnDir="~/proj/Rpacks/",
              svnDir1="~/proj/experiment/pkgs/", getUserFiles=FALSE)
   creditworthy(creditDays=30)
+  getPackageRangeForRelease:(userName)
 }
 
 \arguments{
