@@ -114,6 +114,19 @@ removeDeadTrackerIssue <- function(issueNumber){
            '7' = 'rejected')
 }
 
+
+.coreReviewerIds <- function(str){
+    c('mcarlson'=19,
+      'herve'=7,
+      'nhayden'=560,
+      'sarora'=559,
+      'mtmorgan'=18,
+      'vobencha'=209,
+      'pshannon'=208,
+      'dtenenba'=210,
+      'jhester'=759)
+}
+
 ###############################################################################
 ## Make function that can get the links and DESCRIPTION files from the issue tracker DB for all unassigned issues.
 
@@ -199,9 +212,11 @@ coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30,
                   "WHERE _user.id=issue._assignedto ",
                   "ORDER BY activity DESC")
     res <- dbGetQuery(con, sql)
-    ## Remove records where the reviewer was the last person to touch the issue.
+    ## Remove records where a core reviewer was the last person to touch it.
     if(lastTouchedFilter){
-        res <- res[res$actor!=res$assignedto,]
+        idx <- res$actor %in% .coreReviewerIds()
+        ## res <- res[res$actor!=res$assignedto,]
+        res <- res[!idx,]
     }
     ## Only keep records where the issue was NOT retired
     res <- res[res$retired==0,]
