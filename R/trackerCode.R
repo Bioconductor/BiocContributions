@@ -314,19 +314,25 @@ readyToAdd <- function(datePrefix='2015',
 }
 
 
-creditworthy <- function(creditDays= 30) {
+creditworthy <- function(creditDays= 30, userName=NA_character_) {
     df <- .fullDb()
-    corelist <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
-                 "sarora", "mtmorgan", "mcarlson")
+    
+         userName <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
+                 "sarora", "mtmorgan", "mcarlson", "jhester")
     core_assignedto <- c( 208, 209, 7, 560, 210, 559, 18)
-    lapply(corelist, function(x) {
+    lapply(userName, function(x) {
 	tempdf <- subset(df, df$username==x)
 	tempdf <- subset(tempdf, tempdf$dateDiff < creditDays)
 	tempdf$status <- apply(tempdf,1, function(x) .getTextStatus(x["status"]))
 	drop <- which(names(tempdf) %in% c("actor", "assignedto", "retired", 
              "address"))
         tempdf <- tempdf[, -drop]
-	
+        message("####### ", unique(tempdf$username), " ########")
+        message("total no of packages touched: ", nrow(tempdf))
+        acc <- length(which(tempdf$status=="accepted"))
+        message("no of packages accepted: ", acc)
+	tempdf <- tempdf[order(tempdf[, "status"]), ]
+        tempdf
     })
 }
 

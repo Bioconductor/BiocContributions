@@ -134,7 +134,7 @@
   coneOfShame(daysNeglected=14, userName=NULL, daysToForget=30,lastTouchedFilter=TRUE)
   readyToAdd(datePrefix='2015',svnDir="~/proj/Rpacks/",
              svnDir1="~/proj/experiment/pkgs/", getUserFiles=FALSE)
-  creditworthy(creditDays=30)
+  creditworthy(creditDays=30, userName)
   getPackageRangeForRelease:(userName)
 }
 
