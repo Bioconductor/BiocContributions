@@ -81,7 +81,8 @@
         result <- GET(url)
         html <- content(result)
         html2 <- sapply(html["//p"], xmlValue)
-        grep("Maintainer:", html2, value=TRUE)
+        email <- grep("Maintainer:", html2, value=TRUE)
+        .trim(sub("Maintainer:","", email))
     })
 }
 
