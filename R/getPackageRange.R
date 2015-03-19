@@ -27,13 +27,23 @@
               morelia=.trim(morelia), petty=.trim(petty), 
               linux=.trim(linux))
     })
-    pkg <- vapply(result, "[[", "", "pkgDetails")
+    pkgInf <- vapply(result, "[[", "", "pkgDetails")
+    ## Some cleanup
+    pkgInf <- gsub("\\.", "_", pkgInf)
+    ## pkgInf <- strsplit(sub("\\W", "|", pkgInf),"\\|")
+    pkgInf <- sub("\\W", "|", pkgInf)
+    pkgInf <- gsub("_", "\\.", pkgInf)
+    pkgInf <- strsplit(pkgInf,"\\|")
+    
+    pkg <- vapply(pkgInf, function(x){x[1]}, 'character')
+    author <- vapply(pkgInf, function(x){x[2]}, 'character')
+
     linux <- vapply(result, "[[", "", "linux")
     petty <- vapply(result, "[[", "", "petty")
     morelia <- vapply(result, "[[", "", "morelia")
     moscato2 <- vapply(result, "[[", "", "moscato2")
     
-    data.frame(pkg=pkg, linux=linux, morelia=morelia, 
+    data.frame(pkg=pkg, author=author, linux=linux, morelia=morelia, 
                      moscato2=moscato2, petty=petty,
                      stringsAsFactors=FALSE)
 }
