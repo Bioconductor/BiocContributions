@@ -43,8 +43,8 @@
     morelia <- vapply(result, "[[", "", "morelia")
     moscato2 <- vapply(result, "[[", "", "moscato2")
     
-    data.frame(pkg=pkg, author=author, linux=linux, morelia=morelia, 
-                     moscato2=moscato2, petty=petty,
+    data.frame(pkg=pkg, linux=linux, mavericks=morelia, 
+                     windows=moscato2, snow=petty,
                      stringsAsFactors=FALSE)
 }
 
@@ -56,15 +56,22 @@
 }
 
 .getErrorWarning <- function(reviewerPkgList, msg=c("ERROR","WARNINGS")) {
-    petty <- grep(msg, reviewerPkgList[,"petty"])
-    linux <- grep(msg, reviewerPkgList[,"linux"])
-    morelia <- grep(msg, reviewerPkgList[,"morelia"])
-    moscato2 <- grep(msg, reviewerPkgList[,"moscato2"])
-    
-    list(petty=reviewerPkgList[petty,1],
-         linux=reviewerPkgList[linux,1],
-         morelia=reviewerPkgList[morelia,1],
-         moscato2=reviewerPkgList[moscato2,1])
+    str <- c("windows", "linux", "snow","mavericks")
+    df <- data.frame(platform=character(0),
+        pkgName=character(0), email=character(0))
+    for (i in 1:length(str)){
+        s1 <- str[i]
+        ind <- grep(msg, reviewerPkgList[,s1])
+        if(length(ind)!=0){
+            pkgName <- reviewerPkgList[ind,1]
+            email <- .getEmail(pkgName)
+            names(email) <- NULL
+            tedf <- data.frame(platform=rep(as.character(s1),length(pkgName)),
+               pkgName=pkgName, email=email)
+            df <- rbind(df, tedf)   
+         }
+    }
+    df
 }
 
 .getEmail <- function(pkgName) {
@@ -74,7 +81,7 @@
         result <- GET(url)
         html <- content(result)
         html2 <- sapply(html["//p"], xmlValue)
-        grep("Maintainer", html2, value=TRUE)
+        grep("Maintainer:", html2, value=TRUE)
     })
 }
 
@@ -82,7 +89,7 @@ getPackageRange <-
     function(userName="Sonali", biocVersion ="3.1") {
     reviewer <- userName 
     df <- .getPageContents(biocVersion)
-    df <- df[-nrow(df),]
+    df <- df[-(which(df$pkg=="Last")),]
     
     start <- switch(reviewer,
                     Dan= "a4", Herve="BUS" ,
@@ -96,25 +103,19 @@ getPackageRange <-
     reviewerPkgList <- .getIndiList(start, end, df)
     
     errorlist <- .getErrorWarning(reviewerPkgList, msg="ERROR")
-    warningslist <- .getErrorWarning(reviewerPkgList, msg="WARNING")
+    warnlist <- .getErrorWarning(reviewerPkgList, msg="WARNING")
     
-    full_errorlist <- unlist(errorlist)
-    names(full_errorlist) <- NULL
-    
-    full_warnlist <- unlist(warningslist)
-    names(full_warnlist) <- NULL
-        
     message("Total no of packages assigned to ", reviewer," : ",
             nrow(reviewerPkgList))
-    message("No of Packages with Error:", length(unique(full_errorlist)))
-    message("No of Packages with Warnings:", length(unique(full_warnlist)))
+    message("No of Packages with Error:", length(unique(errorlist$pkgName)))
+    message("No of Packages with Warnings:", length(unique(warnlist$pkgName)))
     
-    list(reviwerPkgList=reviewerPkgList, errorlist=errorlist, 
-         warningslist=warningslist)
+    list(reviewerPkgList=reviewerPkgList, errorlist=errorlist, 
+         warningslist=warnlist)
 }
 
 #rlist <- c("Dan","Herve","Jim","Marc","Martin","Nate","Sonali", "Val")
-
+#res= lapply(rlist, function(r) getPackageRange(r, "3.1"))
 
 
 
