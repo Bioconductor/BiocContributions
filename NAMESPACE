@@ -22,4 +22,4 @@ export(clean,
        rebuildIssueTarball,
        removeDeadTrackerIssue,
        creditworthy, 
-       getPackageRangeForRelease)
+       getPackageRange)

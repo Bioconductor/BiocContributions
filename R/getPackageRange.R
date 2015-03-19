@@ -1,7 +1,7 @@
 .trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 
-.getPageContents <- function(bioVersion="3.1") {
-    theurl <- paste0("http://www.bioconductor.org/checkResults/",bioVersion,
+.getPageContents <- function(biocVersion="3.1") {
+    theurl <- paste0("http://www.bioconductor.org/checkResults/",biocVersion,
                      "/bioc-LATEST/")
     temp <- GET(theurl)
     html <- content(temp)
@@ -12,15 +12,15 @@
     html3 <- html3[-(1:44)]
     
     pkgInd <- grep("Package", html3)
-        
+    
     result <- lapply(pkgInd, function(x) {
         start <- x
         end <- x+7
         temp <- html3[start:end]
         p <- gsub( " .*$", "", temp[2] )
-        moscato2 <- strsplit(grep("moscato2", temp,value=TRUE),"x64")[[1]][2]
-        morelia <- strsplit(grep("morelia", temp,value=TRUE),"x86_64")[[1]][2]
-        petty <- strsplit(grep("petty", temp,value=TRUE),"x86_64")[[1]][2]
+        moscato2 <- strsplit(grep("Windows", temp,value=TRUE),"x64")[[1]][2]
+        morelia <- strsplit(grep("Mavericks", temp,value=TRUE),"x86_64")[[1]][2]
+        petty <- strsplit(grep("Snow", temp,value=TRUE),"x86_64")[[1]][2]
         linux <- strsplit(grep("Linux", temp,value=TRUE),"x86_64")[[1]][2]
         
         list( pkgDetails = p, moscato2= .trim(moscato2), 
@@ -68,10 +68,10 @@
     })
 }
 
-getPackageRangeForRelease <-  
-    function(userName="Sonali") {
+getPackageRange <-  
+    function(userName="Sonali", biocVersion ="3.1") {
     reviewer <- userName 
-    df <- .getPageContents(bioVersion="3.1")
+    df <- .getPageContents(biocVersion)
     df <- df[-nrow(df),]
     
     start <- switch(reviewer,
