@@ -87,19 +87,21 @@
 }
 
 getPackageRange <-  
-    function(userName="Sonali", biocVersion ="3.1") {
+    function(userName="sarora", biocVersion ="3.1") {
     reviewer <- userName 
     df <- .getPageContents(biocVersion)
     df <- df[-(which(df$pkg=="Last")),]
     
     start <- switch(reviewer,
-                    Dan= "a4", Herve="BUS" ,
-                    Jim="deltaGseg", Marc="GeneRegionScan", Martin="IsoGeneGUI",
-                    Nate="MSnID", Sonali="qpcrNorm", Val ="seqPattern")
+                    dtenenba= "a4", herve="BUS" ,
+                    jhester="deltaGseg", mcarlson="GeneRegionScan",
+                    mtmorgan="IsoGeneGUI", nhayden="MSnID",
+                    sarora="qpcrNorm", vobencha="seqPattern")
     end <- switch(reviewer,
-                  Dan= "bumphunter", Herve="DEGseq" ,
-                  Jim="geneRecommender", Marc="isobar", Martin="MSnbase",
-                  Nate="QDNAseq", Sonali="seqLogo", Val ="zlibbioc")
+                  dtenenba= "bumphunter", herve="DEGseq" ,
+                  jhester="geneRecommender", mcarlson="isobar",
+                  mtmorgan="MSnbase", nhayden="QDNAseq",
+                  sarora="seqLogo",  vobencha="zlibbioc")
     
     reviewerPkgList <- .getIndiList(start, end, df)
     
@@ -121,3 +123,13 @@ getPackageRange <-
 
 
 
+## helper to just export a nice email list of all the errors and warnings (in one unique string).
+
+getEmailAddressesToWarnPkgMaintainers <- function(userName){
+    ## call getPackageRange
+    res <- getPackageRange(userName)
+    errs <- unique(as.character(res[['errorlist']]$email))
+    warns <- unique(as.character(res[['warningslist']]$email))
+    emails <- sub(" at ","@",unique(c(errs, warns)))
+    paste(emails, collapse=", ")   
+}

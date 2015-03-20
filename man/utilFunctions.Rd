@@ -18,8 +18,8 @@
 \alias{coneOfShame}
 \alias{readyToAdd}
 \alias{creditworthy}
-\alias{getPackageRangeForRelease}
-
+\alias{getPackageRange}
+\alias{getEmailAddressesToWarnPkgMaintainers}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -105,12 +105,16 @@
   creditworthy: gives credit to core Seattle members and finds out whose
   done what in the last 30 days with respect to packages
  
-  getPackageRangeForRelease: Every 6 months, core Seattle members are given
+  getPackageRange: Every 6 months, core Seattle members are given
   a range and they need to ensure that all packages in that range pass without
   any errors and warnings. This helper function takes in the name of reviewer
   and gives back the number of packages assigned to them, number of packages
   with errors and number of packages with warnings. 
-
+  
+  getEmailAddressesToWarnPkgMaintainers: just a convenience wrapper that
+  calls getPackageRange and produces a list of emails addresses to
+  bother with a form message.  Like getPackageRange, it takes a userName
+  argument that it then uses to restrict which authors it will bother...
 }
 
 \usage{
@@ -136,7 +140,8 @@
   readyToAdd(datePrefix='2015',svnDir="~/proj/Rpacks/",
              svnDir1="~/proj/experiment/pkgs/", getUserFiles=FALSE)
   creditworthy(creditDays=30, userName)
-  getPackageRangeForRelease:(userName)
+  getPackageRange(userName = "sarora", biocVersion = "3.1")
+  getEmailAddressesToWarnPkgMaintainers(userName)
 }
 
 \arguments{
@@ -175,7 +180,8 @@
   \item{lastTouchedFilter}{ TRUE/FALSE Filter based on whether the
   author was the last person to touch it?}
   \item{creditDays}{ Number of days for which you want to find out which
-  reviewer has done what}
+    reviewer has done what}
+  \item{biocVersion}{What version of BiocConductor}
 }
 
 \details{

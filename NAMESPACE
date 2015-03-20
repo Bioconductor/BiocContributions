@@ -22,4 +22,5 @@ export(clean,
        rebuildIssueTarball,
        removeDeadTrackerIssue,
        creditworthy, 
-       getPackageRange)
+       getPackageRange,
+       getEmailAddressesToWarnPkgMaintainers)
