@@ -65,8 +65,9 @@
   
   plotPackageTotals: makes a simple plot of package growth over time.
 
-  installDeps: Given a tarball, this will install all its dependencies
-  using biocLite().  This works even for tarballs that are not yet
+  installDeps: Given a tarball or package directory, 
+  this will install all its dependencies
+  using biocLite().  This works even for tarballs/directories that are not yet
   available themselves via biocLite().
 
   generatePermissionEdits: Takes a vector of tarball paths, and prints
@@ -139,7 +140,8 @@
 }
 
 \arguments{
-  \item{tarball}{The tarball (as build by R CMD build}
+  \item{tarball}{The tarball (as built by R CMD build). In \code{installDeps},
+  this can also be a directory.} 
   \item{svnDir}{The dir where the svn repos is located}
   \item{svnDir1}{The dir where the pkgs repos if located (data pkgs)}
   \item{svnDir2}{The dir where the data repos is located (data pkgs)}
