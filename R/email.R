@@ -67,92 +67,45 @@
                          "Hi ",
                          authorName,
                      ",
+Your package has been added to the Bioconductor repository. 
+Some helpful notes to help you as a package maintainer: 
 
+a) svn information 
 Your Subversion account information is the same as before, but
 permissions have now been extended to your new package
-
 You now have read/write access to the ",packageName," package:
-
-  URL: https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/",packageName,"
-
+URL: https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/",packageName,"
 Please let me know if you have any question or problem with your svn
 access.
+svn docs at: http://bioconductor.org/developers/how-to/source-control/
 
+b) Build report: 
+Please  keep an eye on the build/check daily reports for the 
+Bioconductor devel packages:  http://bioconductor.org/checkResults/
+and get rid of any warnings and errors for your package. 
 
-There is also an RSS feed maintained made for new software and data
-packages.  You can find the rss feed for software packages at:
-
+c) RSS Feeds:
+You can find the rss feed for your software packages at:
 http://bioconductor.org/rss/build/packages/",packageName,".rss
 
-And for data packages it will be at:
+d) Stay connected using Bioc-devel mailing list and support site
+http://bioconductor.org/help/support/#bioc-devel
 
-http://bioconductor.org/rss/build/data/packages/",packageName,".rss
-
-
-Mailing lists
--------------
-
-For more general questions or advice about the development/maintenance
-of your package, please use the Bioc-devel mailing list (our primary
-channel for communication between developers and for important
-announcements like release schedules, build system news, etc...).
-
-If you have not already done so, we urge you to also subscribe to both
-the bioc-devel AND the bioconductor support site. The former for your
-own benefit and the latter so that you can answer questions from users
-of your package and respond to bug reports promptly.
-
-You can subscribe to our Bioc-devel mailing list and get to the
-support site from here:
-
-http://www.bioconductor.org/help/mailing-list/
-
-We recommend that you 'follow' tags that match your own package (such
-as your package name) so that you will know be able to know when
-someone is asking a question about your package or that relates to
-your work.  You can edit your profile on the support site to be
-notified when certain tags are used to describe your package.
-
-Also, when your package will pass the CHECK test for the first time,
-we strongly encourage you to send a note to Bioc-devel to announce
-its public availability (with a short description) so other people
-can start to test it.
-
-
-Version Control
----------------
-
-Also, there is a page on our website that describes how to get set up
-using svn (if you are unfamiliar).
-
-http://www.bioconductor.org/developers/source-control/
-
-And if you prefer to use git and Github instead of Subversion, you can
+e) Git svn bridge
+if you prefer to use git and Github instead of Subversion, you can
 use the Bioconductor Git-svn bridge which is documented at:
-
 http://www.bioconductor.org/developers/how-to/git-svn/
 
+f) add maintainer or removal of package from Bioconductor:
+Please email us at packages NEAR bioconductor POINT org with your requests
+for new mainatiners, please clearly state their name and email address
+and mark them a cc on the request email sento us. 
 
-Package Maintainer field
-------------------------
-
-If you change email addresses, please make sure the Maintainer field
-in the DESCRIPTION file of your package contains your current email
-address. We may need to reach you if there are issues building your
-package (this could happen as a result of changes to R or to packages
-you depend on). If we can't reach you, we may have to drop your
-package from Bioconductor.  If you have multiple developers on your
-project who wish to help maintain it, we allow multiple names (with
-addresses) in the maintainer field.  Let us know if you need more
-accounts to facilitate this.
-
-If you no longer want to maintain your package, please let us know and
-we will remove it from Bioconductor, or (with your permission) find a
-new maintainer for it.
 
 Thanks for contributing to the Bioconductor project!
 
-  Marc", sep="")
+ Sonali", sep="")
+  
     ## then return
     existingMsg 
 }
@@ -219,127 +172,110 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
 
 ## 1st we need our new user greeting:
 .makeNewUserMsg <- function(authorName, packageName){
-    newUserMsg <- paste(
-                         "Hi ",
-                         authorName,
-                     ",
+    newUserMsg <- 
+
+paste("Hi ", authorName, "," ,                   
+"
 
 
-Congrats on your package being accepted to Bioconductor.  The
-following information is to help you in your new role as a package
-maintainer.
+Congrats on your package being accepted to Bioconductor.  The following 
+information is to help you in your new role as a package maintainer.
 
-Information about your svn account
---------------------------------------------------------
+Every package in Bioconductor gets its own landing page. Contents from your 
+DESCRIPTION file are pulled out to populate this page. Your package landing page 
+is : http://bioconductor.org/packages/devel/bioc/html/<pkgname>.html
 
-Your Subversion account is:
+Maintaining your package: 
 
-
-
-
-You now have read/write access to the ",packageName," package:
-
-  URL: https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/",packageName,"
-
-Please let me know if you have any question or problem with your svn
-access.
-
-Also, there is a page on our website that describes how to get set up
-using svn (if you are unfamiliar).
-
-http://www.bioconductor.org/developers/source-control/
-
-And if you prefer to use git and Github instead of Subversion, you can
-use the Bioconductor Git-svn bridge which is documented at:
-
+1) Git- svn bridge 
+If you prefer to use git and Github instead of Subversion, you can use the 
+Bioconductor Git-svn bridge which is documented at: 
 http://www.bioconductor.org/developers/how-to/git-svn/
 
+2) Build report:
+Please  keep an eye on the build/check daily reports for the Bioconductor 
+devel packages:  http://bioconductor.org/checkResults/ and get rid of any 
+warnings or errors from your packages build report. 
+
+3) Rss feeds:
+You can find the rss feed for software packages at: 
+http://bioconductor.org/rss/build/packages/<pkgname>.rss
+
+4) Bioc-devel mailing list 
+Our primary channel is the Bioc-devel mailing list which we use for 
+communication between developers and for important announcements like 
+release schedules, build system news, etc.. which you have signed up for. 
+Please check this email on a regular basis. 
+
+Also, when your package will pass the CHECK test for the first time, we 
+strongly encourage you to send a note to Bioc-devel to announce its 
+public availability (with a short description) so other people  can 
+start to test it.
+
+5) Adding Maintainers for your package:
+If for some reason, your email address changes, please update the 
+maintainer field in your description file. We may need to reach you 
+if there are issues building your package (this could happen as a 
+result of changes to R or to packages you depend on). If we can't 
+reach you, we may have to drop your package from Bioconductor.  
+
+If you want to add a new mainatiner or transfer responsibility to a
+someone else,  please email us at packages NEAR bioconductor POINT org
+and clearly state the new maintainers name and email address. Also 
+mark him a cc on this email 
+
+6) Support Site:
+Please also subscribe to the bioconductor support site so that you can 
+answer questions from users of your package and respond to bug reports 
+promptly. https://support.bioconductor.org/ 
+We recommend that you 'follow' tags that match your own package (such 
+as your package name) so that you will know be able to know when someone is 
+asking a question about your package or that relates to your work.  You 
+can edit your profile on the support site to be notified when certain tags 
+are used to describe your package.
+
+7) Removal of your package:
+If you no longer want to maintain your package, please let us know and we 
+will remove it from Bioconductor, or (with your permission) find a new 
+maintainer for it.
+
+8) Updating your package in Bioconductor: 
+You will need to use subversion to update your package inside Bioconductor. 
+Your subversion account credentials are . 
 
 
-How we build, test and publish the Bioconductor packages
---------------------------------------------------------
 
-Please also keep an eye on the build/check daily reports for the
-Bioconductor devel packages:
-
-  http://bioconductor.org/checkResults/
-
-A package is made publicly available only if it passes the CHECK test
-with no error (it can have warnings though). Then the easiest (and
-recommended) way to install it is with biocLite().  You can learn more
-about how to use biocLite() here:
-
-http://www.bioconductor.org/install/
-
-However, if your package is already published and you make changes
-to it, the new version will not replace the old version unless
-you have bumped z in the version number x.y.z. DON'T FORGET TO
-BUMP Z! or the last version of your package will not be pushed
-to the public repository.
+Subversion user ID:
+Password:
 
 
-There is also an RSS feed maintained made for new software and data
-packages.  You can find the rss feed for software packages at:
 
-http://bioconductor.org/rss/build/packages/",packageName,".rss
+These credentials give you read access to the whole Bioconductor 
+repository and WRITE permissions only to your package.
+To update your package you need to do the following steps:
+a) install subversion(svn) on your machine, if you dont have that already
+You can learn about svn from here: http://bioconductor.org/developers/how-to/source-control/
+b) svn co --username your_name 
+https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/pkgName
+You will be prompted for a password  - This will create a folder for your package.
+c) make the changes you need to make to your package.
+d) bump the version from x.y.z to x.y.(z+1) in the DESCRIPTION file (DON'T FORGET TO
+BUMP Z! or your changes will not be pushed to the public repository.)
+e) R CMD build packageName
+f) R cmd check pkganme_x.y.(z+1).tar.gz
+g) Fix any warnings/ errors from step (e) and (f)
+h) svn ci pkgname
+Please let me know if you have any question or problem with your svn access.
 
-And for data packages it will be at:
-
-http://bioconductor.org/rss/build/data/packages/",packageName,".rss
-
-
-Mailing lists
--------------
-
-For more general questions or advice about the development/maintenance
-of your package, please use the Bioc-devel mailing list (our primary
-channel for communication between developers and for important
-announcements like release schedules, build system news, etc...).
-
-If you have not already done so, we urge you to also subscribe to both
-the bioc-devel AND the bioconductor support site. The former for your
-own benefit and the latter so that you can answer questions from users
-of your package and respond to bug reports promptly.
-
-You can subscribe to our Bioc-devel mailing list and get to the
-support site from here:
-
-http://www.bioconductor.org/help/mailing-list/
-
-We recommend that you 'follow' tags that match your own package (such
-as your package name) so that you will know be able to know when
-someone is asking a question about your package or that relates to
-your work.  You can edit your profile on the support site to be
-notified when certain tags are used to describe your package.
-
-Also, when your package will pass the CHECK test for the first time,
-we strongly encourage you to send a note to Bioc-devel to announce
-its public availability (with a short description) so other people
-can start to test it.
-
-
-Package Maintainer field
-------------------------
-
-If you change email addresses, please make sure the Maintainer field
-in the DESCRIPTION file of your package contains your current email
-address. We may need to reach you if there are issues building your
-package (this could happen as a result of changes to R or to packages
-you depend on). If we can't reach you, we may have to drop your
-package from Bioconductor.  If you have multiple developers on your
-project who wish to help maintain it, we allow multiple names (with
-addresses) in the maintainer field.  Let us know if you need more
-accounts to facilitate this.
-
-If you no longer want to maintain your package, please let us know and
-we will remove it from Bioconductor, or (with your permission) find a
-new maintainer for it.
+Helpful things to know about Bioconductor: 
+Bioconductor Newsletter: http://bioconductor.org/help/newsletters/
+Upcoming Courses & Course Material: http://bioconductor.org/help/events/
+YouTube channel : https://www.youtube.com/user/bioconductor/
+Twitter: https://twitter.com/Bioconductor
 
 Thanks for contributing to the Bioconductor project!
 
-
-
-  Marc", sep="")
+ Sonali", sep="")
     ## then return
     newUserMsg 
 }
