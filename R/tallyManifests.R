@@ -45,7 +45,7 @@ getPackageTotals <- function(path = "~/proj/Rpacks/"){
 
 ## And this plots the package totals based on existing manifests
 plotPackageTotals <- function(path = "~/proj/Rpacks/"){
-    totals <- getPackageTotals()
+    totals <- getPackageTotals(path)
     plot(totals)
     abline(a=100,b=20,col="red")
 }
