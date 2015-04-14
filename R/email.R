@@ -621,7 +621,7 @@ existingSvnUsers <- function(tarballsPath=".", suffix=".tar.gz$"){
 .printTediousStuff <- function(elem){
     pkg <- names(elem)
 #    version <- biocVersion() ## re-enable this in fall 
-    version <- "3.0" ## Till just before release (b/c we want 'version before')
+    version <- "3.1" ## Till just before release (b/c we want 'version before')
     part1 <- strsplit(as.character(version),split='[.]')[[1]][1]
     part2 <- strsplit(as.character(version),split='[.]')[[1]][2]
 #    part2 <- as.character(as.integer(part2) - 1) ## no longer needed?
