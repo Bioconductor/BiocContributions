@@ -53,8 +53,8 @@ plotPackageTotals <- function(path = "~/proj/Rpacks/"){
 ## plotPackageTotals()
 
 
-getPackageDeltas <- function(){
-    tots <- getPackageTotals()
+getPackageDeltas <- function(path = "~/proj/Rpacks/"){
+    tots <- getPackageTotals(path)
     res <- integer()
     names <- character()
     for(i in seq_along(tots)){
