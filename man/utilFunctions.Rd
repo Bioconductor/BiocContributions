@@ -20,6 +20,8 @@
 \alias{creditworthy}
 \alias{getPackageRange}
 \alias{getEmailAddressesToWarnPkgMaintainers}
+\alias{compareReleases}
+\alias{getDescriptions}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -115,6 +117,13 @@
   calls getPackageRange and produces a list of emails addresses to
   bother with a form message.  Like getPackageRange, it takes a userName
   argument that it then uses to restrict which authors it will bother...
+
+  compareReleases: given an 'old' and 'new' release, what packages were
+  added and what packages were removed?
+
+  getDescriptions: given a list of packages (maybe returned by
+  compareReleases), get the Description fields of each and return
+  as a string suitable for pasting into a release announcement.
 }
 
 \usage{
@@ -142,6 +151,8 @@
   creditworthy(creditDays=30, userName)
   getPackageRange(userName = "sarora", biocVersion = "3.1")
   getEmailAddressesToWarnPkgMaintainers(userName)
+  compareReleases(path = "~/proj/Rpacks/", oldRel="3.0", newRel="3.1")
+  getDescriptions(path = "~/proj/Rpacks/", pkgs)
 }
 
 \arguments{
@@ -182,6 +193,10 @@
   \item{creditDays}{ Number of days for which you want to find out which
     reviewer has done what}
   \item{biocVersion}{What version of BiocConductor}
+  \item{oldRel}{old release}
+  \item{newRel}{new release}
+  \item{pkgs}{a character vector of package names}
+
 }
 
 \details{
@@ -274,7 +289,8 @@ options( fromEmail = 'emailAddress@someplace.com')
     ## give credit to people for what they've worked on in the past 30 days
     df <- creditworth()
 
-		
+    diff <- compareReleases()
+    descs <- getDescriptions(pkgs<-diff$added)
   }
 
 }

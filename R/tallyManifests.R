@@ -21,12 +21,24 @@
     }
 }
 
+.getManifestFilenameFromVersion <- function(path, version)
+{
+    file.path(path, paste0("bioc_", version, ".manifest"))
+}
 
 
 ## Helper to just read in one manifest and get the total number of packages.
 .scanMani <- function(file){
     res <- scan(file, what="character",skip=1, quiet=TRUE)
     table(grepl("Package", res))[["TRUE"]]
+}
+
+.getPkgs <- function(file) 
+{
+    lines <- readLines(file)
+    lines <- lines[grepl("^Package:", lines)]
+    lines <- gsub("^Package:", "", lines)
+    lines <- trimws(lines)
 }
 
 
@@ -64,4 +76,31 @@ getPackageDeltas <- function(path = "~/proj/Rpacks/"){
     }
     res <- res[1:(length(res)-1)]
     res
+}
+
+compareReleases <- function(path = "~/proj/Rpacks/",
+  oldRel="3.0", newRel="3.1") {
+    oldPkgs <- .getPkgs(.getManifestFilenameFromVersion(path, oldRel))
+    newPkgs <- .getPkgs(.getManifestFilenameFromVersion(path, newRel))
+    list(removed=sort(setdiff(oldPkgs, newPkgs)),
+      added=sort(setdiff(newPkgs, oldPkgs)))
+}
+
+getDescriptions <- function(path = "~/proj/Rpacks/", pkgs)
+{
+    ret <- ""
+    for (pkg in pkgs)
+    {
+        desc <- file.path(path, pkg, "DESCRIPTION")
+        dcf <- read.dcf(desc)
+        if ("Description" %in% colnames(dcf))
+        {
+            val <- unname(dcf[, "Description"])
+            val <-  gsub("\n", " ", val)
+            val <- paste0(pkg, " - ", val)
+            val <- paste(strwrap(val, width=60), collapse="\n")
+            ret <- paste0(ret, val, "\n\n")
+        }
+    }
+    ret
 }

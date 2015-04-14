@@ -23,4 +23,6 @@ export(clean,
        removeDeadTrackerIssue,
        creditworthy, 
        getPackageRange,
-       getEmailAddressesToWarnPkgMaintainers)
+       getEmailAddressesToWarnPkgMaintainers,
+       compareReleases,
+       getDescriptions)
