@@ -2,24 +2,24 @@
 
 ## helper that generates names for manifests.  You have to update this
 ## each release in order to get the current totals!
-.makeManifestNames <- function(path){
-    range1 <- 6:9
-    manis1 <- paste0(path, "bioc_1.",range1,".manifest")
-    range2 <- 0:14
-    manis2 <- paste0(path, "bioc_2.",range2,".manifest")
-    range3 <- 0:2
-    manis3 <- paste0(path, "bioc_3.",range3,".manifest")
-    c(manis1, manis2, manis3)
+.makeManifestNames <- function(path, appendPath=TRUE){
+    files <- dir(path)[grepl(glob2rx("bioc_*.manifest"),dir(path))]
+    if(appendPath==TRUE){
+        paste0(path,files)
+    }else{
+        files
+    }
 }
 
-.makeExpManifestNames <- function(path){
-    range2 <- 10:14
-    manis2 <- paste0(path, "bioc-data-experiment.2.",range2,".manifest")
-    range3 <- 0:1
-    manis3 <- paste0(path, "bioc-data-experiment.3.",range3,".manifest")
-    c(manis2, manis3)
+.makeExpManifestNames <- function(path, appendPath=TRUE){
+    files <- dir(path)[grepl(glob2rx("bioc-data-experiment.*.manifest"),
+                             dir(path))]
+    if(appendPath==TRUE){
+        paste0(path,files)
+    }else{
+        files
+    }
 }
-
 
 
 
@@ -33,7 +33,7 @@
 ## This extracts the package totals based on existing manifests
 getPackageTotals <- function(path = "~/proj/Rpacks/"){
     manis <- .makeManifestNames(path)
-    maniNames <- .makeManifestNames("")
+    maniNames <- .makeManifestNames(path, appendPath=FALSE)
     ## Always update the most recent manifest file (at the very least)
     lastMani <- manis[length(manis)]
     system(paste0("svn up ", lastMani))
