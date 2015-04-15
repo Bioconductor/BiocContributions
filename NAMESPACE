@@ -25,4 +25,5 @@ export(clean,
        getPackageRange,
        getEmailAddressesToWarnPkgMaintainers,
        compareReleases,
-       getDescriptions)
+       getDescriptions, 
+       preacceptedToAccepted )

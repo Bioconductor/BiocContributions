@@ -100,7 +100,9 @@ removeDeadTrackerIssue <- function(issueNumber){
            'modified-package'=4,
            'review-in-progress'=5,
            'accepted'=6,
-           'rejected'=7)
+           'rejected'=7,
+           'closed'=8,
+           'pre-accepted'=9 )
 }
 
 .getTextStatus <- function(no) {
@@ -111,7 +113,9 @@ removeDeadTrackerIssue <- function(issueNumber){
            '4' = 'modified-package',
            '5' = 'review-in-progress',
            '6' = 'accepted',
-           '7' = 'rejected')
+           '7' = 'rejected',
+           '8' = 'closed',
+           '9' = 'pre-accepted'  )
 }
 
 
@@ -305,7 +309,7 @@ readyToAdd <- function(datePrefix='2015',
                   "FROM (SELECT DATEDIFF(DATE(NOW()),DATE(_activity)) AS ",
                   "dateDiff,_activity,_actor,_title,id,_assignedto,_status,",
                   "__retired__ ",
-                  "FROM _issue WHERE _issue._status IN ('2','3','4','5','6')) ",
+                  "FROM _issue WHERE _issue._status IN ('2','3','4','5','6', '8','9')) ",
                   "AS issue, _user ",
                   "WHERE _user.id=issue._assignedto ",
                   "ORDER BY activity DESC")
@@ -337,4 +341,29 @@ creditworthy <- function(creditDays= 30, userName=NA_character_) {
 }
 
 
+preacceptedToAccepted <- function(){
+   df <- .fullDb()
+   newdf <- subset(df, status==9)
+   allPkgs <- .getPackageContents_txtfile(biocVersion='3.1')
+   
+   testpkg <- newdf$title
+   sa <- lapply(testpkg, function(p) {
+        message(p)
+        stat <- grep(p, allPkgs, value=TRUE)
+        warn <- grep("WARNINGS", stat)
+        warn<- ifelse(length(warn)!=0, "yes", "none")
+        
+        error <- grep("ERROR", stat)
+        err <- ifelse(length(error)!=0, yes="yes", "none")
+              
+        c(warning=warn, error=err)
+   })
+   warn <- sapply(sa, "[[", "warning")
+   error <- sapply(sa,"[[", "error")
+   drop <- which(names(newdf) %in% c("actor", "assignedto", 
+            "retired", "address", "activity", 'status'))
+   newdf <- newdf[, -drop]
+   cbind(newdf, warn, error, stringsAsFactors=FALSE)
+
+}
 

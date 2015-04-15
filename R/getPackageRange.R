@@ -1,5 +1,15 @@
 .trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 
+.getPackageContents_txtfile <- function(biocVersion='3.1') {
+    url <- paste0("http://bioconductor.org/checkResults/", biocVersion, 
+        "/bioc-LATEST/STATUS_DB.txt")
+    temp <- GET(url)
+    html <- content(temp)
+    unlist(strsplit(html, "\n"))
+}
+
+
+
 .getPageContents <- function(biocVersion="3.1") {
     theurl <- paste0("http://www.bioconductor.org/checkResults/",biocVersion,
                      "/bioc-LATEST/")

@@ -22,6 +22,7 @@
 \alias{getEmailAddressesToWarnPkgMaintainers}
 \alias{compareReleases}
 \alias{getDescriptions}
+\alias{preacceptedToAccepted}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -124,6 +125,9 @@
   getDescriptions: given a list of packages (maybe returned by
   compareReleases), get the Description fields of each and return
   as a string suitable for pasting into a release announcement.
+
+  preacceptedToAccepted: finds the packages on the tracker with pre-accepted
+  status and checks if the build report for them has any warnings or errors
 }
 
 \usage{
@@ -153,6 +157,7 @@
   getEmailAddressesToWarnPkgMaintainers(userName)
   compareReleases(path = "~/proj/Rpacks/", oldRel="3.0", newRel="3.1")
   getDescriptions(path = "~/proj/Rpacks/", pkgs)
+  preacceptedToAccepted()
 }
 
 \arguments{
