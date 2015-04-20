@@ -1,6 +1,6 @@
 .trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 
-.getPackageContents_txtfile <- function(biocVersion='3.1') {
+.getPackageContents_txtfile <- function(biocVersion='3.2') {
     url <- paste0("http://bioconductor.org/checkResults/", biocVersion, 
         "/bioc-LATEST/STATUS_DB.txt")
     temp <- GET(url)
@@ -10,7 +10,7 @@
 
 
 
-.getPageContents <- function(biocVersion="3.1") {
+.getPageContents <- function(biocVersion="3.2") {
     theurl <- paste0("http://www.bioconductor.org/checkResults/",biocVersion,
                      "/bioc-LATEST/")
     temp <- GET(theurl)
@@ -86,7 +86,7 @@
 
 .getEmail <- function(pkgName) {
     sapply(pkgName, function(p){
-        url <- paste0("http://bioconductor.org/packages/3.1/bioc/html/",
+        url <- paste0("http://bioconductor.org/packages/3.2/bioc/html/",
                       p,".html")
         result <- GET(url)
         html <- content(result)
@@ -97,7 +97,7 @@
 }
 
 getPackageRange <-  
-    function(userName="sarora", biocVersion ="3.1") {
+    function(userName="sarora", biocVersion ="3.2") {
     reviewer <- userName 
     df <- .getPageContents(biocVersion)
     df <- df[-(which(df$pkg=="Last")),]
@@ -127,8 +127,8 @@ getPackageRange <-
          warningslist=warnlist)
 }
 
-#rlist <- c("Dan","Herve","Jim","Marc","Martin","Nate","Sonali", "Val")
-#res= lapply(rlist, function(r) getPackageRange(r, "3.1"))
+#rlist <- c("dtenenba","herve","jhester","mcarlson","mtmorgan","nhayden","sarora", "vobencha")
+#res= lapply(rlist, function(r) getPackageRange(r, "3.2"))
 
 
 
