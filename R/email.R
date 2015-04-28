@@ -111,7 +111,7 @@ This will redirect to the release landing page of your package
 is the URL that should be used (in publications, etc.) to refer
 to your package. For convenience, you can also refer specifically to 
 the devel version, the release version, or a specific numbered
-version:
+version of Bioconductor:
 
 http://bioconductor.org/packages/devel/",packageName,"/
 http://bioconductor.org/packages/release/",packageName,"/
