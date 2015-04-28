@@ -101,6 +101,26 @@ Please email us at packages NEAR bioconductor POINT org with your requests
 for new mainatiners, please clearly state their name and email address
 and mark them a cc on the request email sento us. 
 
+g) Permanent URL of your package.
+Your package has a permanent URL:
+
+http://bioconductor.org/packages/",packageName,"/
+
+This will redirect to the release landing page of your package
+(and until it's released, the devel landing page). Therefore this
+is the URL that should be used (in publications, etc.) to refer
+to your package. For convenience, you can also refer specifically to 
+the devel version, the release version, or a specific numbered
+version:
+
+http://bioconductor.org/packages/devel/",packageName,"/
+http://bioconductor.org/packages/release/",packageName,"/
+http://bioconductor.org/packages/",BiocInstaller:::BIOC_VERSION,"/",packageName,"/
+
+
+
+
+
 
 Thanks for contributing to the Bioconductor project!
 
