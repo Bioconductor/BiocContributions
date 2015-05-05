@@ -118,10 +118,6 @@ http://bioconductor.org/packages/release/",packageName,"/
 http://bioconductor.org/packages/",BiocInstaller:::BIOC_VERSION,"/",packageName,"/
 
 
-
-
-
-
 Thanks for contributing to the Bioconductor project!
 
  Sonali", sep="")
@@ -202,8 +198,18 @@ Congrats on your package being accepted to Bioconductor.  The following
 information is to help you in your new role as a package maintainer.
 
 Every package in Bioconductor gets its own landing page. Contents from your 
-DESCRIPTION file are pulled out to populate this page. Your package landing page 
-is : http://bioconductor.org/packages/devel/bioc/html/<pkgname>.html
+DESCRIPTION file are pulled out to populate this page. Your package's 
+permanent URL is:  http://bioconductor.org/packages/<pkgname>/
+
+This will redirect to the release landing page of your package (and 
+until it's released, the devel landing page). Therefore this is the 
+URL that should be used (in publications, etc.) to refer to your package. 
+For convenience, you can also refer specifically to the devel version, 
+the release version, or a specific numbered version of Bioconductor:
+
+http://bioconductor.org/packages/devel/<packageName>/
+http://bioconductor.org/packages/release/<packageName>/
+http://bioconductor.org/packages/3.2/<packageName>/
 
 Maintaining your package: 
 
@@ -287,7 +293,9 @@ g) Fix any warnings/ errors from step (e) and (f)
 h) svn ci pkgname
 Please let me know if you have any question or problem with your svn access.
 
-Helpful things to know about Bioconductor: 
+
+9) Helpful things to know about Bioconductor: 
+
 Bioconductor Newsletter: http://bioconductor.org/help/newsletters/
 Upcoming Courses & Course Material: http://bioconductor.org/help/events/
 YouTube channel : https://www.youtube.com/user/bioconductor/
