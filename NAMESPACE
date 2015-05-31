@@ -26,4 +26,5 @@ export(clean,
        getEmailAddressesToWarnPkgMaintainers,
        compareReleases,
        getDescriptions, 
-       preacceptedToAccepted )
+       preacceptedToAccepted,
+       failmail )

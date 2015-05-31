@@ -23,6 +23,7 @@
 \alias{compareReleases}
 \alias{getDescriptions}
 \alias{preacceptedToAccepted}
+\alias{failmail}
 
 \title{Convenience functions for managing behind the scenes operations
   involved in adding packages to Bioconductor Repositories.}
@@ -128,6 +129,10 @@
 
   preacceptedToAccepted: finds the packages on the tracker with pre-accepted
   status and checks if the build report for them has any warnings or errors
+
+  failmail: Sends email to maintainers whose packages are broken in
+  the build system. All you have to provide is the package name,
+  though you are able to customize the email that's sent.
 }
 
 \usage{
@@ -158,6 +163,10 @@
   compareReleases(path = "~/proj/Rpacks/", oldRel="3.0", newRel="3.1")
   getDescriptions(path = "~/proj/Rpacks/", pkgs)
   preacceptedToAccepted()
+  failmail(package, software=TRUE, 
+    from=getOption("fromEmail", "dtenenba@fredhutch.org"),
+    sig=getOption("mail.sig", "Dan"), subject=sprintf("\%s build problem", package),
+    preview=TRUE, bccme=TRUE)
 }
 
 \arguments{
@@ -201,6 +210,13 @@
   \item{oldRel}{old release}
   \item{newRel}{new release}
   \item{pkgs}{a character vector of package names}
+  \item{package}{The package to email the maintainer about.}
+  \item{software}{TRUE for software packages, FALSE for experiment data packages.}
+  \item{from}{From address for maintainer email.}
+  \item{sig}{String to sign maintainer email with.}
+  \item{subject}{Subject of maintainer email.}
+  \item{preview}{Show a preview of maintainer email before sending?}
+  \item{bccme}{If TRUE, copy maintainer email to 'from' address via BCC.}
 
 }
 
@@ -208,7 +224,12 @@
 In order to use the email functions you should put a line in your .Rprofile
 file that looks like this:
 
-options( fromEmail = 'emailAddress@someplace.com')
+\code{options( fromEmail = 'emailAddress@someplace.com')}
+
+The 'failmail' function works a bit differently and requires
+that you have something like this in your .Rprofile:
+
+\code{options(email.options=list(smtpServer="mx", smtpPort=25))}
 }
 
 \value{
@@ -296,6 +317,10 @@ options( fromEmail = 'emailAddress@someplace.com')
 
     diff <- compareReleases()
     descs <- getDescriptions(pkgs<-diff$added)
+  }
+
+  \dontrun{
+  failmail("xps")
   }
 
 }
