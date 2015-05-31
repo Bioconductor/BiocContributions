@@ -73,12 +73,16 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
         {
             msg <- sprintf("%sIn %s, build results are %s on one or more platforms.\n\n",
                 msg, version, paste(results[[version]], collapse=", "))
-            msg <- sprintf("%sSee http://bioconductor.org/checkResults/%s/%s-LATEST/%s/\n\n",
+            msg <- sprintf("%sSee http://bioconductor.org/checkResults/%s/%s-LATEST/%s/\n",
                 msg, version, repos, package)
             msg <- paste0(msg, "for more information.\n\n")
         }
     }
     custom <- c()
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> master
     cat("Enter a custom message y/N?")
     ans <- readLines(n=1)
     if (tolower(ans) == "y")
@@ -91,6 +95,21 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
             msg <- paste0(msg, paste(readLines(t), collapse="\n"), "\n\n")
 
     }
+<<<<<<< HEAD
+=======
+=======
+    cat("Enter a custom message, . on a line by itself to end.\n")
+    while(TRUE)
+    {
+        line <- readLines(n=1)
+        if (line == ".")
+            break
+        custom <- append(custom, line)
+    }
+    if (length(custom))
+        msg <- paste0(msg, paste(custom, collapse="\n"), "\n\n")
+>>>>>>> email
+>>>>>>> master
 
     msg <- paste0(msg, "Please take a look and fix this as soon as you can.\n")
     msg <- paste0(msg, "Let me know if you have any questions.\n\nThanks,\n", sig, "\n")
