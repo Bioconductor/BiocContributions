@@ -79,6 +79,7 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
         }
     }
     cat("Enter a custom message, . on a line by itself to end.\n")
+    custom <- c()
     while(TRUE)
     {
         line <- readLines(n=1)
