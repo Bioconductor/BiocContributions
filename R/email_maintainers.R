@@ -31,6 +31,7 @@
     else
         repos = "data-experiment"
     ret <- list()
+    notfound <- c()
     for (version in c("release", "devel"))
     {
         url <- paste0("http://master.bioconductor.org/checkResults/",
@@ -38,6 +39,8 @@
         status_txt <- content(GET(url))
         lines <- strsplit(status_txt, "\n")[[1]]
         raw <- lines[grep(paste0("^", package, "#"), lines)]
+        if (!length(raw))
+            notfound <- append(notfound, TRUE)
         j <- unlist(strsplit(raw, " ")) 
         results <- unique(j[c(rep(FALSE,TRUE), TRUE)])
         if (length(results))
@@ -46,12 +49,16 @@
         if (length(results) && !(length(results) == 1 && results == "OK"))
             ret[[version]] <- results
     }
+    if (all(notfound) && length(notfound))
+        stop(sprintf("Package %s not found.", package))
     if(is.null(names(ret)))
         stop("This package has no issues!")
     ret
 }
 
-
+## TODO - add special text (and arg to activate it) 
+## when release date is approaching
+## and error/warning MUST be fixed by some date.
 failmail <- function(package, software=TRUE, from=getOption("fromEmail",
     "dtenenba@fredhutch.org"), sig=getOption("mail.sig", "Dan"),
     subject=sprintf("%s build problem", package), preview=TRUE,
@@ -78,17 +85,38 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
             msg <- paste0(msg, "for more information.\n\n")
         }
     }
-    cat("Enter a custom message, . on a line by itself to end.\n")
-    custom <- c()
-    while(TRUE)
+    cat("Add custom message [(y)es/(N)o/use (e)ditor]? ")
+    line <- readLines(n=1)
+    if (tolower(line) == "y")
     {
+        cat("Enter a custom message, . on a line by itself to end.\n")
+        custom <- c()
+        while(TRUE)
+        {
+            line <- readLines(n=1)
+            if (line == ".")
+                break
+            custom <- append(custom, line)
+        }
+        if (length(custom))
+            msg <- paste0(msg, paste(custom, collapse="\n"), "\n\n")
+    } else if (tolower(line) == "e")
+    {
+        tmpfile <- tempfile(package)
+        # if (file.exists(tmpfile))
+        #     unlink(tmpfile)
+        file.edit(tmpfile)
+        cat("Press ENTER when done editing. ")
         line <- readLines(n=1)
-        if (line == ".")
-            break
-        custom <- append(custom, line)
+        if (file.exists(tmpfile) && file.size(tmpfile) > 0)
+        {
+            line <- readLines(n=1)
+            msg <- paste0(msg, 
+                paste(readLines(tmpfile, warn=FALSE), 
+                collapse="\n"), "\n\n")
+        }
     }
-    if (length(custom))
-        msg <- paste0(msg, paste(custom, collapse="\n"), "\n\n")
+
 
     msg <- paste0(msg, "Please take a look and fix this as soon as you can.\n")
     msg <- paste0(msg, "Let me know if you have any questions.\n\nThanks,\n", sig, "\n")
