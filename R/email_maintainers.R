@@ -137,5 +137,7 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
         bcc = bcc,
         headers=list("X-BiocContributions"="TRUE"),
         control=getOption("email.options"))
+    if (getOption("email.options")[["smtpPort"]] == 1025)
+        cat("Using a test email server, email not actually sent.")
     invisible(NULL)
 }
