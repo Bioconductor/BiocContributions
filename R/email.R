@@ -213,21 +213,80 @@ http://bioconductor.org/packages/3.2/<packageName>/
 
 Maintaining your package: 
 
-1) Git- svn bridge 
-If you prefer to use git and Github instead of Subversion, you can use the 
-Bioconductor Git-svn bridge which is documented at: 
-http://www.bioconductor.org/developers/how-to/git-svn/
+1) Bioconductor Branches -Release and Devel 
 
-2) Build report:
+Bioconductor has two versions of EACH package - release and devel .
+
+release - http://bioconductor.org/packages/release/bioc/html/<packageName>.html
+
+The release branch is the stable branch of your package which is
+constant - Every 6 months during the Bioconductor release, 
+whatever is in your devel becomes the release branch. Currently 
+since your package has not gone through a release cycle, you do
+not have a release branch.  
+
+devel - http://bioconductor.org/packages/devel/bioc/html/<packageName>.html
+
+Your package has been added to the devel branch. All changes that you need to 
+make will be done to the devel branch. 
+During the next Biocondctor Release, http://bioconductor.org/developers/release-schedule/
+whatever is in your devel branch will be added to the release and only then
+you will have two versions of your package. 
+
+
+2) Updating your package in Bioconductor:
+You will need to use subversion to update your package inside Bioconductor.
+SVN GUIDE: http://bioconductor.org/developers/how-to/source-control/
+
+Your subversion account credentials are .
+
+
+Subversion user ID:
+Password:
+
+
+
+These credentials give you read access to the whole Bioconductor
+repository and WRITE permissions only to your package.
+
+To update your package in the devel branch, you need to do the following steps:
+a) install subversion(svn) on your machine, if you dont have that already
+b) svn co --username your_name
+https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/pkgName
+You will be prompted for a password  - This will create a folder for your package.
+c) make the changes you need to make to your package.
+d) bump the version from x.y.z to x.y.(z+1) in the DESCRIPTION file (DON'T FORGET TO
+BUMP Z! or your changes will not be pushed to the public repository.)
+e) R CMD build packageName
+f) R cmd check pkganme_x.y.(z+1).tar.gz
+g) Fix any warnings/ errors from step (e) and (f)
+h) svn ci pkgname
+g) Check the build report next day ( see point 3 for details) 
+Please let me know if you have any question or problem with your svn access. 
+
+
+3) Build report:
+As stated in 1), all changes are made to devel branch of your package.
+When you make a change to the devel branch of your package, please remember
+to bump the version of your package in the DESCRIPTION FILE.
+Everyday at around 5pm PST, the build system takes a snapshot of all the 
+packages inside Bioconductor and then the next day after 12 noon PST,
+http://bioconductor.org/checkResults/ is created containing the 
+output of R CMD build and check on all platforms for each package.
+Find the development version of Bioconductor and locate your package
+For  example: http://bioconductor.org/checkResults/3.2/bioc-LATEST/<packageName>/
+ 
+When reading the above, please pay attention to the date displayed 
+next to - “Snapshot Date:” and “This page was generated on”.
 Please  keep an eye on the build/check daily reports for the Bioconductor 
 devel packages:  http://bioconductor.org/checkResults/ and get rid of any 
 warnings or errors from your packages build report. 
 
-3) Rss feeds:
+4) Rss feeds:
 You can find the rss feed for software packages at: 
 http://bioconductor.org/rss/build/packages/<pkgname>.rss
 
-4) Bioc-devel mailing list 
+5) Bioc-devel mailing list 
 Our primary channel is the Bioc-devel mailing list which we use for 
 communication between developers and for important announcements like 
 release schedules, build system news, etc.. which you have signed up for. 
@@ -238,7 +297,7 @@ strongly encourage you to send a note to Bioc-devel to announce its
 public availability (with a short description) so other people  can 
 start to test it.
 
-5) Adding Maintainers for your package:
+6) Adding Maintainers for your package:
 If for some reason, your email address changes, please update the 
 maintainer field in your description file. We may need to reach you 
 if there are issues building your package (this could happen as a 
@@ -250,55 +309,27 @@ someone else,  please email us at packages NEAR bioconductor POINT org
 and clearly state the new maintainers name and email address. Also 
 mark him a cc on this email 
 
-6) Support Site:
-Please also subscribe to the bioconductor support site so that you can 
-answer questions from users of your package and respond to bug reports 
-promptly. https://support.bioconductor.org/ 
+7) Support Site:
+Please respond to bug reports promptly at https://support.bioconductor.org/ 
 We recommend that you 'follow' tags that match your own package (such 
 as your package name) so that you will know be able to know when someone is 
 asking a question about your package or that relates to your work.  You 
 can edit your profile on the support site to be notified when certain tags 
 are used to describe your package.
 
-7) Removal of your package:
+8) Removal of your package:
 If you no longer want to maintain your package, please let us know and we 
 will remove it from Bioconductor, or (with your permission) find a new 
 maintainer for it.
-
-8) Updating your package in Bioconductor: 
-You will need to use subversion to update your package inside Bioconductor. 
-Your subversion account credentials are . 
-
-
-
-Subversion user ID:
-Password:
-
-
-
-These credentials give you read access to the whole Bioconductor 
-repository and WRITE permissions only to your package.
-To update your package you need to do the following steps:
-a) install subversion(svn) on your machine, if you dont have that already
-You can learn about svn from here: http://bioconductor.org/developers/how-to/source-control/
-b) svn co --username your_name 
-https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/pkgName
-You will be prompted for a password  - This will create a folder for your package.
-c) make the changes you need to make to your package.
-d) bump the version from x.y.z to x.y.(z+1) in the DESCRIPTION file (DON'T FORGET TO
-BUMP Z! or your changes will not be pushed to the public repository.)
-e) R CMD build packageName
-f) R cmd check pkganme_x.y.(z+1).tar.gz
-g) Fix any warnings/ errors from step (e) and (f)
-h) svn ci pkgname
-Please let me know if you have any question or problem with your svn access.
+See: http://bioconductor.org/developers/package-end-of-life/
 
 
 9) Helpful things to know about Bioconductor: 
 
 Bioconductor Newsletter: http://bioconductor.org/help/newsletters/
-Upcoming Courses & Course Material: http://bioconductor.org/help/events/
-YouTube channel : https://www.youtube.com/user/bioconductor/
+Upcoming Courses: http://bioconductor.org/help/events/
+Course Material from past courses: http://bioconductor.org/help/course-materials/
+YouTube channel: https://www.youtube.com/user/bioconductor/
 Twitter: https://twitter.com/Bioconductor
 
 Thanks for contributing to the Bioconductor project!

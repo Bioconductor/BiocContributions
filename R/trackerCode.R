@@ -344,18 +344,21 @@ creditworthy <- function(creditDays= 30, userName=NA_character_) {
 preacceptedToAccepted <- function(){
    df <- .fullDb()
    newdf <- subset(df, status==9)
-   allPkgs <- .getPackageContents_txtfile(biocVersion='3.1')
+   allPkgs <- .getPackageContents_txtfile(biocVersion='3.2')
    
    testpkg <- newdf$title
    sa <- lapply(testpkg, function(p) {
         message(p)
         stat <- grep(p, allPkgs, value=TRUE)
-        warn <- grep("WARNINGS", stat)
-        warn<- ifelse(length(warn)!=0, "yes", "none")
-        
-        error <- grep("ERROR", stat)
-        err <- ifelse(length(error)!=0, yes="yes", "none")
-              
+        if(length(stat)!=0){
+            warn <- grep("WARNINGS", stat)
+            warn<- ifelse(length(warn)!=0, "yes", "none")
+            error <- grep("ERROR", stat)
+            err <- ifelse(length(error)!=0, yes="yes", "none")
+        } else{
+           warn= 'not added'
+	   err = 'not added'
+        }      
         c(warning=warn, error=err)
    })
    warn <- sapply(sa, "[[", "warning")
