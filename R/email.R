@@ -91,10 +91,10 @@ http://bioconductor.org/rss/build/packages/",packageName,".rss
 d) Stay connected using Bioc-devel mailing list and support site
 http://bioconductor.org/help/support/#bioc-devel
 
-e) Git svn bridge
+e) Bioconductor Git mirrors
 if you prefer to use git and Github instead of Subversion, you can
-use the Bioconductor Git-svn bridge which is documented at:
-http://www.bioconductor.org/developers/how-to/git-svn/
+use the Bioconductor Git mirrors which are documented at:
+http://bioconductor.org/developers/how-to/git-mirror/
 
 f) add maintainer or removal of package from Bioconductor:
 Please email us at packages NEAR bioconductor POINT org with your requests
