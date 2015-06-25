@@ -49,7 +49,8 @@ getPackageTotals <- function(path = "~/proj/Rpacks/"){
     ## Always update the most recent manifest file (at the very least)
     lastMani <- manis[length(manis)]
     system(paste0("svn up ", lastMani))
-    setNames(unlist(lapply(manis, .scanMani)), maniNames)
+    res <- setNames(unlist(lapply(manis, .scanMani)), maniNames)
+    res[order(res)] ## assumption: that the size will always grow...
 }
 
 ## getPackageTotals()
