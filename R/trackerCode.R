@@ -140,7 +140,7 @@ filterIssues <- function(status=c('new-package'),
     ## argument checking and processing
     validStatuses <- c('new-package','preview-in-progress','sent-back',
                        'modified-package','review-in-progress','accepted',
-                       'rejected')
+                       'rejected', 'pre-accepted')
     match.arg(status, choices=validStatuses, several.ok=TRUE)
     if(!isSingleString(datePrefix)) stop("datePrefix must be single string")
     statusIds <- unlist(lapply(status,.getStatus))
@@ -268,7 +268,7 @@ readyToAdd <- function(datePrefix='2015',
                        svnDir1="~/proj/experiment/pkgs/",
                        getUserFiles=FALSE){
     ## get the accepted issues from this year and their files 
-    accepted <- filterIssues(status=c('accepted'),
+    accepted <- filterIssues(status=c('pre-accepted'),
                              datePrefix=datePrefix,
                              getUserFiles=getUserFiles)
     ## get most recent manifest filenames
@@ -321,23 +321,36 @@ readyToAdd <- function(datePrefix='2015',
 creditworthy <- function(creditDays= 30, userName=NA_character_) {
     df <- .fullDb()
     
-         userName <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
-                 "sarora", "mtmorgan", "mcarlson", "jhester")
+    userName <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
+        "sarora", "mtmorgan", "mcarlson", "jhester")
     core_assignedto <- c( 208, 209, 7, 560, 210, 559, 18)
-    lapply(userName, function(x) {
-	tempdf <- subset(df, df$username==x)
-	tempdf <- subset(tempdf, tempdf$dateDiff < creditDays)
-	tempdf$status <- apply(tempdf,1, function(x) .getTextStatus(x["status"]))
-	drop <- which(names(tempdf) %in% c("actor", "assignedto", "retired", 
-             "address"))
-        tempdf <- tempdf[, -drop]
-        message("####### ", unique(tempdf$username), " ########")
-        message("total no of packages touched: ", nrow(tempdf))
-        acc <- length(which(tempdf$status=="accepted"))
-        message("no of packages accepted: ", acc)
-	tempdf <- tempdf[order(tempdf[, "status"]), ]
-        tempdf
+    dd <- subset(df, df$dateDiff < creditDays)
+    dd <- dd[which(dd$username %in% userName),]
+    dd$status <- apply(dd, 1, function(x) .getTextStatus(x["status"]))
+    drop <- which(names(dd) %in% c("actor", "assignedto", 
+        "retired", "address"))
+    dd <- dd[, -drop]
+    dd <- dd[ order(dd[,'username'], dd[,'status']), ]
+
+    lst <- lapply(userName, function(x){
+       tempdf <- subset(dd, dd$username == x)
+       touched= nrow(tempdf)
+       accepted = length(which(tempdf$status=='accepted'))
+       preacc = length(which(tempdf$status=='pre-accepted'))
+       preview=  length(which(tempdf$status=='preview-in-progress'))
+       review=  length(which(tempdf$status=='review-in-progress'))
+       sent= length(which(tempdf$status=='sent-back'))
+       modpkg= length(which(tempdf$status=='modified-package'))
+
+       list(username=x, touched=touched, 
+           accepted=accepted, preacc=preacc, author=sent, 
+           reviewer=as.numeric(modpkg+preview+review))
     })
+    df <- as.data.frame(matrix(unlist(lst), nrow=length(userName), byrow=TRUE))
+    colnames(df) = c('username', 'touched', 'accepted', 'preacc', 
+        'author', 'reviewer')
+    print(df)
+    split(dd, dd$username)
 }
 
 
