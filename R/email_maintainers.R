@@ -67,6 +67,7 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
     if (!require(sendmailR)) stop("This function requires the sendmailR package.")
     if (is.null(getOption("email.options", NULL)))
         stop("Please set options(email.options). See ?sendmailR::sendmail_options")
+    package <- sub("\\/$", "", package)
     if (software)
         repos = "bioc"
     else
