@@ -49,7 +49,7 @@
         if (length(results) && !(length(results) == 1 && results == "OK"))
             ret[[version]] <- results
     }
-    if (all(notfound) && length(notfound))
+    if (all(notfound) && (length(notfound) > 1))
         stop(sprintf("Package %s not found.", package))
     if(is.null(names(ret)))
         stop("This package has no issues!")
