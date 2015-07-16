@@ -309,7 +309,7 @@ readyToAdd <- function(datePrefix='2015',
                   "FROM (SELECT DATEDIFF(DATE(NOW()),DATE(_activity)) AS ",
                   "dateDiff,_activity,_actor,_title,id,_assignedto,_status,",
                   "__retired__ ",
-                  "FROM _issue WHERE _issue._status IN ('2','3','4','5','6', '8','9')) ",
+                  "FROM _issue WHERE _issue._status IN ('1','2','3','4','5','6', '8','9')) ",
                   "AS issue, _user ",
                   "WHERE _user.id=issue._assignedto ",
                   "ORDER BY activity DESC")
@@ -382,4 +382,50 @@ preacceptedToAccepted <- function(){
    cbind(newdf, warn, error, stringsAsFactors=FALSE)
 
 }
+
+weeklyEmailPackagesOverview <- function(){
+   df <- .fullDb()
+   dd <- subset(df, df$dateDiff < 30)
+   preacc <- subset(df, status==9) # pre-accepted
+   preacc_str <- paste(preacc$username, "-", preacc$title, "-", 
+      paste0("https://tracker.bioconductor.org/issue", 
+      preacc$id))
+
+   accepted <- subset(dd, status==6) #accepted
+   acc <- accepted[which(accepted$dateDiff < 7),]
+   acc_str <- paste(acc$username, "-", acc$title, "-", 
+      paste0("https://tracker.bioconductor.org/issue", 
+      acc$id))
+
+   cone <- coneOfShame()
+   cone_str <- paste(cone$username, "-", cone$title, "-",
+      paste0("https://tracker.bioconductor.org/issue",
+      cone$id))
+
+   newpkgs <- subset(df, status==1) # new-packages
+   newpkg_str <- paste(preacc$title, "-", 
+      paste0("https://tracker.bioconductor.org/issue", 
+      newpkgs$id))
+
+   message("a) Packages added to Bioconductor this week ")
+   print(acc_str)
+   message()
+
+   message("b) Packages pre-accpeted this week")
+   print(preacc_str) 
+   message()
+
+   message("c) laggers - CAUTION - check before you send ")
+   mesage("possible that reviewer has posted and developer hasnt replied")		
+   print(cone_str) 
+   message()
+
+   message("d) new packages to be assigned")
+   print(newpkg_str)
+   message()
+
+   message("e) Core Reviewers Activity in the last week")
+   df <- creditworthy()
+
+} 
 

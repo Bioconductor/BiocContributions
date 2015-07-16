@@ -27,4 +27,5 @@ export(clean,
        compareReleases,
        getDescriptions, 
        preacceptedToAccepted,
-       failmail )
+       failmail,
+       weeklyEmailPackagesOverview )
