@@ -439,7 +439,7 @@ weeklyEmailPackagesOverview <- function(){
    print(newpkg_str)
    message()
 
-   message("e) Core Reviewers Activity in the last week")
+   message("e) Core Reviewers Activity in the last 30 days")
    df <- creditworthy()
 
 } 
