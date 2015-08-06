@@ -383,6 +383,21 @@ preacceptedToAccepted <- function(){
 
 }
 
+# this function queries the issue tracker database 
+# and finds which pkgs are not yet assigned. 
+.newpkg <- function()
+{
+   con <- .getRoundupCon()
+   sql <- "select * from _issue"
+   test <- dbGetQuery(con, sql)
+   test <- test[which(test["_status"]==1),]
+   date <- sapply(test["_creation"], function(x) 
+      strptime(x,"%Y-%m-%d %H:%M:%S", tz="GMT"))
+   date <- as.Date(date[[1]])
+   ind <- which(date > Sys.Date() -30)
+   test[ind,]
+}
+
 weeklyEmailPackagesOverview <- function(){
    df <- .fullDb()
    dd <- subset(df, df$dateDiff < 30)
@@ -402,21 +417,21 @@ weeklyEmailPackagesOverview <- function(){
       paste0("https://tracker.bioconductor.org/issue",
       cone$id))
 
-   newpkgs <- subset(df, status==1) # new-packages
-   newpkg_str <- paste(preacc$title, "-", 
+   newpkgs <- .newpkg()
+   newpkg_str <- paste(newpkgs[,"_title"], "-", 
       paste0("https://tracker.bioconductor.org/issue", 
       newpkgs$id))
 
-   message("a) Packages added to Bioconductor this week ")
+   message("a) Packages added to Bioconductor this week(preaccepted to accepted) ")
    print(acc_str)
    message()
 
-   message("b) Packages pre-accpeted this week")
+   message("b) Packages pre-accepted this week")
    print(preacc_str) 
    message()
 
    message("c) laggers - CAUTION - check before you send ")
-   mesage("possible that reviewer has posted and developer hasnt replied")		
+   message("possible that reviewer has posted and developer has not replied")		
    print(cone_str) 
    message()
 
