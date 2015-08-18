@@ -218,9 +218,9 @@ coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30,
     res <- dbGetQuery(con, sql)
     ## Remove records where a core reviewer was the last person to touch it.
     if(lastTouchedFilter){
-        idx <- res$actor %in% .coreReviewerIds()
-        ## res <- res[res$actor!=res$assignedto,]
-        res <- res[!idx,]
+        ##idx <- res$actor %in% .coreReviewerIds()
+         res <- res[res$actor!=res$assignedto,]
+        ##res <- res[!idx,]
     }
     ## Only keep records where the issue was NOT retired
     res <- res[res$retired==0,]
@@ -391,16 +391,17 @@ preacceptedToAccepted <- function(){
    sql <- "select * from _issue"
    test <- dbGetQuery(con, sql)
    test <- test[which(test["_status"]==1),]
-   date <- sapply(test["_creation"], function(x) 
+   date <- test["_creation"][[1]]
+   date <- sapply(date, function(x) 
       strptime(x,"%Y-%m-%d %H:%M:%S", tz="GMT"))
    date <- as.Date(date[[1]])
    ind <- which(date > Sys.Date() -30)
    test[ind,]
 }
 
-weeklyEmailPackagesOverview <- function(){
+weeklyEmailPackagesOverview <- function(daysToForget=30){
    df <- .fullDb()
-   dd <- subset(df, df$dateDiff < 30)
+   dd <- subset(df, df$dateDiff < daysToForget)
    preacc <- subset(df, status==9) # pre-accepted
    preacc_str <- paste(preacc$username, "-", preacc$title, "-", 
       paste0("https://tracker.bioconductor.org/issue", 
@@ -412,7 +413,7 @@ weeklyEmailPackagesOverview <- function(){
       paste0("https://tracker.bioconductor.org/issue", 
       acc$id))
 
-   cone <- coneOfShame()
+   cone <- coneOfShame(daysToForget=daysToForget)
    cone_str <- paste(cone$username, "-", cone$title, "-",
       paste0("https://tracker.bioconductor.org/issue",
       cone$id))
