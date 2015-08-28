@@ -391,10 +391,7 @@ preacceptedToAccepted <- function(){
    sql <- "select * from _issue"
    test <- dbGetQuery(con, sql)
    test <- test[which(test["_status"]==1),]
-   date <- test["_creation"][[1]]
-   date <- sapply(date, function(x) 
-      strptime(x,"%Y-%m-%d %H:%M:%S", tz="GMT"))
-   date <- as.Date(date[[1]])
+   date <- as.Date(as.POSIXlt(test["_creation"][[1]], format = "%Y-%m-%d %H:%M:%S", tz="PST"))
    ind <- which(date > Sys.Date() -30)
    test[ind,]
 }
