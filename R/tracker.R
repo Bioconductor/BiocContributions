@@ -83,7 +83,9 @@ devteam <- c("Jim Hester" = "jhester",
     "Martin Morgan" = "mtmorgan",
     "Valerie Obenchain" = "vobencha",
     "Hervé Pagès" = "herve",
-    "Dan Tenenbaum" = "dtenenba")
+    "Dan Tenenbaum" = "dtenenba",
+    "Brian Long" = "blong",
+    "Jim Java" = "priscian")
 
 #' Assign new packages
 #'
