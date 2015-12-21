@@ -186,9 +186,10 @@ clean_data_pkg <- function(tarball,
     # write the modified description
     write.dcf(desc, file.path(svn1, desc$Package, "DESCRIPTION"))
 
-    invisible(c(file.path(svn1, desc$Package)
+    invisible(c(file.path(svn1, desc$Package),
         file.path(svn2, desc$Package)))
 }
+
 ###########################################################################
 ## Another clean function (this time for cleaning data packages)
 cleanDataPkg <- function(tarball,
