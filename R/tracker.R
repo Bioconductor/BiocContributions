@@ -134,7 +134,7 @@ desc <- function(x) {
 }
 
 roundup_datetime <- function(x, ...) {
-    as.POSIXlt(format = "%Y-%m-%d.%H:%M:%S", tz = "PST", x, ...)
+    as.POSIXct(format = "%Y-%m-%d.%H:%M:%S", tz = "PST", x, ...)
 }
 
 #' Retrieve all of the messages from an issue
