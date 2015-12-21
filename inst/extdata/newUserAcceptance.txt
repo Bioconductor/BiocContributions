@@ -1,7 +1,7 @@
 Hi {{authorName}},
 
-Congrats on your package being accepted to Bioconductor.  The following
-information is to help you in your new role as a package maintainer.
+Congrats on the {{packageName}} package being accepted to Bioconductor!  The
+following information is to help you in your new role as a package maintainer.
 
 Every package in Bioconductor gets its own landing page. Contents from your
 DESCRIPTION file are pulled out to populate this page. Your package's
