@@ -180,7 +180,7 @@ get_issue <- function(session = tracker_login(), number) {
 
     # This merges only by closest time, would be safer to also check the
     # author, but probably unnecessary
-    res <- merge_closest(res, attachments[names(attachments) != "author"])
+    res <- merge_closest(res, attachments[names(attachments) != "author"], by = "time")
 
     rownames(res) <- res$id
 
@@ -190,19 +190,19 @@ get_issue <- function(session = tracker_login(), number) {
 }
 
 # use findInterval to merge x and y by the closest type
-# @param type the column to merge by
-# @param decreasing to sort results increasing or descreasing
-merge_closest <- function(x, y, type, decreasing = FALSE) {
+# @param by the column to merge by
+# @param decreasing to sort results increasing or decreasing
+merge_closest <- function(x, y, by, decreasing = FALSE) {
 
   # findInterval needs to be sorted ascending
-  x <- x[order(x[[type]]), ]
-  y <- y[order(y[[type]]), ]
+  x <- x[order(x[[by]]), ]
+  y <- y[order(y[[by]]), ]
 
   # generate idx columns for both datasets
   x$idx <- seq_len(NROW(x))
-  y$idx <- findInterval(y[[type]], x[[type]])
+  y$idx <- findInterval(y[[by]], x[[by]])
 
-  x <- merge(x, y[, names(y) != type], by = "idx", all.x = TRUE)
+  x <- merge(x, y[, names(y) != by], by = "idx", all.x = TRUE)
 
   # remove the idx column from result
   x <- x[names(x) != "idx"]
