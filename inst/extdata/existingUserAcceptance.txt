@@ -53,4 +53,4 @@ http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
 
 Thanks for contributing to the Bioconductor project!
 
-<<senderName>>
+{{senderName}}
