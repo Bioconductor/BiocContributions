@@ -19,27 +19,8 @@
 
 ## This just gets the contents for the Maintainer field
 ## (There might be multiple emails returned from here)
-.extractEmails <- function(DESC){
-    rawEmail <- DESC[,grepl("Maintainer",colnames(DESC)),drop=FALSE]
-    ## if there are multiples, clean them up
-    emails <- unlist(strsplit(rawEmail, "> ?"))
-    ## remove newlines and reattach ">'s", then return character() 
-    emails <- paste(sub("\n"," ", emails),">",sep="")
-    ## remove commas with whitespace after, and also lonely commas,
-    emails <- sub("^\\s+?","",sub(",","",emails),perl=TRUE)
-    ## and make sure we have only one whitespace followed by < before email 
-    sub("<"," <",sub("\\s+?<","<",emails))
-}
-
-## This just extracts email adresses from a Maintainer field.
-.scrubOutEmailAddresses <-function(rawEmail){
-    as.character(sub(">$","",sub("^.*<","", rawEmail)))
-}
-
-## This just extracts names from a Maintainer field
-.scrubOutNamesFromEmails <-function(rawEmail){
-    names <- sub("\\s.?<.*$","", rawEmail, perl=TRUE)
-    sub(",","",sub(", ","", names))
+.extractEmails <- function(description){
+    as.person(description$Maintainer)
 }
 
 ## Email wrapper so that I don't have to do this more than once
@@ -136,19 +117,15 @@ Thanks for contributing to the Bioconductor project!
 }
 
 emailExistingUser <- function(tarball, sendMail=FALSE){
-    DESC <- readDESCRIPTION(tarball)
+    description <- readDESCRIPTION(tarball)
 
-    package <- DESC[[1, "Package"]]
+    package <- description[[1, "Package"]]
+
 
     ## extract email from DESCRIPTION file
-    emails <- .extractEmails(DESC)
-    ## clean the email out
-    cleanEmails <- .scrubOutEmailAddresses(emails)
-    ## extract name
-    names <- .scrubOutNamesFromEmails(emails)
-    ## format msgs
+    emails <- .extractEmails(description)
 
-    msgs <- .makeMessages(authorName=names, packageName=package,
+    msgs <- .makeMessages(authorName=emails$given, packageName=package,
                           FUN=.makeExistingUserMsg)
     ## subject
     subject <- paste("Congratulations.  Package", package,
@@ -156,9 +133,9 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
     ## either send emails OR write out messages
     if (sendMail){
         ## send an email at this time.
-        .sendEmailMessages(email=cleanEmails, msg=msgs, subject=subject)
+        .sendEmailMessages(email=emails$email, msg=msgs, subject=subject)
     } else {
-        paths <- paste(package, "_congratsEmail_existing_<", cleanEmails, ".txt", sep="")
+        paths <- paste(package, "_congratsEmail_existing_<", emails$email, ".txt", sep="")
         ## now make connections and write results out.
         .writeOutEmailTemplates(paths, msgs)
     }
@@ -343,24 +320,20 @@ Thanks for contributing to the Bioconductor project!
 }
 
 emailNewUser <- function(tarball, userId = "user.id", password = "password", senderName = "Jim"){
-    DESC <- readDESCRIPTION(tarball)
+    description <- readDESCRIPTION(tarball)
 
-    package <- DESC[[1, "Package"]]
+    package <- description$Package
 
     ## extract email from DESCRIPTION file
-    emails <- .extractEmails(DESC)
-    ## clean the email out
-    cleanEmails <- .scrubOutEmailAddresses(emails)
-    ## extract name
-    names <- .scrubOutNamesFromEmails(emails)
-    ## format msg
-    msgs <- .makeMessages(authorName=names, packageName=package,
+    emails <- .extractEmails(description)
+
+    msgs <- .makeMessages(authorName=emails$given, packageName=package,
                           userId = userId,
                           password = password,
                           senderName = senderName,
                           FUN=.makeNewUserMsg)
     ## write the result to a file for convenience.
-    paths <- paste(package, "_congratsEmail_<", cleanEmails, ">.txt", sep="")
+    paths <- paste(package, "_congratsEmail_<", emails$email, ">.txt", sep="")
     ## now make connections and write results out.
     .writeOutEmailTemplates(paths, msgs)
 }
@@ -395,37 +368,21 @@ Thanks!
     msg 
 }
 
-.generateProposedUsername <- function(names){
-    res <- character()
-    for(i in seq_along(names)){
-        firstName <- unlist(strsplit(names[i]," "))[1]
-        init <- tolower(substr(firstName,1,1))
-        numNames <- length(unlist(strsplit(names[i]," ")))
-        lastName <- tolower(unlist(strsplit(names[i]," "))[numNames])
-        res[i] <- paste(init, lastName, sep=".") 
-    }
-    res
+.generateProposedUsername <- function(given, family){
+    tolower(paste(substr(given, 1, 1), family, sep = "."))
 }
 
 ## TODO: maybe I should modify this to take a SERIES of tarballs...
 ## BUT 1st I need to refactor my functions that access svn logs.
 requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
-    ## untar
-    untar(tarball)
-    ## get dir
-    dir <- .getShortPkgName(tarball)
-    ## extract email from DESCRIPTION file
-    emails <- .extractEmails(dir)
-    ## clean the email out
-    cleanEmails <- .scrubOutEmailAddresses(emails)    
-    ## extract name
-    names <- .scrubOutNamesFromEmails(emails)
-    ## make a proposed username.
-    usernames <- .generateProposedUsername(names)
+    description <- readDESCRIPTION(tarball)
+
+    emails <- .extractEmails(description)
+    usernames <- .generateProposedUsername(emails$given, emails$family)
 
     ## generate emails and UserNames
     emailsAndUserNames <- paste(
-                                paste(emails,
+                                paste(emails$email,
                                       "\n\n  proposed username:",
                                       usernames,
                                       "\n"),
@@ -445,8 +402,6 @@ requestNewSvnAccountFromScicomp <- function(tarball, sendMail=FALSE){
         writeLines(text=msg, con=con)
         close(con)
     }
-    ## cleanup
-    unlink(dir, recursive=TRUE)
 }
 
 
@@ -570,42 +525,48 @@ svnUserMatches <- function(names){
 ## Check if a tarball is in svn yet or not.
 ## (for quickly assessing - a standalone function)
 .existingSvnUsers <- function(tarball){
-    ## untar
-    untar(tarball)
-    ## get dir
-    dir <- .getShortPkgName(tarball)
+    description <- readDESCRIPTION(tarball)
+
     ## extract email from DESCRIPTION file
-    emails <- .extractEmails(dir)
-    finalEmail <- paste(emails, collapse=", ")
-    ## extract names
-    names <- .scrubOutNamesFromEmails(emails)
-    ## make a proposed username.
-    usernames <- .generateProposedUsername(names)
-    finalUserNames <- paste(usernames, collapse=", ")
-    ## get the answer
+    emails <- .extractEmails(description)
+
+    usernames <- .generateProposedUsername(emails$given, emails$family)
+
     res <- svnUserMatches(usernames)
-    finalMatches <-  paste(res, collapse=", ")
-    ## cleanup
-    unlink(dir, recursive=TRUE)
-    if(length(res) == 0){
-        message("For package: ",tarball, " :\n",
-                "No matching users found...  Please consider: \n\n",
-                finalEmail,"\n\n",
-                "proposed usernames: ", finalUserNames, "\n\n")
-    }else{
-        message("For package: ",tarball, " :\n",
-                "FOUND THE FOLLOWING MATCHES: ", finalMatches,"\n",
-                "MATCHES HAVE THESE EMAILS: ", finalEmail, "\n\n")
-    }
+    structure(list(
+                   package = description$Package,
+                   people = emails,
+                   svn = usernames,
+                   matches = res
+                   ),
+              class = "svn_match")
 }
 
-existingSvnUsers <- function(tarballsPath=".", suffix=".tar.gz$"){
-    tarballs <- .getTars(path=tarballsPath, suffix=suffix)
-    message("\n")
-    res <- lapply(tarballs, .existingSvnUsers)
-    ifelse(length(res)>0, TRUE, FALSE)
+existingSvnUsers <- function(path = ".", pattern = ".tar.gz$"){
+    res <- lapply(dir(path = path, pattern = pattern, full.names = TRUE), .existingSvnUsers)
+    class(res) <- "svn_matches"
+    res
 }
 
+print.svn_match <- function(x, ...) {
+    message("Package: ", x$package, "\n",
+            "Maintainer: ", x$people, "\n",
+            "Username: ", paste(x$svn, collapse = ", "), "\n",
+            "Matches: ", paste(x$matches, collapse = ", "), "\n")
+}
+
+print.svn_matches <- function(x, ...) {
+    lapply(x, print)
+    invisible()
+}
+
+as.logical.svn_match <- function(x, ...) {
+    length(x$matches) > 0
+}
+
+as.logical.svn_matches <- function(x, ...) {
+    vapply(x, as.logical, logical(1))
+}
 
 ##############################################
 ##  example
@@ -640,17 +601,13 @@ existingSvnUsers <- function(tarballsPath=".", suffix=".tar.gz$"){
 
 ## Helper to retrieve userName and packageName
 .getPkgNameAndUser <- function(tarball){
-    ## untar
-    untar(tarball)
-    ## get pkgName
-    pkgName <- .getShortPkgName(tarball)
-    ## extract email from DESCRIPTION file
-    emails <- .extractEmails(pkgName)
-    finalEmail <- paste(emails, collapse=", ")
-    ## extract names
-    names <- .scrubOutNamesFromEmails(emails)
-    ## make a proposed username.
-    usernames <- .generateProposedUsername(names)
+
+    description <- readDESCRIPTION(tarball)
+
+    emails <- .extractEmails(description)
+
+    usernames <- .generateProposedUsername(emails$given, emails$family)
+
     finalUserNames <- paste(usernames, collapse=", ")
     ## get the answer
     res <- svnUserMatches(usernames)

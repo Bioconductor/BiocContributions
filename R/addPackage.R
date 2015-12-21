@@ -42,7 +42,13 @@ readDESCRIPTION <- function(tarball) {
     }
 
     untar(tarball, files = description, exdir = tempdir())
-    read.dcf(file.path(tempdir(), description))
+    res <- read.dcf(file.path(tempdir(), description), all = TRUE)
+    structure(res,
+              class = c("description", "data.frame"))
+}
+
+print.description <- function(x, ...) {
+    message(paste(names(x), x, sep = ": ", collapse = "\n"))
 }
 
 ## This throws away dirs that are inserted into the tarball by 'R CMD build.'
@@ -79,7 +85,7 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
     ## make sure we are in unix (otherwise default arg for svnDir is no good)
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}
-  
+
     ## access the tarball
     untar(tarball)
     ## get the name of the actual dir that tarball will unpack to
