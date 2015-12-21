@@ -10,7 +10,7 @@ ensure the following
 1 - You have read/write access to your package
 2 - The package has build without ERROR
 
-http://bioconductor.org/checkResults/3.2/{{type}}/{{package}}
+http://bioconductor.org/checkResults/3.3/{{type}}/{{package}}
 
 A note about the build system:
 {{when}} at around 5pm PST, the build system takes a snapshot of all the
@@ -23,4 +23,4 @@ date the report is targeting.
 Thanks,
 {{senderName}}
 
-[1] http://bioconductor.org/checkResults/3.2/{{type}}/
+[1] http://bioconductor.org/checkResults/3.3/{{type}}/
