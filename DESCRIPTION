@@ -4,9 +4,21 @@ Title: Convenience functions for adding packages to the svn repository.
 Version: 0.99.51
 Author: Marc Carlson, Sonali Arora, Jim Hester
 Maintainer: Jim Hester <james.f.hester@gmail.com>
-Description: A set of tools for cleaning up, post-processing, adding packages to the repository, and for emailing people etc.
-Imports: S4Vectors, XML, httr, whisker, rvest, crayon, digest, memoise
-Suggests: sendmailR, BiocInstaller
+Description: A set of tools for cleaning up, post-processing, adding packages to
+    the repository, and for emailing people etc.
+Imports:
+    S4Vectors,
+    XML,
+    httr,
+    whisker,
+    rvest,
+    crayon,
+    digest,
+    memoise
+Suggests:
+    sendmailR,
+    BiocInstaller
 License: Artistic-2.0
 biocViews: Infrastructure
 LazyLoad: yes
+RoxygenNote: 5.0.0
