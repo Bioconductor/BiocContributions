@@ -70,17 +70,23 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
     msgs <- .makeMessages(authorName=emails$given, packageName=package,
                           FUN=.makeExistingUserMsg)
     ## subject
-    subject <- paste("Congratulations.  Package", package,
-                     "has been added to the repository.")
+    subject <- fmt("Congratulations, {{package}} has been added to Bioconductor!",
+                   list(package = package))
+
+    gmailr::mime(Subject = subject,
+                 To = emails$email,
+                 From = "packages@bioconductor.org",
+                 body = msgs)
     ## either send emails OR write out messages
-    if (sendMail){
+    #if (sendMail){
         ## send an email at this time.
-        .sendEmailMessages(email=emails$email, msg=msgs, subject=subject)
-    } else {
-        paths <- paste(package, "-email-existing-<", emails$email, ">.txt", sep="")
-        ## now make connections and write results out.
-        .writeOutEmailTemplates(paths, msgs)
-    }
+        #.sendEmailMessages(email=emails$email, msg=msgs, subject=subject)
+        #mime
+    #} else {
+        #paths <- paste(package, "-email-existing-<", emails$email, ">.txt", sep="")
+        ### now make connections and write results out.
+        #.writeOutEmailTemplates(paths, msgs)
+    #}
 }
 
 
@@ -146,6 +152,8 @@ readFile <- function(file) {
         senderName = senderName)
 }
 
+# TODO need a message for data packages
+
 .writeOutEmailTemplates <- function(paths, msgs){
     for(i in seq_along(paths)){
         con <- file(paths[i])
@@ -167,10 +175,13 @@ emailNewUser <- function(tarball, userId = "user.id", password = "password", sen
                           password = password,
                           senderName = senderName,
                           FUN=.makeNewUserMsg)
-    ## write the result to a file for convenience.
-    paths <- paste0(package, "-email-existing-<", emails$email, ">.txt")
-    ## now make connections and write results out.
-    .writeOutEmailTemplates(paths, msgs)
+    subject <- fmt("Congratulations, {{package}} has been added to Bioconductor!",
+                   list(package = package))
+
+    gmailr::mime(Subject = subject,
+                 To = emails$email,
+                 From = "packages@bioconductor.org",
+                 body = msgs)
 }
 
 
