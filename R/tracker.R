@@ -8,6 +8,22 @@ devteam <- c(
     "Brian Long",
     "Jim Java")
 
+#' Status code to name mapping
+# I would prefer these were dynamic, but there doesn't seem to be a great way
+# to do so...
+status_map <- c(
+    "1" = "new-package",
+    "2" = "preview-in-progress",
+    "3" = "sent-back",
+    "4" = "modified-package",
+    "5" = "review-in-progress",
+    "6" = "accepted",
+    "7" = "rejected",
+    "8" = "closed",
+    "9" = "pre-accepted",
+    "10" = "testing")
+
+#' storage object
 the <- new.env(parent=emptyenv())
 
 #' Login to the issue tracker
@@ -43,7 +59,7 @@ tracker_login <- function(
 #' @param ... Additional query parameters
 #' @param session the HTTP session to use
 #' @export
-tracker_search <- function(columns = c("id", "activity", "title", "creator", "status"), 
+tracker_search <- function(columns = c("id", "activity", "title", "creator", "status", "keyword"),
                            sort = desc("activity"),
                            filter=c("status", "assignedto"),
                            status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
@@ -60,9 +76,31 @@ tracker_search <- function(columns = c("id", "activity", "title", "creator", "st
                              ...
                              ))
     data <- httr::content(res$response)
+    data$status <- status_map[data$status]
     data$activity <- roundup_datetime(data$activity)
+    keyword_numbers <- lapply(sub("\\[(.*)\\]", "c(\\1)", data$keyword),
+        function(x) {
+            res <- eval(parse(text=x))
+            if (is.null(res)) {
+                res <- character(0)
+            }
+            res
+        })
+    data$keyword <- lapply(keyword_numbers, function(x) keyword_map()[x])
     data
 }
+
+#' @export
+keyword_map <- memoise::memoise(function(url = "https://tracker.bioconductor.org/keyword?@template=item",
+                                         session = tracker_login()) {
+    res <- rvest::jump_to(session,
+                          url)
+    keyword_links <- rvest::html_nodes(res, "table.otherinfo td a")
+    keyword_numbers <- sub("keyword", "", rvest::html_attr(keyword_links, "href"))
+    keyword_names <- rvest::html_text(keyword_links)
+    names(keyword_names) <- keyword_numbers
+    keyword_names
+})
 
 #' @export
 #' @describeIn tracker_search retrieve unassigned packages
