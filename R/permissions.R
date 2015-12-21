@@ -63,7 +63,7 @@ rcs_check_in <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bio
 
 #' @export
 format.authz <- function(x, ...) {
-    unlist(lapply(x, format, ...), use.names = FALSE)
+    unlist(lapply(x, format.authz_section, ...), use.names = FALSE)
 }
 
 #' @export
@@ -125,7 +125,9 @@ edit_software_permissions.list <- function(x, data = read_permissions(), version
 
     end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
     if (any(new)) {
-        data$groups <- append(data$groups, x[new], end_of_groups)
+        data$groups <- authz_section(append(data$groups, x[new], end_of_groups),
+            name = "groups")
+
         new_packages <- names(x)[new]
 
         for (pkg in new_packages) {
@@ -192,6 +194,7 @@ edit_data_experiment_permissions.list <- function(x, data = read_permissions("he
 
     end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
     if (any(new)) {
+        x[new] <- Map(authz_section, x[new], names(x[new]))
         data$groups <- append(data$groups, x[new], end_of_groups)
         new_packages <- names(x)[new]
 
@@ -273,15 +276,15 @@ add_software_permisions <- function(x, message = standard_commit_message(x),
     file =  "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
 
     # check out the permissions file
-    check_out_file()
+    rcs_check_out(file = file)
 
     # add new permissions
     perms <- read_permissions(file = file)
-    perms <- edit_software_permissions(x, data = perms)
-    write_permissions(perms)
+    new_perms <- edit_software_permissions(x, data = perms)
+    write_permissions(new_perms, file = file)
 
     # check in the modified file
-    check_in_file(message = message)
+    rcs_check_in(file = file, message = message)
 }
 
 #' Helper function to Add Data Experiment Permissions
@@ -294,13 +297,13 @@ add_data_experiment_permisions <- function(x, message = standard_commit_message(
     file =  "hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz") {
 
     # check out the permissions file
-    check_out_file()
+    rcs_check_out(file = file)
 
     # add new permissions
     perms <- read_permissions(file = file)
     perms <- edit_data_experiment_permissions(x, data = perms)
-    write_permissions(perms)
+    write_permissions(perms, file = file)
 
     # check in the modified file
-    check_in_file(message = message)
+    rcs_check_in(file = file, message = message)
 }
