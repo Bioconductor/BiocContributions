@@ -101,11 +101,13 @@ add_software_packages <- function(x, svn_location = "~/proj/Rpacks", manifest = 
 }
 
 check_manifest <- function(x, pkgs) {
-    for (pkg in pkgs) {
-        match <- grep(paste0("Package:[[:space:]]+", pkg ), x)
-        if (length(match) > 0) {
-            stop(sQuote(pkg), " already in manifest line: ", match, call. = FALSE)
-        }
+    match <- compact(Map(function(pkg) {
+            grep(paste0("Package:[[:space:]]+", pkg, "\\b"), x)
+             }, pkgs))
+    if (length(match) > 0) {
+        stop(paste0(sQuote(names(match)), collapse = ", "),
+            " already in manifest line(s): ",
+            paste0(collapse = ", ", unlist(match)), call. = FALSE)
     }
     TRUE
 }
@@ -153,8 +155,10 @@ read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz
     group_locs <- grepl("^\\[", res)
     groups <- gsub("[][]", "", res[group_locs])
     res <- split(res, cumsum(group_locs))
-    res <- Map(function(x, name) structure(list(data = x[-1], name = name), class = "authz_section"),
-        res, groups, USE.NAMES = FALSE)
+    res <- Map(function(x, name) {
+        structure(list(data = x[-1], name = name), class = "authz_section")
+      }, res, groups, USE.NAMES = FALSE)
+    names(res) <- groups
     structure(res, class = "authz")
 }
 
@@ -183,10 +187,16 @@ format.authz_section <- function(x, ...) {
 
 #' @export
 print.authz_section <- function(x, ...) {
-    cat(format(x, ...))
+    cat(format(x, ...), "\n")
 }
 
 #' @export
 print.authz <- function(x, ...) {
-    cat(format(x, ...))
+    cat(format(x, ...), "\n")
+}
+
+add_software_permissions <- function(tarball,
+    username = existing_user(maintianers(tarball)),
+    package = package_name(tarball)) {
+  x <- read_permissions()
 }
