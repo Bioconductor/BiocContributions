@@ -178,14 +178,48 @@ get_issue <- function(session = tracker_login(), number) {
 
     attachments <- parse_attachments(rvest::html_nodes(response, ".files tr td"))
 
-    res <- merge(res, attachments, by = c("time", "author"), all.x = TRUE,
-                 sort = TRUE)
+    # This merges only by closest time, would be safer to also check the
+    # author, but probably unnecessary
+    res <- merge_closest(res, attachments[names(attachments) != "author"])
+
     rownames(res) <- res$id
-    attr(res, "session") <- response
 
     class(res) <- c("issue", "data.frame")
 
     res
+}
+
+# use findInterval to merge x and y by the closest type
+# @param type the column to merge by
+# @param decreasing to sort results increasing or descreasing
+merge_closest <- function(x, y, type, decreasing = FALSE) {
+
+  # findInterval needs to be sorted ascending
+  x <- x[order(x[[type]]), ]
+  y <- y[order(y[[type]]), ]
+
+  # generate idx columns for both datasets
+  x$idx <- seq_len(NROW(x))
+  y$idx <- findInterval(y[[type]], x[[type]])
+
+  x <- merge(x, y[, names(y) != type], by = "idx", all.x = TRUE)
+
+  # remove the idx column from result
+  x <- x[names(x) != "idx"]
+
+  if (isTRUE(decreasing)) {
+      x[order(x, decreasing = decreasing), ]
+  } else {
+      x
+  }
+}
+
+#' @export
+print.character <- function(x, width = truc(getOption("width") / 5), ...) {
+  cat(strwrap(x), sep = "\n")
+}
+format.character <- function(x, width = truc(getOption("width") / 5), ...) {
+  strwrap(x)
 }
 
 #' Post a message to an issue
