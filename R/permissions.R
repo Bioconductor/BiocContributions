@@ -27,6 +27,35 @@ write_permissions <- function(x, file = "hedgehog:/extra/svndata/gentleman/svn_a
   system2("rsync", args = c(tmp, file))
 }
 
+run_command_on_file <- function(command) {
+    function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", args = NULL) {
+        re <- rex::rex(start, capture(name = "server", graphs), ":", capture(name = "path", anything))
+        match <- rex::re_matches(file, re)
+        remote_file <- isTRUE(!is.na(match[[1]]))
+
+        if (remote_file) {
+            quoted_args <- c(match$server, shQuote(paste(shQuote(c(command, args, match$path)), collapse = " ")))
+            system2(command, args = quoted_args)
+        } else {
+            command_split <- strsplit(command, " ")[[1]]
+            system2(command_split[1], args = paste(shQuote(c(command_split[-1], args, file)), collapse = " "))
+        }
+    }
+}
+
+#' Run possibly remote commands on a file
+#'
+#' @args Additional arguments passed to the command.
+#' @param inheritParams read_permissions
+#' @name run_commands
+NULL
+
+#' @describeIn run_commands Check out a RCS tracked file
+checkout_file <- run_command_on_file("co -l")
+
+#' @describeIn run_commands Check in a RCS tracked file
+checkin_file <- run_command_on_file("ci -u")
+
 #' @export
 format.authz <- function(x, ...) {
     unlist(lapply(x, format, ...), use.names = FALSE)
