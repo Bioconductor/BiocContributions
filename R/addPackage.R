@@ -132,6 +132,20 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 }
 
 
+#' Extract a packages name froma tarball
+#'
+#' @export
+#' @param tarball package tarball
+#' @return the package name
+#' @examples
+#' pkg <- system.file(package="BiocContributions",
+#'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
+#' package_name(pkg)
+package_name <- function(tarball) {
+    desc <- readDESCRIPTION(tarball)
+    desc$Package
+}
+
 clean_data_pkg <- function(tarball,
                            svn1 = "~/proj/experiment/pkgs",
                            svn2 = "~/proj/experiment/data_store",
