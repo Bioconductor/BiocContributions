@@ -109,33 +109,6 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
 ## tarball, but this time we can't email them since we have to still
 ## put the email credentials in...
 
-trackerSuccess <- function(tarball, type = c("software", "experiment-data"),
-                           senderName = "Jim") {
-
-    type <- match.arg(type)
-
-    description <- readDESCRIPTION(tarball)
-    email <- .extractEmails(description)
-
-    switch(type,
-           software = template("tracker.txt",
-                    author = paste(email$given, collapse = ", "),
-                    tarball = basename(tarball),
-                    package = description$Package,
-                    senderName = senderName,
-                    when = "Everyday",
-                    type = "bioc-LATEST"),
-           `experiment-data` = template("tracker.txt",
-                    author = paste(email$given, collapse = ", "),
-                    tarball = basename(tarball),
-                    package = description$Package,
-                    senderName = senderName,
-                    when = "Wednesday and Saturday",
-                    type = "data-experiment-LATEST")
-           )
-
-}
-
 template <- function(path, ...) {
     template <- readFile(system.file(package = "BiocContributions", "extdata", path))
     res <- whisker::whisker.render(template, list(...))

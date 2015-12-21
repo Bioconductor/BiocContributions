@@ -401,3 +401,30 @@ assign_package <- function(issue, assignee, team = devteam, ...) {
                assignedto = user,
                ...)
 }
+
+accept_note <- function(tarball, type = c("software", "experiment-data"),
+                           senderName = "Jim") {
+
+    type <- match.arg(type)
+
+    description <- readDESCRIPTION(tarball)
+    email <- .extractEmails(description)
+
+    switch(type,
+           software = template("tracker.txt",
+                    author = paste(email$given, collapse = ", "),
+                    tarball = basename(tarball),
+                    package = description$Package,
+                    senderName = senderName,
+                    when = "Everyday",
+                    type = "bioc-LATEST"),
+           `experiment-data` = template("tracker.txt",
+                    author = paste(email$given, collapse = ", "),
+                    tarball = basename(tarball),
+                    package = description$Package,
+                    senderName = senderName,
+                    when = "Wednesday and Saturday",
+                    type = "data-experiment-LATEST")
+           )
+
+}
