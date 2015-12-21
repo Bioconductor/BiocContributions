@@ -146,9 +146,22 @@ package_name <- function(tarball) {
     desc$Package
 }
 
-clean_data_pkg <- function(tarball,
-                           svn1 = "~/proj/experiment/pkgs",
-                           svn2 = "~/proj/experiment/data_store",
+#' Clean and copy a Data Experiment package
+#'
+#' @param svn_pkgs the location of Data Experiment \sQuote{pkgs} checkout.
+#' @param svn_data_store the location of Data Experiment \sQuote{data_store} checkout.
+#' @inheritParams package_name
+#' @return File paths to the copied locations (invisibly).
+#' @export
+#' @examples
+#' \dontrun{'
+#' pkg <- system.file(package="BiocContributions",
+#'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
+#' clean_data_package(pkg)
+#' }
+clean_data_package <- function(tarball,
+                           svn_pkgs = "~/proj/experiment/pkgs",
+                           svn_data_store = "~/proj/experiment/data_store",
                            data_dirs = c("data", "inst/extdata")) {
 
     desc <- readDESCRIPTION(tarball)
@@ -185,20 +198,20 @@ clean_data_pkg <- function(tarball,
     }
 
     copy_files(file.path(tempdir(), non_data_files),
-        file.path(svn1, non_data_files))
+        file.path(svn_pkgs, non_data_files))
 
     copy_files(file.path(tempdir(), data_files),
-        file.path(svn2, data_files))
+        file.path(svn_data_store, data_files))
 
     # write the data paths in external_data_store.txt
     writeLines(unique(dirname(data_files)),
-        file.path(svn1, desc$Package, "external_data_store.txt"))
+        file.path(svn_pkgs, desc$Package, "external_data_store.txt"))
 
     # write the modified description
-    write.dcf(desc, file.path(svn1, desc$Package, "DESCRIPTION"))
+    write.dcf(desc, file.path(svn_pkgs, desc$Package, "DESCRIPTION"))
 
-    invisible(c(file.path(svn1, desc$Package),
-        file.path(svn2, desc$Package)))
+    invisible(c(file.path(svn_pkgs, desc$Package),
+        file.path(svn_data_store, desc$Package)))
 }
 
 ###########################################################################
