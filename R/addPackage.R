@@ -31,6 +31,20 @@
     write.dcf(DESC, file=dirPath)
 }
 
+readDESCRIPTION <- function(tarball) {
+    ls <- untar(tarball, list = TRUE)
+    description <- ls[basename(ls) == "DESCRIPTION"]
+
+    if (length(description) == 0) stop("No DESCRIPTION")
+    if (length(description) > 1) {
+        description <- description[which.min(nchar(description))]
+        message("Mutliple descriptions: using ", description)
+    }
+
+    untar(tarball, files = description, exdir = tempdir())
+    read.dcf(file.path(tempdir(), description))
+}
+
 ## This throws away dirs that are inserted into the tarball by 'R CMD build.'
 .removeUnwantedDirs <- function(dir){
     instDoc <- file.path(dir, "inst", "doc")

@@ -5,7 +5,7 @@ Version: 0.99.51
 Author: Marc Carlson, Sonali Arora
 Maintainer: Marc Carlson <mcarlson@fhcrc.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to the repository, and for emailing people etc.
-Imports: S4Vectors, XML, httr
+Imports: S4Vectors, XML, httr, whisker
 Suggests: sendmailR, BiocInstaller
 Collate: addPackage.R 
 	 email.R 
