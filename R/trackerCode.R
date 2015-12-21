@@ -437,18 +437,18 @@ weeklyEmailPackagesOverview <- function(
     relevant_users <- subset(users(), name %in% users)
     recent$reviewer <- users()$name[match(recent$assignedto, users()$id)]
 
-   preacc <- subset(recent, status == status2code["pre-accepted"])
+   preacc <- subset(recent, status == "pre-accepted")
    preacc_str <- paste(preacc$reviewer, "-", preacc$title, "-",
       paste0("https://tracker.bioconductor.org/issue",
       preacc$id))
 
-   accepted <- subset(recent, status == status2code["accepted"] & as.Date(activity) >= accepted_date)
+   accepted <- subset(recent, status == "accepted" & as.Date(activity) >= accepted_date)
    acc_str <- paste(accepted$reviewer, "-", accepted$title, "-",
       paste0("https://tracker.bioconductor.org/issue",
       accepted$id))
 
    cone <- subset(recent,
-       status %in% status2code[c("preview-in-progress", "sent-back", "modified-package", "review-in-progress")] &
+       status %in% c("preview-in-progress", "sent-back", "modified-package", "review-in-progress") &
        actor != assignedto &
        as.Date(activity) < lagging_date)
 
@@ -470,5 +470,7 @@ weeklyEmailPackagesOverview <- function(
    "\n## Core Reviewers Activity in the last 30 days",
    knitr::kable(tabulate_activity(relevant_issues))))
 
-   msg
+   gmailr::mime(To = "Martin Morgan <Martin.Morgan@roswellpark.org>, Valerie Obenchain <Valerie.Obenchain@roswellpark.org>",
+       Subject = "Weekly package overview",
+       body = msg)
 }
