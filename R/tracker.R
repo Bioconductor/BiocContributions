@@ -58,6 +58,8 @@ tracker_login <- function(
 #' @param ... Additional query parameters
 #' @param session the HTTP session to use
 #' @export
+#' @examples
+#' tracker_search("@search_text" = "normalize450k")
 tracker_search <- function(columns = c("id", "activity", "title", "creator", "status", "keyword"),
                            sort = desc("activity"),
                            filter=c("status", "assignedto"),
