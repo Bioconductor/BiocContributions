@@ -3,7 +3,7 @@
 \name{post_issue}
 \alias{post_issue}
 \usage{
-post_issue(issue = NULL, number = NULL, session = NULL, note = NULL,
+post_issue(issue = NULL, number = NULL, session = NULL, note = edit(),
   file = NULL, ...)
 }
 \arguments{
@@ -13,9 +13,11 @@ post_issue(issue = NULL, number = NULL, session = NULL, note = NULL,
 
 \item{session}{the session to use, if \code{NULL} the issue's session is used.}
 
-\item{note}{a note to post to the issue}
+\item{note}{a note to post to the issue, defaults to opening your editor,
+but you can also pass a character string.}
 
-\item{file}{a file to attach to the issue}
+\item{file}{a file to attach to the issue, if \code{TRUE} choose a file using
+\code{\link{file.choose}}}
 
 \item{...}{Additional arguments passed to rvest::set_values}
 }

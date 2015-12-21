@@ -60,6 +60,24 @@ unassigned_packages <- function(session = tracker_login(), status = c(-1, 1), ..
     tracker_search(session = session, status = status)
 }
 
+
+#' @export
+#' @describeIn tracker_search retrieve the logged in users packages
+my_issues <- function(session = tracker_login(), user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ...) {
+    if (is.null(user)) {
+        links <- rvest::html_nodes(session, "a")
+        text <- rvest::html_text(links)
+        match <- grepl("Your Issues", text, fixed = TRUE)
+        if (!any(match)) {
+            stop("No links have text 'Your Issues'", call. = FALSE)
+        }
+        href <- rvest::html_attr(links[[which(match)[1]]], "href")
+        user <- rex::re_matches(href, rex::rex("assignedto=",
+                                               capture(name = "id", digits)))$id
+    }
+    tracker_search(session = session, assignedto = user, status = status, ...)
+}
+
 #' Members of the devteam
 devteam <- c("Jim Hester" = "jhester",
     "Martin Morgan" = "mtmorgan",
