@@ -60,7 +60,7 @@
 }
 
 ## and code to define a single message template
-.makeExistingUserMsg <- function(authorName, packageName){
+.makeExistingUserMsg <- function(authorName, packageName, senderName = "Jim"){
     template <-
 "Hi {{authorName}},
 
@@ -117,12 +117,13 @@ http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
 
 Thanks for contributing to the Bioconductor project!
 
-Jim"
+<<senderName>>"
 
   whisker::whisker.render(template,
                  list(packageName = packageName,
                       authorName = authorName,
-                      biocVersion = BiocInstaller:::BIOC_VERSION))
+                      biocVersion = BiocInstaller:::BIOC_VERSION,
+                      senderName = senderName))
 }
 
 ## General purpose multiplier for functions that take authorName, packageName and that also have a function to define the message based on that.
