@@ -199,6 +199,8 @@ get_issue <- function(session = tracker_login(), number) {
 
     rownames(res) <- res$id
 
+    res <- res[order(res$time), ]
+
     class(res) <- c("issue", "data.frame")
 
     res
