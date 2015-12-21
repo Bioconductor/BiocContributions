@@ -160,3 +160,18 @@ request_credentials <- function(x, sender = "Jim Hester") {
         list(users = paste0(collapse = "\n", emails),
             sender = sender)))
 }
+
+#' @export
+username <- function(x, ...) {
+    UseMethod("username")
+}
+
+#' @export
+username.person <- function(x, ...) {
+    x$comment
+}
+
+#' @export
+username.list <- username.user_matches <- function(x, ...) {
+    unlist(lapply(x, username))
+}
