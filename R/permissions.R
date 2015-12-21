@@ -283,3 +283,24 @@ add_software_permisions <- function(x, message = standard_commit_message(x),
     # check in the modified file
     check_in_file(message = message)
 }
+
+#' Helper function to Add Data Experiment Permissions
+#'
+#' @param x Permissions to add, can be a named \code{list} or \code{data.frame}.
+#' @param message Commit message to use
+#' @param file File containing the permissions to edit
+#' @export
+add_data_experiment_permisions <- function(x, message = standard_commit_message(x),
+    file =  "hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz") {
+
+    # check out the permissions file
+    check_out_file()
+
+    # add new permissions
+    perms <- read_permissions(file = file)
+    perms <- edit_data_experiment_permissions(x, data = perms)
+    write_permissions(perms)
+
+    # check in the modified file
+    check_in_file(message = message)
+}
