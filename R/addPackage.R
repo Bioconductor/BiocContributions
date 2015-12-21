@@ -135,6 +135,60 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 }
 
 
+clean_data_pkg <- function(tarball,
+                           svn1 = "~/proj/experiment/pkgs",
+                           svn2 = "~/proj/experiment/data_store",
+                           data_dirs = c("data", "inst/extdata")) {
+
+    desc <- readDESCRIPTION(tarball)
+
+    # Remove the Packaged field
+    desc$Packaged <- NULL
+
+    untar(tarball, exdir = tempdir())
+
+    files <- dir(file.path(tempdir(), desc$Package), recursive = TRUE)
+
+    object_files <- "src/.*\\.(o|sl|so|dylib|a|dll|def)$"
+
+    unwanted <- grepl(
+        paste0("^", paste0(collapse = "|",
+                    c("DESCRIPTION", "inst/doc", "build", "\\.git", object_files))),
+        files)
+
+    files <- files[!unwanted]
+
+    is_data <- grepl(
+        paste0("^", paste0(collapse="|", data_dirs)),
+        files)
+
+    data_files <- file.path(desc$Package, files[is_data])
+
+    non_data_files <- file.path(desc$Package, files[!is_data])
+
+    copy_files <- function(from, to) {
+        # create all directories in the new location
+        lapply(unique(dirname(to)), dir.create, recursive = TRUE, showWarnings = FALSE)
+
+        Map(file.copy, from, to)
+    }
+
+    copy_files(file.path(tempdir(), non_data_files),
+        file.path(svn1, non_data_files))
+
+    copy_files(file.path(tempdir(), data_files),
+        file.path(svn2, data_files))
+
+    # write the data paths in external_data_store.txt
+    writeLines(unique(dirname(data_files)),
+        file.path(svn1, desc$Package, "external_data_store.txt"))
+
+    # write the modified description
+    write.dcf(desc, file.path(svn1, desc$Package, "DESCRIPTION"))
+
+    invisible(c(file.path(svn1, desc$Package)
+        file.path(svn2, desc$Package)))
+}
 ###########################################################################
 ## Another clean function (this time for cleaning data packages)
 cleanDataPkg <- function(tarball,
