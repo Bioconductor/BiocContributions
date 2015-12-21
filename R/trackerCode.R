@@ -120,15 +120,13 @@ removeDeadTrackerIssue <- function(issueNumber){
 
 
 .coreReviewerIds <- function(str){
-    c('mcarlson'=19,
-      'herve'=7,
-      'nhayden'=560,
-      'sarora'=559,
+    c('herve'=7,
       'mtmorgan'=18,
       'vobencha'=209,
-      'pshannon'=208,
       'dtenenba'=210,
-      'jhester'=759)
+      'jhester'=759,
+      'priscian' = 847,
+      'blong' = 846)
 }
 
 ###############################################################################
@@ -321,9 +319,8 @@ readyToAdd <- function(datePrefix='2015',
 creditworthy <- function(creditDays= 30, userName=NA_character_) {
     df <- .fullDb()
     
-    userName <- c( "pshannon", "vobencha", "herve", "nhayden", "dtenenba", 
-        "sarora", "mtmorgan", "mcarlson", "jhester")
-    core_assignedto <- c( 208, 209, 7, 560, 210, 559, 18)
+    userName <- names(.coreReviewerIds())
+    core_assignedto <- .coreReviewerIds()
     dd <- subset(df, df$dateDiff < creditDays)
     dd <- dd[which(dd$username %in% userName),]
     dd$status <- apply(dd, 1, function(x) .getTextStatus(x["status"]))
