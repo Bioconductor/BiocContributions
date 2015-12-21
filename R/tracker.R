@@ -78,11 +78,11 @@ pre_accepted_packages <- function(status = 9, ..., session = tracker_login()) {
 
 #' @export
 accept_package <- function(issue = issue,
-                           note = trackerSuccess(tarball),
+                           note = accept_note(tarball),
                            tarball,
                            status = 6,
                            ...,
-                           session = tracker_login()) {
+                           session = NULL) {
     post(issue = issue, session = session, note = note, status = status, ...)
 }
 
