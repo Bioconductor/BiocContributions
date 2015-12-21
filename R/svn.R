@@ -88,13 +88,26 @@ add_software_packages <- function(x, svn_location = "~/proj/Rpacks", manifest = 
     s$update()
 
     pkg_names <- .getShortPkgName(x)
-    message(s$status())
-    s$add(pkg_names)
-    s$write(manifest,
-        append(s$read(manifest),
-            paste0("Package: ", pkg_names, "\n")))
-    message(s$status())
-    s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
+    s$status()
+
+    current <- s$read(manifest)
+    if (check_manifest(current, pkg_names)) {
+        s$add(pkg_names)
+        s$write(manifest,
+                append(current, paste0("Package: ", pkg_names, "\n")))
+        s$status()
+        s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
+    }
+}
+
+check_manifest <- function(x, pkgs) {
+    for (pkg in pkgs) {
+        match <- grep(paste0("Package:[[:space:]]+", pkg ), x)
+        if (length(match) > 0) {
+            stop(sQuote(pkg), " already in manifest line: ", match, call. = FALSE)
+        }
+    }
+    TRUE
 }
 
 #' Add data experiment packages to SVN
