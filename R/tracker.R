@@ -60,6 +60,13 @@ unassigned_packages <- function(session = tracker_login(), status = c(-1, 1), ..
     tracker_search(session = session, status = status)
 }
 
+#' @export
+#' @describeIn tracker_search retrieve pre-accepted packages
+pre_accepted_packages <- function(session = tracker_login(), status = 9, ...) {
+    tracker_search(session = session, status = status)
+}
+
+
 
 #' @export
 #' @describeIn tracker_search retrieve the logged in users packages
@@ -254,21 +261,35 @@ session.issue <- function(x, ...) {
 
 #' Download attachments from an issue
 #' @inheritParams tracker_search
-#' @param issue The issue object, or issue number to download files from
-#' @param dir the location to store the files
+#' @param issue Issue object, or issue number to download files from
+#' @param dir Location to store the files
+#' @param last_only If \code{TRUE} only download the last submitted tarball.
+#' @param pattern Regular expression for files to download.
+#' @param overwrite Will only overwrite existing \code{path} if TRUE.
+#' @param ... Additional Arguments passed to \code{\link[rvest]{jump_to}}.
 #' @export
-download <- function(session = tracker_login(), issue, dir = ".", ...) {
+download <- function(session = tracker_login(), issue, dir = ".", last_only = TRUE,
+    pattern = "[.]tar[.]gz$", overwrite = FALSE, ...) {
 
     # TODO handle msg123213 issue123123 cases
     if (is.character(issue) || is.numeric(issue)) {
         issue <- get_issue(session, issue)
     }
+
+    idx <- grep(pattern, issue$filename)
+    if (!length(idx)) {
+        stop("No downloads found for issue", issue$id, call. = FALSE)
+    }
+    if (last_only) {
+        idx <- tail(idx, n = 1)
+    }
     Map(function(href, filename) {
         if (!is.na(href)) {
             rvest::jump_to(session,
                 href,
-                httr::write_disk(path = filename), ...)
-        }}, issue$href, issue$filename)
+                httr::write_disk(path = filename, overwrite = overwrite),
+                httr::progress(), ...)
+        }}, issue$href[idx], issue$filename[idx])
 }
 
 parse_attachments <- function(x, ...) {
