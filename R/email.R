@@ -109,20 +109,30 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
 ## tarball, but this time we can't email them since we have to still
 ## put the email credentials in...
 
-trackerSuccess <- function(tarball, senderName = "Jim") {
+trackerSuccess <- function(tarball, type = c("software", "experiment-data"),
+                           senderName = "Jim") {
+
+    type <- match.arg(type)
 
     description <- readDESCRIPTION(tarball)
     email <- .extractEmails(description)
 
-    template("tracker.txt",
-        author = email$given,
-        package = basename(tarball),
-        senderName = senderName)
-
-#Note - If a software package and corresponding experiment data package was
-#added, then you will get a clear build report only after next
-#Wednesday/Saturday ! (Since experiment data packages[2] are built every
-#Wednesday and Saturday )
+    switch(type,
+           software = template("tracker.txt",
+                    author = paste(email$given, collapse = ", "),
+                    tarball = basename(tarball),
+                    package = description$Package,
+                    senderName = senderName,
+                    when = "Everyday",
+                    type = "bioc-LATEST"),
+           `experiment-data` = template("tracker.txt",
+                    author = paste(email$given, collapse = ", "),
+                    tarball = basename(tarball),
+                    package = description$Package,
+                    senderName = senderName,
+                    when = "Wednesday and Saturday",
+                    type = "data-experiment-LATEST")
+           )
 
 }
 
@@ -170,16 +180,16 @@ emailNewUser <- function(tarball, userId = "user.id", password = "password", sen
     ## extract email from DESCRIPTION file
     emails <- .extractEmails(description)
 
-    msgs <- .makeMessages(authorName=emails$given, packageName=package,
+    msgs <- .makeNewUserMsg(authorName=emails$given[1], packageName=package,
                           userId = userId,
                           password = password,
-                          senderName = senderName,
-                          FUN=.makeNewUserMsg)
+                          senderName = senderName)
+
     subject <- fmt("Congratulations, {{package}} has been added to Bioconductor!",
                    list(package = package))
 
     gmailr::mime(Subject = subject,
-                 To = emails$email,
+                 To = emails$email[1],
                  From = "packages@bioconductor.org",
                  body = msgs)
 }

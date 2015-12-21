@@ -130,7 +130,7 @@ assign_new_packages <- function(team = devteam,
 
         team <- team_
 
-        setNames(team[integer_hash(pkgs) %% length(team) + 1], pkgs)
+        stats::setNames(team[integer_hash(pkgs) %% length(team) + 1], pkgs)
     },
     list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = unname(team)))
 }
@@ -205,7 +205,7 @@ get_issue <- function(session = tracker_login(), number) {
     res$time <- res$time.x
     res[c("time.x", "time.y")] <- list(NULL)
 
-    rownames(res) <- res$id
+    rownames(res) <- deduplicate(res$id)
 
     res <- res[order(res$time), ]
 
@@ -383,12 +383,12 @@ assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(
     message
 }
 
-assign_package2 <- function(package, assignment, team = devteam) {
+assign_package2 <- function(id, assignment, team = devteam) {
 
     # lookup tracker username for assignee
     user <- names(team)[team == assignment]
 
-    post_issue(number = package$id,
+    post_issue(number = id,
                note = paste0(assignment, " has been assigned to this package"),
                status = "preview-in-progress",
                assignedto = user)
