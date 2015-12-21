@@ -56,8 +56,8 @@ tracker_search <- function(session = tracker_login(),
 
 #' @export
 #' @describeIn tracker_search retrieve unassigned packages
-unassigned_packages <- function(session = tracker_login(), status = c(-1, 1), ...) {
-    tracker_search(session = session, status = status)
+unassigned_packages <- function(session = tracker_login(), status = c(-1, 1, 2, 3, 4, 5, 9), ...) {
+    tracker_search(session = session, status = status, assignedto=-1)
 }
 
 #' @export
@@ -245,9 +245,8 @@ post_issue <- function(issue = NULL, number = NULL, session = NULL, note = edit(
     if (isTRUE(file)) {
         file <- file.choose()
     }
-    form <- rvest::html_nodes(session, "form[name='itemSynopsis']") %>%
-        magrittr::extract2(1) %>%
-        rvest::html_form()
+    form <- magrittr::html_form(
+        rvest::html_nodes(session, "form[name='itemSynopsis']")[[1]])
 
     form <-
         rvest::set_values(form,
