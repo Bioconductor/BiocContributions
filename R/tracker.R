@@ -171,10 +171,51 @@ get_issue <- function(session = tracker_login(), number) {
 
     res <- merge(res, attachments, by = c("time", "author"), all.x = TRUE)
     rownames(res) <- res$id
+    attr(res, "session") <- response
 
     class(res) <- c("issue", "data.frame")
 
     res
+}
+
+#' @param issue an issue object from \code{\link{get_issue}}
+#' @param number an issue number, only used if \code{issue} is \code{NULL}
+#' @param session the session to use, if \code{NULL} the issue's session is used.
+#' @param note a note to post to the issue
+#' @param file a file to attach to the issue
+#' @param ... Additional arguments passed to rvest::set_values
+post_issue <- function(issue = NULL, number = NULL, session = NULL, note = NULL, file = NULL, ...) {
+    if (is.null(issue) && is.null(number)) {
+        stop("One of ", sQuote("issue"), " or ", sQuote("number"),
+            " must be set", call. = FALSE)
+    }
+
+    if (is.null(issue)) {
+        issue <- get_issue(number = number)
+    }
+
+    if (is.null(session)) {
+        session <- session(issue)
+    }
+    form <- rvest::html_nodes(session, "form[name='itemSynopsis']") %>%
+        extract2(1) %>%
+        html_form()
+
+    form <-
+        rvest::set_values(form,
+            `@note` = note,
+            `@file` = file,
+            ...)
+
+    rvest::submit_form(session, form)
+}
+
+#' @export
+session <- function(...) UseMethod("session")
+
+#' @export
+session.issue <- function(x, ...) {
+    attr(x, "session")
 }
 
 #' Download attachments from an issue

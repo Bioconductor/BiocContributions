@@ -2,9 +2,11 @@
 
 S3method(format,issue)
 S3method(print,issue)
+S3method(session,issue)
 export(assign_new_packages)
 export(download)
 export(get_issue)
+export(session)
 export(tracker_login)
 export(tracker_search)
 export(unassigned_packages)
