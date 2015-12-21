@@ -5,17 +5,8 @@ Version: 0.99.51
 Author: Marc Carlson, Sonali Arora, Jim Hester
 Maintainer: Jim Hester <james.f.hester@gmail.com>
 Description: A set of tools for cleaning up, post-processing, adding packages to the repository, and for emailing people etc.
-Imports: S4Vectors, XML, httr, whisker, rvest
+Imports: S4Vectors, XML, httr, whisker, rvest, crayon, digest
 Suggests: sendmailR, BiocInstaller
-Collate: addPackage.R 
-	 email.R 
-   email_maintainers.R
-	 convertToBin.R 
-	 installDependencies.R 
-	 tallyManifests.R
-	 trackerCode.R
-         getPackageRange.R
-	 zzz.R
 License: Artistic-2.0
 biocViews: Infrastructure
 LazyLoad: yes
