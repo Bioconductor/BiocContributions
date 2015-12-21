@@ -128,7 +128,7 @@ desc <- function(x) {
 }
 
 roundup_datetime <- function(x, ...) {
-    as.POSIXlt(format = "%Y-%M-%d.%H:%M:%S", tz = "PST", x, ...)
+    as.POSIXlt(format = "%Y-%m-%d.%H:%M:%S", tz = "PST", x, ...)
 }
 
 #' Retrieve all of the messages from an issue
@@ -169,7 +169,8 @@ get_issue <- function(session = tracker_login(), number) {
 
     attachments <- parse_attachments(rvest::html_nodes(response, ".files tr td"))
 
-    res <- merge(res, attachments, by = c("time", "author"), all.x = TRUE)
+    res <- merge(res, attachments, by = c("time", "author"), all.x = TRUE,
+                 sort = TRUE)
     rownames(res) <- res$id
     attr(res, "session") <- response
 
