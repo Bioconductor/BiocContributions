@@ -66,6 +66,9 @@ print.user_matches <- function(x, ...) {
 }
 
 #' Extract the email from an object
+#'
+#' @param x the object to extract email from
+#' @param ... Additional arguments passed to methods.
 #' @export
 email <- function(x, ...) {
     UseMethod("email")
@@ -83,7 +86,7 @@ email.user_matches <- function(x, ...) {
     format(attr(x, "input"))
 }
 
-#' @describeIn list - calls \code{\link{email}} on every item in the list.
+#' @describeIn email list - calls \code{\link{email}} on every item in the list.
 #' @export
 email.list <- function(x, ...) {
     unlist(lapply(x, email))

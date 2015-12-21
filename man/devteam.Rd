@@ -4,7 +4,7 @@
 \name{devteam}
 \alias{devteam}
 \title{Members of the devteam}
-\format{An object of class \code{character} of length 7.}
+\format{An object of class \code{character} of length 6.}
 \usage{
 devteam
 }

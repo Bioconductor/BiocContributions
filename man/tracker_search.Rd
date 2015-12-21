@@ -7,8 +7,8 @@
 \alias{unassigned_packages}
 \title{Query the issue tracker}
 \usage{
-tracker_search(columns = c("id", "activity", "title", "creator", "status"),
-  sort = desc("activity"), filter = c("status", "assignedto"),
+tracker_search(columns = c("id", "activity", "title", "creator", "status",
+  "keyword"), sort = desc("activity"), filter = c("status", "assignedto"),
   status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), ...,
   session = tracker_login())
 
@@ -44,4 +44,7 @@ Query the issue tracker
 
 \item \code{my_issues}: retrieve the logged in users packages
 }}
+\examples{
+tracker_search("@search_text" = "normalize450k")
+}
 

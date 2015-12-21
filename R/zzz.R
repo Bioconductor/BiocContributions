@@ -4,14 +4,14 @@
 ## need a place to put my secret tempFile
 stash <- new.env(parent=emptyenv())
 
-## .tryToGetFile <- function(){
-##     result <- tryCatch( system(cmd), error=function(err) NULL)
-##     ## If we failed to get the file: don't freak out
-##     if (is.null(result)){
-##         warning(paste0("Unable to get the users File.\n",
-##                        "Some functions will not work without it."))
-##     }
-## }
+ #.tryToGetFile <- function(){
+     #result <- tryCatch( system(cmd), error=function(err) NULL)
+     ### If we failed to get the file: don't freak out
+     #if (is.null(result)){
+         #warning(paste0("Unable to get the users File.\n",
+                        #"Some functions will not work without it."))
+     #}
+ #}
 
 
 .onLoad <- function(libname, pkgname)
@@ -33,7 +33,7 @@ stash <- new.env(parent=emptyenv())
     #assign('tempDir', tempDir, envir=stash)
     ### Try to get the file to cwd like this:
     #system(cmd)
-    # .tryToGetFile()
+     #.tryToGetFile()
 }
 
 

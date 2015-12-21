@@ -77,31 +77,7 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
                  To = emails$email,
                  From = "packages@bioconductor.org",
                  body = msgs)
-    ## either send emails OR write out messages
-    #if (sendMail){
-        ## send an email at this time.
-        #.sendEmailMessages(email=emails$email, msg=msgs, subject=subject)
-        #mime
-    #} else {
-        #paths <- paste(package, "-email-existing-<", emails$email, ">.txt", sep="")
-        ### now make connections and write results out.
-        #.writeOutEmailTemplates(paths, msgs)
-    #}
 }
-
-
-##############################################
-##  example
-##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
-
-## emailExistingUser(tarball)
-
-
-
-
-
-
-
 
 ##########################################################################
 ##########################################################################

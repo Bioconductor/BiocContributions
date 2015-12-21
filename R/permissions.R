@@ -43,18 +43,23 @@ run_command_on_file <- function(command) {
     }
 }
 
-#' Run possibly remote commands on a file
+#' Run commands on a file, possibly remote.
 #'
 #' @param args Additional arguments passed to the command.
 #' @param inheritParams read_permissions
+#' @details if the file is a remote location (server:path) the command is run
+#' remotely.
 #' @name run_commands
 NULL
 
 #' @describeIn run_commands Check out a RCS tracked file
-checkout_file <- run_command_on_file("co -l")
+rcs_check_out <- run_command_on_file("co -l")
 
+#' @param message commit message for the check in
 #' @describeIn run_commands Check in a RCS tracked file
-checkin_file <- run_command_on_file("ci -u")
+rcs_check_in <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", message, args = NULL) {
+    (run_command_on_file("ci -u"))(file = file, c(paste0("-m", message), args))
+}
 
 #' @export
 format.authz <- function(x, ...) {

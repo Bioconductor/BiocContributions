@@ -6,7 +6,7 @@ Author: Marc Carlson, Sonali Arora, Jim Hester
 Maintainer: Jim Hester <james.f.hester@gmail.com>
 Description: A set of tools for cleaning up, post-processing, adding packages to
     the repository, and for emailing people etc.
-Imports:
+Imports: 
     S4Vectors,
     XML,
     httr,
@@ -14,11 +14,13 @@ Imports:
     rvest,
     crayon,
     digest,
-    memoise
-Suggests:
+    memoise,
+    withr
+Suggests: 
     sendmailR,
-    BiocInstaller
+    BiocInstaller,
+    testthat
 License: Artistic-2.0
 biocViews: Infrastructure
 LazyLoad: yes
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1

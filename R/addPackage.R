@@ -154,7 +154,7 @@ package_name <- function(tarball) {
 #' @return File paths to the copied locations (invisibly).
 #' @export
 #' @examples
-#' \dontrun{'
+#' \dontrun{
 #' pkg <- system.file(package="BiocContributions",
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
 #' clean_data_package(pkg)
