@@ -233,6 +233,8 @@ standard_commit_message <- function(x) {
             "'x' must have two columns named 'package' and 'user'")
 
         x <- split(x$user, x$package)
+    } else {
+        assert(is.list(x) && is_named(x), "Input must be a named list")
     }
 
     paste0(names(x), " = ", lapply(x, paste, collapse = ", "), collapse = "; ")
@@ -259,4 +261,25 @@ authz_section <- function(x, name) {
     attr(x, "name") <- name
     class(x) <- "authz_section"
     x
+}
+
+#' Helper function to Add Software Permissions
+#'
+#' @param x Permissions to add, can be a named \code{list} or \code{data.frame}.
+#' @param message Commit message to use
+#' @param file File containing the permissions to edit
+#' @export
+add_software_permisions <- function(x, message = standard_commit_message(x),
+    file =  "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
+
+    # check out the permissions file
+    check_out_file()
+
+    # add new permissions
+    perms <- read_permissions(file = file)
+    perms <- edit_software_permissions(x, data = perms)
+    write_permissions(perms)
+
+    # check in the modified file
+    check_in_file(message = message)
 }

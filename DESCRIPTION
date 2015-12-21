@@ -15,7 +15,8 @@ Imports:
     crayon,
     digest,
     memoise,
-    withr
+    withr,
+    googlesheets
 Suggests: 
     sendmailR,
     BiocInstaller,
