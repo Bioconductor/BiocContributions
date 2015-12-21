@@ -115,10 +115,18 @@ pre_accepted_packages <- function(status = 9, ..., session = tracker_login()) {
     tracker_search(session = session, status = status)
 }
 
+#' Accept a package on the tracker
+#'
+#' @inheritParams post
+#' @param note The acceptance note to post to the tracker.
 #' @export
+#' @examples
+#' \dontrun{
+#' accept_package(1318, "transcriptR_0.99.4.tar.gz")
+#' }
 accept_package <- function(issue = issue,
-                           note = accept_note(tarball),
                            tarball,
+                           note = accept_note(tarball),
                            status = 6,
                            ...,
                            session = NULL) {
