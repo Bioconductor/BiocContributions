@@ -182,7 +182,7 @@ edit_data_experiment_permissions.list <- function(x, data = read_permissions("he
 
     usernames <- unlist(x, use.names = FALSE)
 
-    # Add any missing users to the bioconductor-readers group
+    # Add any missing users to the bioc-data-readers group
     readers <- data$groups$`bioc-data-readers`
     missing_users <- !usernames %in% readers
     data$groups$`bioc-data-readers` <- append(readers, usernames[missing_users])
@@ -194,8 +194,9 @@ edit_data_experiment_permissions.list <- function(x, data = read_permissions("he
 
     end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
     if (any(new)) {
-        x[new] <- Map(authz_section, x[new], names(x[new]))
-        data$groups <- append(data$groups, x[new], end_of_groups)
+        data$groups <- authz_section(append(data$groups, x[new], end_of_groups),
+            name = "groups")
+
         new_packages <- names(x)[new]
 
         for (pkg in new_packages) {
@@ -273,7 +274,7 @@ authz_section <- function(x, name) {
 #' @param file File containing the permissions to edit
 #' @export
 add_software_permisions <- function(x, message = standard_commit_message(x),
-    file =  "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
+    file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
 
     # check out the permissions file
     rcs_check_out(file = file)
