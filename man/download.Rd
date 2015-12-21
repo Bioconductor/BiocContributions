@@ -4,12 +4,10 @@
 \alias{download}
 \title{Download attachments from an issue}
 \usage{
-download(session = tracker_login(), issue, dir = ".", last_only = TRUE,
-  pattern = "[.]tar[.]gz$", overwrite = FALSE, ...)
+download(issue, dir = ".", last_only = TRUE, pattern = "[.]tar[.]gz$",
+  overwrite = FALSE, ..., session = tracker_login())
 }
 \arguments{
-\item{session}{the HTTP session to use}
-
 \item{issue}{Issue object, or issue number to download files from}
 
 \item{dir}{Location to store the files}
@@ -21,6 +19,8 @@ download(session = tracker_login(), issue, dir = ".", last_only = TRUE,
 \item{overwrite}{Will only overwrite existing \code{path} if TRUE.}
 
 \item{...}{Additional Arguments passed to \code{\link[rvest]{jump_to}}.}
+
+\item{session}{the HTTP session to use}
 }
 \description{
 Download attachments from an issue

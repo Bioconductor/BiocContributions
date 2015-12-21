@@ -4,12 +4,10 @@
 \alias{users}
 \title{Retrieve the user list}
 \usage{
-users(session = tracker_login(), ...)
+users(session = tracker_login())
 }
 \arguments{
 \item{session}{the HTTP session to use}
-
-\item{...}{Additional query parameters}
 }
 \description{
 Retrieve the user list

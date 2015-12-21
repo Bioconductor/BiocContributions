@@ -4,7 +4,7 @@
 \name{devteam}
 \alias{devteam}
 \title{Members of the devteam}
-\format{\preformatted{ Named chr [1:7] "Jim Hester" "Martin Morgan" "Valerie Obenchain" ...
+\format{\preformatted{ Named chr [1:7] "Jim Hester" "Martin Morgan" "Valerie Obenchain" "Hervé Pagès" "Dan Tenenbaum" "Brian Long" "Jim Java"
  - attr(*, "names")= chr [1:7] "jhester" "mtmorgan" "vobencha" "herve" ...
 }}
 \usage{

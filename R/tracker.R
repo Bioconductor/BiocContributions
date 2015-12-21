@@ -67,13 +67,13 @@ pre_accepted_packages <- function(status = 9, ..., session = tracker_login()) {
 }
 
 #' @export
-accept_package_status <- function(issue = issue,
-                                  tarball,
-                                  note = trackerSuccess(tarball),
-                                  status = 6,
-                                  ...,
-                                  session = tracker_login()) {
-    post_issue(issue = issue, session = session, note = note, status = status, ...)
+accept_package <- function(issue = issue,
+                           note = trackerSuccess(tarball),
+                           tarball,
+                           status = 6,
+                           ...,
+                           session = tracker_login()) {
+    post(issue = issue, session = session, note = note, status = status, ...)
 }
 
 #' @export
@@ -140,7 +140,7 @@ assign_new_packages <- function(pkgs = unassigned_packages(session),
 #' @param number the issue number to retrieve
 #' @inheritParams tracker_search
 #' @export
-get_issue <- function(number, session = tracker_login()) {
+issue <- function(number, session = tracker_login()) {
     response <- rvest::jump_to(session, paste0("/issue", number))
 
     rows <- rvest::html_nodes(response, ".messages tr")
@@ -187,6 +187,7 @@ get_issue <- function(number, session = tracker_login()) {
             att <- attachments[attachments$author == df$author[1], , drop = FALSE]
             merge_closest(df, att, close_times(df))
         })
+
     res$author <- res$author.x
     res[c("author.x", "author.y")] <- list(NULL)
 
@@ -211,7 +212,7 @@ as.issue <- function(x, ...) UseMethod("as.issue")
 as.issue.issue <- identity
 
 #' @export
-as.issue.numeric <- function(x, ...) get_issue(number = x, ...)
+as.issue.numeric <- function(x, ...) issue(number = x, ...)
 
 #' @export
 as.issue.integer <- as.issue.numeric
@@ -221,14 +222,14 @@ as.issue.character <- as.issue.numeric
 
 #' Post a message to an issue
 #'
-#' @param issue an issue object from \code{\link{get_issue}}
+#' @param issue an issue object from \code{\link{issue}}
 #' @param session the session to use, if \code{NULL} the issue's session is used.
 #' @param note a note to post to the issue, defaults to opening your editor,
 #' but you can also pass a character string.
 #' @param file a file to attach to the issue, if \code{TRUE} choose a file using
 #' \code{\link{file.choose}}
 #' @param ... Additional arguments passed to rvest::set_values
-post_message <- function(issue, session = NULL, note = edit(), file = NULL, ...) {
+post <- function(issue, session = NULL, note = edit(), file = NULL, ...) {
     issue <- as.issue(issue)
 
     if (is.null(session)) {
@@ -391,11 +392,11 @@ package_assignment_email <- function(code = assign_new_packages(...),
 #' @export
 assign_package <- function(issue, assignee, team = devteam, ...) {
     issue <- as.issue(issue)
-    
+
     # lookup tracker username for assignee
     user <- names(team)[team == assignment]
 
-    post_issue(issue = issue,
+    post(issue = issue,
                note = paste0(assignment, " has been assigned to this package"),
                status = "preview-in-progress",
                assignedto = user,

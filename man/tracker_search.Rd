@@ -7,21 +7,20 @@
 \alias{unassigned_packages}
 \title{Query the issue tracker}
 \usage{
-tracker_search(session = tracker_login(), columns = c("id", "activity",
-  "title", "creator", "status"), sort = desc("activity"),
-  filter = c("status", "assignedto"), status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8,
-  9, 10), ...)
+tracker_search(columns = c("id", "activity", "title", "creator", "status"),
+  sort = desc("activity"), filter = c("status", "assignedto"),
+  status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), ...,
+  session = tracker_login())
 
-unassigned_packages(session = tracker_login(), status = c(-1, 1), ...)
+unassigned_packages(status = c(-1, 1, 2, 3, 4, 5, 9), ...,
+  session = tracker_login())
 
-pre_accepted_packages(session = tracker_login(), status = 9, ...)
+pre_accepted_packages(status = 9, ..., session = tracker_login())
 
-my_issues(session = tracker_login(), user = NULL, status = c(-1, 1, 2, 3,
-  4, 5, 9, 10), ...)
+my_issues(user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ...,
+  session = tracker_login())
 }
 \arguments{
-\item{session}{the HTTP session to use}
-
 \item{columns}{which columns to return}
 
 \item{sort}{A column to sort the data by}
@@ -31,6 +30,8 @@ my_issues(session = tracker_login(), user = NULL, status = c(-1, 1, 2, 3,
 \item{status}{the status codes used to filter}
 
 \item{...}{Additional query parameters}
+
+\item{session}{the HTTP session to use}
 }
 \description{
 Query the issue tracker

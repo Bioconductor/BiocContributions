@@ -4,8 +4,12 @@
 \alias{assign_new_packages}
 \title{Assign new packages}
 \usage{
-assign_new_packages(session = tracker_login(), team = devteam,
-  pkgs = unassigned_packages(session))
+assign_new_packages(pkgs = unassigned_packages(session), team = devteam)
+}
+\arguments{
+\item{pkgs}{the packages to assign}
+
+\item{team}{team members to assign to}
 }
 \description{
 This method uses a hash digest to assign the packages based on the package
