@@ -43,6 +43,12 @@ readDESCRIPTION <- function(tarball) {
 
     untar(tarball, files = description, exdir = tempdir())
     res <- read.dcf(file.path(tempdir(), description), all = TRUE)
+
+    # generate a maintainer from Authors@R if none specified
+    if (is.null(res$Maintainer)) {
+      authors <- utils:::.read_authors_at_R_field(res$`Authors@R`)
+      res$Maintainer <- Filter(function(x) "cre" %in% x$role, authors)
+    }
     structure(res,
               class = c("description", "data.frame"))
 }
