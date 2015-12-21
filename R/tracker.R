@@ -1,3 +1,13 @@
+#' Members of the devteam
+devteam <- c(
+    "Jim Hester",
+    "Martin Morgan",
+    "Valerie Obenchain",
+    "Herve Pages",
+    "Dan Tenenbaum",
+    "Brian Long",
+    "Jim Java")
+
 the <- new.env(parent=emptyenv())
 
 #' Login to the issue tracker
@@ -93,16 +103,6 @@ my_issues <- function(user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ..., se
     tracker_search(session = session, assignedto = user, status = status, ...)
 }
 
-#' Members of the devteam
-devteam <- c(
-    "jhester" = "Jim Hester",
-    "mtmorgan" = "Martin Morgan",
-    "vobencha" = "Valerie Obenchain",
-    "herve" = "Hervé Pagès",
-    "dtenenba" = "Dan Tenenbaum",
-    "blong" = "Brian Long",
-    "priscian" = "Jim Java")
-
 #' Assign new packages
 #'
 #' This method uses a hash digest to assign the packages based on the package
@@ -130,9 +130,10 @@ assign_new_packages <- function(pkgs = unassigned_packages(session),
 
         team <- team_
 
-        stats::setNames(team[integer_hash(pkgs) %% length(team) + 1], pkgs)
+        data.frame(reviewer = team[integer_hash(pkgs) %% length(team) + 1],
+                   title = pkgs)
     },
-    list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = unname(team)))
+    list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = team))
 }
 
 #' Retrieve all of the messages from an issue
@@ -338,7 +339,7 @@ format.issue <- function(x, ...) {
 #' Retrieve the user list
 #' @inheritParams tracker_search
 #' @export
-users <- function(session = tracker_login()) {
+users <- memoise::memoise(function(session = tracker_login()) {
     session <- rvest::jump_to(session, "https://tracker.bioconductor.org/user")
     tbl <- as.data.frame(rvest::html_table(rvest::html_node(session, "table.list")))
     names(tbl) <- c("user_name", "name", "organisation", "email", "phone_number")
@@ -346,14 +347,15 @@ users <- function(session = tracker_login()) {
     tbl$id <- gsub("user", "", rvest::html_attr(rvest::html_nodes(session, "table.list tr td a"), "href"))
     class(tbl) <- c("tbl_df", "tbl", "data.frame")
     tbl
-}
+})
 
 #' Generate the package assignments email given code to run
 #' @param code code to run, output of \code{\link{assign_new_packages}()}
 #' @param date date to title the email
 #' @param additional arguments passed to \code{\link{assign_new_packages}()}
 #' @export
-package_assignment_email <- function(code = assign_new_packages(...),
+package_assignment_email <- function(pkgs = unassigned_packages(...),
+                                     code = assign_new_packages(pkgs, ...),
                                      date = Sys.Date(),
                                      ...) {
     code <- format(code)
@@ -372,9 +374,12 @@ package_assignment_email <- function(code = assign_new_packages(...),
     # output codeblock to R
     code <- gsub("```\n\n```\n##", "```\n\n```r\n##", code)
 
+    # match packages in code to passed in packages
+    pkgs <- pkgs[match(env$pkgs, pkgs$title), ]
+
     code <- paste(collapse = "", c(code, "\n\n",
         sprintf("- [%s](https://tracker.bioconductor.org/issue%s)\n",
-                env$pkgs$title, env$pkgs$id)))
+                pkgs$title, pkgs$id)))
 
     code <- gsub("\n", "<br>", code)
 
@@ -387,17 +392,26 @@ package_assignment_email <- function(code = assign_new_packages(...),
     message
 }
 
+#' @export
+assign_packages <- function(pkgs, code = assign_new_packages(...), ...) {
+    assignments <- eval(code, envir = baseenv())
+
+    x <- merge(pkgs, assignments)
+
+    Map(assign_package, x$id, x$reviewer)
+}
+
 #' @param number issue number
 #' @param assignment lookup assignee by name
 #' @export
-assign_package <- function(issue, assignee, team = devteam, ...) {
+assign_package <- function(issue, assignee, ...) {
     issue <- as.issue(issue)
 
     # lookup tracker username for assignee
-    user <- names(team)[team == assignment]
+    user <- subset(users(), name == assignee)$user_name
 
     post(issue = issue,
-               note = paste0(assignment, " has been assigned to this package"),
+               note = paste0(assignee, " has been assigned to this package"),
                status = "preview-in-progress",
                assignedto = user,
                ...)
@@ -428,4 +442,15 @@ accept_note <- function(tarball, type = c("software", "experiment-data"),
                     type = "data-experiment-LATEST")
            )
 
+}
+
+attachment_size <- function(issue, session = BiocContributions::tracker_login()) {
+    issue <- BiocContributions::as.issue(issue)
+
+    size <- function(x) {
+        res <- httr::HEAD(paste0(session$url, x), session$config, handle = session$handle)
+
+        as.numeric(httr::headers(res)$`content-length`)
+    }
+    vapply(na.omit(issue$href), size, numeric(1))
 }

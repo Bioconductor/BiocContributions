@@ -92,6 +92,23 @@ removeDeadTrackerIssue <- function(issueNumber){
 }
 
 
+rev_map <- function(x) {
+    setNames(names(x), x)
+}
+
+code2status <- c(
+    "1" = "new-package",
+    "2" = "preview-in-progress",
+    "3" = "sent-back",
+    "4" = "modified-package",
+    "5" = "review-in-progress",
+    "6" = "accepted",
+    "7" = "rejected",
+    "8" = "closed",
+    "9" = "pre-accepted")
+
+status2code <- rev_map(code2status)
+
 .getStatus <- function(str){
     switch(str,
            'new-package'=1,
@@ -350,6 +367,27 @@ creditworthy <- function(creditDays= 30, userName=NA_character_) {
     split(dd, dd$username)
 }
 
+#' Tabulate tracker activity
+#'
+#' @param Date Date to tabulate from, default is the last thirty days.
+#' @param users people to tabulate about, default is the devteam.
+#' @export
+tabulate_activity <- function(issues = tracker_search(columns = c("id", "activity", "title", "creator", "status", "assignedto", "actor")),
+    date = Sys.Date() - 30, users = devteam) {
+
+    # search with no filter to get all issues
+    issues <- tracker_search(columns = c("id", "activity", "title", "creator", "status", "assignedto", "actor"))
+
+    relevant_users <- subset(users(), name %in% users)
+    relevant_issues <- subset(issues, as.Date(activity) >= date & assignedto %in% relevant_users$id)
+
+    relevant_issues <- transform(relevant_issues,
+        reviewer = users()$name[match(assignedto, users()$id)],
+        status = code2status[status])
+
+    ag <- aggregate(id ~ reviewer + status, data = relevant_issues, length, drop = FALSE)
+    xtabs(id ~ reviewer + status, data = ag)
+}
 
 preacceptedToAccepted <- function(){
    df <- .fullDb()
@@ -393,49 +431,48 @@ preacceptedToAccepted <- function(){
    test[ind,]
 }
 
-weeklyEmailPackagesOverview <- function(daysToForget=30){
-   df <- .fullDb()
-   dd <- subset(df, df$dateDiff < daysToForget)
-   preacc <- subset(df, status==9) # pre-accepted
-   preacc_str <- paste(preacc$username, "-", preacc$title, "-", 
-      paste0("https://tracker.bioconductor.org/issue", 
+weeklyEmailPackagesOverview <- function(
+    date = Sys.Date() - 30,
+    accepted_date = Sys.Date() - 7,
+    lagging_date = Sys.Date() - 14,
+    users = devteam){
+    issues <- tracker_search(columns = c("id", "activity", "title", "creator", "status", "assignedto", "actor"))
+    recent <- subset(issues, as.Date(activity) >= date)
+    relevant_users <- subset(users(), name %in% users)
+    recent$reviewer <- users()$name[match(recent$assignedto, users()$id)]
+
+   preacc <- subset(recent, status == status2code["pre-accepted"])
+   preacc_str <- paste(preacc$reviewer, "-", preacc$title, "-",
+      paste0("https://tracker.bioconductor.org/issue",
       preacc$id))
 
-   accepted <- subset(dd, status==6) #accepted
-   acc <- accepted[which(accepted$dateDiff < 7),]
-   acc_str <- paste(acc$username, "-", acc$title, "-", 
-      paste0("https://tracker.bioconductor.org/issue", 
-      acc$id))
+   accepted <- subset(recent, status == status2code["accepted"] & as.Date(activity) >= accepted_date)
+   acc_str <- paste(accepted$reviewer, "-", accepted$title, "-",
+      paste0("https://tracker.bioconductor.org/issue",
+      accepted$id))
 
-   cone <- coneOfShame(daysToForget=daysToForget)
-   cone_str <- paste(cone$username, "-", cone$title, "-",
+   cone <- subset(recent,
+       status %in% status2code[c("preview-in-progress", "sent-back", "modified-package", "review-in-progress")] &
+       actor != assignedto &
+       as.Date(activity) < lagging_date)
+
+   cone_str <- paste(cone$reviewer, "-", cone$title, "-",
       paste0("https://tracker.bioconductor.org/issue",
       cone$id))
 
-   newpkgs <- .newpkg()
-   newpkg_str <- paste(newpkgs[,"_title"], "-", 
-      paste0("https://tracker.bioconductor.org/issue", 
-      newpkgs$id))
+   msg <-
+       paste(collapse = "\n", c(
+   "## Packages added to Bioconductor this week",
+   acc_str,
 
-   message("a) Packages added to Bioconductor this week(preaccepted to accepted) ")
-   print(acc_str)
-   message()
+   "\n## Packages pre-accepted this week",
+   preacc_str,
 
-   message("b) Packages pre-accepted this week")
-   print(preacc_str) 
-   message()
+   "\n## laggers",
+   cone_str,
 
-   message("c) laggers - CAUTION - check before you send ")
-   message("possible that reviewer has posted and developer has not replied")		
-   print(cone_str) 
-   message()
+   "\n## Core Reviewers Activity in the last 30 days",
+   knitr::kable(tabulate_activity(relevant_issues))))
 
-   message("d) new packages to be assigned")
-   print(newpkg_str)
-   message()
-
-   message("e) Core Reviewers Activity in the last 30 days")
-   df <- creditworthy()
-
-} 
-
+   msg
+}
