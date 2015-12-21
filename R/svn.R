@@ -5,9 +5,9 @@ svn <- function(dir = getwd()) {
     }
     status <- function(args) {
         files <- parse_xml(system2("svn", args = c("status", "--xml", args), stdout = TRUE))
-        entries <- xml_find_all(files, "//entry")
-        data.frame(filename = xml_attr(entries, "path"),
-            type = xml_attr(xml_children(entries), "item"))
+        entries <- xml2::xml_find_all(files, "//entry")
+        data.frame(filename = xml2::xml_attr(entries, "path"),
+            type = xml2::xml_attr(xml2::xml_children(entries), "item"))
     }
 
     list(
@@ -56,6 +56,7 @@ svn <- function(dir = getwd()) {
                  })
          },
          write = function(filename, content) {
+             content <- force(content)
              withr::with_dir(dir, {
                  if (!(is.character(filename) && length(filename) == 1)) {
                      stop("Only write one file at a time", call. = FALSE)
