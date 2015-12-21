@@ -66,7 +66,15 @@ pre_accepted_packages <- function(session = tracker_login(), status = 9, ...) {
     tracker_search(session = session, status = status)
 }
 
-
+#' @export
+accept_package_status <- function(session = tracker_login(),
+                                  issue = issue,
+                                  tarball,
+                                  note = trackerSuccess(tarball),
+                                  status = 6,
+                                  ...) {
+    post_issue(issue = issue, session = session, note = note, status = status, ...)
+}
 
 #' @export
 #' @describeIn tracker_search retrieve the logged in users packages
@@ -99,10 +107,10 @@ devteam <- c(
 #'
 #' This method uses a hash digest to assign the packages based on the package
 #' name.
-#' @inheritParams assign_new_packages
+#' @param team team members to assign to
+#' @param pkgs the packages to assign
 #' @export
-assign_new_packages <- function(session = tracker_login(),
-                                team = devteam,
+assign_new_packages <- function(team = devteam,
                                 pkgs = unassigned_packages(session)) {
 
     integer_hash <- function(x, ...) {
@@ -201,6 +209,8 @@ get_issue <- function(session = tracker_login(), number) {
 
     res <- res[order(res$time), ]
 
+    attr(res, "session") <- response
+
     class(res) <- c("issue", "data.frame")
 
     res
@@ -228,6 +238,8 @@ post_issue <- function(issue = NULL, number = NULL, session = NULL, note = edit(
 
     if (is.null(session)) {
         session <- session(issue)
+    } else {
+        session <- attr(issue, "session")
     }
 
     if (isTRUE(file)) {
@@ -351,8 +363,8 @@ assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(
     # remove leading spaces
     code <- gsub("^[[:space:]]{4}", "", code)
 
-    render_markdown()
-    code <- knit(text = code, envir = new.env())
+    knitr::render_markdown()
+    code <- knitr::knit(text = code, envir = new.env())
 
     # HACK: markdown here breaks with codeblocks without a language, so set the output codeblock to R
     code <- gsub("```\n\n```\n##", "```\n\n```r\n##", code)
@@ -360,11 +372,27 @@ assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(
     code <- paste(collapse = "", c(code, "\n\n",
         sprintf("- [%s](https://tracker.bioconductor.org/issue%s)\n", pkgs$title, pkgs$id)))
 
-    message <- gmailr::mime(subject = fmt("Package Assignments For {{date}}", list(date = date)), body = code, to = "devteam-bioc <devteam-bioc@fhcrc.org>", from = "Jim Hester <james.hester@bioconductor.org>")
+    code <- gsub("\n", "<br>", code)
+
+    message <- gmailr::mime(subject = fmt("Package Assignments For {{date}}",
+            list(date = date)),
+        to = "devteam-bioc <devteam-bioc@fhcrc.org>",
+        from = "Jim Hester <james.hester@bioconductor.org>")
+    message <- gmailr::html_body(message, code)
 
     message
 }
 
+assign_package2 <- function(package, assignment, team = devteam) {
+
+    # lookup tracker username for assignee
+    user <- names(team)[team == assignment]
+
+    post_issue(number = package$id,
+               note = paste0(assignment, " has been assigned to this package"),
+               status = "preview-in-progress",
+               assignedto = user)
+}
 assign_package <- function(pkgs = unassigned_packages(), assignments = NULL, team = devteam, ...) {
 
     if (is.null(assignments)) {
@@ -375,15 +403,18 @@ assign_package <- function(pkgs = unassigned_packages(), assignments = NULL, tea
         stop("Number of packages must equal number of assignments", call. = FALSE)
     }
 
-  for (i in seq_along(NROW(pkgs))) {
-      pkg <- pkgs[i, ]
-      assignment <- assignments[i]
-      user <- names(team)[team == assignment]
-      post_issue(number = pkg$id,
-          note = paste0(assignment, " has been assigned to this package"),
-          status = "preview-in-progress",
-          assignedto = user)
-  }
+    # order the packages by title
+    pkgs <- pkgs[order(pkgs$title), ]
+
+    for (i in seq_len(NROW(pkgs))) {
+        pkg <- pkgs[i, ]
+        assignment <- assignments[i]
+        user <- names(team)[team == assignment]
+        post_issue(number = pkg$id,
+                   note = paste0(assignment, " has been assigned to this package"),
+                   status = "preview-in-progress",
+                   assignedto = user)
+    }
 }
 
 fmt <- whisker::whisker.render
