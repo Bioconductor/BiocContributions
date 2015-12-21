@@ -214,14 +214,6 @@ merge_closest <- function(x, y, type, decreasing = FALSE) {
   }
 }
 
-#' @export
-print.character <- function(x, width = truc(getOption("width") / 5), ...) {
-  cat(strwrap(x), sep = "\n")
-}
-format.character <- function(x, width = truc(getOption("width") / 5), ...) {
-  strwrap(x)
-}
-
 #' Post a message to an issue
 #'
 #' @param issue an issue object from \code{\link{get_issue}}
