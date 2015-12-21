@@ -55,7 +55,7 @@ To update your package in the devel branch, you need to do the following steps:
 a) Install subversion(svn) on your machine, if it is not already installed.
 b) svn co --username {{userId}} --password {{password}} https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/{{packageName}}
 To checkout your packages files from the Bioconductor subversion repository.
-c) Make the nessesary changes to your package.
+c) Make the necessary changes to your package.
 d) Bump the version from x.y.z to x.y.(z+1) in your package's DESCRIPTION file.
    If the version is not properly changed your changes will not be pushed to the
    public repository.
