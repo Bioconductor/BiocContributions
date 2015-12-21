@@ -8,6 +8,12 @@ ddply <- function(x, by, fun, ...) {
             fun))
 }
 
+
+rows <- function(x, ...) UseMethod("rows")
+rows.data.frame <- function(x, ...) {
+    by(x, seq_len(NROW(x)), ...)
+}
+
 # use findInterval to merge x and y by the closest type
 # @param by the column to merge by
 # @param decreasing to sort results increasing or decreasing
@@ -31,4 +37,19 @@ merge_closest <- function(x, y, fun, ...) {
   res <- res[names(res) != "idx"]
 
   res
+}
+
+deduplicate <- function(x) {
+    # this is quadratic in time complexity, but shouldn't matter in practice
+    while(anyDuplicated(x)) {
+        is_dup <- duplicated(x)
+        dups <- x[is_dup]
+
+        m <- regexpr("\\.[[:digit:]]+$", dups)
+        regmatches(dups, m) <- Map(function(x) paste0(".", as.numeric(substr(x, 2, nchar(x))) + 1),
+                                   regmatches(dups, m))
+        dups[m == -1] <- paste0(dups, ".2")
+        x[is_dup] <- dups
+    }
+    x
 }
