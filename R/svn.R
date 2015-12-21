@@ -109,7 +109,7 @@ add_data_experiment_packages <- function(x, svn_location = "~/proj/experiment",
 
     pkg_names <- .getShortPkgName(x)
     message(s$status())
-    s$add(file.path("pks", pkg_names))
+    s$add(file.path("pkgs", pkg_names))
     s$add(file.path("data_store", pkg_names))
     s$write(manifest,
         append(s$read(manifest),
