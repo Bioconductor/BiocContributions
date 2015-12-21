@@ -290,7 +290,7 @@ download <- function(issue,
         if (!is.na(href)) {
             rvest::jump_to(session,
                 href,
-                httr::write_disk(path = filename, overwrite = overwrite),
+                httr::write_disk(path = file.path(dir, filename), overwrite = overwrite),
                 httr::progress(), ...)
         }}, issue$href[idx], issue$filename[idx])
 }
