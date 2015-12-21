@@ -42,69 +42,11 @@
 
 ## and code to define a single message template
 .makeExistingUserMsg <- function(authorName, packageName, senderName = "Jim"){
-    template <-
-"Hi {{authorName}},
-
-Your package has been added to the Bioconductor repository.
-Some helpful notes to help you as a package maintainer:
-
-a) SVN Information
-Your Subversion account information is the same as before, but
-permissions have now been extended to your new package
-You now have read/write access to the {{packageName}} package:
-URL: https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/{{packageName}}
-Please let me know if you have any questions or issues with your SVN
-access.
-SVN docs at: http://bioconductor.org/developers/how-to/source-control/
-
-b) Build Report:
-Your package's build reports are accessible at:
-http://bioconductor.org/checkResults/{{biocVersion}}/bioc-LATEST/{{packageName}}/
-Please keep an eye on the daily build/check reports and fix any Warnings or
-Errors that occur.
-
-c) RSS Feeds:
-You can find the RSS feed for your software packages at:
-http://bioconductor.org/rss/build/packages/{{packageName}}.rss
-
-d) Stay connected using Bioc-devel mailing list and support site
-http://bioconductor.org/help/support/#bioc-devel
-
-e) Bioconductor Git mirrors
-If you prefer to use Git and GitHub instead of Subversion, you can
-use the Bioconductor Git mirrors which are documented at:
-http://bioconductor.org/developers/how-to/git-mirror/
-
-f) Add Maintainer or Removal of Package from Bioconductor:
-Please email us at packages@bioconductor.org with your requests
-for new maintainers, please clearly state their name and email address
-and CC them on the request email sent to us.
-
-g) Permanent URL of your package.
-Your package has a permanent URL:
-
-http://bioconductor.org/packages/{{packageName}}/
-
-This will redirect to the release landing page of your package
-(and until it's released, the devel landing page). Therefore this
-is the URL that should be used (in publications, etc.) to refer
-to your package. For convenience, you can also refer specifically to
-the devel version, the release version, or a specific numbered
-version of Bioconductor:
-
-http://bioconductor.org/packages/devel/{{packageName}}/
-http://bioconductor.org/packages/release/{{packageName}}/
-http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
-
-Thanks for contributing to the Bioconductor project!
-
-<<senderName>>"
-
-  whisker::whisker.render(template,
-                 list(packageName = packageName,
-                      authorName = authorName,
-                      biocVersion = BiocInstaller:::BIOC_VERSION,
-                      senderName = senderName))
+  template("existingUserAcceptance.txt",
+      packageName = packageName,
+      authorName = authorName,
+      biocVersion = BiocInstaller:::BIOC_VERSION,
+      senderName = senderName)
 }
 
 ## General purpose multiplier for functions that take authorName, packageName and that also have a function to define the message based on that.
@@ -135,7 +77,7 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
         ## send an email at this time.
         .sendEmailMessages(email=emails$email, msg=msgs, subject=subject)
     } else {
-        paths <- paste(package, "_congratsEmail_existing_<", emails$email, ".txt", sep="")
+        paths <- paste(package, "-email-existing-<", emails$email, ">.txt", sep="")
         ## now make connections and write results out.
         .writeOutEmailTemplates(paths, msgs)
     }
@@ -161,154 +103,47 @@ emailExistingUser <- function(tarball, sendMail=FALSE){
 ## tarball, but this time we can't email them since we have to still
 ## put the email credentials in...
 
+trackerSuccess <- function(tarball, senderName = "Jim") {
 
+    description <- readDESCRIPTION(tarball)
+    email <- .extractEmails(description)
+
+    template("tracker.txt",
+        author = email$given,
+        package = basename(tarball),
+        senderName = senderName)
+
+#Note - If a software package and corresponding experiment data package was
+#added, then you will get a clear build report only after next
+#Wednesday/Saturday ! (Since experiment data packages[2] are built every
+#Wednesday and Saturday )
+
+}
+
+template <- function(path, ...) {
+    template <- readFile(system.file(package = "BiocContributions", "extdata", path))
+    res <- whisker::whisker.render(template, list(...))
+    class(res) <- "template"
+    res
+}
+
+print.template <- function(x, ...) {
+    cat(x)
+    invisible(x)
+}
+
+readFile <- function(file) {
+    readChar(file, file.info(file)$size)
+}
 ## 1st we need our new user greeting:
 .makeNewUserMsg <- function(authorName, packageName, userId = "<user.name>", password = "<password>", senderName = "Jim"){
-    template <-
-"Hi {{authorName}},
-
-Congrats on your package being accepted to Bioconductor.  The following
-information is to help you in your new role as a package maintainer.
-
-Every package in Bioconductor gets its own landing page. Contents from your
-DESCRIPTION file are pulled out to populate this page. Your package's
-permanent URL is:  http://bioconductor.org/packages/{{packageName}}/
-
-This will redirect to the release landing page of your package (and
-until it's released, the devel landing page). Therefore this is the
-URL that should be used (in publications, etc.) to refer to your package.
-For convenience, you can also refer specifically to the devel version,
-the release version, or a specific numbered version of Bioconductor:
-
-http://bioconductor.org/packages/devel/{{packageName}}/
-http://bioconductor.org/packages/release/{{packageName}}/
-http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
-
-Maintaining your package:
-
-1) Bioconductor Branches - Release and Devel
-
-Bioconductor has two versions of EACH package - release and devel.
-
-Release - http://bioconductor.org/packages/release/bioc/html/{{packageName}}.html
-
-The release branch is the stable branch of your package which is
-constant - Every 6 months during the Bioconductor release,
-whatever is in your devel becomes the release branch. Currently
-since your package has not gone through a release cycle, you do
-not have a release branch.
-
-Devel - http://bioconductor.org/packages/devel/bioc/html/{{packageName}}.html
-
-Your package has been added to the devel branch. All changes that you need to
-make will be done to the devel branch.
-During the next Biocondctor Release, http://bioconductor.org/developers/release-schedule/
-whatever is in your devel branch will be added to the release and only then
-you will have two versions of your package.
-
-2) Updating your package in Bioconductor:
-You will need to use subversion to update your package inside Bioconductor.
-SVN GUIDE: http://bioconductor.org/developers/how-to/source-control/
-
-Your subversion account credentials are as follows.
-
-Subversion user ID: {{userId}}
-Password: {{password}}
-
-These credentials give you read access to the whole Bioconductor
-repository and WRITE permissions only to your package.
-
-To update your package in the devel branch, you need to do the following steps:
-a) Install subversion(svn) on your machine, if it is not already installed.
-b) svn co --username {{userId}} --password {{password}} https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/{{packageName}}
-To checkout your packages files from the Bioconductor subversion repository.
-c) Make the nessesary changes to your package.
-d) Bump the version from x.y.z to x.y.(z+1) in your package's DESCRIPTION file.
-   If the version is not properly changed your changes will not be pushed to the
-   public repository.
-e) R CMD build {{packageName}}
-f) R CMD check {{packageName}}_x.y.(z+1).tar.gz
-g) Fix any Warnings or Errors from step (e) and (f)
-h) svn ci {{packageName}}
-g) Check the build report next day (see point 3 for details)
-Please let me know if you have any questions or issues with your SVN access.
-
-3) Build report:
-As stated in 1), all changes are made to devel branch of your package.
-When you make a change to the devel branch of your package, please remember
-to bump the version of your package in the DESCRIPTION FILE.
-Everyday at around 5pm PST, the build system takes a snapshot of all the
-packages inside Bioconductor and then the next day after 12 noon PST,
-http://bioconductor.org/checkResults/ is created containing the
-output of R CMD build and check on all platforms for each package.
-Your package's build reports are accessible at:
-http://bioconductor.org/checkResults/{{biocVersion}}/bioc-LATEST/{{packageName}}/
-
-When reading the above, please pay attention to the date displayed
-next to - “Snapshot Date:” and “This page was generated on”.
-Please  keep an eye on the build/check daily reports for the Bioconductor
-devel packages:  http://bioconductor.org/checkResults/ and get rid of any
-warnings or errors from your packages build report.
-
-4) RSS feeds:
-You can find the RSS feed for software packages at:
-http://bioconductor.org/rss/build/packages/{{packageName}}.rss
-
-5) Bioc-devel mailing list
-The Bioc-devel mailing list is used for communication between developers and
-for important announcements like release schedules, build system news, etc...
-Please check emails from the list as they are our primary communication method
-to package developers.
-
-Also, after your package has passed the build report's CHECK test for the first
-time, we strongly encourage you to send a note to Bioc-devel to announce its
-public availability (with a short description) so other people can start to
-test it.
-
-6) Adding Maintainers for your package:
-If for some reason, your email address changes, please update the
-maintainer field in your DESCRIPTION file. We may need to reach you
-if there are issues building your package (this could happen as a
-result of changes to R or to packages you depend on). If we are unable to
-contact you for a period of time, we may be forced to remove your package from
-Bioconductor.
-
-If you want to add a new maintainer or transfer responsibility to
-someone else,  please email us at packages@bioconductor.org
-and clearly state the new maintainers name, email address and CC them on the
-email.
-
-7) Support Site:
-Please respond to bug reports promptly at https://support.bioconductor.org/
-We recommend that you 'follow' tags that match your own package (such
-as your package name) so that you will be notified when someone is
-asking a question that pertains to your work.
-
-8) Removal of your package:
-If you no longer want to maintain your package, please let us know and we will
-remove it from Bioconductor, or (with your permission) find a new maintainer
-for it. See: http://bioconductor.org/developers/package-end-of-life/
-
-9) Helpful things to know about Bioconductor:
-
-Bioconductor Newsletter: http://bioconductor.org/help/newsletters/
-Upcoming Courses: http://bioconductor.org/help/events/
-Course Material from past courses: http://bioconductor.org/help/course-materials/
-YouTube channel: https://www.youtube.com/user/bioconductor/
-Twitter: https://twitter.com/Bioconductor
-
-Thanks for contributing to the Bioconductor project!
-
-{{senderName}}"
-
-
-  whisker::whisker.render(template,
-                 list(packageName = packageName,
-                      authorName = authorName,
-                      biocVersion = BiocInstaller:::BIOC_VERSION,
-                      userId = userId,
-                      password = password,
-                      senderName = senderName))
+    template("newUserAcceptance.txt",
+        packageName = packageName,
+        authorName = authorName,
+        biocVersion = BiocInstaller:::BIOC_VERSION,
+        userId = userId,
+        password = password,
+        senderName = senderName)
 }
 
 .writeOutEmailTemplates <- function(paths, msgs){
@@ -333,7 +168,7 @@ emailNewUser <- function(tarball, userId = "user.id", password = "password", sen
                           senderName = senderName,
                           FUN=.makeNewUserMsg)
     ## write the result to a file for convenience.
-    paths <- paste(package, "_congratsEmail_<", emails$email, ">.txt", sep="")
+    paths <- paste0(package, "-email-existing-<", emails$email, ">.txt")
     ## now make connections and write results out.
     .writeOutEmailTemplates(paths, msgs)
 }

@@ -1,0 +1,56 @@
+Hi {{authorName}},
+
+Your package has been added to the Bioconductor repository.
+Some helpful notes to help you as a package maintainer:
+
+a) SVN Information
+Your Subversion account information is the same as before, but
+permissions have now been extended to your new package
+You now have read/write access to the {{packageName}} package:
+URL: https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/{{packageName}}
+Please let me know if you have any questions or issues with your SVN
+access.
+SVN docs at: http://bioconductor.org/developers/how-to/source-control/
+
+b) Build Report:
+Your package's build reports are accessible at:
+http://bioconductor.org/checkResults/{{biocVersion}}/bioc-LATEST/{{packageName}}/
+Please keep an eye on the daily build/check reports and fix any Warnings or
+Errors that occur.
+
+c) RSS Feeds:
+You can find the RSS feed for your software packages at:
+http://bioconductor.org/rss/build/packages/{{packageName}}.rss
+
+d) Stay connected using Bioc-devel mailing list and support site
+http://bioconductor.org/help/support/#bioc-devel
+
+e) Bioconductor Git mirrors
+If you prefer to use Git and GitHub instead of Subversion, you can
+use the Bioconductor Git mirrors which are documented at:
+http://bioconductor.org/developers/how-to/git-mirror/
+
+f) Add Maintainer or Removal of Package from Bioconductor:
+Please email us at packages@bioconductor.org with your requests
+for new maintainers, please clearly state their name and email address
+and CC them on the request email sent to us.
+
+g) Permanent URL of your package.
+Your package has a permanent URL:
+
+http://bioconductor.org/packages/{{packageName}}/
+
+This will redirect to the release landing page of your package
+(and until it's released, the devel landing page). Therefore this
+is the URL that should be used (in publications, etc.) to refer
+to your package. For convenience, you can also refer specifically to
+the devel version, the release version, or a specific numbered
+version of Bioconductor:
+
+http://bioconductor.org/packages/devel/{{packageName}}/
+http://bioconductor.org/packages/release/{{packageName}}/
+http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
+
+Thanks for contributing to the Bioconductor project!
+
+<<senderName>>

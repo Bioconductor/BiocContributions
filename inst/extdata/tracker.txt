@@ -1,0 +1,28 @@
+Hi {{author}},
+
+Package Version: {{package}}
+has been added to the repository.
+
+Next Steps:
+
+You should have received an email from me with your SVN credentials, Please
+ensure the following
+a) that you have read/write access to your package
+b) please check the build report  for your package at [1] and get rid of all
+warning/errors to get a clear build report.
+
+A note about the build system:
+Everyday at around 5pm PST, the build system takes a snapshot of all the
+packages inside Bioconductor and then the next day after 12 noon PST, [1] is
+created containing the output of R CMD build and check on all platforms. When
+reading [1], please pay attention to the date displayed next to - "Snapshot
+Date:"  and "This page was generated on".
+
+This package review will be marked as accepted by your reviewer, only after you
+get a clear build report on the build system!
+
+Thanks,
+{{senderName}}
+
+[1] http://bioconductor.org/checkResults/3.2/bioc-LATEST/
+[2] http://bioconductor.org/checkResults/3.2/data-experiment-LATEST/
