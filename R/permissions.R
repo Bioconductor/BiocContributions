@@ -92,15 +92,16 @@ edit_software_permissions <- function(x, ...) {
 }
 
 #' @describeIn edit_software_permissions data.frame input, expects columns \sQuote{package} and \sQuote{user}
-edit_software_permissions.data.frame <- function(x, data = read_permissions(), version = 3.2, ...) {
-    assert(all(c("package", "user") %in% colnames(data.frame)),
+edit_software_permissions.data.frame <- function(x, data = read_permissions(),
+    version = 3.2, ...) {
+    assert(all(c("package", "user") %in% colnames(x)),
         "'x' must have two columns named 'package' and 'user'")
 
     edit_software_permissions(split(x$user, x$package))
 }
 
 #' @describeIn edit_software_permissions list input, expects a named list of packages and users
-edit_software_permissions.list <- function(x, data = read_permissions(), version = "3.2", ...) {
+edit_software_permissions.list <- function(x, data = read_permissions(), version = "3.2") {
     assert(is_named(x), "Input must be a named list")
 
     x[] <- lapply(x, as.character)
@@ -140,6 +141,96 @@ edit_software_permissions.list <- function(x, data = read_permissions(), version
         }
     }
     data
+}
+
+#' Edit the data experiment permissions
+#'
+#' @param data a authz data file
+#' @param version The release version number
+#' @param x The edits to perform
+#' @param ... Additional arguments passed to methods
+#' @export
+edit_data_experiment_permissions <- function(x, ...) {
+    UseMethod("edit_data_experiment_permissions")
+}
+
+#' @describeIn edit_data_experiment_permissions data.frame input, expects columns \sQuote{package} and \sQuote{user}
+#' @export
+edit_data_experiment_permissions.data.frame <- function(x, data = read_permissions("hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz"), version = 3.2, ...) {
+    assert(all(c("package", "user") %in% colnames(x)),
+        "'x' must have two columns named 'package' and 'user'")
+
+    edit_data_experiment_permissions(split(x$user, x$package))
+}
+
+# This function is largely duplicated from edit_software_permissions, perhaps
+# it is worth trying to use a common helper...
+
+#' @describeIn edit_data_experiment_permissions list input, expects a named list of packages and users
+#' @export
+edit_data_experiment_permissions.list <- function(x, data = read_permissions("hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz"), version = "3.2") {
+    assert(is_named(x), "Input must be a named list")
+
+    x[] <- lapply(x, as.character)
+
+    usernames <- unlist(x, use.names = FALSE)
+
+    # Add any missing users to the bioconductor-readers group
+    readers <- data$groups$`bioc-data-readers`
+    missing_users <- !usernames %in% readers
+    data$groups$`bioc-data-readers` <- append(readers, usernames[missing_users])
+
+    new <- !names(x) %in% names(data$groups)
+
+    # For existing groups, assign the new users
+    data$groups[names(x)[!new]] <- x[!new]
+
+    end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
+    if (any(new)) {
+        data$groups <- append(data$groups, x[new], end_of_groups)
+        new_packages <- names(x)[new]
+
+        for (pkg in new_packages) {
+
+            # Unfortunately you cannot use append for this as it calls c(),
+            # which drops attributes :(. So we have to do the appending manually
+            len <- length(data)
+            obj <- list("rw", "")
+            names(obj) <- c(paste0("@", pkg), NA)
+
+            trunk_loc <- paste0("/trunk/experiment/pkgs/", pkg)
+            data[[len + 1L]] <- authz_section(obj, name = trunk_loc)
+            names(data)[[len + 1L]] <- trunk_loc
+
+            trunk_loc <- paste0("/trunk/experiment/data_store/", pkg)
+            data[[len + 2L]] <- authz_section(obj, name = trunk_loc)
+            names(data)[[len + 2L]] <- trunk_loc
+
+            release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/experiment/pkgs/", pkg)
+            data[[len + 3L]] <- authz_section(obj, name = release_loc)
+            names(data)[[len + 3L]] <- release_loc
+
+            release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/experiment/data_store/", pkg)
+            data[[len + 4L]] <- authz_section(obj, name = release_loc)
+            names(data)[[len + 4L]] <- release_loc
+        }
+    }
+    data
+}
+
+#' Generate a standard commit message for permission edits
+#'
+#' @param x the edits to make, if a data.frame will be coerced to a named list.
+#' @export
+standard_commit_message <- function(x) {
+    if (is.data.frame(x)) {
+        assert(all(c("package", "user") %in% colnames(x)),
+            "'x' must have two columns named 'package' and 'user'")
+
+        x <- split(x$user, x$package)
+    }
+
+    paste0(names(x), " = ", lapply(x, paste, collapse = ", "), collapse = "; ")
 }
 
 parse_authz_line <- function(x, ...) {
