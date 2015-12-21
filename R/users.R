@@ -20,8 +20,12 @@ match_user <- function(x) {
     # Otherwise try to find name based matches
     unmatched <- lengths(users) == 0
     first_name_matches <- last_name_matches <- replicate(length(users), person())
-    first_name_matches[unmatched] <- lapply(tolower(x[unmatched]$given), function(x) db2person(db[x == tolower(db$`First Name`), ]))
-    last_name_matches[unmatched] <- lapply(tolower(x[unmatched]$family), function(x) db2person(db[x == tolower(db$`Last Name`), ]))
+
+    match_column <- function(column) {
+        function(x) db2person(db[x == tolower(db[[column]]), ])
+    }
+    first_name_matches[unmatched] <- lapply(tolower(x[unmatched]$given), match_column("First Name"))
+    last_name_matches[unmatched] <- lapply(tolower(x[unmatched]$family), match_column("Last Name"))
     attr(users, "first_matches") <- first_name_matches
     attr(users, "last_matches") <- last_name_matches
 
@@ -138,7 +142,7 @@ user_db <- memoise::memoise(function() {
 #'
 #' @param x an object with an \code{\link{email}} method defined.
 #' @param sender The name to use in the signature
-#' @return A \code{\link[gmailr]{mime}} object
+#' @return A \code{\link[gmailr]{mime}} object.
 #' @examples
 #' pkg <- system.file(package="BiocContributions",
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
