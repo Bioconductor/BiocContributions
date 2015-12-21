@@ -1,3 +1,5 @@
+the <- new.env(parent=emptyenv())
+
 #' Login to the issue tracker
 #'
 #' @param url tracker url
@@ -9,13 +11,17 @@ tracker_login <- function(
     user = getOption("tracker_user"),
     password = getOption("tracker_password")) {
 
-    session <- rvest::html_session(url)
+    if (is.null(the$session)) {
+        session <- rvest::html_session(url)
 
-    login <- rvest::set_values(rvest::html_form(session)[[3]],
-        `__login_name` = user,
-        `__login_password` = password)
+        login <- rvest::set_values(rvest::html_form(session)[[3]],
+                                   `__login_name` = user,
+                                   `__login_password` = password)
 
-    suppressMessages(rvest::submit_form(session, login))
+        the$session <- suppressMessages(rvest::submit_form(session, login))
+    }
+
+    the$session
 }
 
 #' Query the issue tracker
@@ -182,10 +188,12 @@ get_issue <- function(session = tracker_login(), number) {
 #' @param issue an issue object from \code{\link{get_issue}}
 #' @param number an issue number, only used if \code{issue} is \code{NULL}
 #' @param session the session to use, if \code{NULL} the issue's session is used.
-#' @param note a note to post to the issue
-#' @param file a file to attach to the issue
+#' @param note a note to post to the issue, defaults to opening your editor,
+#' but you can also pass a character string.
+#' @param file a file to attach to the issue, if \code{TRUE} choose a file using
+#' \code{\link{file.choose}}
 #' @param ... Additional arguments passed to rvest::set_values
-post_issue <- function(issue = NULL, number = NULL, session = NULL, note = NULL, file = NULL, ...) {
+post_issue <- function(issue = NULL, number = NULL, session = NULL, note = edit(), file = NULL, ...) {
     if (is.null(issue) && is.null(number)) {
         stop("One of ", sQuote("issue"), " or ", sQuote("number"),
             " must be set", call. = FALSE)
@@ -198,9 +206,13 @@ post_issue <- function(issue = NULL, number = NULL, session = NULL, note = NULL,
     if (is.null(session)) {
         session <- session(issue)
     }
+
+    if (isTRUE(file)) {
+        file <- file.choose()
+    }
     form <- rvest::html_nodes(session, "form[name='itemSynopsis']") %>%
-        extract2(1) %>%
-        html_form()
+        magrittr::extract2(1) %>%
+        rvest::html_form()
 
     form <-
         rvest::set_values(form,
