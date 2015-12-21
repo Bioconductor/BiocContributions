@@ -63,3 +63,14 @@ roundup_datetime <- function(x, ...) {
 }
 
 fmt <- whisker::whisker.render
+
+assert <- function(x, msg) {
+    if (!isTRUE(x)) {
+        stop(msg, call. = FALSE)
+    }
+}
+
+compact <- function(x) {
+    is_empty <- vapply(x, function(x) length(x) == 0, logical(1))
+    x[!is_empty]
+}
