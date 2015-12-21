@@ -79,13 +79,14 @@ my_issues <- function(session = tracker_login(), user = NULL, status = c(-1, 1, 
 }
 
 #' Members of the devteam
-devteam <- c("Jim Hester" = "jhester",
-    "Martin Morgan" = "mtmorgan",
-    "Valerie Obenchain" = "vobencha",
-    "Hervé Pagès" = "herve",
-    "Dan Tenenbaum" = "dtenenba",
-    "Brian Long" = "blong",
-    "Jim Java" = "priscian")
+devteam <- c(
+    "jhester" = "Jim Hester",
+    "mtmorgan" = "Martin Morgan",
+    "vobencha" = "Valerie Obenchain",
+    "herve" = "Hervé Pagès",
+    "dtenenba" = "Dan Tenenbaum",
+    "blong" = "Brian Long",
+    "priscian" = "Jim Java")
 
 #' Assign new packages
 #'
@@ -120,7 +121,7 @@ assign_new_packages <- function(session = tracker_login(),
 #' name.
 #' @inheritParams assign_new_packages
 assign_new_packages_hash <- function(session = tracker_login(),
-                                team = names(devteam),
+                                team = devteam,
                                 pkgs = unassigned_packages(session)) {
 
     integer_hash <- function(x, ...) {
@@ -142,7 +143,7 @@ assign_new_packages_hash <- function(session = tracker_login(),
 
         setNames(team[integer_hash(pkgs) %% length(team) + 1], pkgs)
     },
-    list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = team))
+    list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = unname(team)))
 }
 
 desc <- function(x) {
@@ -323,3 +324,49 @@ users <- function(session = tracker_login(), ...) {
     class(tbl) <- c("tbl_df", "tbl", "data.frame")
     tbl
 }
+
+assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(), code = assign_new_packages_hash(pkgs = pkgs, ...), ...) {
+    code <- format(code)
+
+    # replace opening and closing {} with Rmd brackets
+    code[c(1, length(code))] <- c("```{r}", "```")
+
+    # remove leading spaces
+    code <- gsub("^[[:space:]]{4}", "", code)
+
+    render_markdown()
+    code <- knit(text = code, envir = new.env())
+
+    # HACK: markdown here breaks with codeblocks without a language, so set the output codeblock to R
+    code <- gsub("```\n\n```\n##", "```\n\n```r\n##", code)
+
+    code <- paste(collapse = "", c(code, "\n\n",
+        sprintf("- [%s](https://tracker.bioconductor.org/issue%s)\n", pkgs$title, pkgs$id)))
+
+    message <- gmailr::mime(subject = fmt("Package Assignments For {{date}}", list(date = date)), body = code, to = "devteam-bioc <devteam-bioc@fhcrc.org>", from = "Jim Hester <james.hester@bioconductor.org>")
+
+    message
+}
+
+assign_package <- function(pkgs = unassigned_packages(), assignments = NULL, team = devteam, ...) {
+
+    if (is.null(assignments)) {
+        assignments <- eval(assign_new_packages_hash(pkgs = pkgs, team = team, ...), envir = new.env())
+    }
+
+    if (NROW(pkgs) != length(assignments)) {
+        stop("Number of packages must equal number of assignments", call. = FALSE)
+    }
+
+  for (i in seq_along(NROW(pkgs))) {
+      pkg <- pkgs[i, ]
+      assignment <- assignments[i]
+      user <- names(team)[team == assignment]
+      post_issue(number = pkg$id,
+          note = paste0(assignment, " has been assigned to this package"),
+          status = "preview-in-progress",
+          assignedto = user)
+  }
+}
+
+fmt <- whisker::whisker.render
