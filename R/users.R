@@ -149,7 +149,7 @@ request_credentials <- function(x, sender = "Jim Hester") {
     gmailr::mime(To = "scicomp@fhcrc.org",
         Subject = "New SVN users for Hedgehog",
         body = fmt(paste0(
-            "Could you please create a new SVN account(s) on Hedgehog for\n\n",
+            "Could you please create new SVN account(s) on Hedgehog for\n\n",
             "{{{users}}}\n\n",
             "Thanks,\n",
             "  {{{sender}}}"),
