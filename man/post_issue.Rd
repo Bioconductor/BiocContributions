@@ -2,6 +2,7 @@
 % Please edit documentation in R/tracker.R
 \name{post_issue}
 \alias{post_issue}
+\title{Post a message to an issue}
 \usage{
 post_issue(issue = NULL, number = NULL, session = NULL, note = edit(),
   file = NULL, ...)
@@ -20,5 +21,8 @@ but you can also pass a character string.}
 \code{\link{file.choose}}}
 
 \item{...}{Additional arguments passed to rvest::set_values}
+}
+\description{
+Post a message to an issue
 }
 

@@ -4,20 +4,11 @@
 \alias{assign_new_packages}
 \title{Assign new packages}
 \usage{
-assign_new_packages(session = tracker_login(), team = names(devteam),
-  date = Sys.Date(), pkgs = unassigned_packages(session))
-}
-\arguments{
-\item{session}{the HTTP session to use}
-
-\item{team}{the devteam members to assign}
-
-\item{date}{the date of assignment}
-
-\item{pkgs}{packages to assign}
+assign_new_packages(session = tracker_login(), team = devteam,
+  pkgs = unassigned_packages(session))
 }
 \description{
-This method uses \code{sample} to assign the packages and sets the random
-seed based on the date.
+This method uses a hash digest to assign the packages based on the package
+name.
 }
 

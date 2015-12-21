@@ -97,37 +97,11 @@ devteam <- c(
 
 #' Assign new packages
 #'
-#' This method uses \code{sample} to assign the packages and sets the random
-#' seed based on the date.
-#' @param team the devteam members to assign
-#' @param date the date of assignment
-#' @param pkgs packages to assign
-#' @export
-#' @inheritParams tracker_search
-assign_new_packages <- function(session = tracker_login(),
-                                team = names(devteam),
-                                date = Sys.Date(),
-                                pkgs = unassigned_packages(session)) {
-
-    substitute({
-        pkgs <- sort(pkgs_)
-
-        team <- team_
-
-        set.seed(as.Date(date_))
-
-        setNames(sample(team, length(pkgs), replace = TRUE), pkgs)
-    },
-    list(pkgs_ = pkgs$title, team_ = team, date_ = as.character(date)))
-}
-
-
-#' Assign new packages
-#'
 #' This method uses a hash digest to assign the packages based on the package
 #' name.
 #' @inheritParams assign_new_packages
-assign_new_packages_hash <- function(session = tracker_login(),
+#' @export
+assign_new_packages <- function(session = tracker_login(),
                                 team = devteam,
                                 pkgs = unassigned_packages(session)) {
 
@@ -166,6 +140,7 @@ roundup_datetime <- function(x, ...) {
 }
 
 #' Retrieve all of the messages from an issue
+#'
 #' @param number the issue number to retrieve
 #' @inheritParams tracker_search
 #' @export
@@ -213,6 +188,8 @@ get_issue <- function(session = tracker_login(), number) {
     res
 }
 
+#' Post a message to an issue
+#'
 #' @param issue an issue object from \code{\link{get_issue}}
 #' @param number an issue number, only used if \code{issue} is \code{NULL}
 #' @param session the session to use, if \code{NULL} the issue's session is used.
@@ -260,6 +237,7 @@ session.issue <- function(x, ...) {
 }
 
 #' Download attachments from an issue
+#'
 #' @inheritParams tracker_search
 #' @param issue Issue object, or issue number to download files from
 #' @param dir Location to store the files
@@ -346,7 +324,7 @@ users <- function(session = tracker_login(), ...) {
     tbl
 }
 
-assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(), code = assign_new_packages_hash(pkgs = pkgs, ...), ...) {
+assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(), code = assign_new_packages(pkgs = pkgs, ...), ...) {
     code <- format(code)
 
     # replace opening and closing {} with Rmd brackets
@@ -372,7 +350,7 @@ assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(
 assign_package <- function(pkgs = unassigned_packages(), assignments = NULL, team = devteam, ...) {
 
     if (is.null(assignments)) {
-        assignments <- eval(assign_new_packages_hash(pkgs = pkgs, team = team, ...), envir = new.env())
+        assignments <- eval(assign_new_packages(pkgs = pkgs, team = team, ...), envir = new.env())
     }
 
     if (NROW(pkgs) != length(assignments)) {
