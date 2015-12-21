@@ -26,19 +26,19 @@ tracker_login <- function(
 
 #' Query the issue tracker
 #'
-#' @param session the HTTP session to use
 #' @param columns which columns to return
 #' @param sort A column to sort the data by
 #' @param filter what columns are used to filter
 #' @param status the status codes used to filter
 #' @param ... Additional query parameters
+#' @param session the HTTP session to use
 #' @export
-tracker_search <- function(session = tracker_login(),
-                           columns = c("id","activity","title","creator","status"),
+tracker_search <- function(columns = c("id", "activity", "title", "creator", "status"), 
                            sort = desc("activity"),
-                           filter=c("status","assignedto"),
+                           filter=c("status", "assignedto"),
                            status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-                           ...) {
+                           ...,
+                           session = tracker_login()) {
     url <- "/issue"
     res <- rvest::jump_to(session,
                    url,
@@ -56,29 +56,29 @@ tracker_search <- function(session = tracker_login(),
 
 #' @export
 #' @describeIn tracker_search retrieve unassigned packages
-unassigned_packages <- function(session = tracker_login(), status = c(-1, 1, 2, 3, 4, 5, 9), ...) {
-    tracker_search(session = session, status = status, assignedto=-1)
+unassigned_packages <- function(status = c(-1, 1, 2, 3, 4, 5, 9), ..., session = tracker_login()) {
+    tracker_search(session = session, status = status, assignedto = -1)
 }
 
 #' @export
 #' @describeIn tracker_search retrieve pre-accepted packages
-pre_accepted_packages <- function(session = tracker_login(), status = 9, ...) {
+pre_accepted_packages <- function(status = 9, ..., session = tracker_login()) {
     tracker_search(session = session, status = status)
 }
 
 #' @export
-accept_package_status <- function(session = tracker_login(),
-                                  issue = issue,
+accept_package_status <- function(issue = issue,
                                   tarball,
                                   note = trackerSuccess(tarball),
                                   status = 6,
-                                  ...) {
+                                  ...,
+                                  session = tracker_login()) {
     post_issue(issue = issue, session = session, note = note, status = status, ...)
 }
 
 #' @export
 #' @describeIn tracker_search retrieve the logged in users packages
-my_issues <- function(session = tracker_login(), user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ...) {
+my_issues <- function(user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ..., session = tracker_login()) {
     if (is.null(user)) {
         links <- rvest::html_nodes(session, "a")
         text <- rvest::html_text(links)
@@ -107,11 +107,11 @@ devteam <- c(
 #'
 #' This method uses a hash digest to assign the packages based on the package
 #' name.
-#' @param team team members to assign to
 #' @param pkgs the packages to assign
+#' @param team team members to assign to
 #' @export
-assign_new_packages <- function(team = devteam,
-                                pkgs = unassigned_packages(session)) {
+assign_new_packages <- function(pkgs = unassigned_packages(session),
+                                team = devteam) {
 
     integer_hash <- function(x, ...) {
         hash <- vapply(x, digest::digest, character(1), ...)
@@ -135,24 +135,12 @@ assign_new_packages <- function(team = devteam,
     list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = unname(team)))
 }
 
-desc <- function(x) {
-    if (is.numeric(x)) {
-        -x
-    } else {
-        paste0("-", x)
-    }
-}
-
-roundup_datetime <- function(x, ...) {
-    as.POSIXct(format = "%Y-%m-%d.%H:%M:%S", tz = "PST", x, ...)
-}
-
 #' Retrieve all of the messages from an issue
 #'
 #' @param number the issue number to retrieve
 #' @inheritParams tracker_search
 #' @export
-get_issue <- function(session = tracker_login(), number) {
+get_issue <- function(number, session = tracker_login()) {
     response <- rvest::jump_to(session, paste0("/issue", number))
 
     rows <- rvest::html_nodes(response, ".messages tr")
@@ -165,7 +153,7 @@ get_issue <- function(session = tracker_login(), number) {
     parse_metadata <- function(x) {
         headers <- rvest::html_nodes(x, "th")
         data.frame(
-            id = rvest::html_attr(headers[[1]][[1]], "href"),
+            id = rvest::html_attr(rvest::html_nodes(headers, "a"), "href"),
             author = gsub(x = rvest::html_text(headers[[2]]), "Author: ", ""),
             time = roundup_datetime(
                 gsub(x = rvest::html_text(headers[[3]]), "Date: ", "")),
@@ -216,36 +204,41 @@ get_issue <- function(session = tracker_login(), number) {
     res
 }
 
+#' @export
+as.issue <- function(x, ...) UseMethod("as.issue")
+
+#' @export
+as.issue.issue <- identity
+
+#' @export
+as.issue.numeric <- function(x, ...) get_issue(number = x, ...)
+
+#' @export
+as.issue.integer <- as.issue.numeric
+
+#' @export
+as.issue.character <- as.issue.numeric
+
 #' Post a message to an issue
 #'
 #' @param issue an issue object from \code{\link{get_issue}}
-#' @param number an issue number, only used if \code{issue} is \code{NULL}
 #' @param session the session to use, if \code{NULL} the issue's session is used.
 #' @param note a note to post to the issue, defaults to opening your editor,
 #' but you can also pass a character string.
 #' @param file a file to attach to the issue, if \code{TRUE} choose a file using
 #' \code{\link{file.choose}}
 #' @param ... Additional arguments passed to rvest::set_values
-post_issue <- function(issue = NULL, number = NULL, session = NULL, note = edit(), file = NULL, ...) {
-    if (is.null(issue) && is.null(number)) {
-        stop("One of ", sQuote("issue"), " or ", sQuote("number"),
-            " must be set", call. = FALSE)
-    }
-
-    if (is.null(issue)) {
-        issue <- get_issue(number = number)
-    }
+post_message <- function(issue, session = NULL, note = edit(), file = NULL, ...) {
+    issue <- as.issue(issue)
 
     if (is.null(session)) {
         session <- session(issue)
-    } else {
-        session <- attr(issue, "session")
     }
 
     if (isTRUE(file)) {
         file <- file.choose()
     }
-    form <- magrittr::html_form(
+    form <- rvest::html_form(
         rvest::html_nodes(session, "form[name='itemSynopsis']")[[1]])
 
     form <-
@@ -275,13 +268,14 @@ session.issue <- function(x, ...) {
 #' @param overwrite Will only overwrite existing \code{path} if TRUE.
 #' @param ... Additional Arguments passed to \code{\link[rvest]{jump_to}}.
 #' @export
-download <- function(session = tracker_login(), issue, dir = ".", last_only = TRUE,
-    pattern = "[.]tar[.]gz$", overwrite = FALSE, ...) {
-
-    # TODO handle msg123213 issue123123 cases
-    if (is.character(issue) || is.numeric(issue)) {
-        issue <- get_issue(session, issue)
-    }
+download <- function(issue,
+                     dir = ".",
+                     last_only = TRUE,
+                     pattern = "[.]tar[.]gz$",
+                     overwrite = FALSE,
+                     ...,
+                     session = tracker_login()) {
+    issue <- as.issue(issue)
 
     idx <- grep(pattern, issue$filename)
     if (!length(idx)) {
@@ -343,7 +337,7 @@ format.issue <- function(x, ...) {
 #' Retrieve the user list
 #' @inheritParams tracker_search
 #' @export
-users <- function(session = tracker_login(), ...) {
+users <- function(session = tracker_login()) {
     session <- rvest::jump_to(session, "https://tracker.bioconductor.org/user")
     tbl <- as.data.frame(rvest::html_table(rvest::html_node(session, "table.list")))
     names(tbl) <- c("user_name", "name", "organisation", "email", "phone_number")
@@ -353,7 +347,14 @@ users <- function(session = tracker_login(), ...) {
     tbl
 }
 
-assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(), code = assign_new_packages(pkgs = pkgs, ...), ...) {
+#' Generate the package assignments email given code to run
+#' @param code code to run, output of \code{\link{assign_new_packages}()}
+#' @param date date to title the email
+#' @param additional arguments passed to \code{\link{assign_new_packages}()}
+#' @export
+package_assignment_email <- function(code = assign_new_packages(...),
+                                     date = Sys.Date(),
+                                     ...) {
     code <- format(code)
 
     # replace opening and closing {} with Rmd brackets
@@ -362,14 +363,17 @@ assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(
     # remove leading spaces
     code <- gsub("^[[:space:]]{4}", "", code)
 
+    env <- new.env()
     knitr::render_markdown()
-    code <- knitr::knit(text = code, envir = new.env())
+    code <- knitr::knit(text = code, envir = env)
 
-    # HACK: markdown here breaks with codeblocks without a language, so set the output codeblock to R
+    # HACK: markdown here breaks with codeblocks without a language, so set the
+    # output codeblock to R
     code <- gsub("```\n\n```\n##", "```\n\n```r\n##", code)
 
     code <- paste(collapse = "", c(code, "\n\n",
-        sprintf("- [%s](https://tracker.bioconductor.org/issue%s)\n", pkgs$title, pkgs$id)))
+        sprintf("- [%s](https://tracker.bioconductor.org/issue%s)\n",
+                env$pkgs$title, env$pkgs$id)))
 
     code <- gsub("\n", "<br>", code)
 
@@ -382,38 +386,18 @@ assign_packages_email <- function(pkgs = unassigned_packages(), date = Sys.Date(
     message
 }
 
-assign_package2 <- function(id, assignment, team = devteam) {
-
+#' @param number issue number
+#' @param assignment lookup assignee by name
+#' @export
+assign_package <- function(issue, assignee, team = devteam, ...) {
+    issue <- as.issue(issue)
+    
     # lookup tracker username for assignee
     user <- names(team)[team == assignment]
 
-    post_issue(number = id,
+    post_issue(issue = issue,
                note = paste0(assignment, " has been assigned to this package"),
                status = "preview-in-progress",
-               assignedto = user)
+               assignedto = user,
+               ...)
 }
-assign_package <- function(pkgs = unassigned_packages(), assignments = NULL, team = devteam, ...) {
-
-    if (is.null(assignments)) {
-        assignments <- eval(assign_new_packages(pkgs = pkgs, team = team, ...), envir = new.env())
-    }
-
-    if (NROW(pkgs) != length(assignments)) {
-        stop("Number of packages must equal number of assignments", call. = FALSE)
-    }
-
-    # order the packages by title
-    pkgs <- pkgs[order(pkgs$title), ]
-
-    for (i in seq_len(NROW(pkgs))) {
-        pkg <- pkgs[i, ]
-        assignment <- assignments[i]
-        user <- names(team)[team == assignment]
-        post_issue(number = pkg$id,
-                   note = paste0(assignment, " has been assigned to this package"),
-                   status = "preview-in-progress",
-                   assignedto = user)
-    }
-}
-
-fmt <- whisker::whisker.render

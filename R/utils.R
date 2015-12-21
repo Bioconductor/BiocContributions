@@ -53,3 +53,17 @@ deduplicate <- function(x) {
     }
     x
 }
+
+desc <- function(x) {
+    if (is.numeric(x)) {
+        -x
+    } else {
+        paste0("-", x)
+    }
+}
+
+roundup_datetime <- function(x, ...) {
+    as.POSIXct(format = "%Y-%m-%d.%H:%M:%S", tz = "PST", x, ...)
+}
+
+fmt <- whisker::whisker.render
