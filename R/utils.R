@@ -1,11 +1,7 @@
 # simple implementation of plyr::ddply
 # subset a data.frame by grouping variables and apply a function to each group
 ddply <- function(x, by, fun, ...) {
-    do.call(rbind,
-        by(simplify = FALSE,
-            x,
-            lapply(by, getElement, object = x),
-            fun))
+    do.call(rbind, lapply(split(x, x[[by]]), fun, ...))
 }
 
 
