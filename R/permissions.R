@@ -10,7 +10,7 @@ read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz
     groups <- gsub("[][]", "", res[group_locs])
     res <- split(res, cumsum(group_locs))
     res <- Map(function(x, name) {
-        structure(parse_authz_line(x[-1]), name = name, class = "authz_section")
+        authz_section(parse_authz_line(x[-1L]), name = name)
       }, res, groups, USE.NAMES = FALSE)
     names(res) <- groups
     structure(res, class = "authz")
@@ -22,9 +22,9 @@ read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz
 #' @inheritParams read_permissions
 #' @export
 write_permissions <- function(x, file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", ...) {
-  tmp <- tempfile()
-  writeLines(format(x), con = tmp)
-  system2("rsync", args = c(tmp, file))
+    tmp <- tempfile()
+    writeLines(format(x), con = tmp)
+    system2("rsync", args = c(tmp, file))
 }
 
 run_command_on_file <- function(command) {
@@ -34,8 +34,8 @@ run_command_on_file <- function(command) {
         remote_file <- isTRUE(!is.na(match[[1]]))
 
         if (remote_file) {
-            quoted_args <- c(match$server, shQuote(paste(shQuote(c(command, args, match$path)), collapse = " ")))
-            system2(command, args = quoted_args)
+            quoted_args <- shQuote(paste(shQuote(c(args, match$path)), collapse = " "))
+            system2("ssh", args = c(match$server, command, quoted_args))
         } else {
             command_split <- strsplit(command, " ")[[1]]
             system2(command_split[1], args = paste(shQuote(c(command_split[-1], args, file)), collapse = " "))
@@ -45,7 +45,7 @@ run_command_on_file <- function(command) {
 
 #' Run possibly remote commands on a file
 #'
-#' @args Additional arguments passed to the command.
+#' @param args Additional arguments passed to the command.
 #' @param inheritParams read_permissions
 #' @name run_commands
 NULL
@@ -78,22 +78,68 @@ format.authz_section <- function(x, ...) {
 
 #' @export
 print.authz_section <- print.authz <- print.authz_lines <- function(x, ...) {
-    cat(format(x, ...), sep = "\n")
+    cat(unlist(format(x, ...), use.names = FALSE), sep = "\n")
 }
 
-add_software_permissions <- function(tarball,
-    usernames = username(match_user(maintainers(tarball))),
-    package = package_name(tarball), ...) {
+#' Edit the software permissions
+#'
+#' @param data a authz data file
+#' @param version The release version number
+#' @param x The edits to perform
+#' @param ... Additional arguments passed to methods
+edit_software_permissions <- function(x, ...) {
+    UseMethod("edit_software_permissions")
+}
 
-    assert(length(package) == 1, "Only one package can be specified at a time")
+#' @describeIn edit_software_permissions data.frame input, expects columns \sQuote{package} and \sQuote{user}
+edit_software_permissions.data.frame <- function(x, data = read_permissions(), version = 3.2, ...) {
+    assert(all(c("package", "user") %in% colnames(data.frame)),
+        "'x' must have two columns named 'package' and 'user'")
 
-    x <- read_permissions(...)
+    edit_software_permissions(split(x$user, x$package))
+}
 
-    bioconductor_readers_content <- parse_authz_line(x[[1]]$data[bioconductor_readers_line])
-    missing_users <- !usernames %in% bioconductor_readers_content
-    for (user in usernames) {
-        #if (grepl()
+#' @describeIn edit_software_permissions list input, expects a named list of packages and users
+edit_software_permissions.list <- function(x, data = read_permissions(), version = "3.2", ...) {
+    assert(is_named(x), "Input must be a named list")
+
+    x[] <- lapply(x, as.character)
+
+    usernames <- unlist(x, use.names = FALSE)
+
+    # Add any missing users to the bioconductor-readers group
+    readers <- data$groups$`bioconductor-readers`
+    missing_users <- !usernames %in% readers
+    data$groups$`bioconductor-readers` <- append(readers, usernames[missing_users])
+
+    new <- !names(x) %in% names(data$groups)
+
+    # For existing groups, assign the new users
+    data$groups[names(x)[!new]] <- x[!new]
+
+    end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
+    if (any(new)) {
+        data$groups <- append(data$groups, x[new], end_of_groups)
+        new_packages <- names(x)[new]
+
+        for (pkg in new_packages) {
+
+            # Unfortunately you cannot use append for this as it calls c(),
+            # which drops attributes :(. So we have to do the appending manually
+            len <- length(data)
+            obj <- list("rw", "")
+            names(obj) <- c(paste0("@", pkg), NA)
+
+            trunk_loc <- paste0("/trunk/madman/Rpacks/", pkg)
+            data[[len + 1L]] <- authz_section(obj, name = trunk_loc)
+            names(data)[[len + 1L]] <- trunk_loc
+
+            release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/madman/Rpacks/", pkg)
+            data[[len + 2L]] <- authz_section(obj, name = release_loc)
+            names(data)[[len + 2L]] <- release_loc
+        }
     }
+    data
 }
 
 parse_authz_line <- function(x, ...) {
@@ -102,29 +148,19 @@ parse_authz_line <- function(x, ...) {
   assignments <- grepl("[[:graph:]]+[[:space:]]*=[[:space:]][[:graph:]]", x)
   for (splt in strsplit(x[assignments], "[[:space:]]*=[[:space:]]*|[[:space:]]*,[[:space:]]*")) {
       line_num <- which(assignments)[itr]
-      if (length(splt) <= 1) {
+      if (length(splt) <= 1L) {
           stop("incorrect parse in line: ", sQuote(x[line_num]), call. = FALSE)
       }
-      res[[line_num]] <- splt[-1]
-      names(res)[[line_num]] <- splt[1]
-      itr <- itr + 1
+      res[[line_num]] <- splt[-1L]
+      names(res)[[line_num]] <- splt[1L]
+      itr <- itr + 1L
   }
   res[!assignments] <- x[!assignments]
   res
 }
 
-generatePermissionEdits <- function(path = ".", pattern = "\\.tar\\.gz$"){
-    ## start with tarballs in whatever dir we have here...
-    tarballs <- dir(path = path, pattern = pattern, full.names = TRUE)
-    ## store the above in a list object
-    data <- lapply(tarballs, .getPkgNameAndUser)
-    
-    ### For all packages in that list:
-
-    ## write out association part (for each - helper2)
-    message(paste(sapply(data, .printAssociations), collapse=""))
-    
-    ## write out the tedious part (for each - helper3)
-    message(paste(sapply(data, .printTediousStuff), collapse=""))
-    
+authz_section <- function(x, name) {
+    attr(x, "name") <- name
+    class(x) <- "authz_section"
+    x
 }
