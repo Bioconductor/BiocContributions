@@ -84,6 +84,7 @@ svn <- function(dir = getwd()) {
 add_software_packages <- function(x, svn_location = "~/proj/Rpacks", manifest = "bioc_3.3.manifest") {
     lapply(x, clean)
     s <- svn(svn_location)
+    s$update()
 
     pkg_names <- .getShortPkgName(x)
     message(s$status())
@@ -98,11 +99,12 @@ add_software_packages <- function(x, svn_location = "~/proj/Rpacks", manifest = 
 #' Add data experiment packages to SVN
 #'
 #' @inheritParams add_software_packages
-add_software_packages <- function(x, svn_location = "~/proj/experiment",
+add_data_experiment_packages <- function(x, svn_location = "~/proj/experiment",
     manifest = "pkgs/bioc-data-experiment.3.3.manifest") {
 
     lapply(x, clean_data_pkg)
     s <- svn(svn_location)
+    s$update()
 
     pkg_names <- .getShortPkgName(x)
     message(s$status())
@@ -124,4 +126,53 @@ print.svn_logentry <- function(x, ...) {
           xml_text(xml_find_one(x, ".//date"))
           ),
       xml_text(xml_find_one(x, ".//msg")))
+}
+
+#' Read authz permission file
+#'
+#' @param file location passed to rsync
+#' @export
+read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
+    tmp <- tempfile()
+    system2("rsync", args = c(file, tmp))
+    res <- readLines(tmp)
+    group_locs <- grepl("^\\[", res)
+    groups <- gsub("[][]", "", res[group_locs])
+    res <- split(res, cumsum(group_locs))
+    res <- Map(function(x, name) structure(list(data = x[-1], name = name), class = "authz_section"),
+        res, groups, USE.NAMES = FALSE)
+    structure(res, class = "authz")
+}
+
+#' Write authz permission file
+#'
+#' @param x object to write
+#' @inheritParams read_permissions
+#' @export
+write_permissions <- function(x, file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", ...) {
+  tmp <- tempfile()
+  writeLines(format(x), con = tmp)
+  system2("rsync", args = c(tmp, file))
+}
+
+#' @export
+format.authz <- function(x, ...) {
+    paste(collapse = "\n", vapply(x, format, character(1)))
+}
+
+#' @export
+format.authz_section <- function(x, ...) {
+        paste(sep = "\n",
+            paste0("[", x$name, "]"),
+            paste(collapse = "\n", x$data))
+}
+
+#' @export
+print.authz_section <- function(x, ...) {
+    cat(format(x, ...))
+}
+
+#' @export
+print.authz <- function(x, ...) {
+    cat(format(x, ...))
 }
