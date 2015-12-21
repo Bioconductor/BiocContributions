@@ -1,7 +1,7 @@
 Hi {{authorName}},
 
-Your package has been added to the Bioconductor repository.
-Some helpful notes to help you as a package maintainer:
+The {{packageName}} package has been added to the Bioconductor repository. Some
+helpful notes to help you as a package maintainer:
 
 a) SVN Information
 Your Subversion account information is the same as before, but
