@@ -28,4 +28,8 @@ export(clean,
        getDescriptions, 
        preacceptedToAccepted,
        failmail,
-       weeklyEmailPackagesOverview )
+       weeklyEmailPackagesOverview,
+       print.svn_match,
+       print.svn_matches,
+       as.logical.svn_match,
+       as.logical.svn_matches)
