@@ -375,15 +375,11 @@ creditworthy <- function(creditDays= 30, userName=NA_character_) {
 tabulate_activity <- function(issues = tracker_search(columns = c("id", "activity", "title", "creator", "status", "assignedto", "actor")),
     date = Sys.Date() - 30, users = devteam) {
 
-    # search with no filter to get all issues
-    issues <- tracker_search(columns = c("id", "activity", "title", "creator", "status", "assignedto", "actor"))
-
     relevant_users <- subset(users(), name %in% users)
     relevant_issues <- subset(issues, as.Date(activity) >= date & assignedto %in% relevant_users$id)
 
     relevant_issues <- transform(relevant_issues,
-        reviewer = users()$name[match(assignedto, users()$id)],
-        status = code2status[status])
+        reviewer = users()$name[match(assignedto, users()$id)])
 
     ag <- aggregate(id ~ reviewer + status, data = relevant_issues, length, drop = FALSE)
     xtabs(id ~ reviewer + status, data = ag)
