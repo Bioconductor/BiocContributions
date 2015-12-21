@@ -17,10 +17,7 @@
 ## no version numbers or extensions it's basically what the source dir
 ## would be called)
 .getShortPkgName <- function(tarball){
-    sep <- .Platform$file.sep
-    notTar <- paste("^",sep,".*",sep, sep="")
-    tar <-  sub(notTar,"",tarball, perl=TRUE)
-    sub("_.*gz","", tar, perl=TRUE)
+    sub("_.*","", basename(tarball))
 }
 
 ## This throws away unwanted extra lines and junk from the DESCRIPTION file
