@@ -1,6 +1,5 @@
 #' Members of the devteam
 devteam <- c(
-    "Jim Hester",
     "Martin Morgan",
     "Valerie Obenchain",
     "Herve Pages",
