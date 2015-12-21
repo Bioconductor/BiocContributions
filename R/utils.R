@@ -11,24 +11,24 @@ ddply <- function(x, by, fun, ...) {
 # use findInterval to merge x and y by the closest type
 # @param by the column to merge by
 # @param decreasing to sort results increasing or decreasing
-merge_closest <- function(x, y, by, decreasing = FALSE) {
-
-  # findInterval needs to be sorted ascending
-  x <- x[order(x[[by]]), ]
-  y <- y[order(y[[by]]), ]
+merge_closest <- function(x, y, fun, ...) {
 
   # generate idx columns for both datasets
   x$idx <- seq_len(NROW(x))
-  y$idx <- findInterval(y[[by]], x[[by]])
+  single_bracket <- function(x, i, j, ..., drop = TRUE) {
+    x[i, j, ..., drop = drop]
+  }
+  row_apply <- function(x, fun, ...) {
+      lapply(
+          lapply(seq_len(NROW(x)), single_bracket, x = x),
+          fun, ...)
+  }
+  y$idx <- vapply(row_apply(y, fun), function(x) { x <- which.min(x); if (length(x)) x else NA }, integer(1))
 
-  x <- merge(x, y[, names(y) != by], by = "idx", all.x = TRUE)
+  res <- merge(x, y, by = "idx", all.x = TRUE)
 
   # remove the idx column from result
-  x <- x[names(x) != "idx"]
+  res <- res[names(res) != "idx"]
 
-  if (isTRUE(decreasing)) {
-      x[order(x, decreasing = decreasing), ]
-  } else {
-      x
-  }
+  res
 }

@@ -179,12 +179,23 @@ get_issue <- function(session = tracker_login(), number) {
     attachments <- parse_attachments(rvest::html_nodes(response, ".files tr td"))
 
     # merge by closest time per author
+    close_times <- function(y, cutoff = 5) {
+        function(x) {
+            times <- abs(difftime(x$time, y$time, units = "secs"))
+            times[times > cutoff] <- NA
+            times
+        }
+    }
     res <- ddply(res, "author",
         function(df) {
-            merge_closest(df,
-                attachments[attachments$author == df$author[1],
-                            names(attachments) != "author", drop = FALSE],
-                by = "time")})
+            att <- attachments[attachments$author == df$author[1], , drop = FALSE]
+            merge_closest(df, att, close_times(df))
+        })
+    res$author <- res$author.x
+    res[c("author.x", "author.y")] <- list(NULL)
+
+    res$time <- res$time.x
+    res[c("time.x", "time.y")] <- list(NULL)
 
     rownames(res) <- res$id
 
