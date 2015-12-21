@@ -310,3 +310,16 @@ format.issue <- function(x, ...) {
             ""),
         x$message, "\n")
 }
+
+#' Retrieve the user list
+#' @inheritParams tracker_search
+#' @export
+users <- function(session = tracker_login(), ...) {
+    session <- rvest::jump_to(session, "https://tracker.bioconductor.org/user")
+    tbl <- as.data.frame(rvest::html_table(rvest::html_node(session, "table.list")))
+    names(tbl) <- c("user_name", "name", "organisation", "email", "phone_number")
+
+    tbl$id <- gsub("user", "", rvest::html_attr(rvest::html_nodes(session, "table.list tr td a"), "href"))
+    class(tbl) <- c("tbl_df", "tbl", "data.frame")
+    tbl
+}
