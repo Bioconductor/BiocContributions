@@ -38,7 +38,7 @@ readDESCRIPTION <- function(tarball) {
     if (length(description) == 0) stop("No DESCRIPTION")
     if (length(description) > 1) {
         description <- description[which.min(nchar(description))]
-        message("Mutliple descriptions: using ", description)
+        message("Multiple descriptions: using ", description)
     }
 
     untar(tarball, files = description, exdir = tempdir())
