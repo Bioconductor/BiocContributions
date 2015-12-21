@@ -79,15 +79,17 @@ tracker_search <- function(columns = c("id", "activity", "title", "creator", "st
     data <- httr::content(res$response)
     data$status <- status_map[data$status]
     data$activity <- roundup_datetime(data$activity)
-    keyword_numbers <- lapply(sub("\\[(.*)\\]", "c(\\1)", data$keyword),
-        function(x) {
-            res <- eval(parse(text=x))
-            if (is.null(res)) {
-                res <- character(0)
-            }
-            res
-        })
-    data$keyword <- lapply(keyword_numbers, function(x) keyword_map()[x])
+    if (!is.null(data$keyword)) {
+        keyword_numbers <- lapply(sub("\\[(.*)\\]", "c(\\1)", data$keyword),
+            function(x) {
+                res <- eval(parse(text=x))
+                if (is.null(res)) {
+                    res <- character(0)
+                }
+                res
+            })
+        data$keyword <- lapply(keyword_numbers, function(x) keyword_map()[x])
+    }
     data
 }
 
