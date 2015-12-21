@@ -613,7 +613,7 @@ as.logical.svn_matches <- function(x, ...) {
     res <- svnUserMatches(usernames)
     finalUserNames <-  paste(res, collapse=", ")
     ## Combine and return
-    names(finalUserNames) <- pkgName
+    names(finalUserNames) <- description$Package
     finalUserNames
 }
 
@@ -648,12 +648,9 @@ as.logical.svn_matches <- function(x, ...) {
 .isDevel <- function(){packageVersion("BiocInstaller")$minor %% 2 == 1}
 
 ## tarballs is a character vector of tarball paths.
-generatePermissionEdits <- function(tarballsPath=".", suffix=".tar.gz$"){
-    if(!.isDevel()){
-        stop("TROUBLE!  You should only run this function if you are using an approved devel version of R.")
-    }
+generatePermissionEdits <- function(path = ".", pattern = "\\.tar\\.gz$"){
     ## start with tarballs in whatever dir we have here...
-    tarballs <- .getTars(path=tarballsPath, suffix=suffix)
+    tarballs <- dir(path = path, pattern = pattern, full.names = TRUE)
     ## store the above in a list object
     data <- lapply(tarballs, .getPkgNameAndUser)
     
