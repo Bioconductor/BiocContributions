@@ -4,7 +4,7 @@
 \alias{assign_new_packages_hash}
 \title{Assign new packages}
 \usage{
-assign_new_packages_hash(session = tracker_login(), team = names(devteam),
+assign_new_packages_hash(session = tracker_login(), team = devteam,
   pkgs = unassigned_packages(session))
 }
 \arguments{

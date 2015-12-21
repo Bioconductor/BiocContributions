@@ -4,16 +4,23 @@
 \alias{download}
 \title{Download attachments from an issue}
 \usage{
-download(session = tracker_login(), issue, dir = ".", ...)
+download(session = tracker_login(), issue, dir = ".", last_only = TRUE,
+  pattern = "[.]tar[.]gz$", overwrite = FALSE, ...)
 }
 \arguments{
 \item{session}{the HTTP session to use}
 
-\item{issue}{The issue object, or issue number to download files from}
+\item{issue}{Issue object, or issue number to download files from}
 
-\item{dir}{the location to store the files}
+\item{dir}{Location to store the files}
 
-\item{...}{Additional query parameters}
+\item{last_only}{If \code{TRUE} only download the last submitted tarball.}
+
+\item{pattern}{Regular expression for files to download.}
+
+\item{overwrite}{Will only overwrite existing \code{path} if TRUE.}
+
+\item{...}{Additional Arguments passed to \code{\link[rvest]{jump_to}}.}
 }
 \description{
 Download attachments from an issue

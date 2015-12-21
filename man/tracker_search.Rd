@@ -2,6 +2,7 @@
 % Please edit documentation in R/tracker.R
 \name{tracker_search}
 \alias{my_issues}
+\alias{pre_accepted_packages}
 \alias{tracker_search}
 \alias{unassigned_packages}
 \title{Query the issue tracker}
@@ -12,6 +13,8 @@ tracker_search(session = tracker_login(), columns = c("id", "activity",
   9, 10), ...)
 
 unassigned_packages(session = tracker_login(), status = c(-1, 1), ...)
+
+pre_accepted_packages(session = tracker_login(), status = 9, ...)
 
 my_issues(session = tracker_login(), user = NULL, status = c(-1, 1, 2, 3,
   4, 5, 9, 10), ...)
@@ -35,6 +38,8 @@ Query the issue tracker
 \section{Functions}{
 \itemize{
 \item \code{unassigned_packages}: retrieve unassigned packages
+
+\item \code{pre_accepted_packages}: retrieve pre-accepted packages
 
 \item \code{my_issues}: retrieve the logged in users packages
 }}
