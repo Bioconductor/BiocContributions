@@ -1,6 +1,6 @@
 tracker_login <- function(
     url = "https://tracker.bioconductor.org",
-    user = getOption("tracker_login"),
+    user = getOption("tracker_user"),
     password = getOption("tracker_password")) {
 
     session <- rvest::html_session(url)
@@ -9,7 +9,7 @@ tracker_login <- function(
         `__login_name` = user,
         `__login_password` = password)
 
-    rvest::submit_form(tracker, login)
+    rvest::submit_form(session, login)
 }
 tracker_search <- function(session,
                            columns = c("id","activity","title","creator","status"),
@@ -92,4 +92,47 @@ desc <- function(x) {
     } else {
         paste0("-", x)
     }
+}
+
+#' Retrieve all of the messages from an issue
+get_issue <- function(session = tracker_login(), number) {
+    response <- rvest::jump_to(session, paste0("/issue", number))
+
+    rows <- rvest::html_nodes(response, ".messages tr")
+    if (!NROW(rows)) {
+        return(NULL)
+    }
+
+    metadata <- rows[seq(2, length(rows), 2)]
+
+    parseMetadata <- function(x) {
+        headers <- rvest::html_nodes(x, "th")
+        data.frame(
+            id = rvest::html_attr(headers[[1]][[1]], "href"),
+            author = gsub(x = rvest::html_text(headers[[2]]), "Author: ", ""),
+            date = as.POSIXlt(format = "%Y-%M-%d.%H:%M:%S", tz = "PST",
+                gsub(x = rvest::html_text(headers[[3]]), "Date: ", "")),
+            stringsAsFactors = FALSE
+        )
+    }
+    res <- do.call(rbind, lapply(metadata, parseMetadata))
+
+    parseMessages <- function(x) {
+        preformatted <- rvest::html_nodes(x, "pre")
+        lapply(preformatted, rvest::html_text)
+    }
+    messages <- vapply(rows[seq(3, length(rows), 2)],
+        function(x) { trimws(gsub("\r", "", rvest::html_text(x))) }, character(1))
+
+    res$message <- messages
+    class(res) <- c("issue", "data.frame")
+    res
+}
+
+print.issue <- function(x, ...) {
+    msg <- paste0("Author: ", x$author, "\n",
+                "Date: ", x$date, "\n",
+                x$message)
+    cat(msg, sep = "\n\n")
+    invisible(msg)
 }
