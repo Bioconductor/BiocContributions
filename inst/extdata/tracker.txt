@@ -18,9 +18,6 @@ created containing the output of R CMD build and check on all platforms. When
 reading [1], please pay attention to the date displayed next to - "Snapshot
 Date:"  and "This page was generated on".
 
-This package review will be marked as accepted by your reviewer, only after you
-get a clear build report on the build system!
-
 Thanks,
 {{senderName}}
 
