@@ -327,3 +327,4 @@ that you have something like this in your .Rprofile:
 
 \keyword{manip}
 
+ 
