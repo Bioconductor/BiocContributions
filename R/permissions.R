@@ -2,9 +2,12 @@
 #'
 #' @param file location passed to rsync
 #' @export
-read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
+read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", quiet = TRUE) {
     tmp <- tempfile()
-    system2("rsync", args = c(file, tmp))
+    result <- system2("rsync", args = c(file, tmp), stderr = !isTRUE(quiet), stdout = !isTRUE(quiet))
+    if (!identical(result, 0L)) {
+        stop("retrieving file ", sQuote(file), call. = FALSE)
+    }
     res <- readLines(tmp)
     group_locs <- grepl("^\\[", res)
     groups <- gsub("[][]", "", res[group_locs])
@@ -105,6 +108,9 @@ edit_software_permissions.data.frame <- function(x, data = read_permissions(),
     edit_software_permissions(split(x$user, x$package))
 }
 
+#edit_permissions <- function(group, locations) {
+
+#}
 #' @describeIn edit_software_permissions list input, expects a named list of packages and users
 edit_software_permissions.list <- function(x, data = read_permissions(), version = "3.2") {
     assert(is_named(x), "Input must be a named list")
@@ -262,6 +268,10 @@ parse_authz_line <- function(x, ...) {
 }
 
 authz_section <- function(x, name) {
+    missing_nms <- !nzchar(names(x))
+    if (any(missing_nms)) {
+        names(x)[missing_nms] <- NA
+    }
     attr(x, "name") <- name
     class(x) <- "authz_section"
     x
