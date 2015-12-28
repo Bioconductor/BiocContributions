@@ -1,0 +1,80 @@
+[groups]
+# Global BioC Repos Groups
+bioconductor-readers = a.rauschenberger, n.lawlor, p.freire-pritchett, j.fan, jd.zhang, j.sun2, j.heiss, p.westermark, a.karapetyan, m.zingaretti, v.kim
+
+bioconductor-write0 = j.hester, b.long, j.java
+
+# Misc BioC Groups
+Brazil-Oct-2013 = j.gagneur, e.turro, bcarvalh@jhsph.edu, m.love
+
+# a group for anonymous use, readonly is a shared username
+# the password is 'readonly'
+anon = readonly
+
+# BioC Package Groups
+DEDS = yxiao@itsa.ucsf.edu
+
+bgafun = i.wallace
+idiogram = Karl.Dykema@vai.org
+sagenhaft = beissbar
+FamAgg = j.rainer
+iCOBRA = c.soneson
+Chicago = m.spivakov, j.cairns, p.freire-pritchett
+globalSeq = a.rauschenberger
+multiClust = n.lawlor
+scde = j.fan
+biomformat = p.mcmurdie
+BioQC = jd.zhang
+dcGSA = j.sun, j.sun2
+normalize450K = j.heiss
+profileScoreDist = p.westermark
+transcriptR = a.karapetyan
+kimod = m.zingaretti
+lpsymphony = v.kim
+splineTCDiffExpr = h.braselmann
+
+# No one gets any access by default.
+[/]
+* = 
+@bioconductor-readers = r
+@bioconductor-write0 = rw
+
+[/trunk/bioconductor.org]
+@anon = r
+
+[/trunk/madman/Rpacks/normalize450K]
+@normalize450K = rw
+
+[/branches/RELEASE_3_2/madman/Rpacks/normalize450K]
+@normalize450K = rw
+
+[/trunk/madman/Rpacks/profileScoreDist]
+@profileScoreDist = rw
+
+[/branches/RELEASE_3_2/madman/Rpacks/profileScoreDist]
+@profileScoreDist = rw
+
+[/trunk/madman/Rpacks/transcriptR]
+@transcriptR = rw
+
+[/branches/RELEASE_3_2/madman/Rpacks/transcriptR]
+@transcriptR = rw
+
+[/trunk/madman/Rpacks/kimod]
+@kimod = rw
+
+[/branches/RELEASE_3_2/madman/Rpacks/kimod]
+@kimod = rw
+
+[/trunk/madman/Rpacks/lpsymphony]
+@lpsymphony = rw
+
+[/branches/RELEASE_3_2/madman/Rpacks/lpsymphony]
+@lpsymphony = rw
+
+[/trunk/madman/Rpacks/splineTCDiffExpr]
+@splineTCDiffExpr = rw
+
+[/branches/RELEASE_3_2/madman/Rpacks/splineTCDiffExpr]
+@splineTCDiffExpr = rw
+

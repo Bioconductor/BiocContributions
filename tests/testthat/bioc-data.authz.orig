@@ -1,0 +1,100 @@
+[groups]
+bioc-data-readers = a.kauffmann, y.taguchi, j.barry, r.carlos, p.freire-pritchett, j.cairns, m.spivakov, h.braselmann, g.bhatti, m.smith
+
+
+anon = readonly
+
+bioc-data-writers = s.arora, n.hayden, j.hester
+
+
+# BioC Data Package Groups
+lumiBarnes = dupan@northwestern.edu
+CCl4 = a.kauffmann
+RTCGA.mutations = m.kosinski
+PGPC = f.klein
+MEALData = r.carlos
+PCHiCdata = p.freire-pritchett, j.cairns, m.spivakov
+furrowSeg = j.barry
+FIs = h.braselmann
+
+# No one gets any access by default.
+[/]
+* = 
+@bioc-data-readers = r
+@bioc-data-writers = rw
+
+# Everyone should get read-only access (?)
+[/trunk/experiment]
+@anon = r
+
+[/branches/RELEASE_3_2/experiment]
+@anon = r
+
+[/branches/RELEASE_3_2/experiment]
+@anon = r
+
+[/trunk/experiment/pkgs/lumiBarnes]
+@lumiBarnes = rw
+
+[/trunk/experiment/data_store/lumiBarnes]
+@lumiBarnes = rw
+
+[/trunk/experiment/pkgs/PGPC]
+@PGPC = rw
+
+[/trunk/experiment/data_store/PGPC]
+@PGPC = rw
+
+[/branches/RELEASE_3_2/experiment/pkgs/PGPC]
+@PGPC = rw
+
+[/branches/RELEASE_3_2/experiment/data_store/PGPC]
+@PGPC = rw
+
+[/trunk/experiment/pkgs/MEALData]
+@MEALData = rw
+
+[/trunk/experiment/data_store/MEALData]
+@MEALData = rw
+
+[/branches/RELEASE_3_2/experiment/pkgs/MEALData]
+@MEALData = rw
+
+[/branches/RELEASE_3_2/experiment/data_store/MEALData]
+@MEALData = rw
+
+[/trunk/experiment/pkgs/PCHiCdata]
+@PCHiCdata = rw
+
+[/trunk/experiment/data_store/PCHiCdata]
+@PCHiCdata = rw
+
+[/branches/RELEASE_3_2/experiment/pkgs/PCHiCdata]
+@PCHiCdata = rw
+
+[/branches/RELEASE_3_2/experiment/data_store/PCHiCdata]
+@PCHiCdata = rw
+[/trunk/experiment/pkgs/furrowSeg]
+@furrowSeg = rw
+
+[/trunk/experiment/data_store/furrowSeg]
+@furrowSeg = rw
+
+[/branches/RELEASE_3_2/experiment/pkgs/furrowSeg]
+@furrowSeg = rw
+
+[/branches/RELEASE_3_2/experiment/data_store/furrowSeg]
+@furrowSeg = rw
+
+[/trunk/experiment/pkgs/FIs]
+@FIs = rw
+
+[/trunk/experiment/data_store/FIs]
+@FIs = rw
+
+[/branches/RELEASE_3_2/experiment/pkgs/FIs]
+@FIs = rw
+
+[/branches/RELEASE_3_2/experiment/data_store/FIs]
+@FIs = rw
+

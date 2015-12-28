@@ -1,3 +1,5 @@
+options(useFancyQuotes = FALSE)
+
 context("read_permissions")
 test_that("it fails if file does not exist", {
    expect_error(read_permissions("unknown"), "retrieving file 'unknown'")
@@ -5,10 +7,10 @@ test_that("it fails if file does not exist", {
 
 test_that("it is read correctly", {
     res <- read_permissions("bioconductor.authz.orig")
-    expect_equal(length(res), 2265L)
+    expect_equal(length(res), 15L)
 
-    expect_equal(names(res)[1:5],
-        c("groups", "/", "/trunk/bioconductor.org", "/trunk/bioC/R-patches", "/trunk/madman/Rpacks"))
+    expect_equal(names(res)[1:3],
+        c("groups", "/", "/trunk/bioconductor.org"))
 
     # check group is read correctly
     expect_equal(names(res$groups)[1:4], c(NA, "bioconductor-readers", NA, "bioconductor-write0"))
@@ -87,11 +89,11 @@ test_that("Setting multiple users to multiple packages package assignments works
     res <- read_permissions("bioconductor.authz.orig")
 
     new_perms <- edit_software_permissions(list(`lpsymphony` = c("j.heiss", "a.karapetyan"),
-            `transcriptR` = c("a.bass", "j.sun2")), data = res)
+            `transcriptR` = c("v.kim", "j.sun2")), data = res)
 
     # New user set
     expect_equal(new_perms$groups$`lpsymphony`, c("j.heiss", "a.karapetyan"))
-    expect_equal(new_perms$groups$`transcriptR`, c("a.bass", "j.sun2"))
+    expect_equal(new_perms$groups$`transcriptR`, c("v.kim", "j.sun2"))
 
     # Rest of data is equal
     modified_groups <- which(names(new_perms$groups) %in% c("lpsymphony", "transcriptR"))
@@ -156,11 +158,11 @@ test_that("Setting multiple new users to multiple packages package assignments w
 test_that("Adding new packages works", {
     res <- read_permissions("bioconductor.authz.orig")
 
-    new_perms <- edit_software_permissions(list(`new.pkg` = "a.bass"), data = res)
+    new_perms <- edit_software_permissions(list(`new.pkg` = "v.kim"), data = res)
 
     # New package added
     expect_true("new.pkg" %in% names(new_perms$groups))
-    expect_equal(new_perms$groups$`new.pkg`, "a.bass")
+    expect_equal(new_perms$groups$`new.pkg`, "v.kim")
 
     new_paths <- tail(n = 2, new_perms)
     expect_equal(names(new_paths),
