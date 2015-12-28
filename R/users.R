@@ -7,7 +7,7 @@
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
 #'
 #' maintainer <- maintainers(pkg)
-#' match_user(pkg)
+#' match_user(maintainer)
 match_user <- function(x) {
     assert(inherits(x, "person"), "'x' must be a person object")
 

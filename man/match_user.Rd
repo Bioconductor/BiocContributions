@@ -17,6 +17,6 @@ pkg <- system.file(package="BiocContributions",
   "testpackages", "RNASeqPower_1.11.0.tar.gz")
 
 maintainer <- maintainers(pkg)
-match_user(pkg)
+match_user(maintainer)
 }
 

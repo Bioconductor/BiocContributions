@@ -255,11 +255,15 @@ issue <- function(number, session = tracker_login()) {
     res
 }
 
+#' Coerce to an issue object
+#'
+#' @param x object to be coerced
+#' @param ... Additional arguments passed to methods
 #' @export
 as.issue <- function(x, ...) UseMethod("as.issue")
 
 #' @export
-as.issue.issue <- identity
+as.issue.issue <- function(x, ...) x
 
 #' @export
 as.issue.numeric <- function(x, ...) issue(number = x, ...)
@@ -441,6 +445,7 @@ package_assignment_email <- function(pkgs = unassigned_packages(...),
     message
 }
 
+#' @describeIn assign_package assign multiple packages with assignment code
 #' @export
 assign_packages <- function(pkgs, code = assign_new_packages(...), ...) {
     assignments <- eval(code, envir = baseenv())
@@ -450,6 +455,8 @@ assign_packages <- function(pkgs, code = assign_new_packages(...), ...) {
     Map(assign_package, x$id, x$reviewer)
 }
 
+#' Assign a specific package
+#'
 #' @param number issue number
 #' @param assignment lookup assignee by name
 #' @export

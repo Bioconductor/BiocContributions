@@ -16,7 +16,11 @@ Imports:
     digest,
     memoise,
     withr,
-    googlesheets
+    googlesheets,
+    gmailr,
+    knitr,
+    rex,
+    xml2
 Suggests: 
     sendmailR,
     BiocInstaller,
