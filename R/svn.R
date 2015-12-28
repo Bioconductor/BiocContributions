@@ -28,7 +28,6 @@ svn <- function(dir = getwd()) {
              withr::with_dir(dir, status(args))
          },
          log = function(args = NULL) {
-             library(xml2)
              withr::with_dir(dir,
                  xml2::read_xml(
                      paste(collapse = "\n",
@@ -77,29 +76,6 @@ svn <- function(dir = getwd()) {
     )
 }
 
-#' Add software packages to SVN
-#'
-#' @param x package tarballs to add.
-#' @param svn_location location of the SVN repository
-#' @param manifest name of the manifest file
-add_software_packages <- function(x, svn_location = "~/proj/Rpacks", manifest = "bioc_3.3.manifest") {
-    lapply(x, clean)
-    s <- svn(svn_location)
-    s$update()
-
-    pkg_names <- .getShortPkgName(x)
-    s$status()
-
-    current <- s$read(manifest)
-    if (check_manifest(current, pkg_names)) {
-        s$add(pkg_names)
-        s$write(manifest,
-                append(current, paste0("Package: ", pkg_names, "\n")))
-        s$status()
-        s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
-    }
-}
-
 check_manifest <- function(x, pkgs) {
     match <- compact(Map(function(pkg) {
             grep(paste0("Package:[[:space:]]+", pkg, "\\b"), x)
@@ -112,26 +88,52 @@ check_manifest <- function(x, pkgs) {
     TRUE
 }
 
-#' Add data experiment packages to SVN
-#'
-#' @inheritParams add_software_packages
-add_data_experiment_packages <- function(x, svn_location = "~/proj/experiment",
-    manifest = "pkgs/bioc-data-experiment.3.3.manifest") {
+add_package_type <- function(svn_location, manifest, clean_function, adding_code) {
+    eval(bquote(
+        function(x, svn_location = .(svn_location), manifest = .(manifest)) {
+            lapply(x, .(clean_function))
+            s <- svn(svn_location)
+            s$update()
 
-    lapply(x, clean_data_pkg)
-    s <- svn(svn_location)
-    s$update()
+            pkg_names <- .getShortPkgName(x)
+            s$status()
 
-    pkg_names <- .getShortPkgName(x)
-    message(s$status())
-    s$add(file.path("pkgs", pkg_names))
-    s$add(file.path("data_store", pkg_names))
-    s$write(manifest,
-        append(s$read(manifest),
-            paste0("Package: ", pkg_names, "\n")))
-    message(s$status())
-    s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
+            current <- s$read(manifest)
+            if (check_manifest(current, pkg_names)) {
+                .(adding_code)
+                s$write(manifest,
+                    append(current, paste0("Package: ", pkg_names, "\n")))
+                s$status()
+                s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
+            }
+        }))
 }
+
+#' Add packages to SVN
+#'
+#' @param x package tarballs to add.
+#' @param svn_location location of the SVN repository
+#' @param manifest name of the manifest file
+#' @name add_packages
+NULL
+
+#' @describeIn add_packages Software Packages
+#' @export
+add_software_packages <- add_package_type(svn_location = "~/proj/Rpacks",
+    manifest = "bioc_3.3.manifest",
+    clean_function = quote(clean),
+    adding_code = quote(s$add(pkg_names)))
+
+#' @describeIn add_packages Data Experiment Packages
+#' @export
+add_data_experiment_packages <- add_package_type(
+    svn_location = "~/proj/experiment",
+    manifest = "pkgs/bioc-data-experiment.3.3.manifest",
+    clean_function = quote(clean_data_package),
+    adding_code = quote({
+        s$add(file.path("pkgs", pkg_names))
+        s$add(file.path("data_store", pkg_names))
+    }))
 
 #' @export
 print.svn_logentry <- function(x, ...) {
@@ -143,4 +145,3 @@ print.svn_logentry <- function(x, ...) {
           ),
       xml_text(xml_find_one(x, ".//msg")))
 }
-
