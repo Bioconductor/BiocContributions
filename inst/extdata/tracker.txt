@@ -8,7 +8,7 @@ Next Steps:
 You should have received an email from me with your SVN credentials, Please
 ensure the following
 1 - You have read/write access to your package
-2 - The package has build without ERROR
+2 - The package has built without ERROR
 
 http://bioconductor.org/checkResults/3.3/{{type}}/{{package}}
 
