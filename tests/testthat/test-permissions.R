@@ -41,7 +41,7 @@ test_that("Reading and writing without changes produces the same file", {
     expect_equal(orig_lines, new_lines)
 })
 
-context("edit_permissions")
+context("edit_software_permissions")
 test_that("Assigning new biocoductor-users works", {
     res <- read_permissions("bioconductor.authz.orig")
 
@@ -171,6 +171,93 @@ test_that("Adding new packages works", {
             authz_section(list("@new.pkg" = "rw", ""), name = "/trunk/madman/Rpacks/new.pkg"),
         "/branches/RELEASE_3_2/madman/Rpacks/new.pkg" =
             authz_section(list("@new.pkg" = "rw", ""), name = "/branches/RELEASE_3_2/madman/Rpacks/new.pkg")))
+
+    # Rest of data is equal
+    modified_groups <- which(names(new_perms$groups) %in% c("new.pkg"))
+    expect_equal(new_perms$groups[-modified_groups], c(res$groups[]))
+})
+
+context("data_experiment_permissions")
+test_that("Assigning new bioc-data-users works", {
+    res <- read_permissions("bioc-data.authz.orig")
+
+    new_perms <- edit_data_experiment_permissions.list(list(`bioc-data-readers` = "test.user"), data = res)
+
+    # New user added
+    expect_equal(new_perms$groups$`bioc-data-readers`, "test.user")
+
+    # Rest of data is equal
+    expect_equal(new_perms$groups[-1], res$groups[-1])
+    expect_equal(new_perms[-1], res[-1])
+})
+
+test_that("Setting a single user to existing package assignments works", {
+    res <- read_permissions("bioc-data.authz.orig")
+
+    new_perms <- edit_data_experiment_permissions(list(`lumiBarnes` = "j.cairns"), data = res)
+
+    # New user set
+    expect_equal(new_perms$groups$`lumiBarnes`, "j.cairns")
+
+    # Rest of data is equal
+    modified_groups <- which(names(new_perms$groups) == "lumiBarnes")
+    expect_equal(new_perms$groups[-modified_groups], res$groups[-modified_groups])
+    expect_equal(new_perms[-1], res[-1])
+})
+
+test_that("Setting multiple users to existing package assignments works", {
+    res <- read_permissions("bioc-data.authz.orig")
+
+    new_perms <- edit_data_experiment_permissions(list(`lumiBarnes` = c("j.cairns", "g.bhatti")), data = res)
+
+    # New user set
+    expect_equal(new_perms$groups$`lumiBarnes`, c("j.cairns", "g.bhatti"))
+
+    # Rest of data is equal
+    modified_groups <- which(names(new_perms$groups) == "lumiBarnes")
+    expect_equal(new_perms$groups[-modified_groups], res$groups[-modified_groups])
+    expect_equal(new_perms[-1], res[-1])
+})
+
+test_that("Setting multiple users to multiple existing package assignments works", {
+    res <- read_permissions("bioc-data.authz.orig")
+
+    new_perms <- edit_data_experiment_permissions(list(`lumiBarnes` = c("j.cairns", "g.bhatti"), 
+            `CCl4` = c("a.kauffmann", "y.taguchi")), data = res)
+
+    # New user set
+    expect_equal(new_perms$groups$`lumiBarnes`, c("j.cairns", "g.bhatti"))
+    expect_equal(new_perms$groups$`CCl4`, c("a.kauffmann", "y.taguchi"))
+
+    # Rest of data is equal
+    modified_groups <- which(names(new_perms$groups) %in% c("lumiBarnes", "CCl4"))
+    expect_equal(new_perms$groups[-modified_groups], res$groups[-modified_groups])
+    expect_equal(new_perms[-1], res[-1])
+})
+test_that("Adding new packages works", {
+    res <- read_permissions("bioc-data.authz.orig")
+
+    new_perms <- edit_data_experiment_permissions(list(`new.pkg` = "m.smith"), data = res)
+
+    # New package added
+    expect_true("new.pkg" %in% names(new_perms$groups))
+    expect_equal(new_perms$groups$`new.pkg`, "m.smith")
+
+    new_paths <- tail(n = 4, new_perms)
+    expect_equal(names(new_paths),
+        c("/trunk/experiment/pkgs/new.pkg", "/trunk/experiment/data_store/new.pkg",
+        "/branches/RELEASE_3_2/experiment/pkgs/new.pkg", "/branches/RELEASE_3_2/experiment/data_store/new.pkg"))
+
+    expect_equal(new_paths,
+        list(
+            "/trunk/experiment/pkgs/new.pkg" =
+                authz_section(list("@new.pkg" = "rw", ""), name = "/trunk/experiment/pkgs/new.pkg"),
+            "/trunk/experiment/data_store/new.pkg" =
+                authz_section(list("@new.pkg" = "rw", ""), name = "/trunk/experiment/data_store/new.pkg"),
+            "/branches/RELEASE_3_2/experiment/pkgs/new.pkg" =
+                authz_section(list("@new.pkg" = "rw", ""), name = "/branches/RELEASE_3_2/experiment/pkgs/new.pkg"),
+            "/branches/RELEASE_3_2/experiment/data_store/new.pkg" =
+                authz_section(list("@new.pkg" = "rw", ""), name = "/branches/RELEASE_3_2/experiment/data_store/new.pkg")))
 
     # Rest of data is equal
     modified_groups <- which(names(new_perms$groups) %in% c("new.pkg"))

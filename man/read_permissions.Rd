@@ -5,7 +5,8 @@
 \title{Read authz permission file}
 \usage{
 
-  read_permissions(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz")
+  read_permissions(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz",
+  quiet = TRUE)
 }
 \arguments{
 \item{file}{location passed to rsync}

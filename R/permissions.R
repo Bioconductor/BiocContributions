@@ -108,53 +108,57 @@ edit_software_permissions.data.frame <- function(x, data = read_permissions(),
     edit_software_permissions(split(x$user, x$package))
 }
 
-#edit_permissions <- function(group, locations) {
+edit_permissions <- function(data, group, locations) {
+    eval(bquote(function(x, data = .(data), version = "3.2") {
+        assert(is_named(x), "Input must be a named list")
 
-#}
-#' @describeIn edit_software_permissions list input, expects a named list of packages and users
-edit_software_permissions.list <- function(x, data = read_permissions(), version = "3.2") {
-    assert(is_named(x), "Input must be a named list")
+        x[] <- lapply(x, as.character)
 
-    x[] <- lapply(x, as.character)
+        usernames <- unlist(x, use.names = FALSE)
 
-    usernames <- unlist(x, use.names = FALSE)
+        # Add any missing users to the .(group) group
+        readers <- data$groups[[.(group)]]
+        missing_users <- !usernames %in% readers
+        data$groups[[.(group)]] <- append(readers, usernames[missing_users])
 
-    # Add any missing users to the bioconductor-readers group
-    readers <- data$groups$`bioconductor-readers`
-    missing_users <- !usernames %in% readers
-    data$groups$`bioconductor-readers` <- append(readers, usernames[missing_users])
+        new <- !names(x) %in% names(data$groups)
 
-    new <- !names(x) %in% names(data$groups)
+        # For existing groups, assign the new users
+        data$groups[names(x)[!new]] <- x[!new]
 
-    # For existing groups, assign the new users
-    data$groups[names(x)[!new]] <- x[!new]
+        end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
+        if (any(new)) {
+            data$groups <- authz_section(append(data$groups, x[new], end_of_groups),
+                name = "groups")
 
-    end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
-    if (any(new)) {
-        data$groups <- authz_section(append(data$groups, x[new], end_of_groups),
-            name = "groups")
+            new_packages <- names(x)[new]
 
-        new_packages <- names(x)[new]
+            for (pkg in new_packages) {
 
-        for (pkg in new_packages) {
+                # Unfortunately you cannot use append for this as it calls c(),
+                # which drops attributes :(. So we have to do the appending manually
+                len <- length(data)
+                obj <- list("rw", "")
+                names(obj) <- c(paste0("@", pkg), NA)
 
-            # Unfortunately you cannot use append for this as it calls c(),
-            # which drops attributes :(. So we have to do the appending manually
-            len <- length(data)
-            obj <- list("rw", "")
-            names(obj) <- c(paste0("@", pkg), NA)
-
-            trunk_loc <- paste0("/trunk/madman/Rpacks/", pkg)
-            data[[len + 1L]] <- authz_section(obj, name = trunk_loc)
-            names(data)[[len + 1L]] <- trunk_loc
-
-            release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/madman/Rpacks/", pkg)
-            data[[len + 2L]] <- authz_section(obj, name = release_loc)
-            names(data)[[len + 2L]] <- release_loc
+                .(locations)
+            }
         }
-    }
-    data
+        data
+    }))
 }
+
+#' @describeIn edit_software_permissions list input, expects a named list of packages and users
+edit_software_permissions.list <- edit_permissions(quote(read_permissions()), "bioconductor-readers",
+    quote({
+        trunk_loc <- paste0("/trunk/madman/Rpacks/", pkg)
+        data[[len + 1L]] <- authz_section(obj, name = trunk_loc)
+        names(data)[[len + 1L]] <- trunk_loc
+
+        release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/madman/Rpacks/", pkg)
+        data[[len + 2L]] <- authz_section(obj, name = release_loc)
+        names(data)[[len + 2L]] <- release_loc
+    }))
 
 #' Edit the data experiment permissions
 #'
@@ -181,57 +185,25 @@ edit_data_experiment_permissions.data.frame <- function(x, data = read_permissio
 
 #' @describeIn edit_data_experiment_permissions list input, expects a named list of packages and users
 #' @export
-edit_data_experiment_permissions.list <- function(x, data = read_permissions("hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz"), version = "3.2") {
-    assert(is_named(x), "Input must be a named list")
+edit_data_experiment_permissions.list <- edit_permissions(quote(read_permissions("hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz")),
+    "bioc-data-readers",
+    quote({
+        trunk_loc <- paste0("/trunk/experiment/pkgs/", pkg)
+        data[[len + 1L]] <- authz_section(obj, name = trunk_loc)
+        names(data)[[len + 1L]] <- trunk_loc
 
-    x[] <- lapply(x, as.character)
+        trunk_loc <- paste0("/trunk/experiment/data_store/", pkg)
+        data[[len + 2L]] <- authz_section(obj, name = trunk_loc)
+        names(data)[[len + 2L]] <- trunk_loc
 
-    usernames <- unlist(x, use.names = FALSE)
+        release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/experiment/pkgs/", pkg)
+        data[[len + 3L]] <- authz_section(obj, name = release_loc)
+        names(data)[[len + 3L]] <- release_loc
 
-    # Add any missing users to the bioc-data-readers group
-    readers <- data$groups$`bioc-data-readers`
-    missing_users <- !usernames %in% readers
-    data$groups$`bioc-data-readers` <- append(readers, usernames[missing_users])
-
-    new <- !names(x) %in% names(data$groups)
-
-    # For existing groups, assign the new users
-    data$groups[names(x)[!new]] <- x[!new]
-
-    end_of_groups <- tail(which(!nzchar(data$groups)), n = 1L) - 1L
-    if (any(new)) {
-        data$groups <- authz_section(append(data$groups, x[new], end_of_groups),
-            name = "groups")
-
-        new_packages <- names(x)[new]
-
-        for (pkg in new_packages) {
-
-            # Unfortunately you cannot use append for this as it calls c(),
-            # which drops attributes :(. So we have to do the appending manually
-            len <- length(data)
-            obj <- list("rw", "")
-            names(obj) <- c(paste0("@", pkg), NA)
-
-            trunk_loc <- paste0("/trunk/experiment/pkgs/", pkg)
-            data[[len + 1L]] <- authz_section(obj, name = trunk_loc)
-            names(data)[[len + 1L]] <- trunk_loc
-
-            trunk_loc <- paste0("/trunk/experiment/data_store/", pkg)
-            data[[len + 2L]] <- authz_section(obj, name = trunk_loc)
-            names(data)[[len + 2L]] <- trunk_loc
-
-            release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/experiment/pkgs/", pkg)
-            data[[len + 3L]] <- authz_section(obj, name = release_loc)
-            names(data)[[len + 3L]] <- release_loc
-
-            release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/experiment/data_store/", pkg)
-            data[[len + 4L]] <- authz_section(obj, name = release_loc)
-            names(data)[[len + 4L]] <- release_loc
-        }
-    }
-    data
-}
+        release_loc <- paste0("/branches/RELEASE_", sub("[.]", "_", version), "/experiment/data_store/", pkg)
+        data[[len + 4L]] <- authz_section(obj, name = release_loc)
+        names(data)[[len + 4L]] <- release_loc
+    }))
 
 #' Generate a standard commit message for permission edits
 #'
