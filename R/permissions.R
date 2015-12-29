@@ -4,6 +4,7 @@
 #' @export
 read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", quiet = TRUE) {
     tmp <- tempfile()
+    on.exit(unlink(tmp))
     result <- system2("rsync", args = c(file, tmp), stderr = !isTRUE(quiet), stdout = !isTRUE(quiet))
     if (!identical(result, 0L)) {
         stop("retrieving file ", sQuote(file), call. = FALSE)
@@ -26,6 +27,7 @@ read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz
 #' @export
 write_permissions <- function(x, file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", ...) {
     tmp <- tempfile()
+    on.exit(unlink(tmp))
     writeLines(format(x), con = tmp)
     system2("rsync", args = c(tmp, file))
 }

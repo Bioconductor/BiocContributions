@@ -171,12 +171,17 @@ clean_data_package <- function(tarball,
     # Remove the Packaged field
     desc$Packaged <- NULL
 
+    # Extract the tarball and cleanup afterwards
     untar(tarball, exdir = tempdir())
+    pkg_dir <- file.path(tempdir(), desc$Package)
+    on.exit(unlink(pkg_dir, recursive = TRUE))
 
-    files <- dir(file.path(tempdir(), desc$Package), recursive = TRUE)
+    # Get all extracted files
+    files <- dir(pkg_dir, recursive = TRUE)
 
     object_files <- "src/.*\\.(o|sl|so|dylib|a|dll|def)$"
 
+    # find all unwanted files
     unwanted <- grepl(
         paste0("^", paste0(collapse = "|",
                     c("DESCRIPTION", "inst/doc", "build", "\\.git", object_files))),
@@ -184,6 +189,7 @@ clean_data_package <- function(tarball,
 
     files <- files[!unwanted]
 
+    # find data directories
     is_data <- grepl(
         paste0("^", paste0(collapse="|", data_dirs)),
         files)
@@ -199,9 +205,11 @@ clean_data_package <- function(tarball,
         Map(file.copy, from, to)
     }
 
+    # copy non data files to the pkgs
     copy_files(file.path(tempdir(), non_data_files),
         file.path(svn_pkgs, non_data_files))
 
+    # copy the data files to the data store
     copy_files(file.path(tempdir(), data_files),
         file.path(svn_data_store, data_files))
 
