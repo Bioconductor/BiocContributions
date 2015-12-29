@@ -1,3 +1,16 @@
+#' Declare an SVN instance
+#'
+#' This is primarily a helper function for using svn progromatically.
+#' @param dir The SVN directory
+#' @export
+#' @examples
+#' \dontrun{
+#' s <- svn("my/svn/location")
+#' s$status()
+#' s$update()
+#' s$add("file3")
+#' s$commit("adding file3")
+#' }
 svn <- function(dir = getwd()) {
 
     parse_xml <- function(x) {
