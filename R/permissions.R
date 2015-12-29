@@ -56,10 +56,12 @@ run_command_on_file <- function(command) {
 NULL
 
 #' @describeIn run_commands Check out a RCS tracked file
+#' @export
 rcs_check_out <- run_command_on_file("co -l")
 
 #' @param message commit message for the check in
 #' @describeIn run_commands Check in a RCS tracked file
+#' @export
 rcs_check_in <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", message, args = NULL) {
     (run_command_on_file("ci -u"))(file = file, c(paste0("-m", message), args))
 }
@@ -95,11 +97,13 @@ print.authz_section <- print.authz <- print.authz_lines <- function(x, ...) {
 #' @param version The release version number
 #' @param x The edits to perform
 #' @param ... Additional arguments passed to methods
+#' @export
 edit_software_permissions <- function(x, ...) {
     UseMethod("edit_software_permissions")
 }
 
 #' @describeIn edit_software_permissions data.frame input, expects columns \sQuote{package} and \sQuote{user}
+#' @export
 edit_software_permissions.data.frame <- function(x, data = read_permissions(),
     version = 3.2, ...) {
     assert(all(c("package", "user") %in% colnames(x)),
@@ -149,6 +153,7 @@ edit_permissions <- function(data, group, locations) {
 }
 
 #' @describeIn edit_software_permissions list input, expects a named list of packages and users
+#' @export
 edit_software_permissions.list <- edit_permissions(quote(read_permissions()), "bioconductor-readers",
     quote({
         trunk_loc <- paste0("/trunk/madman/Rpacks/", pkg)
