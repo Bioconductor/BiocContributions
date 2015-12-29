@@ -58,6 +58,10 @@
     msgs
 }
 
+#' Email an existing user after package acceptance
+#'
+#' @inheritParams emailNewUser
+#' @export
 emailExistingUser <- function(tarball, sendMail=FALSE){
     description <- readDESCRIPTION(tarball)
 
@@ -121,6 +125,13 @@ readFile <- function(file) {
     }
 }
 
+#' Email a new user their credentials
+#'
+#' @param tarball the package tarball to email about
+#' @param userId The SVN user ID for the maintainer
+#' @param password The SVN password for the maintainer
+#' @param senderName The name of the email sender for use in the signature
+#' @export
 emailNewUser <- function(tarball, userId = "user.id", password = "password", senderName = "Jim"){
     description <- readDESCRIPTION(tarball)
 
