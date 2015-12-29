@@ -204,7 +204,7 @@ clean_data_package <- function(tarball,
         file.path(svn_data_store, data_files))
 
     # write the data paths in external_data_store.txt
-    writeLines(unique(dirname(data_files)),
+    writeLines(sub("^[^/]+/", "", unique(dirname(data_files))),
         file.path(svn_pkgs, desc$Package, "external_data_store.txt"))
 
     # write the modified description
