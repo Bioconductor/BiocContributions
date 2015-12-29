@@ -17,4 +17,10 @@ add_to_spreadsheet(x, ..., ws = 1, ss = tracker_spreadsheet())
 This function uses the googlesheets package to add data retrieved from the
 tracker.
 }
+\examples{
+\dontrun{
+pkgs <- unassigned_packages()
+add_to_spreadsheet(pkgs)
+}
+}
 
