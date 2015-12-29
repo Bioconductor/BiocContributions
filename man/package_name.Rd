@@ -2,7 +2,7 @@
 % Please edit documentation in R/addPackage.R
 \name{package_name}
 \alias{package_name}
-\title{Extract a packages name froma tarball}
+\title{Extract a packages name from a tarball}
 \usage{
 package_name(tarball)
 }
@@ -13,7 +13,7 @@ package_name(tarball)
 the package name
 }
 \description{
-Extract a packages name froma tarball
+Extract a packages name from a tarball
 }
 \examples{
 pkg <- system.file(package="BiocContributions",

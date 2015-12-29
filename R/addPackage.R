@@ -77,17 +77,19 @@ print.description <- function(x, ...) {
     }
 }
 
-## This is for cleaning up build tarballs, and then putting them into
-## svn (and emailing the authors to let them know this - when they
-## already have an account)
+#' Clean a Software Package
+#'
+#' This is for cleaning up build tarballs, and then putting them into
+#' svn (and emailing the authors to let them know this - when they
+#' already have an account)
+#' @inheritParams package_name
+#' @param svnDir Directory of the Rpacks checkout
+#' @param copyToSvnDir whether to copy the files to the SVN directory
+#' @export
 clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
                   svnAccountExists=FALSE){
     ## 1st re-run the checker from Dan to make sure we have the right thing...
     ## TODO: call Dans checker here?
-
-    ## make sure we are in unix (otherwise default arg for svnDir is no good)
-    if(.Platform$OS.type != "unix"){
-        stop("Sorry this function is only available from Unix")}
 
     ## access the tarball
     untar(tarball)
@@ -132,7 +134,7 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
 }
 
 
-#' Extract a packages name froma tarball
+#' Extract a packages name from a tarball
 #'
 #' @export
 #' @param tarball package tarball
