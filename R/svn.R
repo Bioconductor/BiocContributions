@@ -104,7 +104,7 @@ check_manifest <- function(x, pkgs) {
 add_package_type <- function(svn_location, manifest, clean_function, adding_code) {
     eval(bquote(
         function(x, svn_location = .(svn_location), manifest = .(manifest)) {
-            lapply(x, .(clean_function))
+            lapply(x, .(clean_function), .(svn_location))
             s <- svn(svn_location)
             s$update()
 
