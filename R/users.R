@@ -43,7 +43,7 @@ db2person <- function(x) {
 
 #' @export
 no_match <- function(x) {
-  vapply(x, function(x) length(x[[1]]), logical(1)) == 0
+  vapply(x, function(x) length(x[[1]]) == 0, logical(1))
 }
 
 #' @export
