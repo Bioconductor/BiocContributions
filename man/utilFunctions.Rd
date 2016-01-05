@@ -229,7 +229,14 @@ file that looks like this:
 The 'failmail' function works a bit differently and requires
 that you have something like this in your .Rprofile:
 
-\code{options(email.options=list(smtpServer="mx", smtpPort=25))}
+
+\code{options(email.options=
+list(host.name = "hostname", 
+    port = 25, tls = TRUE, authenticate = TRUE, user.name = "username", 
+    passwd = "password",  debug=FALSE,
+    ssl = TRUE)
+)}
+
 }
 
 \value{

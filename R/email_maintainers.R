@@ -10,6 +10,7 @@
         repos <- "data-experiment"
     url <- sprintf("http://master.bioconductor.org/checkResults/devel/%s-LATEST/meat-index.txt", 
         repos)
+    require(httr)
     txt <- content(GET(url))
     lines <- strsplit(txt, "\n")[[1]]
     curkpkg <- NULL
@@ -26,6 +27,7 @@
 
 .getPackageFails <- function(package, software=TRUE)
 {
+    require(httr)
     if (software)
         repos = "bioc"
     else
@@ -64,10 +66,16 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
     subject=sprintf("%s build problem", package), preview=TRUE,
     bccme=TRUE)
 {
-    if (!require(sendmailR)) stop("This function requires the sendmailR package.")
+    if (!require(mailR)) 
+    {
+        message("Installing required custom version of mailR package...")
+        library(devtools)
+        BiocInstaller::biocLite("dtenenba/mailR",
+            ref="useWithBiocContributions")
+        library(mailR)
+    }    
     if (is.null(getOption("email.options", NULL)))
-        stop("Please set options(email.options). See ?sendmailR::sendmail_options")
-    package <- sub("\\/$", "", package)
+        stop("Please set options(email.options) to a list, see ?failmail")    package <- sub("\\/$", "", package)
     if (software)
         repos = "bioc"
     else
@@ -131,14 +139,23 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
         if (!tolower(ans) == "y")
             return(invisible(NULL))
     }
+    msg <- paste0("<pre>", msg, "</pre>")
     bcc <- c()
     if (bccme)
         bcc <- from
-    sendmail(from, to, subject, msg,
-        bcc = bcc,
-        headers=list("X-BiocContributions"="TRUE"),
-        control=getOption("email.options"))
-    if (getOption("email.options")[["smtpPort"]] == 1025)
-        cat("Using a test email server, email not actually sent.")
+    debug <- FALSE
+    if (!is.null(getOption("email.options")$debug))
+        debug=getOption("email.options")$debug
+    send.mail(from,
+        to=to,
+        subject, msg,
+         bcc = bcc,
+         headers=list("X-BiocContributions"="TRUE"),
+        authenticate=TRUE,
+        html=TRUE,
+        smtp=getOption("email.options"),
+        debug=debug)
+    if (getOption("email.options")[["port"]] == 1025)
+            cat("Using a test email server, email not actually sent.")
     invisible(NULL)
 } 
