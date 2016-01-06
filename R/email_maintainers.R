@@ -75,7 +75,8 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
         library(mailR)
     }    
     if (is.null(getOption("email.options", NULL)))
-        stop("Please set options(email.options) to a list, see ?failmail")    package <- sub("\\/$", "", package)
+        stop("Please set options(email.options) to a list, see ?failmail")
+    package <- sub("\\/$", "", package)
     if (software)
         repos = "bioc"
     else
