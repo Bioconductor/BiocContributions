@@ -3,7 +3,7 @@ Type: Package
 Title: Convenience functions for adding packages to the svn repository. 
 Version: 0.99.54
 Author: Marc Carlson, Sonali Arora, Jim Hester
-Maintainer: packages@bioconductor.org
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to
     the repository, and for emailing people etc.
 Imports: 
