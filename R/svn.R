@@ -76,7 +76,7 @@ svn <- function(dir = getwd()) {
                      stop("Only write one file at a time", call. = FALSE)
                  }
                  con <- file(filename, "wb")
-                 writeLines(content, con, sep="\n")
+                 writeLines(con, content, sep="\n")
                  close(con)
                  })
          },
