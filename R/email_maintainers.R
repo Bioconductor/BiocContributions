@@ -147,7 +147,7 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
     debug <- FALSE
     if (!is.null(getOption("email.options")$debug))
         debug=getOption("email.options")$debug
-    send.mail(from,
+    res <- send.mail(from,
         to=to,
         subject, msg,
          bcc = bcc,
@@ -158,5 +158,5 @@ failmail <- function(package, software=TRUE, from=getOption("fromEmail",
         debug=debug)
     if (getOption("email.options")[["port"]] == 1025)
             cat("Using a test email server, email not actually sent.")
-    invisible(NULL)
+    res
 } 
