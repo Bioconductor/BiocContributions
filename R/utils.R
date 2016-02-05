@@ -59,7 +59,7 @@ desc <- function(x) {
 }
 
 roundup_datetime <- function(x, ...) {
-    as.POSIXct(format = "%Y-%m-%d.%H:%M:%S", tz = "PST", x, ...)
+    as.POSIXct(format = "%Y-%m-%d.%H:%M:%S", tz = "US/Pacific", x, ...)
 }
 
 fmt <- whisker::whisker.render

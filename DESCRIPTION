@@ -1,11 +1,12 @@
 Package: BiocContributions
 Type: Package
 Title: Convenience functions for adding packages to the svn repository. 
-Version: 0.99.56
+Version: 0.99.57
 Author: Marc Carlson, Sonali Arora, Jim Hester
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to
     the repository, and for emailing people etc.
+Depends: R (>= 3.3), devtools, gmailr
 Imports: 
     S4Vectors,
     XML,
@@ -17,11 +18,9 @@ Imports:
     memoise,
     withr,
     googlesheets,
-    gmailr,
     knitr,
     rex,
     xml2,
-    devtools,
     BiocInstaller
 Suggests: 
     sendmailR,

@@ -4,7 +4,7 @@ devteam <- c(
     "Valerie Obenchain",
     "Herve Pages",
     "Dan Tenenbaum",
-    "Brian Long",
+    #"Brian Long",
     "Jim Java")
 
 #' Status code to name mapping
@@ -76,7 +76,10 @@ tracker_search <- function(columns = c("id", "activity", "title", "creator", "st
                              "@action" = "export_csv",
                              ...
                              ))
-    data <- httr::content(res$response)
+    ## The following line now uses readr::read_csv(), which doesn't perform as well here as
+    ## utils::read.csv().
+    #data <- httr::content(res$response)
+    data <- utils::read.csv(textConnection(httr::content(res$response, "text")))
     data$status <- status_map[data$status]
     data$activity <- roundup_datetime(data$activity)
     if (!is.null(data$keyword)) {
