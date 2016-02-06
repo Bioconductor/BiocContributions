@@ -94,7 +94,7 @@ Please check emails from the list as they are our primary communication method
 to package developers.
 
 Also, after your package has passed the build report's CHECK test for the first
-time, we strongly encourage you to send a note to Bioc-devel to announce its
+time, you may send a note to  Bioc-devel to announce its
 public availability (with a short description) so other people can start to
 test it.
 
