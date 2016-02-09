@@ -3,9 +3,7 @@ devteam <- c(
     "Martin Morgan",
     "Valerie Obenchain",
     "Herve Pages",
-    "Dan Tenenbaum",
-    #"Brian Long",
-    "Jim Java")
+    "Dan Tenenbaum")
 
 #' Status code to name mapping
 # I would prefer these were dynamic, but there doesn't seem to be a great way
