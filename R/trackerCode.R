@@ -468,7 +468,7 @@ weeklyEmailPackagesOverview <- function(
    cone_str,
 
    "\n## Core Reviewers Activity in the last 30 days",
-   knitr::kable(tabulate_activity(relevant_issues))))
+   knitr::kable(tabulate_activity())))
 
    gmailr::mime(To = "Martin Morgan <Martin.Morgan@roswellpark.org>, Valerie Obenchain <Valerie.Obenchain@roswellpark.org>",
        Subject = "Weekly package overview",
