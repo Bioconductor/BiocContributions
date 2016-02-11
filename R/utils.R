@@ -78,3 +78,23 @@ compact <- function(x) {
 is_named <- function(x) {
     !is.null(names(x)) && all(nzchar(names(x)))
 }
+
+`%_%` = function(a, b) paste0(a, b)
+
+nop <- function(x=NULL)
+{
+  return (invisible(x))
+}
+
+cards <- function(x, asMatrix=FALSE, skip=1, ...)
+{
+  zz <- textConnection(x)
+  m <- read.table(zz, skip=skip, ...)
+  if (asMatrix) {
+    m <- as.matrix(m)
+    dimnames(m) <- NULL
+  }
+  close(zz)
+
+  return (m)
+}
