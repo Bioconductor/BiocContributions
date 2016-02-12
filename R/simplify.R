@@ -60,18 +60,18 @@ DownloadNewPackageTarballs <- function(pre=pre_accepted_packages())
             u <- c(u, tolower(paste(substr(m$given, 1, 1), m$family, sep=".")))
         }
 
-        u
-    })
+        u #c(u, "h.simpson")
+    }, simplify=FALSE)
 
-    ex <- sapply(us, function(x) {
-        any(sapply(x, grepl, d, simplify=T))
-    })
+    ex <-sapply(us, function(x) {
+        sapply(x, function(y) any(grepl(y, d)), simplify=FALSE)
+    }, simplify=FALSE)
 
     list(usernames=us, existing=ex)
 }
 
 
-ManageNewPackagesCredentials <- function(metadata)
+ManageNewPackagesCredentials <- function(metadata, createDraft=TRUE)
 {
     m <- new.env()
     if (missing(metadata))
@@ -86,46 +86,61 @@ ManageNewPackagesCredentials <- function(metadata)
     creds = .CheckUsersCredentials(f)
     print(creds)
 
-    cat('\n', "##### Template e-mail to Carl Benson <scicomp@fhcrc.org>", '\n\n', sep='')
+    cat("##### Gmail draft to Carl Benson <scicomp@fhcrc.org>", '\n\n', sep='')
 
-    email1a <- readLines(textConnection('
-Subject: New SVN users for Hedgehog
-From: Package Maintainer <packages@bioconductor.org>
-To: scicomp@fhcrc.org
+    mimeDetails <- list(
+        From = "packages@bioconductor.org",
+        To = "scicomp@fhcrc.org",
+        Subject = "New SVN users for Hedgehog"
+    )
 
-Hi Carl,
+    email <- readLines(textConnection('Hi Carl,
 
 Could you please create new SVN account(s) on Hedgehog for
-'))
-    cat(email1a, sep='\n')
 
-    dev.null <- sapply(f$filenames, function(x) print(maintainers(x)))
+@@NEWUSERS@@
 
-    email1b <- readLines(textConnection('
 Thanks,
 
 Martin
 '))
-    cat(email1b, sep='\n')
 
-    cat('\n', "##### Create draft e-mails to maintainers", '\n\n', sep='')
+    maints <- sapply(f$filenames, function(x) {
+        maint <- maintainers(x)
+        sapply(maint, function(y) paste(y$given, y$family, '<' %_% y$email %_% '>'), simplify=TRUE)
+    }, simplify=TRUE)
+
+    email <- paste(sub("@@NEWUSERS@@", paste(maints, collapse='\n'), email), collapse='\n')
+
+    dev.null <- mapply(names(mimeDetails), mimeDetails, FUN=function(x, y) cat(x, ": ", y, '\n', sep=''))
+    cat('\n')
+    cat(email)
+
+    ## Create draft gmail.
+    if (createDraft) {
+        gmail_auth(scope="compose")
+        gmailr::create_draft(mime(From=mimeDetails$From, To=mimeDetails$To, Subject=mimeDetails$Subject, body=email))
+    }
+
+    cat('\n', "##### Create draft e-mails to maintainers (choose appropriate ones for each package)", '\n\n', sep='')
     cat("gmailr::gmail_auth(scope='compose')\n")
     dev.null <- mapply(names(creds$usernames), creds$usernames, FUN=function(x, y) {
-        cat("gmailr::create_draft(emailExistingUser('", x, "')\n", sep='')
-        cat("gmailr::create_draft(emailNewUser('", x, "', userId='", y, "', password='XXXXXXXXX')\n", sep='')
+        cat("gmailr::create_draft(emailExistingUser('", x, "'))\n", sep='')
+        for (i in seq_along(y)) {
+            cat("gmailr::create_draft(emailNewUser('", x, "', userId='", y[i], "', password='XXXXXXXXX'))\n", sep='')
+        }
     })
 
     cat('\n', "##### Accept packages", '\n\n', sep='')
 
     dev.null <- mapply(f$pre$id, f$filenames, FUN=function(x, y) {
-        cat("accept_package(", x, ", '", y, "'\n", sep='')
+        cat("accept_package(", x, ", '", y, "')\n", sep='')
     })
-
-    browser()
 }
 
 
-SendWeeklySummaryEmail <- function()
+DraftWeeklySummaryEmail <- function()
 {
-
+    gmailr::gmail_auth(scope="compose")
+    gmailr::create_draft(weeklyEmailPackagesOverview())
 }
