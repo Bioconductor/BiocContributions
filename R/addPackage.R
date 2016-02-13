@@ -86,8 +86,9 @@ print.description <- function(x, ...) {
 #' @param svnDir Directory of the Rpacks checkout
 #' @param copyToSvnDir whether to copy the files to the SVN directory
 #' @export
-clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
-                  svnAccountExists=FALSE){
+clean <- function(tarball, svnDir=proj_path("Rpacks"), copyToSvnDir=TRUE,
+                  svnAccountExists=FALSE)
+{
     ## 1st re-run the checker from Dan to make sure we have the right thing...
     ## TODO: call Dans checker here?
 
@@ -157,10 +158,10 @@ package_name <- function(tarball) {
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
 #' clean_data_package(pkg)
 #' }
-clean_data_package <- function(tarball,
-                           svn_pkgs = "~/proj/experiment/pkgs",
-                           svn_data_store = "~/proj/experiment/data_store",
-                           data_dirs = c("data", "inst/extdata")) {
+clean_data_package <-
+    function(tarball, svn_pkgs = proj_path("experiment/pkgs"),
+             svn_data_store = proj_path("experiment/data_store"),
+             data_dirs = c("data", "inst/extdata")) {
 
     desc <- readDESCRIPTION(tarball)
 

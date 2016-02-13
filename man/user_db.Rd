@@ -4,7 +4,7 @@
 \alias{user_db}
 \title{Retrieve the remote user database}
 \usage{
-user_db(...)
+user_db()
 }
 \value{
 the result is a data.frame of the data

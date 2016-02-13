@@ -4,8 +4,8 @@
 \alias{clean_data_package}
 \title{Clean and copy a Data Experiment package}
 \usage{
-clean_data_package(tarball, svn_pkgs = "~/proj/experiment/pkgs",
-  svn_data_store = "~/proj/experiment/data_store", data_dirs = c("data",
+clean_data_package(tarball, svn_pkgs = proj_path("experiment/pkgs"),
+  svn_data_store = proj_path("experiment/data_store"), data_dirs = c("data",
   "inst/extdata"))
 }
 \arguments{

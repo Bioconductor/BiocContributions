@@ -43,7 +43,9 @@
 
 
 ## This extracts the package totals based on existing manifests
-getPackageTotals <- function(path = "~/proj/Rpacks/"){
+getPackageTotals <-
+    function(path = proj_path("Rpacks"))
+{
     manis <- .makeManifestNames(path)
     maniNames <- .makeManifestNames(path, appendPath=FALSE)
     ## Always update the most recent manifest file (at the very least)
@@ -57,7 +59,9 @@ getPackageTotals <- function(path = "~/proj/Rpacks/"){
 
 
 ## And this plots the package totals based on existing manifests
-plotPackageTotals <- function(path = "~/proj/Rpacks/"){
+plotPackageTotals <-
+    function(path = proj_path("Rpacks"))
+{
     totals <- getPackageTotals(path)
     plot(totals)
     abline(a=100,b=20,col="red")
@@ -66,7 +70,9 @@ plotPackageTotals <- function(path = "~/proj/Rpacks/"){
 ## plotPackageTotals()
 
 
-getPackageDeltas <- function(path = "~/proj/Rpacks/"){
+getPackageDeltas <-
+    function(path = proj_path("Rpacks"))
+{
     tots <- getPackageTotals(path)
     res <- integer()
     names <- character()
@@ -79,15 +85,17 @@ getPackageDeltas <- function(path = "~/proj/Rpacks/"){
     res
 }
 
-compareReleases <- function(path = "~/proj/Rpacks/",
-  oldRel="3.0", newRel="3.1") {
+compareReleases <-
+    function(path = proj_path("Rpacks"), oldRel="3.0", newRel="3.1")
+{
     oldPkgs <- .getPkgs(.getManifestFilenameFromVersion(path, oldRel))
     newPkgs <- .getPkgs(.getManifestFilenameFromVersion(path, newRel))
     list(removed=sort(setdiff(oldPkgs, newPkgs)),
       added=sort(setdiff(newPkgs, oldPkgs)))
 }
 
-getDescriptions <- function(path = "~/proj/Rpacks/", pkgs)
+getDescriptions <-
+    function(path = proj_path("Rpacks", pkgs))
 {
     ret <- ""
     for (pkg in pkgs)

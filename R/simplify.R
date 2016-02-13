@@ -1,5 +1,8 @@
-CreatePackageAssignmentEmail <- function(assignInTracker=FALSE, secret="~/bioconductorseattle-gmail.json")
+CreatePackageAssignmentEmail <-
+    function(assignInTracker=FALSE,
+             secret=proj_path("bioconductorseattle-gmail.json"))
 {
+
     ## Retrieve unassigned packages
     pkgs <- unassigned_packages()
 
@@ -21,7 +24,8 @@ CreatePackageAssignmentEmail <- function(assignInTracker=FALSE, secret="~/biocon
 }
 
 
-DownloadNewPackageTarballs <- function(pre=pre_accepted_packages())
+DownloadNewPackageTarballs <-
+    function(pre=pre_accepted_packages())
 {
     ## Download tarballs:
     files <- unlist(lapply(pre$id, download, overwrite=T), recursive=F)
@@ -33,21 +37,22 @@ DownloadNewPackageTarballs <- function(pre=pre_accepted_packages())
 }
 
 
-.LoadNewPackagesMetadata <- function(metadata.dir=".", filename.base="new-packages-metadata_")
+.LoadNewPackagesMetadata <-
+    function(metadata.dir=getOption("bioc_contributions_project", "~"),
+             filename.base="new-packages-metadata_")
 {
-    fileExtension = "RData"
-    filenames = sort(grep("^.*?" %_% filename.base %_% "\\d{8}" %_% "\\." %_% fileExtension %_% "$", list.files(metadata.dir, full.names=TRUE), value=TRUE), decreasing=TRUE)
-
+    filenames = sort(dir(metadata.dir, filename.base, full.names=TRUE),
+                     decreasing=TRUE)
     e = new.env()
-    if (length(filenames) != 0) {
-      load(filenames[1], envir=e) # File extension "RData".
-    }
+    if (length(filenames))
+        load(filenames[1], envir=e) # File extension "RData".
 
     return (e)
 }
 
 
-.CheckUsersCredentials <- function(metadata, credPath="~/bioconductor.authz")
+.CheckUsersCredentials <-
+    function(metadata, credPath=proj_path("bioconductor.authz"))
 {
     d <- readLines(credPath)
 

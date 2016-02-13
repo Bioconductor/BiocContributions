@@ -5,7 +5,7 @@
 ## that we don't have to bother Dan every time)
 rebuildIssueTarball <- function(issueNumber,
                                 tarballUrlPath){
-    pythonPath<-'~/proj/IssueTracker/spb_history/'
+    pythonPath<-proj_path('IssueTracker/spb_history/')
     if(.Platform$OS.type != "unix"){
         stop("Sorry this function is only available from Unix")}
     
@@ -279,8 +279,8 @@ coneOfShame <- function(daysNeglected=14, userName=NULL, daysToForget=30,
 }
 
 readyToAdd <- function(datePrefix='2015',
-                       svnDir = "~/proj/Rpacks/",
-                       svnDir1="~/proj/experiment/pkgs/",
+                       svnDir = proj_path("Rpacks"),
+                       svnDir1=proj_path("experiment/pkgs/"),
                        getUserFiles=FALSE){
     ## get the accepted issues from this year and their files 
     accepted <- filterIssues(status=c('pre-accepted'),
