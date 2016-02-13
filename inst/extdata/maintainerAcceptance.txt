@@ -1,0 +1,197 @@
+Hi {{authorName}},
+
+Congratulations, {{packageName}} has been added to _Bioconductor_!
+The following information is to help you in your role as a package
+maintainer. You'll need the following credentials to maintain your
+package:
+
+Subversion user ID: {{userId}}
+Password: {{password}}
+
+# Package 'landing pages'
+
+Every package in _Bioconductor_ gets its own landing page. Contents
+from your DESCRIPTION file are pulled out to populate this page. Your
+package's permanent URL is
+
+http://bioconductor.org/packages/{{packageName}}/
+
+This URL will redirect to the release landing page of your package
+(and until it's released, the devel landing page); this is the URL
+that should be used (in publications, etc.) to refer to your package.
+You can also refer specifically to the devel, release, or specific
+numbered version of _Bioconductor_:
+
+http://bioconductor.org/packages/devel/{{packageName}}/
+http://bioconductor.org/packages/release/{{packageName}}/
+http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
+
+# Maintaining your package
+
+_Bioconductor_ maintains packages in 'release' and 'devel' branches.
+
+The release branch is meant for end-users. A new release branch is
+created once very 6 months, in April and October. At the release, the
+current devel version of your package becomes the release
+version. Only 'bug fixes' are made to the release branch. Since your
+package has not gone through a release cycle, you do not yet have a
+release branch -- your package is only available to users of Bioc
+'devel'.
+
+The devel branch is where new packages are added, and where new
+features are added to existing packages.  Your package has been added
+to the devel branch, and is available immediately to those
+_Bioconductor_ users who have chosen to 'use devel'
+
+Make any changes to the devel branch, and watch the release schedule
+http://bioconductor.org/developers/release-schedule/ for details of
+the next release.
+
+At the next release, your package code in the devel branch will be
+become the release version of your package. The release version number
+will be changed to 1.0.0. The code in the devel branch will continue,
+but with version 1.1.0. If necessary, you'll continue adding features
+or updating your package in the devel branch, creating versions 1.1.1,
+1.1.2, ...; you'll port bug fixes (NOT new features, or any change to
+the 'API' seen by users!) to the release branch, creating versions
+1.0.1, 1.0.2, ...
+
+This process will repeat at the next release, where the version of
+your package available in devel will become version 1.2.0, and the
+devel branch will continue with version 1.3.0.
+
+## Subversion
+
+_Bioconductor_ packages are maintained under Subversion source
+control. Use Subversion (or git, described below) to update your
+package; see our short svn guide:
+
+http://bioconductor.org/developers/how-to/source-control/
+
+Your subversion account credentials are at the top of this email, or
+are already known to you. The credentials give you read access to the
+whole _Bioconductor_ repository and WRITE permissions to the devel
+(and eventually release) version of your package.
+
+To update your package in the devel branch, you need to do the
+following steps:
+
+a) Install subversion(svn) on your machine, if it is not already installed.
+
+b) Use the following command to checkout your packages files from the
+   _Bioconductor_ subversion repository.
+
+    svn co --username {{userId}} --password {{password}} https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/{{packageName}}
+
+c) Make the necessary changes to your package.
+
+d) Bump the version from x.y.z to x.y.(z+1) in your package's
+   DESCRIPTION file.  If the version is not properly changed your
+   changes will not be made available in the public repository.
+
+e) Build your package tar ball
+
+    R CMD build {{packageName}}
+
+f) Check that the changes have produced a package consistent with R's
+   check facility
+
+    R CMD check {{packageName}}_x.y.(z+1).tar.gz
+
+g) Fix any Warnings or Errors from step (e) and (f)
+
+h) Check the updated source code in to Subversion
+
+    svn ci {{packageName}}
+
+g) Check the build report next day (see point 3 for details)
+
+Please let me know if you have any questions or issues with your SVN
+access.
+
+Remember, all new features and bug fixes are made to devel branch of
+your package; only tested bug fixes should be ported to the release
+branch. When testing your changes, be sure to use the 'devel' version
+of _Bioconductor_ (http://bioconductor.org/developers/how-to/useDevel)
+and the appropriate version of R.
+
+## Git and github mirrors
+
+If you prefer to use Git and / or GitHub instead of Subversion, you
+can use the _Bioconductor_ Git mirrors which are documented at
+http://bioconductor.org/developers/how-to/git-mirror/
+
+# Build report
+
+When you make a change to the devel branch of your package, please
+remember to bump the version of your package in the DESCRIPTION FILE.
+Everyday at around 5pm PST, the build system takes a snapshot of all
+the packages inside _Bioconductor_ and then the next day after 12 noon
+PST http://bioconductor.org/checkResults/ is created containing the
+output of R CMD build and check on all platforms for each package.
+Your package's build reports are accessible at:
+http://bioconductor.org/checkResults/{{biocVersion}}/bioc-LATEST/{{packageName}}/
+
+When reading the above, please pay attention to the date displayed
+next to - “Snapshot Date:” and “This page was generated on”.  Please
+keep an eye on the build/check daily reports for the _Bioconductor_
+devel packages: http://bioconductor.org/checkResults/ and promptly
+address any warnings or errors from your packages build report.
+
+# RSS feeds:
+
+You can find the RSS feed for software packages at
+http://bioconductor.org/rss/build/packages/{{packageName}}.rss
+
+# Using the support site and bioc-devel mailing list
+
+Please be sure that you have registered on the support site
+https://support.bioconductor.org/accounts/login/. Subscribe to the tag
+corresponding to your package by editing your user profile to include
+the package name in the 'My Tags' field. This way, you will be
+notified when someone is asking a question about your package.  Please
+respond promptly to bug reports or user questions on the support site.
+We recommend that you 'follow' tags that match your own package (such
+as your package name) so that
+
+Please maintain your subscription to the Bioc-devel mailing, so that
+you are aware of _Bioconductor_ project and other developments,
+http://bioconductor.org/help/support/#bioc-devel. Also, after your
+package has passed the build report's CHECK test for the first time,
+you may send a note to Bioc-devel to announce its public availability
+(with a short description) so other developers are aware of it.
+
+# Updating maintainer status
+
+If for some reason, your email address changes, please update the
+maintainer field in your DESCRIPTION file. We may need to reach you if
+there are issues building your package (this could happen as a result
+of changes to R or to packages you depend on). If we are unable to
+contact you for a period of time, we may be forced to remove your
+package from _Bioconductor_.
+
+If you want to add a new maintainer or transfer responsibility to
+someone else, please email us at packages@bioconductor.org and clearly
+state the new maintainers name, email address and CC them on the
+email.
+
+If you no longer want to maintain your package, please let us know and
+we will remove it from _Bioconductor_, or (with your permission) find
+a new maintainer for it. See
+http://bioconductor.org/developers/package-end-of-life/
+
+# Helpful things to know about _Bioconductor_
+
+Developer resources: http://bioconductor.org/developers
+
+_Bioconductor_ Newsletter: http://bioconductor.org/help/newsletters/
+
+Upcoming Courses: http://bioconductor.org/help/events/
+
+Course Material: http://bioconductor.org/help/course-materials/
+
+Twitter: https://twitter.com/Bioconductor
+
+Thank you for contributing to the _Bioconductor_ project!
+
+{{senderName}}

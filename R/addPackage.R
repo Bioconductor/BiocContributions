@@ -105,10 +105,6 @@ clean <- function(tarball, svnDir="~/proj/Rpacks/", copyToSvnDir=TRUE,
     if(copyToSvnDir){
         file.copy(from=dir, to=svnDir, recursive=TRUE)
     }
-    ## email, but only if the user is known to exist already..
-    if(svnAccountExists == TRUE){
-        emailExistingUser(tarball)
-    }
     ## cleanup
     unlink(dir, recursive=TRUE)
 }

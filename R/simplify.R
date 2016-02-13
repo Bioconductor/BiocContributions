@@ -71,7 +71,8 @@ DownloadNewPackageTarballs <- function(pre=pre_accepted_packages())
 }
 
 
-ManageNewPackagesCredentials <- function(metadata, createDraft=TRUE)
+ManageNewPackagesCredentials <-
+    function(metadata, createDraft=TRUE)
 {
     m <- new.env()
     if (missing(metadata))
@@ -81,7 +82,8 @@ ManageNewPackagesCredentials <- function(metadata, createDraft=TRUE)
 
     f = m$f
 
-    cat('\n', "##### Check authorization file for existing users.", '\n\n', sep='')
+    cat('\n', "##### Check authorization file for existing users.", '\n\n',
+        sep='')
 
     creds = .CheckUsersCredentials(f)
     print(creds)
@@ -107,35 +109,40 @@ Martin
 
     maints <- sapply(f$filenames, function(x) {
         maint <- maintainers(x)
-        sapply(maint, function(y) paste(y$given, y$family, '<' %_% y$email %_% '>'), simplify=TRUE)
+        sapply(maint, function(y) {
+            paste(y$given, y$family, '<' %_% y$email %_% '>')
+        }, simplify=TRUE)
     }, simplify=TRUE)
 
-    email <- paste(sub("@@NEWUSERS@@", paste(maints, collapse='\n'), email), collapse='\n')
+    email <- paste(sub("@@NEWUSERS@@", paste(maints, collapse='\n'), email),
+                   collapse='\n')
 
-    dev.null <- mapply(names(mimeDetails), mimeDetails, FUN=function(x, y) cat(x, ": ", y, '\n', sep=''))
+    dev.null <- mapply(names(mimeDetails), mimeDetails,
+                       FUN=function(x, y) cat(x, ": ", y, '\n', sep=''))
     cat('\n')
     cat(email)
 
     ## Create draft gmail.
     if (createDraft) {
         gmail_auth(scope="compose")
-        gmailr::create_draft(mime(From=mimeDetails$From, To=mimeDetails$To, Subject=mimeDetails$Subject, body=email))
+        gmailr::create_draft(mime(From=mimeDetails$From, To=mimeDetails$To,
+                                  Subject=mimeDetails$Subject, body=email))
     }
 
-    cat('\n', "##### Create draft e-mails to maintainers (choose appropriate ones for each package)", '\n\n', sep='')
+    cat('\n', "##### Create draft e-mails to maintainers", '\n\n', sep='')
     cat("gmailr::gmail_auth(scope='compose')\n")
-    dev.null <- mapply(names(creds$usernames), creds$usernames, FUN=function(x, y) {
-        cat("gmailr::create_draft(emailExistingUser('", x, "'))\n", sep='')
-        for (i in seq_along(y)) {
-            cat("gmailr::create_draft(emailNewUser('", x, "', userId='", y[i], "', password='XXXXXXXXX'))\n", sep='')
-        }
-    })
+    for (package in names(creds$usernames))
+        for (username in creds$usernames[[package]])
+            cat("gmailr::create_draft(emailMaintainer('", package,
+                "', userId='", username,
+                "', password='XXXXXXXXX'))\n",
+            sep='')
 
     cat('\n', "##### Accept packages", '\n\n', sep='')
 
-    dev.null <- mapply(f$pre$id, f$filenames, FUN=function(x, y) {
-        cat("accept_package(", x, ", '", y, "')\n", sep='')
-    })
+    for (i in seq_along(f$filenames))
+        cat("accept_package(", f$pre$id[[i]], ", '", f$filenames[[i]], "')\n",
+            sep='')
 }
 
 

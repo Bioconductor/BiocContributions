@@ -17,7 +17,8 @@ svn <- function(dir = getwd()) {
         xml2::read_xml(paste(collapse = "\n", x))
     }
     status <- function(args) {
-        files <- parse_xml(system2("svn", args = c("status", "--xml", args), stdout = TRUE))
+        files <- parse_xml(system2("svn", args = c("status", "--xml", args),
+                                   stdout = TRUE))
         entries <- xml2::xml_find_all(files, "//entry")
         data.frame(filename = xml2::xml_attr(entries, "path"),
             type = xml2::xml_attr(xml2::xml_children(entries), "item"))
@@ -51,7 +52,8 @@ svn <- function(dir = getwd()) {
          remove_untracked = function(args = NULL) {
              withr::with_dir(dir, {
                  files <- status(args)
-                 unlink(subset(files, type == "unversioned")$filename, recursive = TRUE)
+                 unlink(subset(files, type == "unversioned")$filename,
+                        recursive = TRUE)
                  })
          },
          update = function(args = NULL) {
@@ -103,7 +105,9 @@ check_manifest <- function(x, pkgs) {
     TRUE
 }
 
-add_package_type <- function(svn_location, manifest, clean_function, adding_code) {
+add_package_type <- function(svn_location, manifest, clean_function,
+                             adding_code)
+{
     eval(bquote(
         function(x, svn_location = .(svn_location), manifest = .(manifest)) {
             #lapply(x, .(clean_function), .(svn_location))

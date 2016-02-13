@@ -40,15 +40,6 @@
     }
 }
 
-## and code to define a single message template
-.makeExistingUserMsg <- function(authorName, packageName, senderName = "Jim"){
-  template("existingUserAcceptance.txt",
-      packageName = packageName,
-      authorName = authorName,
-      biocVersion = BiocInstaller:::BIOC_VERSION,
-      senderName = senderName)
-}
-
 ## General purpose multiplier for functions that take authorName, packageName and that also have a function to define the message based on that.
 .makeMessages <- function(authorNames, packageName, FUN, ...){
     msgs <- character()
@@ -56,31 +47,6 @@
         msgs[i] <- FUN(authorName=authorNames[i], packageName, ...)
     }
     msgs
-}
-
-#' Email an existing user after package acceptance
-#'
-#' @inheritParams emailNewUser
-#' @export
-emailExistingUser <- function(tarball, sendMail=FALSE){
-    description <- readDESCRIPTION(tarball)
-
-    package <- description[[1, "Package"]]
-
-
-    ## extract email from DESCRIPTION file
-    emails <- .extractEmails(description)
-
-    msgs <- .makeMessages(authorName=emails$given, packageName=package,
-                          FUN=.makeExistingUserMsg)
-    ## subject
-    subject <- fmt("Congratulations, {{package}} has been added to Bioconductor!",
-                   list(package = package))
-
-    gmailr::mime(Subject = subject,
-                 To = emails$email,
-                 From = "packages@bioconductor.org",
-                 body = msgs)
 }
 
 ##########################################################################
@@ -105,8 +71,11 @@ readFile <- function(file) {
     readChar(file, file.info(file)$size)
 }
 ## 1st we need our new user greeting:
-.makeNewUserMsg <- function(authorName, packageName, userId = "<user.name>", password = "<password>", senderName = "Jim"){
-    template("newUserAcceptance.txt",
+.makeMaintainerMsg <-
+    function(authorName, packageName, userId = "<user.name>",
+             password = "<password>", senderName)
+{
+    template("maintainerAcceptance.txt",
         packageName = packageName,
         authorName = authorName,
         biocVersion = BiocInstaller:::BIOC_VERSION,
@@ -132,38 +101,30 @@ readFile <- function(file) {
 #' @param password The SVN password for the maintainer
 #' @param senderName The name of the email sender for use in the signature
 #' @export
-emailNewUser <- function(tarball, userId = "user.id", password = "password", senderName = "Jim"){
+emailMaintainer <-
+    function(tarball, userId = "user.id", password = "password",
+             senderName = getOption("bioc_contributions_signature",
+                                    "Bioconductor"))
+{
     description <- readDESCRIPTION(tarball)
 
     package <- description$Package
-
-    ## extract email from DESCRIPTION file
     emails <- .extractEmails(description)
+    authorName <- paste(vapply(emails$given, "[[", "", 1), collapse=", ")
 
-    msgs <- .makeNewUserMsg(authorName=emails$given[1], packageName=package,
-                          userId = userId,
-                          password = password,
-                          senderName = senderName)
+    msgs <- .makeMaintainerMsg(authorName=authorName, userId = userId,
+                               packageName=package, password = password,
+                               senderName = senderName)
 
-    subject <- fmt("Congratulations, {{package}} has been added to Bioconductor!",
-                   list(package = package))
+    subject <- fmt(
+        "Congratulations, {{package}} has been added to Bioconductor!",
+        list(package = package))
 
     gmailr::mime(Subject = subject,
-                 To = emails$email[1],
+                 To = paste(unlist(unname(emails$email)), collapse=", "),
                  From = "packages@bioconductor.org",
                  body = msgs)
 }
-
-
-##  library(BiocContributions); tarball <- system.file("testpackages", "AnnotationHub_1.3.18.tar.gz", package="BiocContributions");
-
-## emailNewUser(tarball)
-
-## works
-
-
-
-
 
 ##########################################################################
 ##########################################################################
