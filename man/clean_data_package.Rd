@@ -13,7 +13,8 @@ clean_data_package(tarball, svn_pkgs = proj_path("experiment/pkgs"),
 
 \item{svn_pkgs}{the location of Data Experiment \sQuote{pkgs} checkout.}
 
-\item{svn_data_store}{the location of Data Experiment \sQuote{data_store} checkout.}
+\item{svn_data_store}{the location of Data Experiment
+\sQuote{data_store} checkout.}
 }
 \value{
 File paths to the copied locations (invisibly).

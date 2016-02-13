@@ -38,8 +38,7 @@ DownloadNewPackageTarballs <-
 
 
 .LoadNewPackagesMetadata <-
-    function(metadata.dir=getOption("bioc_contributions_project", "~"),
-             filename.base="new-packages-metadata_")
+    function(metadata.dir=proj_path(), filename.base="new-packages-metadata_")
 {
     filenames = sort(dir(metadata.dir, filename.base, full.names=TRUE),
                      decreasing=TRUE)

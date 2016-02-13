@@ -148,7 +148,8 @@ package_name <- function(tarball) {
 #' Clean and copy a Data Experiment package
 #'
 #' @param svn_pkgs the location of Data Experiment \sQuote{pkgs} checkout.
-#' @param svn_data_store the location of Data Experiment \sQuote{data_store} checkout.
+#' @param svn_data_store the location of Data Experiment
+#'     \sQuote{data_store} checkout.
 #' @inheritParams package_name
 #' @return File paths to the copied locations (invisibly).
 #' @export

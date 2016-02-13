@@ -1,13 +1,17 @@
-#' Path to file (in the unix sense) within the project. The path is
-#' composed of \code{getOption("bioc_contributions_project")} or, if
-#' NULL, the home directory "~".
+#' Path to file (in the unix sense) within the project
+#' 
+#' The path is composed of
+#' \code{getOption("bioc_contributions_project")} or, if NULL, the
+#' home directory "~", preceeding the \code{file} argument.
 #'
 #' @param file character(1) file or directory name within the project.
 #' @param check.exists logical(1) indicating whether the file must
 #'     exist
+#'
+#' @return character(1) file path
 #' @export
 proj_path <-
-    function(file, check.exists=TRUE)
+    function(file="", check.exists=TRUE)
 {
     stopifnot(is.character(file), length(file) == 1L)
     stopifnot(is.logical(check.exists), length(check.exists) == 1L,
