@@ -1,10 +1,10 @@
 #' Workflow steps
 #'
-#' @name contrib-workflows
+#' @name workflow_standard
 NULL
 #> NULL
 
-#' @rdname contrib-workflows
+#' @rdname workflow_standard
 #' @param assignInTracker logical(1) indicating whether package
 #'     assignments should be updated in the tracker.
 #' @param secret character(1) path to JSON API client access secret.
@@ -34,7 +34,7 @@ CreatePackageAssignmentEmail <-
         return (list(pkgs=pkgs, code=code))
 }
 
-#' @rdname contrib-workflows
+#' @rdname workflow_standard
 #' @param pre data.frame() returned by \code{pre_accepted_packages()},
 #'     retrieved from the tracker and indicating packages tagged as
 #'     'pre-accepted'
@@ -88,7 +88,7 @@ DownloadNewPackageTarballs <-
     list(usernames=us, existing=ex)
 }
 
-#' @rdname contrib-workflows
+#' @rdname workflow_standard
 #'
 #' @param metadata Return value from
 #'     \code{DownloadNewPackageTarballs}. If missing, search
@@ -166,7 +166,7 @@ ManageNewPackagesCredentials <-
 }
 
 
-#' @rdname contrib-workflows
+#' @rdname workflow_standard
 #' @export
 DraftWeeklySummaryEmail <- function()
 {
