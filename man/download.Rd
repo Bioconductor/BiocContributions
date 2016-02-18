@@ -4,8 +4,9 @@
 \alias{download}
 \title{Download attachments from an issue}
 \usage{
-download(issue, dir = ".", last_only = TRUE, pattern = "[.]tar[.]gz$",
-  overwrite = FALSE, ..., session = tracker_login())
+download(issue, dir = proj_path(), last_only = TRUE,
+  pattern = "[.]tar[.]gz$", overwrite = FALSE, ...,
+  session = tracker_login())
 }
 \arguments{
 \item{issue}{Issue object, or issue number to download files from}
