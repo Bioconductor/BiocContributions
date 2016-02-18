@@ -1,26 +1,27 @@
 Hi {{author}},
 
-Package Version: {{tarball}}
-has been added to the repository.
+{{tarball}} has been added to the Bioconductor repository and nightly
+build system.
 
 Next Steps:
 
-You should have received an email from me with your SVN credentials, Please
-ensure the following
-1 - You have read/write access to your package
-2 - The package has built without ERROR
+You have or will in the next 48 hours receive an email from me with
+your SVN credentials, as well as additional instructions. Please
+ensure that you have read / write access to your package.
 
-http://bioconductor.org/checkResults/3.3/{{type}}/{{package}}
-
-A note about the build system:
-{{when}} at around 5pm PST, the build system takes a snapshot of all the
-packages inside Bioconductor and then the next day after 12 noon PST, A build
-report located at [1] is created containing the output of R CMD build and check
-on all platforms. When reading [1], please pay attention to the date displayed
-next to - "Snapshot Date:"  and "This page was generated on" to verify what
-date the report is targeting.
+Your package will be built during the next nightly build
+cycle. {{when}} at around 5pm PST, the build system takes a snapshot
+of all the packages inside Bioconductor. The next day after 2pm PST, a
+build report located at [1] is created containing the output of R CMD
+build and check on all platforms. The build report for your package
+will appear at [2]. When reading [1] and [2], please pay attention to
+the date displayed next to - "Snapshot Date:" and "This page was
+generated on" to verify what date the report is targeting.
 
 Thanks,
+
 {{senderName}}
 
 [1] http://bioconductor.org/checkResults/3.3/{{type}}/
+
+[2] http://bioconductor.org/checkResults/3.3/{{type}}/{{package}}
