@@ -44,7 +44,6 @@ DownloadNewPackageTarballs <-
 {
     ## Download tarballs:
     files <- unlist(lapply(pre$id, download, overwrite=TRUE), recursive=FALSE)
-    filenames <- proj_path(basename(names(files)))
 
     cat('\n', filenames, sep='\n')
 

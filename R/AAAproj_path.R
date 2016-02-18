@@ -13,11 +13,10 @@
 proj_path <-
     function(file="", check.exists=TRUE)
 {
-    stopifnot(is.character(file), length(file) == 1L)
     stopifnot(is.logical(check.exists), length(check.exists) == 1L,
               !is.na(check.exists))
     path <- file.path(getOption("bioc_contributions_project", "~"), file)
-    if (check.exists && !file.exists(path))
+    if (check.exists && !all(file.exists(path)))
         stop("path does not exist:\n  '", path, "'")
     path
 }
