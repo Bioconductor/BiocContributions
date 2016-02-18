@@ -1,3 +1,14 @@
+#' Workflow steps
+#'
+#' @name contrib-workflows
+NULL
+#> NULL
+
+#' @rdname contrib-workflows
+#' @param assignInTracker logical(1) indicating whether package
+#'     assignments should be updated in the tracker.
+#' @param secret character(1) path to JSON API client access secret.
+#' @export
 CreatePackageAssignmentEmail <-
     function(assignInTracker=FALSE,
              secret=proj_path("bioconductorseattle-gmail.json"))
@@ -23,13 +34,17 @@ CreatePackageAssignmentEmail <-
         return (list(pkgs=pkgs, code=code))
 }
 
-
+#' @rdname contrib-workflows
+#' @param pre data.frame() returned by \code{pre_accepted_packages()},
+#'     retrieved from the tracker and indicating packages tagged as
+#'     'pre-accepted'
+#' @export
 DownloadNewPackageTarballs <-
     function(pre=pre_accepted_packages())
 {
     ## Download tarballs:
-    files <- unlist(lapply(pre$id, download, overwrite=T), recursive=F)
-    filenames <- basename(names(files))
+    files <- unlist(lapply(pre$id, download, overwrite=TRUE), recursive=FALSE)
+    filenames <- proj_path(basename(names(files)))
 
     cat('\n', filenames, sep='\n')
 
@@ -74,7 +89,15 @@ DownloadNewPackageTarballs <-
     list(usernames=us, existing=ex)
 }
 
-
+#' @rdname contrib-workflows
+#'
+#' @param metadata Return value from
+#'     \code{DownloadNewPackageTarballs}. If missing, search
+#'     \code{proj_path()} for most recent saved version as RData with
+#'     format "new-packages-metadata_20160211.RData"
+#' @param createDraft logical(1) draft email to FHCRC for SVN new user
+#'     credentials
+#' @export
 ManageNewPackagesCredentials <-
     function(metadata, createDraft=TRUE)
 {
@@ -100,16 +123,11 @@ ManageNewPackagesCredentials <-
         Subject = "New SVN users for Hedgehog"
     )
 
-    email <- readLines(textConnection('Hi Carl,
-
-Could you please create new SVN account(s) on Hedgehog for
-
-@@NEWUSERS@@
-
-Thanks,
-
-Martin
-'))
+    email <- c("Hi Carl,", "",
+               "Can you please create new SVN account(s) on Hedgehog for", "",
+               "@@NEWUSERS@@", "",
+               "Thanks,", "",
+               "Martin", "")
 
     maints <- sapply(f$filenames, function(x) {
         maint <- maintainers(x)
@@ -121,10 +139,9 @@ Martin
     email <- paste(sub("@@NEWUSERS@@", paste(maints, collapse='\n'), email),
                    collapse='\n')
 
-    dev.null <- mapply(names(mimeDetails), mimeDetails,
-                       FUN=function(x, y) cat(x, ": ", y, '\n', sep=''))
-    cat('\n')
-    cat(email)
+    for (i in seq_along(mimeDetails))
+        cat(names(mimeDetails)[i], ": ", mimeDetails[[i]], "\n", sep="")
+    cat(email, sep="\n")
 
     ## Create draft gmail.
     if (createDraft) {
@@ -150,6 +167,8 @@ Martin
 }
 
 
+#' @rdname contrib-workflows
+#' @export
 DraftWeeklySummaryEmail <- function()
 {
     gmailr::gmail_auth(scope="compose")
