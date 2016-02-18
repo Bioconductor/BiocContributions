@@ -325,7 +325,7 @@ session.issue <- function(x, ...) {
 #' @param ... Additional Arguments passed to \code{\link[rvest]{jump_to}}.
 #' @export
 download <- function(issue,
-                     dir = ".",
+                     dir = proj_path(),
                      last_only = TRUE,
                      pattern = "[.]tar[.]gz$",
                      overwrite = FALSE,
@@ -344,7 +344,8 @@ download <- function(issue,
         if (!is.na(href)) {
             rvest::jump_to(session,
                 href,
-                httr::write_disk(path = file.path(dir, filename), overwrite = overwrite),
+                httr::write_disk(path = file.path(dir, filename),
+                                 overwrite = overwrite),
                 httr::progress(), ...)
         }}, issue$href[idx], issue$filename[idx])
 }
@@ -474,38 +475,44 @@ assign_package <- function(issue, assignee, ...) {
                ...)
 }
 
-accept_note <- function(tarball, type = c("software", "experiment-data"),
-                           senderName = "Jim") {
-
+accept_note <-
+    function(tarball, type = c("software", "experiment-data"),
+             senderName = getOption("bioc_contributions_signature",
+                                    "Bioconductor"))
+{
     type <- match.arg(type)
-
     description <- readDESCRIPTION(tarball)
     email <- .extractEmails(description)
+    author <- paste(vapply(email$given, "[[", "", 1), collapse=", ")
 
     switch(type,
-           software = template("tracker.txt",
-                    author = paste(email$given, collapse = ", "),
-                    tarball = basename(tarball),
-                    package = description$Package,
-                    senderName = senderName,
-                    when = "Everyday",
-                    type = "bioc-LATEST"),
-           `experiment-data` = template("tracker.txt",
-                    author = paste(email$given, collapse = ", "),
-                    tarball = basename(tarball),
-                    package = description$Package,
-                    senderName = senderName,
-                    when = "Wednesday and Saturday",
-                    type = "data-experiment-LATEST")
+           software = template(
+               "tracker.txt",
+               author = author,
+               tarball = basename(tarball),
+               package = description$Package,
+               senderName = senderName,
+               when = "Everyday",
+               type = "bioc-LATEST"),
+           `experiment-data` = template(
+               "tracker.txt",
+               author = author,
+               tarball = basename(tarball),
+               package = description$Package,
+               senderName = senderName,
+               when = "Wednesday and Saturday",
+               type = "data-experiment-LATEST")
            )
-
 }
 
-attachment_size <- function(issue, session = BiocContributions::tracker_login()) {
-    issue <- BiocContributions::as.issue(issue)
+attachment_size <-
+    function(issue, session = tracker_login())
+{
+    issue <- as.issue(issue)
 
     size <- function(x) {
-        res <- httr::HEAD(paste0(session$url, x), session$config, handle = session$handle)
+        res <- httr::HEAD(paste0(session$url, x), session$config,
+                          handle = session$handle)
 
         as.numeric(httr::headers(res)$`content-length`)
     }
