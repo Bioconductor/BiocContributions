@@ -441,7 +441,8 @@ package_assignment_email <- function(pkgs = unassigned_packages(...),
     message <- gmailr::mime(subject = fmt("Package Assignments For {{date}}",
             list(date = date)),
         to = "devteam-bioc <devteam-bioc@fhcrc.org>",
-        from = "Jim Hester <james.hester@bioconductor.org>")
+        from = sprintf("%s <%s>", getOption("bioc_contributions_signature"),
+                       getOption("bioc_contributions_email")))
     message <- gmailr::html_body(message, code)
 
     message

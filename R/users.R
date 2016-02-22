@@ -151,7 +151,9 @@ user_db <- memoise::memoise(function() {
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
 #' request_credentials(match_user(maintainers(pkg)))
 #' request_credentials("asdf@asd.com")
-request_credentials <- function(x, sender = "Jim Hester") {
+request_credentials <-
+    function(x, sender = getOption("bioc_contributions_signature"))
+{
     emails <- email(x)
     gmailr::mime(To = "scicomp@fhcrc.org",
         Subject = "New SVN users for Hedgehog",
