@@ -45,9 +45,10 @@ DownloadNewPackageTarballs <-
     ## Download tarballs:
     files <- unlist(lapply(pre$id, download, overwrite=TRUE), recursive=FALSE)
 
+    filenames <- proj_path(basename(names(files)))
     cat('\n', filenames, sep='\n')
 
-    return (list(pre=pre, files=files, filenames=filenames))
+    list(pre=pre, files=files, filenames=filenames)
 }
 
 
@@ -56,11 +57,15 @@ DownloadNewPackageTarballs <-
 {
     filenames = sort(dir(metadata.dir, filename.base, full.names=TRUE),
                      decreasing=TRUE)
-    e = new.env()
-    if (length(filenames))
-        load(filenames[1], envir=e) # File extension "RData".
-
-    return (e)
+    if (!length(filenames))
+        stop(".LoadNewPackagesMetadata() did not find any saved metadata")
+    local({
+        load(filenames[1])
+        if (length(ls()) != 1L)
+            stop(".LoadNewPackagesMetadata() metadata must have one object",
+                 "\n  found: ", paste(sQuote(ls()), collapse=", "))
+        get(ls())
+    })
 }
 
 
@@ -100,18 +105,13 @@ DownloadNewPackageTarballs <-
 ManageNewPackagesCredentials <-
     function(metadata, createDraft=TRUE)
 {
-    m <- new.env()
     if (missing(metadata))
-        m <- .LoadNewPackagesMetadata()
-    else
-       m$f = metadata
-
-    f = m$f
+        metadata <- .LoadNewPackagesMetadata()
 
     cat('\n', "##### Check authorization file for existing users.", '\n\n',
         sep='')
 
-    creds = .CheckUsersCredentials(f)
+    creds = .CheckUsersCredentials(metadata)
     print(creds)
 
     cat("##### Gmail draft to Carl Benson <scicomp@fhcrc.org>", '\n\n', sep='')
@@ -128,12 +128,9 @@ ManageNewPackagesCredentials <-
                "Thanks,", "",
                "Martin", "")
 
-    maints <- sapply(f$filenames, function(x) {
-        maint <- maintainers(x)
-        sapply(maint, function(y) {
-            paste(y$given, y$family, '<' %_% y$email %_% '>')
-        }, simplify=TRUE)
-    }, simplify=TRUE)
+    maints <- vapply(metadata$filenames, function(x) {
+        as.character(maintainers(x))
+    }, character(1))
 
     email <- paste(sub("@@NEWUSERS@@", paste(maints, collapse='\n'), email),
                    collapse='\n')
@@ -160,9 +157,9 @@ ManageNewPackagesCredentials <-
 
     cat('\n', "##### Accept packages", '\n\n', sep='')
 
-    for (i in seq_along(f$filenames))
-        cat("accept_package(", f$pre$id[[i]], ", '", f$filenames[[i]], "')\n",
-            sep='')
+    for (i in seq_along(metadata$filenames))
+        cat("accept_package(", metadata$pre$id[[i]], ", '",
+            metadata$filenames[[i]], "')\n", sep='')
 }
 
 
