@@ -72,25 +72,15 @@ DownloadNewPackageTarballs <-
 .CheckUsersCredentials <-
     function(metadata, credPath=proj_path("bioconductor.authz"))
 {
-    d <- readLines(credPath)
+    d <- readLines(credPath, 3)[[3]]
+    d <- strsplit(d, ", *")[[1]]
 
-    f <- metadata
+    us <- tolower(sapply(metadata$filenames, function(x) {
+        ms <- maintainers(x)[[1]]
+        sprintf("%s.%s", substr(ms$given[1], 1, 1), ms$family)
+    }))
 
-    us <- sapply(f$filenames, function(x) {
-        ms <- maintainers(x)
-        u <- c()
-        for (m in ms) {
-            u <- c(u, tolower(paste(substr(m$given, 1, 1), m$family, sep=".")))
-        }
-
-        u #c(u, "h.simpson")
-    }, simplify=FALSE)
-
-    ex <-sapply(us, function(x) {
-        sapply(x, function(y) any(grepl(y, d)), simplify=FALSE)
-    }, simplify=FALSE)
-
-    list(usernames=us, existing=ex)
+    list(usernames=us, existing=us[us %in% d])
 }
 
 #' @rdname workflow_standard
