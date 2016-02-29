@@ -58,12 +58,14 @@ tracker_login <- function(
 #' @export
 #' @examples
 #' tracker_search("@search_text" = "normalize450k")
-tracker_search <- function(columns = c("id", "activity", "title", "creator", "status", "keyword"),
-                           sort = desc("activity"),
-                           filter=c("status", "assignedto"),
-                           status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-                           ...,
-                           session = tracker_login()) {
+tracker_search <-
+    function(columns = c("id", "activity", "title", "creator", "status", "keyword"),
+             sort = desc("activity"),
+             filter=c("status", "assignedto"),
+             status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+             ...,
+             session = tracker_login())
+{
     url <- "/issue"
     res <- rvest::jump_to(session,
                    url,
@@ -74,8 +76,8 @@ tracker_search <- function(columns = c("id", "activity", "title", "creator", "st
                              "@action" = "export_csv",
                              ...
                              ))
-    ## The following line now uses readr::read_csv(), which doesn't perform as well here as
-    ## utils::read.csv().
+    ## The following line now uses readr::read_csv(), which doesn't
+    ## perform as well here as utils::read.csv().
     #data <- httr::content(res$response)
     data <- utils::read.csv(textConnection(httr::content(res$response, "text")))
     data$status <- status_map[data$status]
