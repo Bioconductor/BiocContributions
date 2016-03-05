@@ -4,7 +4,7 @@
 \alias{request_credentials}
 \title{Request new credentials for users}
 \usage{
-request_credentials(x, sender = "Jim Hester")
+request_credentials(x, sender = getOption("bioc_contributions_signature"))
 }
 \arguments{
 \item{x}{an object with an \code{\link{email}} method defined.}

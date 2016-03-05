@@ -11,12 +11,15 @@ the result is a data.frame of the data
 }
 \description{
 This is an internal function which retrieves the user database file
-'user_db.csv', which holds user information for users with SVN credentials.
-this assumes 'rsync' is available on your path, which is true by default for
-linux and OSX machines, but probably not for windows.
-The information is cached so calling this function repeatably will result in
-the same information being returned. Use \code{memoise::forget(user_db)} to
-reset the cache if needed.
+'user_db.csv', which holds user information for users with SVN
+credentials.  this assumes 'rsync' is available on your path, which
+is true by default for linux and OSX machines, but probably not for
+windows.
+}
+\details{
+The information is cached so calling this function repeatably will
+result in the same information being returned. Use
+\code{memoise::forget(user_db)} to reset the cache if needed.
 }
 \examples{
 user_db()
