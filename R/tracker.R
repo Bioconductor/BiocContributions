@@ -59,7 +59,7 @@ tracker_login <- function(
 #' @examples
 #' tracker_search("@search_text" = "normalize450k")
 tracker_search <-
-    function(columns = c("id", "activity", "title", "creator", "status", "keyword"),
+    function(columns = c("id", "activity", "title", "creator", "status"),
              sort = desc("activity"),
              filter=c("status", "assignedto"),
              status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
@@ -82,17 +82,6 @@ tracker_search <-
     data <- utils::read.csv(textConnection(httr::content(res$response, "text")))
     data$status <- status_map[data$status]
     data$activity <- roundup_datetime(data$activity)
-    if (!is.null(data$keyword)) {
-        keyword_numbers <- lapply(sub("\\[(.*)\\]", "c(\\1)", data$keyword),
-            function(x) {
-                res <- eval(parse(text=x))
-                if (is.null(res)) {
-                    res <- character(0)
-                }
-                res
-            })
-        data$keyword <- lapply(keyword_numbers, function(x) keyword_map()[x])
-    }
     data
 }
 
@@ -116,7 +105,9 @@ unassigned_packages <- function(status = c(-1, 1, 2, 3, 4, 5, 9), ..., session =
 
 #' @export
 #' @describeIn tracker_search retrieve pre-accepted packages
-pre_accepted_packages <- function(status = 9, ..., session = tracker_login()) {
+pre_accepted_packages <-
+    function(status = 9, ..., session = tracker_login())
+{
     tracker_search(session = session, status = status)
 }
 
@@ -140,7 +131,10 @@ accept_package <- function(issue = issue,
 
 #' @export
 #' @describeIn tracker_search retrieve the logged in users packages
-my_issues <- function(user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ..., session = tracker_login()) {
+my_issues <-
+    function(user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ...,
+             session = tracker_login())
+{
     if (is.null(user)) {
         links <- rvest::html_nodes(session, "a")
         text <- rvest::html_text(links)
