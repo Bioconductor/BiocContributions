@@ -24,8 +24,10 @@ match_user <- function(x) {
     match_column <- function(column) {
         function(x) db2person(db[x == tolower(db[[column]]), ])
     }
-    first_name_matches[unmatched] <- lapply(tolower(x[unmatched]$given), match_column("First Name"))
-    last_name_matches[unmatched] <- lapply(tolower(x[unmatched]$family), match_column("Last Name"))
+    first_name_matches[unmatched] <-
+        lapply(tolower(x[unmatched]$given), match_column("First Name"))
+    last_name_matches[unmatched] <-
+        lapply(tolower(x[unmatched]$family), match_column("Last Name"))
     attr(users, "first_matches") <- first_name_matches
     attr(users, "last_matches") <- last_name_matches
 
@@ -115,12 +117,14 @@ maintainers <- function(tarball) {
 #' Retrieve the remote user database
 #'
 #' This is an internal function which retrieves the user database file
-#' 'user_db.csv', which holds user information for users with SVN credentials.
-#' this assumes 'rsync' is available on your path, which is true by default for
-#' linux and OSX machines, but probably not for windows.
-#' The information is cached so calling this function repeatably will result in
-#' the same information being returned. Use \code{memoise::forget(user_db)} to
-#' reset the cache if needed.
+#' 'user_db.csv', which holds user information for users with SVN
+#' credentials.  this assumes 'rsync' is available on your path, which
+#' is true by default for linux and OSX machines, but probably not for
+#' windows.
+#' 
+#' The information is cached so calling this function repeatably will
+#' result in the same information being returned. Use
+#' \code{memoise::forget(user_db)} to reset the cache if needed.
 #' @return the result is a data.frame of the data
 #' @examples
 #' user_db()
