@@ -21,7 +21,8 @@ Imports:
     knitr,
     rex,
     xml2,
-    BiocInstaller
+    BiocInstaller,
+    biocViews
 Suggests: 
     sendmailR,
     BiocInstaller,
