@@ -116,7 +116,7 @@ ManageNewPackagesCredentials <-
                "Martin", "")
 
     maints <- vapply(metadata$filenames, function(x) {
-        as.character(maintainers(x))
+        as.character(maintainers(x))[[1]]
     }, character(1))
 
     email <- paste(sub("@@NEWUSERS@@", paste(maints, collapse='\n'), email),

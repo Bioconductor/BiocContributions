@@ -45,6 +45,9 @@ readDESCRIPTION <- function(tarball) {
     if (is.null(res$Maintainer)) {
       authors <- utils:::.read_authors_at_R_field(res$`Authors@R`)
       res$Maintainer <- Filter(function(x) "cre" %in% x$role, authors)
+    } else {
+      ## "'Ima Person' <ima@person.org>" --> "Ima Person <ima@person.org>"
+      res$Maintainer <- sub("' *(.*) *' <", "\\1 <", res$Maintainer)
     }
     structure(res,
               class = c("description", "data.frame"))
