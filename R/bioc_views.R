@@ -28,12 +28,12 @@ bioc_views_classification <- function(files) {
     class <- lapply(class, unique)
 
     if (!all(lengths(class) == 1L)) {
+        ok <- lengths(class) == 1L
         msg <- paste(Map(function(nm, v, c) {
             sprintf("%s: %s", nm, paste0(v, " (", c, ")", collapse=", "))
         }, names(views)[!ok], views[!ok], class[!ok]), collapse="\n    ")
-        stop("invalid terms:\n    ", msg)
+        stop("conflicting biocViews subgraphs:\n    ", msg)
     }
 
-    unlist(class)
+    split(names(class), unlist(unname(class)))
 }
-
