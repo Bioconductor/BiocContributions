@@ -25,15 +25,15 @@ bioc_views_classification <- function(files) {
     }
 
     class <- relist(names(curr)[idx], views)
-    class <- lapply(class, unique)
+    class1 <- lapply(class, unique)
 
-    if (!all(lengths(class) == 1L)) {
-        ok <- lengths(class) == 1L
+    if (!all(lengths(class1) == 1L)) {
+        ok <- lengths(class1) == 1L
         msg <- paste(Map(function(nm, v, c) {
             sprintf("%s: %s", nm, paste0(v, " (", c, ")", collapse=", "))
         }, names(views)[!ok], views[!ok], class[!ok]), collapse="\n    ")
         stop("conflicting biocViews subgraphs:\n    ", msg)
     }
 
-    split(names(class), unlist(unname(class)))
+    split(names(class1), unlist(unname(class1)))
 }
