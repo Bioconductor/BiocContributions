@@ -11,6 +11,7 @@ bioc_views_from_tarball <- function(files) {
 #' @return named vector classifying each tar ball to biocViews hierarchy
 #' @export
 bioc_views_classification <- function(files) {
+    names(files) <- basename(files)
     views <- bioc_views_from_tarball (files)
     curr <- biocViews::getCurrentbiocViews()
     curr <- setNames(unlist(curr, use.names=FALSE),
@@ -35,5 +36,5 @@ bioc_views_classification <- function(files) {
         stop("conflicting biocViews subgraphs:\n    ", msg)
     }
 
-    split(names(class1), unlist(unname(class1)))
+    split(unname(files[names(class1)]), unlist(unname(class1)))
 }
