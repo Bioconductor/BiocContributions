@@ -1,8 +1,9 @@
 The canonical location for this code is https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/BiocContributions
 
-You can setup git-svn on it by cloning this repository and runninggit svn init https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/BiocContributions
+You can setup git-svn on it by cloning this repository and running
 
 ```bash
+git svn init https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/BiocContributions
 git svn fetch
 git git update-ref refs/remotes/git-svn refs/remotes/origin/master
 ```
