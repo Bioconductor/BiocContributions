@@ -5,7 +5,15 @@ devteam <- c(
     "Herve Pages",
     "Dan Tenenbaum")
 
-#' Status code to name mapping
+#' and their github usernames
+github_usernames <- c(
+    "mtmorgan",
+    "vobencha",
+    "hpages",
+    "dtenenba"
+    )
+#' S
+tatus code to name mapping
 # I would prefer these were dynamic, but there doesn't seem to be a great way
 # to do so...
 status_map <- c(

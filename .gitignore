@@ -26,3 +26,5 @@ vignettes/*.pdf
 
 # Output files from R CMD check
 /*.Rcheck/
+
+.tags*
