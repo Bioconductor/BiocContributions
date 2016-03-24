@@ -1,7 +1,7 @@
 Package: BiocContributions
 Type: Package
-Title: Convenience functions for adding packages to the svn repository. 
-Version: 0.99.69
+Title: Convenience functions for adding packages to the svn repository
+Version: 0.99.70
 Author: Marc Carlson, Sonali Arora, Jim Hester
 Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Description: A set of tools for cleaning up, post-processing, adding packages to
@@ -23,10 +23,11 @@ Imports:
     xml2,
     BiocInstaller,
     biocViews
-Suggests: 
+Suggests:
+    RMySQL, httr, mailR,
     sendmailR,
-    BiocInstaller,
     testthat
+VignetteBuilder: knitr
 License: Artistic-2.0
 biocViews: Infrastructure
 LazyLoad: yes

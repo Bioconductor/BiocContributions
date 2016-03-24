@@ -1,0 +1,120 @@
+---
+title: "Administrative tools for new package contributions"
+author: "Jim Hester, Jim Java, Martin Morgan"
+date: "`r doc_date()`"
+package: "`r pkg_ver('BiocContributions')`"
+abstract: >
+  This package provides facilities for managing new package
+  contributions. This vignette describes use high-level 'workflow'
+  functions for accomplishing major tasks. The workflow steps
+  reference useful functions for more specific management tasks. The
+  document is relevant to the 'tracker-based' package submission
+  scheme used until Bioc-3.4.
+vignette: >
+  %\VignetteIndexEntry{Managing New Package Contributions}
+  %\VignetteEngine{knitr::rmarkdown}
+output: 
+  BiocStyle::html_document
+---
+
+# Setup
+
+Make a working directory hierarchy, e.g.,
+
+    mkdir -p ~/proj/Rpacks
+    mkdir -p ~/proj/experiment
+
+Ensure the following options are set (`bioc_contributions_project` is
+`~/proj`, created above)
+
+    options(
+        ## tracker credentials
+        tracker_user="mtmorgan",
+        tracker_password="<your-tracker-password>",
+        ## local setup
+        bioc_contributions_project="~/proj",
+        ## signature in communications with users
+        bioc_contributions_signature="Martin Morgan",
+        bioc_contributions_email="martin.morgan@roswellpark.org")
+
+# Workflow
+
+## Assign new packages
+
+1. Load the package
+
+        library(BiocContributions)
+
+2. Create a new draft gmail with assignment content
+
+        assignments = CreatePackageAssignmentEmail()
+
+3. Manually check status in the tracker.
+
+4. Assign packages to reviewers in the tracker
+
+        result <- with(assignments, assign_packages(pkgs, code))
+        for (res in result) httr::stop_for_status(res)
+
+5. Review and send draft gmail.
+
+## Add pre-accepted packages
+
+The work flow typically starts by adding credentials and final
+acceptance of previously pre-accepted packages, and then adding the
+current pre-accepted packages to svn and asking for credentials for
+them.
+
+### Add to SVN
+
+1. Download package tarballs
+
+        f = DownloadNewPackageTarballs()
+
+2. Manully confirm that all tarballs have been downloaded, e.g., when
+   one issue has both software and data packages
+
+3. Separate software and data packages. This should be done by
+   consulting biocViews terms but currently needs to be done manually.
+
+        (bioc_class <- bioc_views_classification(f$filenames))
+
+4. Add experiment, software packages.
+
+        add_data_experiment_packages(bioc_class$ExperimentData)
+        add_software_packages(bioc_class$Software)
+
+5. Save new-package info for follow-up tasks.
+
+        path = paste0(proj_path(),
+            "new-packages-metadata_", format(Sys.Date(), "%Y%m%d"),
+            ".RData")
+        save(f, file=path)
+
+### Credentials
+
+After the 'save()' above, this function will find and use the most
+recently saved metadata to continue package acceptance after Carl's
+reply.
+
+1.  Ask for svn accounts. The code is tries to guess svn user
+    credentials and not ask for individuals who already have accounts,
+    but these need to be reviewed manually. The response is usually
+    quick, within a day.
+
+        ManageNewPackagesCredentials(createDraft=TRUE)
+
+2. The following generates instructions to be pasted into R to (1)
+   send acceptance emails (these need to be reviewd and sent from
+   gmail, including adding svn credentials manually); and (2) accepts
+   packages in the tracker.
+
+        ManageNewPackagesCredentials(createDraft=FALSE)
+
+3. `svn_auth_text(f$filenames)` generates text to edit the SVN
+   authorization file; see `*_permissions()` functions for automation,
+   but I have not trusted these.
+
+## Weekly summaries
+
+    DraftWeeklySummaryEmail()
