@@ -78,7 +78,8 @@ gh_tracker_search <-
 # 9 preview-in-progress
 
 
-results_to_data_frame <- function(results, include_message=FALSE)
+
+search_results_to_data_frame <- function(results, include_message)
 {
     rows <- results$total_count
     if (rows == 0)
@@ -114,6 +115,33 @@ results_to_data_frame <- function(results, include_message=FALSE)
     if (include_message)
         df <- cbind(df, message)
     df
+}
+
+issue_results_to_data_frame <- function(results, include_message)
+{
+
+}
+
+issue_comments_results_to_data_frame <- function(results, include_message)
+{
+    
+}
+
+
+results_to_data_frame <- function(results, include_message=FALSE)
+{
+    if (length(results) == 0) return(NULL)
+    # what kind of results do we have?
+    if (!is.null(results$total_count)) # search results
+    {
+        return(search_results_to_data_frame(results, include_message))
+    } else if (!is.null(results$number))  {# issue results
+        return(issue_results_to_data_frame(results, include_message))
+    } else if (is.list(results[[1]]) && !is.null(results[[1]]$id)) { # issue comments results
+        return(issue_comments_results_to_data_frame(results, include_message))
+    } else {
+        stop("unknown results")
+    }
 }
 
 
@@ -176,5 +204,7 @@ gh_packages_assigned_to <- function(github_username)
 # [1] "id"       "message"  "href"     "filename" "filetype" "author"   "time"
 gh_issue <- function(number)
 {
+    make_github_request(sprintf("/repos/%s/issues/%s", get_tracker_repos(),
+        number))
     github_search(sprintf("assignee:%s", github_username))
 }
