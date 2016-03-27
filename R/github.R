@@ -3,15 +3,17 @@
 #' @param uri github uri such as '/orgs/octokit/repos'
 #' @param method httr verb function (GET, POST, etc)
 #' @param postdata data to POST (if method == POST)
+#' @param include_message Whether to include the message in the result
 #' @export
 #' @import httr
-#' @return an R object created by reading the JSON of the response
+#' @return a data frame based on the result from github
 
 # FIXME - currently not dealing with pagination at all!
 # https://developer.github.com/v3/#pagination
 # https://developer.github.com/guides/traversing-with-pagination
 
-make_github_request <- function(uri, method=GET, postdata=NULL)
+make_github_request <- function(uri, method=GET, postdata=NULL,
+  include_message=FALSE)
 {
     stopifnot(nchar(Sys.getenv("GITHUB_TOKEN")) > 0)
     url <- sprintf("https://api.github.com%s", uri)
@@ -22,7 +24,7 @@ make_github_request <- function(uri, method=GET, postdata=NULL)
     # args <- list(url="http://httpbin.org/headers", body=postdata, add_headers(Authorization="token haha"))
     response <- do.call(method, args)
     # FIXME - do error handling here based on status_code(response)?
-    results_to_data_frame(content(response))
+    results_to_data_frame(content(response), include_message)
 }
 
 get_tracker_repos <- function()
@@ -79,7 +81,7 @@ gh_tracker_search <-
 
 
 
-search_results_to_data_frame <- function(results, include_message)
+as.data.frame.search.results  <- function(results, include_message)
 {
     rows <- results$total_count
     if (rows == 0)
@@ -117,14 +119,14 @@ search_results_to_data_frame <- function(results, include_message)
     df
 }
 
-issue_results_to_data_frame <- function(results, include_message)
+as.data.frame.issue.results  <- function(results, include_message)
 {
 
 }
 
-issue_comments_results_to_data_frame <- function(results, include_message)
+as.data.frame.issue.comments.results <- function(results, include_message)
 {
-    
+
 }
 
 
@@ -134,14 +136,18 @@ results_to_data_frame <- function(results, include_message=FALSE)
     # what kind of results do we have?
     if (!is.null(results$total_count)) # search results
     {
-        return(search_results_to_data_frame(results, include_message))
+        class(results) <- "search.results"
+        # return(search_results_to_data_frame(results, include_message))
     } else if (!is.null(results$number))  {# issue results
-        return(issue_results_to_data_frame(results, include_message))
+        class(results) <- "issue.results"
+        # return(issue_results_to_data_frame(results, include_message))
     } else if (is.list(results[[1]]) && !is.null(results[[1]]$id)) { # issue comments results
-        return(issue_comments_results_to_data_frame(results, include_message))
+        class(results) <- "issue.comments.results"
+        # return(issue_comments_results_to_data_frame(results, include_message))
     } else {
         stop("unknown results")
     }
+    as.data.frame(results, include_message)
 }
 
 
