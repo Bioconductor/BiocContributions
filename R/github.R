@@ -121,7 +121,12 @@ as.data.frame.search.results  <- function(results, include_message)
 
 as.data.frame.issue.results  <- function(results, include_message)
 {
-
+    # [1] "id"       "message"  "href"     "filename" "filetype" "author"   "time"
+    l = list(id=results$number, href=results$html_url, #filename=...,
+        author=results$user$login, time=results$created_at)
+    if (include_message)
+        l = append(l, list(message=results$body), 1)
+    as.data.frame(l)
 }
 
 as.data.frame.issue.comments.results <- function(results, include_message)
