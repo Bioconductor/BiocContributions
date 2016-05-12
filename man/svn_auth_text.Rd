@@ -2,9 +2,15 @@
 % Please edit documentation in R/svn_auth_text.R
 \name{svn_auth_text}
 \alias{svn_auth_text}
-\title{Generate text to copy / paste into svn file Bioconductor.authz}
+\alias{svn_data_experiment_auth_text}
+\alias{svn_software_auth_text}
+\title{Update svn authz files}
 \usage{
-svn_auth_text(filenames, version = getOption("BC_auth_version", "3_2"))
+svn_software_auth_text(filenames, version = getOption("BC_auth_version",
+  "3_3"))
+
+svn_data_experiment_auth_text(filenames,
+  version = getOption("BC_auth_version", "3_3"))
 }
 \arguments{
 \item{filenames}{character() vector of (full) paths to package tar balls.}
@@ -14,6 +20,8 @@ svn_auth_text(filenames, version = getOption("BC_auth_version", "3_2"))
 RELEASE_3_2.}
 }
 \description{
-Generate text to copy / paste into svn file Bioconductor.authz
+These functions generate text to copy / paste into software svn
+file bioconductor.authz or data experiment svn file
+bioc-data.authz
 }
 
