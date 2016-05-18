@@ -2,7 +2,7 @@ bioc_views_from_tarball <- function(files) {
     names(files) <- basename(files)
     descriptions <- lapply(files, readDESCRIPTION)
     views <- vapply(descriptions, `[[`, character(1), "biocViews")
-    strsplit(views, "[[:blank:],\n]+")
+    strsplit(trimws(views), "[[:blank:],\n]+")
 }
 
 #' Extract and validiate biocViews terms from tarball
