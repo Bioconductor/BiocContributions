@@ -141,7 +141,9 @@ NULL
 #' @export
 add_software_packages <- add_package_type(
     svn_location = proj_path("Rpacks"),
-    manifest = "bioc_3.3.manifest",
+    manifest =
+        sprintf("bioc_%s.manifest",
+                getOption("bioc_contributions_devel_version", "3.4")),
     clean_function = quote(clean),
     adding_code = quote(s$add(pkg_names)))
 
@@ -149,7 +151,9 @@ add_software_packages <- add_package_type(
 #' @export
 add_data_experiment_packages <- add_package_type(
     svn_location = proj_path("experiment"),
-    manifest = "pkgs/bioc-data-experiment.3.3.manifest",
+    manifest =
+        sprintf("pkgs/bioc-data-experiment.%s.manifest",
+                getOption("bioc_contributions_devel_version", "3.4")),
     clean_function = quote(clean_data_package),
     adding_code = quote({
         s$add(file.path("pkgs", pkg_names))
