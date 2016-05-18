@@ -1,3 +1,5 @@
+<!-- -*- mode: markdown -*- -->
+
 ---
 title: "Administrative tools for new package contributions"
 author: "Jim Hester, Jim Java, Martin Morgan"
@@ -111,9 +113,63 @@ reply.
 
         ManageNewPackagesCredentials(createDraft=FALSE)
 
-3. `svn_auth_text(f$filenames)` generates text to edit the SVN
-   authorization file; see `*_permissions()` functions for automation,
-   but I have not trusted these.
+3. `svn_software_auth_text(f$filenames)` and
+   `svn_data_experiment_auth_text(f$filenames)` generates text to edit
+   the SVN authorization file; see `*_permissions()` functions for
+   automation, but I have not trusted these.
+
+## Annotation packages
+
+Here is a summary of the procedure:
+
+0. You will need access to the biocadmin account on zin1 (for BioC
+   release) and zin2 (for BioC devel).
+
+1. rsync the packages to a temporary place on zin1 and/or zin2.
+
+2. Login to zin1 and/or zin2 as biocadmin and drop the source packages
+   in
+
+        ~biocadmin/PACKAGES/3.2/data/annotation/src/contrib
+
+   on zin1, and in
+
+        ~biocadmin/PACKAGES/3.3/data/annotation/src/contrib
+
+   on zin2.
+
+3. If the packages are updated versions of existing packages, remove
+   the old packages. To get a list of old packages, you can start R
+   and run:
+
+        source("~biocbuild/BBS/utils/list.old.pkgs.R")
+        list.old.pkgs("~biocadmin/PACKAGES/3.2/data/annotation/src/contrib")
+        # replace 3.2 with 3.3 on zin2
+
+4. Run the prepareRepos/pushRepos sequence. That is:
+
+        cd /home/biocadmin/manage-BioC-repos/3.3
+        ./prepareRepos-data-annotation.sh
+        ./pushRepos-data-annotation.sh
+
+   (replace 3.2 with 3.3 on zin2)
+
+   The prepareRepos script takes a long time (about 2 hours).
+
+   Alternatively, uncomment the cron job called "Just a daily resync
+   of the public 3.Y/data/annotation repo" in the crontab for
+   biocadmin and tweak the time you want this to start. Don't forget
+   to re-comment this once the job has started.
+
+5. Once everything has completed, start R from another machine (e.g.
+   your laptop) and check that the packages are available via
+   biocLite().  Additionally you can have a look at the package
+   landing pages and make sure that everything looks fine (remember
+   there is a lag of 15-20 min. between pushRepos and the update of
+   the package landing pages). You might see some broken shields if
+   the packages are new but I've observed that they seem to auto-fix
+   the day after (there might be a division by zero going on or
+   something like that due to the fact that the package is 0 day old).
 
 ## Weekly summaries
 
