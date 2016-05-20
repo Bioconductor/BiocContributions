@@ -1,0 +1,176 @@
+<!-- -*- mode: markdown -*- -->
+
+---
+title: "Administrative tools for new package contributions"
+author: "Jim Hester, Jim Java, Martin Morgan"
+date: "`r doc_date()`"
+package: "`r pkg_ver('BiocContributions')`"
+abstract: >
+  This package provides facilities for managing new package
+  contributions. This vignette describes use high-level 'workflow'
+  functions for accomplishing major tasks. The workflow steps
+  reference useful functions for more specific management tasks. The
+  document is relevant to the 'tracker-based' package submission
+  scheme used until Bioc-3.4.
+vignette: >
+  %\VignetteIndexEntry{Managing New Package Contributions}
+  %\VignetteEngine{knitr::rmarkdown}
+output: 
+  BiocStyle::html_document
+---
+
+# Setup
+
+Make a working directory hierarchy, e.g.,
+
+    mkdir -p ~/proj/Rpacks
+    mkdir -p ~/proj/experiment
+
+Ensure the following options are set (`bioc_contributions_project` is
+`~/proj`, created above)
+
+    options(
+        ## tracker credentials
+        tracker_user="mtmorgan",
+        tracker_password="<your-tracker-password>",
+        ## local setup
+        bioc_contributions_project="~/proj",
+        ## signature in communications with users
+        bioc_contributions_signature="Martin Morgan",
+        bioc_contributions_email="martin.morgan@roswellpark.org")
+
+# Workflow
+
+## Assign new packages
+
+1. Load the package
+
+        library(BiocContributions)
+
+2. Create a new draft gmail with assignment content
+
+        assignments = CreatePackageAssignmentEmail()
+
+3. Manually check status in the tracker.
+
+4. Assign packages to reviewers in the tracker
+
+        result <- with(assignments, assign_packages(pkgs, code))
+        for (res in result) httr::stop_for_status(res)
+
+5. Review and send draft gmail.
+
+## Add pre-accepted packages
+
+The work flow typically starts by adding credentials and final
+acceptance of previously pre-accepted packages, and then adding the
+current pre-accepted packages to svn and asking for credentials for
+them.
+
+### Add to SVN
+
+1. Download package tarballs
+
+        f = DownloadNewPackageTarballs()
+
+2. Manully confirm that all tarballs have been downloaded, e.g., when
+   one issue has both software and data packages
+
+3. Separate software and data packages. This should be done by
+   consulting biocViews terms but currently needs to be done manually.
+
+        (bioc_class <- bioc_views_classification(f$filenames))
+
+4. Add experiment, software packages.
+
+        add_data_experiment_packages(bioc_class$ExperimentData)
+        add_software_packages(bioc_class$Software)
+
+5. Save new-package info for follow-up tasks.
+
+        path = paste0(proj_path(),
+            "new-packages-metadata_", format(Sys.Date(), "%Y%m%d"),
+            ".RData")
+        save(f, file=path)
+
+### Credentials
+
+After the 'save()' above, this function will find and use the most
+recently saved metadata to continue package acceptance after Carl's
+reply.
+
+1.  Ask for svn accounts. The code is tries to guess svn user
+    credentials and not ask for individuals who already have accounts,
+    but these need to be reviewed manually. The response is usually
+    quick, within a day.
+
+        ManageNewPackagesCredentials(createDraft=TRUE)
+
+2. The following generates instructions to be pasted into R to (1)
+   send acceptance emails (these need to be reviewd and sent from
+   gmail, including adding svn credentials manually); and (2) accepts
+   packages in the tracker.
+
+        ManageNewPackagesCredentials(createDraft=FALSE)
+
+3. `svn_software_auth_text(f$filenames)` and
+   `svn_data_experiment_auth_text(f$filenames)` generates text to edit
+   the SVN authorization file; see `*_permissions()` functions for
+   automation, but I have not trusted these.
+
+## Annotation packages
+
+Here is a summary of the procedure:
+
+0. You will need access to the biocadmin account on zin1 (for BioC
+   release) and zin2 (for BioC devel).
+
+1. rsync the packages to a temporary place on zin1 and/or zin2.
+
+2. Login to zin1 and/or zin2 as biocadmin and drop the source packages
+   in
+
+        ~biocadmin/PACKAGES/3.2/data/annotation/src/contrib
+
+   on zin1, and in
+
+        ~biocadmin/PACKAGES/3.3/data/annotation/src/contrib
+
+   on zin2.
+
+3. If the packages are updated versions of existing packages, remove
+   the old packages. To get a list of old packages, you can start R
+   and run:
+
+        source("~biocbuild/BBS/utils/list.old.pkgs.R")
+        list.old.pkgs("~biocadmin/PACKAGES/3.2/data/annotation/src/contrib")
+        # replace 3.2 with 3.3 on zin2
+
+4. Run the prepareRepos/pushRepos sequence. That is:
+
+        cd /home/biocadmin/manage-BioC-repos/3.3
+        ./prepareRepos-data-annotation.sh
+        ./pushRepos-data-annotation.sh
+
+   (replace 3.2 with 3.3 on zin2)
+
+   The prepareRepos script takes a long time (about 2 hours).
+
+   Alternatively, uncomment the cron job called "Just a daily resync
+   of the public 3.Y/data/annotation repo" in the crontab for
+   biocadmin and tweak the time you want this to start. Don't forget
+   to re-comment this once the job has started.
+
+5. Once everything has completed, start R from another machine (e.g.
+   your laptop) and check that the packages are available via
+   biocLite().  Additionally you can have a look at the package
+   landing pages and make sure that everything looks fine (remember
+   there is a lag of 15-20 min. between pushRepos and the update of
+   the package landing pages). You might see some broken shields if
+   the packages are new but I've observed that they seem to auto-fix
+   the day after (there might be a division by zero going on or
+   something like that due to the fact that the package is 0 day old).
+
+## Weekly summaries
+
+    DraftWeeklySummaryEmail()
