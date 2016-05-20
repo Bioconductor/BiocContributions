@@ -20,6 +20,12 @@
     sub("_.*","", basename(tarball))
 }
 
+## remove .git directories
+.cleanGIT <- function(dir) {
+    gitdir <- sprintf("%s/.git", dir)
+    stopifnot(unlink(gitdir, recursive=TRUE, force=TRUE) == 0L)
+}
+
 ## This throws away unwanted extra lines and junk from the DESCRIPTION file
 .cleanDESCRIPTION <- function(dir){
     dirPath <- file.path(dir, "DESCRIPTION")
@@ -29,17 +35,21 @@
 }
 
 readDESCRIPTION <- function(tarball) {
-    ls <- untar(tarball, list = TRUE)
-    description <- ls[basename(ls) == "DESCRIPTION"]
-
-    if (length(description) == 0) stop("No DESCRIPTION")
-    if (length(description) > 1) {
-        description <- description[which.min(nchar(description))]
-        message("Multiple descriptions: using ", description)
+    pkgdir <- tarball
+    description <- "DESCRIPTION"
+    if (endsWith(tarball, "tar.gz")) {
+        ls <- untar(tarball, list = TRUE)
+        fls <- ls[basename(ls) == description]
+        if (length(fls) != 1L)
+            stop("Could not find a unique DESCRIPTION file",
+                 "\n  tarball: ", sQuote(tarball),
+                 "\n  paths (if any): ",
+                 "\n    ", paste(sQuote(fls), collapse="\n    "))
+        description <- fls
+        pkgdir <- tempdir()
+        untar(tarball, files = description, exdir = pkgdir)
     }
-
-    untar(tarball, files = description, exdir = tempdir())
-    res <- read.dcf(file.path(tempdir(), description), all = TRUE)
+    res <- read.dcf(file.path(pkgdir, description), all = TRUE)
 
     # generate a maintainer from Authors@R if none specified
     if (is.null(res$Maintainer)) {
@@ -49,8 +59,7 @@ readDESCRIPTION <- function(tarball) {
       ## "'Ima Person' <ima@person.org>" --> "Ima Person <ima@person.org>"
       res$Maintainer <- sub("' *(.*) *' <", "\\1 <", res$Maintainer)
     }
-    structure(res,
-              class = c("description", "data.frame"))
+    structure(res, class = c("description", "data.frame"))
 }
 
 print.description <- function(x, ...) {
@@ -96,9 +105,11 @@ clean <- function(tarball, svnDir=proj_path("Rpacks"), copyToSvnDir=TRUE,
     ## TODO: call Dans checker here?
 
     ## access the tarball
-    untar(tarball)
+    if (endsWith(tarball, ".tar.gz"))
+        untar(tarball)
     ## get the name of the actual dir that tarball will unpack to
     dir <- .getShortPkgName(tarball)
+    .cleanGIT(dir)
     ## clean up DESCRIPTION file
     .cleanDESCRIPTION(dir)
     ## remove build and inst/doc dirs
@@ -111,6 +122,8 @@ clean <- function(tarball, svnDir=proj_path("Rpacks"), copyToSvnDir=TRUE,
     }
     ## cleanup
     unlink(dir, recursive=TRUE)
+
+    file.path(svnDir, dir)
 }
 
 

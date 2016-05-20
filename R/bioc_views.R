@@ -1,4 +1,4 @@
-bioc_views_from_tarball <- function(files) {
+bioc_views_from_files <- function(files) {
     names(files) <- basename(files)
     descriptions <- lapply(files, readDESCRIPTION)
     views <- vapply(descriptions, `[[`, character(1), "biocViews")
@@ -12,7 +12,7 @@ bioc_views_from_tarball <- function(files) {
 #' @export
 bioc_views_classification <- function(files) {
     names(files) <- basename(files)
-    views <- bioc_views_from_tarball (files)
+    views <- bioc_views_from_files (files)
     curr <- biocViews::getCurrentbiocViews()
     curr <- setNames(unlist(curr, use.names=FALSE),
                      rep(names(curr), lengths(curr)))
