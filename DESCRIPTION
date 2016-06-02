@@ -26,7 +26,8 @@ Imports:
 Suggests:
     RMySQL, httr, mailR,
     sendmailR,
-    testthat
+    testthat,
+    BiocStyle
 VignetteBuilder: knitr
 License: Artistic-2.0
 biocViews: Infrastructure
