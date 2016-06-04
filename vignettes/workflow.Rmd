@@ -130,11 +130,11 @@ Here is a summary of the procedure:
 2. Login to zin1 and/or zin2 as biocadmin and drop the source packages
    in
 
-        ~biocadmin/PACKAGES/3.2/data/annotation/src/contrib
+        ~biocadmin/PACKAGES/3.3/data/annotation/src/contrib
 
    on zin1, and in
 
-        ~biocadmin/PACKAGES/3.3/data/annotation/src/contrib
+        ~biocadmin/PACKAGES/3.4/data/annotation/src/contrib
 
    on zin2.
 
@@ -143,12 +143,12 @@ Here is a summary of the procedure:
    and run:
 
         source("~biocbuild/BBS/utils/list.old.pkgs.R")
-        list.old.pkgs("~biocadmin/PACKAGES/3.2/data/annotation/src/contrib")
+        list.old.pkgs("~biocadmin/PACKAGES/3.3/data/annotation/src/contrib")
         # replace 3.2 with 3.3 on zin2
 
 4. Run the prepareRepos/pushRepos sequence. That is:
 
-        cd /home/biocadmin/manage-BioC-repos/3.3
+        cd /home/biocadmin/manage-BioC-repos/3.4
         ./prepareRepos-data-annotation.sh
         ./pushRepos-data-annotation.sh
 
