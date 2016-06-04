@@ -22,6 +22,6 @@ Thanks,
 
 {{senderName}}
 
-[1] http://bioconductor.org/checkResults/3.3/{{type}}/
+[1] http://bioconductor.org/checkResults/3.4/{{type}}/
 
-[2] http://bioconductor.org/checkResults/3.3/{{type}}/{{package}}
+[2] http://bioconductor.org/checkResults/3.4/{{type}}/{{package}}

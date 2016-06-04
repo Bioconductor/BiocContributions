@@ -1,9 +1,10 @@
 Hi {{authorName}},
 
 Congratulations, {{packageName}} has been added to _Bioconductor_!
-The following information is to help you in your role as a package
-maintainer. You'll need the following credentials to maintain your
-package:
+Currently, the definitive location for your _Bioconductor_ package is
+in our SVN repository.  The following information is to help you in
+your role as a package maintainer. You'll need the following
+credentials to maintain your package:
 
 Subversion user ID: {{userId}}
 Password: {{password}}
