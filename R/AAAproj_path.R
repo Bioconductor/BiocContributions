@@ -17,6 +17,7 @@ proj_path <-
               !is.na(check.exists))
     path <- file.path(getOption("bioc_contributions_project", "~"), file)
     if (check.exists && !all(file.exists(path)))
-        stop("path does not exist:\n  '", path, "'")
+        stop("path does not exist (set option 'bioc_contributions_project'?):",
+             "\n  '", path, "'")
     path
 }
