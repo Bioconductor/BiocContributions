@@ -8,7 +8,7 @@ options(
 
 library(httr)
 
-repository <- "https://api.github.com/Bioconductor/ContributionsBeta"
+repository <- "https://api.github.com/Bioconductor/Contributions"
 
 .github_userpwd <-
     function()
@@ -21,7 +21,7 @@ repository <- "https://api.github.com/Bioconductor/ContributionsBeta"
 
 github_get <-
     function(path, api="https://api.github.com",
-             path_root="/repos/Bioconductor/ContributionsBeta")
+             path_root="/repos/Bioconductor/Contributions")
 {
     query <- sprintf("%s%s%s", api, path_root, path)
     response <- GET(
@@ -49,7 +49,7 @@ github_post <-
 
 github_patch <-
     function(path, body, ..., api="https://api.github.com",
-             path_root="/repos/Bioconductor/ContributionsBeta",
+             path_root="/repos/Bioconductor/Contributions",
              encode="json")
 {
     query <- sprintf("%s%s%s", api, path_root, path)
@@ -73,7 +73,7 @@ github_patch <-
 
 .github_close <- function(issue) {
     path <- sprintf("/issues/%d", issue$number)
-    github_patch(path, list(status="closed"))
+    github_patch(path, list(state="closed"))
     issue$state
 }
 
