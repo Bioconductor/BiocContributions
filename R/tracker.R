@@ -166,27 +166,23 @@ my_issues <-
 assign_new_packages <- function(pkgs = unassigned_packages(session),
                                 team = devteam) {
 
-    integer_hash <- function(x, ...) {
-        hash <- vapply(x, digest::digest, character(1), ...)
-        hash <- substr(hash, 1, 6)
-        strtoi(hash, base = 16)
-    }
+    if (NROW(pkgs) == 0)
+        return(list())
 
-    if (NROW(pkgs) == 0) {
-        return()
-    }
+    pkgs <- pkgs[order(pkgs$id),,drop=FALSE]
 
     substitute({
-        integer_hash <- fun_
 
-        pkgs <- pkgs_
+        ids <- ids_
+
+        title <- title_
 
         team <- team_
 
-        data.frame(reviewer = team[integer_hash(pkgs) %% length(team) + 1],
-                   title = pkgs)
+        data.frame(reviewer = team[ids %% length(team) + 1],
+                   title = as.character(title))
     },
-    list(fun_ = integer_hash, pkgs_ = sort(pkgs$title), team_ = team))
+    list(ids_ = pkgs$id, title_ = pkgs$title, team_ = team))
 }
 
 #' Retrieve all of the messages from an issue
