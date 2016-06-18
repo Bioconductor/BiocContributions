@@ -131,7 +131,7 @@ github_accept <- function() {
     if (!file.exists(credentials))
         stop("local copy of 'bioconductor.authz' required at",
              "\n  ", credentials)
-    ids <- strsplit(readLines(credentials, 3)[[3]], ", *")
+    ids <- strsplit(readLines(credentials, 3)[[3]], ", *")[[1]]
     !.user_id(maintainers) %in% ids
 }
 
