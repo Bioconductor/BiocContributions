@@ -77,7 +77,7 @@ DownloadNewPackageTarballs <-
         sprintf("%s.%s", substr(ms$given[1], 1, 1), ms$family)
     }))
 
-    list(usernames=us, existing=us[us %in% d])
+    list(usernames=us[!us %in% d], existing=us[us %in% d])
 }
 
 #' @rdname workflow_standard

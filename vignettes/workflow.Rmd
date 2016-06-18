@@ -3,8 +3,8 @@
 ---
 title: "Administrative tools for new package contributions"
 author: "Jim Hester, Jim Java, Martin Morgan"
-date: "`r doc_date()`"
-package: "`r pkg_ver('BiocContributions')`"
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('BiocContributions')`"
 abstract: >
   This package provides facilities for managing new package
   contributions. This vignette describes use high-level 'workflow'
@@ -73,7 +73,7 @@ them.
 
         f = DownloadNewPackageTarballs()
 
-2. Manully confirm that all tarballs have been downloaded, e.g., when
+2. Manually confirm that all tarballs have been downloaded, e.g., when
    one issue has both software and data packages
 
 3. Separate software and data packages. This should be done by
