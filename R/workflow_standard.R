@@ -115,7 +115,7 @@ ManageNewPackagesCredentials <-
                "Thanks,", "",
                "Martin", "")
 
-    maints <- vapply(metadata$filenames, function(x) {
+    maints <- vapply(names(creds$usernames), function(x) {
         as.character(maintainers(x))[[1]]
     }, character(1))
 
@@ -135,8 +135,9 @@ ManageNewPackagesCredentials <-
 
     cat('\n', "##### Create draft e-mails to maintainers", '\n\n', sep='')
     cat("gmailr::gmail_auth(scope='compose')\n")
-    for (package in names(creds$usernames))
-        for (username in creds$usernames[[package]])
+    pkgs <- unlist(unname(creds), recursive=FALSE)
+    for (package in names(pkgs))
+        for (username in pkgs[[package]])
             cat("gmailr::create_draft(emailMaintainer('", package,
                 "', userId='", username,
                 "', password='XXXXXXXXX'))\n",
