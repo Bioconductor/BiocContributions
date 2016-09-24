@@ -34,6 +34,16 @@
     write.dcf(DESC, file=dirPath)
 }
 
+## white-list '.' directories
+.cleanDotdirs <- function(dir) {
+    ok <- c(".BBSoptions", ".Rbuildignore", ".Rinstignore", ".svnignore",
+            ".gitignore", ".travis.yml")
+    suspect <- dir(dir, pattern="^\\.", recursive=TRUE, all=TRUE,
+                   include.dirs=TRUE)
+    drop <- setdiff(suspect, ok)
+    stopifnot(unlink(drop, recursive=TRUE, force=TRUE) == 0L)
+}
+
 readDESCRIPTION <- function(tarball) {
     pkgdir <- tarball
     description <- "DESCRIPTION"
@@ -110,6 +120,8 @@ clean <- function(tarball, svnDir=proj_path("Rpacks"), copyToSvnDir=TRUE,
     ## get the name of the actual dir that tarball will unpack to
     dir <- .getShortPkgName(tarball)
     .cleanGIT(dir)
+    ## ^\\. directories
+    .cleanDotdirs(dir)
     ## clean up DESCRIPTION file
     .cleanDESCRIPTION(dir)
     ## remove build and inst/doc dirs
