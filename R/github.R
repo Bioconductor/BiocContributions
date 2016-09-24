@@ -7,7 +7,7 @@
         sep=":")
 }
 
-github_get <-
+.github_get <-
     function(path, api="https://api.github.com",
              path_root="/repos/Bioconductor/Contributions")
 {
@@ -20,22 +20,7 @@ github_get <-
     content(response)
 }
 
-github_post <-
-    function(path, body, ..., api="https://api.github.com", encode="json")
-{
-    query <- sprintf("%s%s", api, path)
-    response <- POST(
-        query,
-        config(userpwd=.github_userpwd(), httpauth=1L),
-        accept("application/vnd.github.v3+json"),
-        body=body,
-        ...,
-        encode=encode)
-    stop_for_status(response)
-    content(response)
-}
-
-github_patch <-
+.github_patch <-
     function(path, body, ..., api="https://api.github.com",
              path_root="/repos/Bioconductor/Contributions",
              encode="json")
@@ -52,7 +37,6 @@ github_patch <-
     content(response)
 }
 
-
 .github_download <- function(issue) {
     repos <- sub(".*Repository: *([[:alnum:]/:\\.-]+).*", "\\1", issue$body)
     system2("git", sprintf("clone %s", repos), stdout=TRUE, stderr=TRUE)
@@ -61,7 +45,7 @@ github_patch <-
 
 .github_close <- function(issue) {
     path <- sprintf("/issues/%d", issue$number)
-    github_patch(path, list(state="closed"))
+    .github_patch(path, list(state="closed"))
     issue$state
 }
 
@@ -132,7 +116,7 @@ github_patch <-
 #' @export
 github_accept <- function() {
     path <- "/issues?state=open&labels=3a.%20accepted"
-    issues <- github_get(path)
+    issues <- .github_get(path)
 
     owd <- setwd(proj_path())
     on.exit(setwd(owd))
