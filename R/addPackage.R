@@ -198,9 +198,13 @@ clean_data_package <-
     desc$Packaged <- NULL
 
     # Extract the tarball and cleanup afterwards
-    untar(tarball, exdir = tempdir())
-    pkg_dir <- file.path(tempdir(), desc$Package)
-    on.exit(unlink(pkg_dir, recursive = TRUE))
+    if (endsWith(tarball, ".tar.gz")) {
+        untar(tarball, exdir = tempdir())
+        pkg_dir <- file.path(tempdir(), desc$Package)
+        on.exit(unlink(pkg_dir, recursive = TRUE))
+    } else {
+        pkg_dir <- tarball
+    }
 
     # Get all extracted files
     files <- dir(pkg_dir, recursive = TRUE)
@@ -232,11 +236,11 @@ clean_data_package <-
     }
 
     # copy non data files to the pkgs
-    copy_files(file.path(tempdir(), non_data_files),
+    copy_files(file.path(dirname(pkg_dir), non_data_files),
         file.path(svn_pkgs, non_data_files))
 
     # copy the data files to the data store
-    copy_files(file.path(tempdir(), data_files),
+    copy_files(file.path(dirname(pkg_dir), data_files),
         file.path(svn_data_store, data_files))
 
     # write the data paths in external_data_store.txt
