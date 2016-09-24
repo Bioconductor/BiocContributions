@@ -1,11 +1,18 @@
+## workflow
+
 ## library(jsonlite)
 ## https://developer.github.com/v3/
+
+## temporary
+.getShortPkgName <- BiocContributions:::.getShortPkgName
 
 options(
     bioc_contributions_github_user="mtmorgan",
     bioc_contributions_github_auth="6e55b2fa27337750d63a6eada17c400a1609792a"
 )
-
+library(BiocContributions)
+check_manifest <- BiocContributions:::check_manifest
+template <- BiocContributions:::template
 library(httr)
 
 repository <- "https://api.github.com/Bioconductor/Contributions"
@@ -66,7 +73,7 @@ github_patch <-
 
 
 .github_download <- function(issue) {
-    repos <- sub(".*Repository: *([[:alnum:]/:\\.]+).*", "\\1", issue$body)
+    repos <- sub(".*Repository: *([[:alnum:]/:\\.-]+).*", "\\1", issue$body)
     system2("git", sprintf("clone %s", repos), stdout=TRUE, stderr=TRUE)
     basename(repos)
 }
@@ -77,27 +84,19 @@ github_patch <-
     issue$state
 }
 
-github_accept <- function() {
-    path <- "/issues?state=open&labels=3a.%20accepted"
-    issues <- github_get(path)
+.github_to_svn_Software <-
+    function(pkgs, svn_location=proj_path("Rpacks"))
+{
+    if (!length(pkgs))
+        return(pkgs)
+
+    for (pkg in pkgs)
+        clean(pkg)
 
     bioc_version <- getOption("bioc_contributions_devel_version", "3.4")
-
-    svn_location <- proj_path("Rpacks")
     svn_manifest <-
         file.path(svn_location, sprintf("bioc_%s.manifest", bioc_version))
 
-    owd <- setwd(proj_path())
-    on.exit(setwd(owd))
-
-    pkgs <- vapply(issues, function(issue) {
-        pkg <- .github_download(issue)
-        clean(pkg, svn_location)
-    }, character(1))
-    types <- bioc_views_classification(pkgs)
-    stopifnot(length(types$ExperimentData) == 0L) # FIXME
-
-    pkgs <- types$Software
     s <- svn(svn_location)
     s$update()
 
@@ -112,6 +111,55 @@ github_accept <- function() {
         s$status()
         s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
     }
+    file.path("Rpacks", pkgs)
+}
+
+.github_to_svn_ExperimentData <-
+    function(pkgs, svn_location=proj_path("experiment"))
+{
+    if (!length(pkgs))
+        return(pkgs)
+
+    for (pkg in pkgs)
+        clean_data_package(pkg)
+
+    bioc_version <- getOption("bioc_contributions_devel_version", "3.4")
+    svn_manifest <- file.path(
+        svn_location,
+        sprintf("pkgs/bioc-data-experiment.%s.manifest", bioc_version))
+    
+    s <- svn(svn_location)
+    s$update()
+
+    pkg_names <- .getShortPkgName(pkgs)
+    s$status()
+
+    current <- s$read(svn_manifest)
+    if (check_manifest(current, pkg_names)) {
+        {
+            s$add(file.path("pkgs", pkg_names))
+            s$add(file.path("data_store", pkg_names))
+        }
+        s$write(svn_manifest, append(current, paste0("Package: ", 
+            pkg_names, "\n")))
+        s$status()
+        s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
+    }
+    file.path("pkgs", pkg_names)
+}
+
+github_accept <- function() {
+    path <- "/issues?state=open&labels=3a.%20accepted"
+    issues <- github_get(path)
+
+    owd <- setwd(proj_path())
+    on.exit(setwd(owd))
+
+    pkgs <- vapply(issues, .github_download, character(1))
+    types <- bioc_views_classification(pkgs)
+    types$Software <- .github_to_svn_Software(types$Software)
+    types$ExperimentData <-
+        .github_to_svn_ExperimentData(types$ExperimentData)
 
     ## close issues
     issues <- setNames(issues, basename(pkgs))
@@ -136,7 +184,6 @@ github_accept <- function() {
 }
 
 github_svn_credentials_request_from_carl <- function(packages) {
-    packages <- file.path(proj_path("Rpacks"), packages)
     names(packages) <- basename(packages)
     maintainers <- lapply(packages, function(x) maintainers(x)[[1]])
     maintainers <- maintainers[.credentials_required(maintainers)]
@@ -161,7 +208,7 @@ github_svn_credentials_request_from_carl <- function(packages) {
 }
 
 github_svn_credentials_draft_to_user <- function(packages) {
-    packages <- file.path(proj_path("Rpacks"), packages)
+    packages <- file.path(proj_path(), packages)
     maintainers <- lapply(packages, function(x) maintainers(x)[[1]])
     user_id <- .user_id(maintainers)
 
@@ -174,3 +221,6 @@ github_svn_credentials_draft_to_user <- function(packages) {
 
     length(letters)
 }
+
+## svn_software_auth_text()
+## svn_data_experiment_auth_text
