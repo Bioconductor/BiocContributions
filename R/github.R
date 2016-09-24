@@ -1,221 +1,208 @@
-#' Make a GitHub API request using an OAuth token
-#'
-#' @param uri github uri such as '/orgs/octokit/repos'
-#' @param method httr verb function (GET, POST, etc)
-#' @param postdata data to POST (if method == POST)
-#' @param include_message Whether to include the message in the result
-#' @export
-#' @import httr
-#' @return a data frame based on the result from github
-
-# FIXME - currently not dealing with pagination at all!
-# https://developer.github.com/v3/#pagination
-# https://developer.github.com/guides/traversing-with-pagination
-
-make_github_request <- function(uri, method=GET, postdata=NULL,
-  include_message=FALSE)
+.github_userpwd <-
+    function()
 {
-    stopifnot(nchar(Sys.getenv("GITHUB_TOKEN")) > 0)
-    url <- sprintf("https://api.github.com%s", uri)
-    token <- sprintf("token %s", Sys.getenv("GITHUB_TOKEN"))
-    args <- list(url=url, add_headers(Authorization=token))
-    if (!is.null(postdata))
-        args$body <- postdata
-    # args <- list(url="http://httpbin.org/headers", body=postdata, add_headers(Authorization="token haha"))
-    response <- do.call(method, args)
-    # FIXME - do error handling here based on status_code(response)?
-    results_to_data_frame(content(response), include_message)
+    paste(
+        getOption("bioc_contributions_github_user"),
+        getOption("bioc_contributions_github_auth"),
+        sep=":")
 }
 
-get_tracker_repos <- function()
-    "dtenenba/settings" # change this when the time is right
-
-#' Query the issue tracker
-#'
-#' @param columns which columns to return
-#' @param sort A column to sort the data by
-#' @param filter what columns are used to filter
-#' @param status the status codes used to filter
-#' @param ... Additional query parameters
-#' @param session the HTTP session to use
-#' @export
-#' @examples
-#' tracker_search("@search_text" = "normalize450k")
-gh_tracker_search <-
-    function(columns = c("id", "activity", "title", "creator", "status"),
-             sort = desc("activity"),
-             filter=c("status", "assignedto"),
-             status = c(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-             ...,
-             session = tracker_login())
+github_get <-
+    function(path, api="https://api.github.com",
+             path_root="/repos/Bioconductor/Contributions")
 {
-    # see https://developer.github.com/v3/search/#search-issues
-    # for documentation on searching issues via the api
-    # here is an example search:
-    # https://api.github.com/search/issues?q=+repo:dtenenba/settings+state:open&sort=created&order=asc
+    query <- sprintf("%s%s%s", api, path_root, path)
+    response <- GET(
+        query,
+        config(userpwd=.github_userpwd(), httpauth=1L),
+        accept("application/vnd.github.v3+json"))
+    stop_for_status(response)
+    content(response)
+}
+
+github_post <-
+    function(path, body, ..., api="https://api.github.com", encode="json")
+{
+    query <- sprintf("%s%s", api, path)
+    response <- POST(
+        query,
+        config(userpwd=.github_userpwd(), httpauth=1L),
+        accept("application/vnd.github.v3+json"),
+        body=body,
+        ...,
+        encode=encode)
+    stop_for_status(response)
+    content(response)
+}
+
+github_patch <-
+    function(path, body, ..., api="https://api.github.com",
+             path_root="/repos/Bioconductor/Contributions",
+             encode="json")
+{
+    query <- sprintf("%s%s%s", api, path_root, path)
+    response <- PATCH(
+        query,
+        config(userpwd=.github_userpwd(), httpauth=1L),
+        accept("application/vnd.github.v3+json"),
+        body=body,
+        ...,
+        encode=encode)
+    stop_for_status(response)
+    content(response)
 }
 
 
-# Want to end up with something like this:
-# > unassigned_packages()
-#     id            activity                           title creator
-# 1 1437 2016-03-23 14:06:08                            EGAD     881
-# 2 1432 2016-03-23 07:44:36                       DAPARdata     837
-# 3 1434 2016-03-22 16:04:49                         CHRONOS     943
-# 4 1436 2016-03-22 15:20:14                    MultiDataSet     872
-# 5 1435 2016-03-22 13:26:07                          BgeeDB     944
-# 6 1433 2016-03-22 10:08:17                       pqsfinder     445
-# 7 1430 2016-03-21 20:53:12                    ImmuneSpaceR     609
-# 8 1431 2016-03-21 01:48:26 FlowSorted.CordBloodNorway.450k     305
-# 9 1429 2016-03-18 16:23:07                     pcaExplorer     669
-#                status
-# 1         new-package
-# 2         new-package
-# 3         new-package
-# 4         new-package
-# 5           sent-back
-# 6           sent-back
-# 7           sent-back
-# 8         new-package
-# 9 preview-in-progress
+.github_download <- function(issue) {
+    repos <- sub(".*Repository: *([[:alnum:]/:\\.-]+).*", "\\1", issue$body)
+    system2("git", sprintf("clone %s", repos), stdout=TRUE, stderr=TRUE)
+    basename(repos)
+}
 
+.github_close <- function(issue) {
+    path <- sprintf("/issues/%d", issue$number)
+    github_patch(path, list(state="closed"))
+    issue$state
+}
 
-
-as.data.frame.search.results  <- function(results, include_message)
+.github_to_svn_Software <-
+    function(pkgs, svn_location=proj_path("Rpacks"))
 {
-    rows <- results$total_count
-    if (rows == 0)
-        return(NULL)
-    items <- results$items
-    # there will be 5 columns (id, activity, title, creator, status)
-    cols <- 5
-    id <- integer(rows)
-    activity <- seq( as.Date("1970-01-01"), by=1, len=rows)
-    title <- character(rows)
-    creator <- character(rows)
-    status <- character(rows)
-    message <- character(rows)
-    for (i in 1:length(items))
-    {
-        item <- items[[i]]
-        id[i] <- item$number
-        activity[i] <- strptime(item$updated_at, "%Y-%m-%dT%H:%M:%S", tz="UTC")
-        title[i] <- item$title
-        creator[i] <- item$user$login
-        if (length(item$labels)) {
-            labels <- sort(unlist(lapply(item$labels, function(x) x$name)))
-            status[i] <- paste(labels, collapse=", ")
-        } else {
-            status[i] <- NA
-        }
-        if (include_message)
+    if (!length(pkgs))
+        return(pkgs)
+
+    for (pkg in pkgs)
+        clean(pkg)
+
+    bioc_version <- getOption("bioc_contributions_devel_version", "3.4")
+    svn_manifest <-
+        file.path(svn_location, sprintf("bioc_%s.manifest", bioc_version))
+
+    s <- svn(svn_location)
+    s$update()
+
+    pkg_names <- basename(pkgs)
+    s$status()
+
+    current <- s$read(svn_manifest)
+    if (check_manifest(current, pkg_names)) {
+        s$add(pkg_names)
+        s$write(svn_manifest,
+                append(current, paste0("Package: ", pkg_names, "\n")))
+        s$status()
+        s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
+    }
+    file.path("Rpacks", pkgs)
+}
+
+.github_to_svn_ExperimentData <-
+    function(pkgs, svn_location=proj_path("experiment"))
+{
+    if (!length(pkgs))
+        return(pkgs)
+
+    for (pkg in pkgs)
+        clean_data_package(pkg)
+
+    bioc_version <- getOption("bioc_contributions_devel_version", "3.4")
+    svn_manifest <- file.path(
+        svn_location,
+        sprintf("pkgs/bioc-data-experiment.%s.manifest", bioc_version))
+    
+    s <- svn(svn_location)
+    s$update()
+
+    pkg_names <- .getShortPkgName(pkgs)
+    s$status()
+
+    current <- s$read(svn_manifest)
+    if (check_manifest(current, pkg_names)) {
         {
-            message[i] <- item$body
+            s$add(file.path("pkgs", pkg_names))
+            s$add(file.path("data_store", pkg_names))
         }
+        s$write(svn_manifest, append(current, paste0("Package: ", 
+            pkg_names, "\n")))
+        s$status()
+        s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
     }
-    df <- data.frame(id, activity, title, creator, status)
-    if (include_message)
-        df <- cbind(df, message)
-    df
+    file.path("pkgs", pkg_names)
 }
 
-as.data.frame.issue.results  <- function(results, include_message)
-{
-    # [1] "id"       "message"  "href"     "filename" "filetype" "author"   "time"
-    l = list(id=results$number, href=results$html_url, #filename=...,
-        author=results$user$login, time=results$created_at)
-    if (include_message)
-        l = append(l, list(message=results$body), 1)
-    as.data.frame(l)
+#' @export
+github_accept <- function() {
+    path <- "/issues?state=open&labels=3a.%20accepted"
+    issues <- github_get(path)
+
+    owd <- setwd(proj_path())
+    on.exit(setwd(owd))
+
+    pkgs <- vapply(issues, .github_download, character(1))
+    types <- bioc_views_classification(pkgs)
+    types$Software <- .github_to_svn_Software(types$Software)
+    types$ExperimentData <-
+        .github_to_svn_ExperimentData(types$ExperimentData)
+
+    ## close issues
+    issues <- setNames(issues, basename(pkgs))
+    state <- vapply(issues, .github_close, character(1))
+    
+    types$ExperimentData <- file.path("experiment", types$ExperimentData)
+    types
 }
 
-as.data.frame.issue.comments.results <- function(results, include_message)
-{
-
+.user_id <- function(maintainers) {
+    tolower(sapply(maintainers, function(maintainer) {
+        sprintf("%s.%s", substr(maintainer$given[1], 1, 1), maintainer$family)
+    }))
 }
 
+.credentials_required <- function(maintainers) {
+    credentials <- proj_path("bioconductor.authz")
+    if (!file.exists(credentials))
+        stop("local copy of 'bioconductor.authz' required at",
+             "\n  ", credentials)
+    ids <- strsplit(readLines(credentials, 3)[[3]], ", *")[[1]]
+    !.user_id(maintainers) %in% ids
+}
 
-results_to_data_frame <- function(results, include_message=FALSE)
-{
-    if (length(results) == 0) return(NULL)
-    # what kind of results do we have?
-    if (!is.null(results$total_count)) # search results
-    {
-        class(results) <- "search.results"
-        # return(search_results_to_data_frame(results, include_message))
-    } else if (!is.null(results$number))  {# issue results
-        class(results) <- "issue.results"
-        # return(issue_results_to_data_frame(results, include_message))
-    } else if (is.list(results[[1]]) && !is.null(results[[1]]$id)) { # issue comments results
-        class(results) <- "issue.comments.results"
-        # return(issue_comments_results_to_data_frame(results, include_message))
-    } else {
-        stop("unknown results")
+#' @export
+github_svn_credentials_request_from_carl <- function(packages) {
+    names(packages) <- basename(packages)
+    maintainers <- lapply(packages, function(x) maintainers(x)[[1]])
+    maintainers <- maintainers[.credentials_required(maintainers)]
+
+    if (length(maintainers)){
+        newusers <- paste(sapply(maintainers, as.character), collapse="\n")
+        from <- getOption("bioc_contributions_signature", "Bioconductor")
+        body <- template("svn_credentials_request.txt",
+                         newusers=newusers,
+                         from=from)
+
+        mime <- mime(From="packages@bioconductor.org",
+                     To="scicomp@fhcrc.org",
+                     Subject="New SVN users for hedgehog",
+                     body=body)
+
+        gmail_auth(scope = "compose")
+        gmailr::create_draft(mime)
     }
-    as.data.frame(results, include_message)
+
+    length(maintainers)
 }
 
-
-
-github_search <- function(params)
-{
-    url <- sprintf("/search/issues?q=+repo:%s+state:open+%s&sort=created&order=desc",
-        get_tracker_repos(), params)
-    make_github_request(url, "issue_search")
-}
-
-
-#' Show unassigned packages
-#'
 #' @export
-#' @return a data frame of unassigned packages or NULL if none.
-#' @examples
-#' gh_unassigned_packages()
-gh_unassigned_packages <- function()
-{
-    github_search("no:assignee")
-}
+github_svn_credentials_draft_to_user <- function(packages) {
+    packages <- file.path(proj_path(), packages)
+    maintainers <- lapply(packages, function(x) maintainers(x)[[1]])
+    user_id <- .user_id(maintainers)
 
-#' Show pre-accepted packages
-#'
-#' @export
-#' @return a data frame of pre-accepted packages or NULL if none.
-#' @examples
-#' gh_pre_accepted_packages()
-gh_pre_accepted_packages <- function()
-{
-    github_search("label:pre-accepted")
-}
+    letters <- Map(emailMaintainer, packages, user_id,
+                   MoreArgs=list(password="XXXXXXXXX"))
 
-#' Show packages assigned to a github user
-#'
-#' @param github_username The github username
-#' @export
-#' @return a data frame of packages assigned to \code{github_username}
-#' @examples
-#' gh_packages_assigned_to("dtenenba")
+    gmailr::gmail_auth(scope='compose')
+    for (letter in letters)
+        gmailr::create_draft(letter)
 
-gh_packages_assigned_to <- function(github_username)
-{
-    github_search(sprintf("assignee:%s", github_username))
-}
-
-
-#' Retrieve all messages associated with an issue
-#'
-#' @param number The issue number
-#' @export
-#' @return a data frame/issue of messages associated with issue \code{number}
-#' @examples
-#' gh_issue(21)
-
-
-# forget about fancy issue S3 class for now. the colnames returned by the old
-# version of this function are:
-# [1] "id"       "message"  "href"     "filename" "filetype" "author"   "time"
-gh_issue <- function(number)
-{
-    make_github_request(sprintf("/repos/%s/issues/%s", get_tracker_repos(),
-        number))
-    github_search(sprintf("assignee:%s", github_username))
+    length(letters)
 }
