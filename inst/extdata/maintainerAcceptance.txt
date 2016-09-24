@@ -15,7 +15,7 @@ Every package in _Bioconductor_ gets its own landing page. Contents
 from your DESCRIPTION file are pulled out to populate this page. Your
 package's permanent URL is
 
-http://bioconductor.org/packages/{{packageName}}/
+https://bioconductor.org/packages/{{packageName}}/
 
 This URL will redirect to the release landing page of your package
 (and until it's released, the devel landing page); this is the URL
@@ -23,13 +23,19 @@ that should be used (in publications, etc.) to refer to your package.
 You can also refer specifically to the devel, release, or specific
 numbered version of _Bioconductor_:
 
-http://bioconductor.org/packages/devel/{{packageName}}/
-http://bioconductor.org/packages/release/{{packageName}}/
-http://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
+https://bioconductor.org/packages/devel/{{packageName}}/
+https://bioconductor.org/packages/release/{{packageName}}/
+https://bioconductor.org/packages/{{biocVersion}}/{{packageName}}/
 
 # Maintaining your package
 
-_Bioconductor_ maintains packages in 'release' and 'devel' branches.
+See
+http://bioconductor.org/developers/how-to/source-control#experiment-data-packages
+for special instructions relating to ExperimentData package
+maintenance.
+
+_Bioconductor_ currently maintains software packages in 'release' and
+'devel' branches of a subversion (svn) repository.
 
 The release branch is meant for end-users. A new release branch is
 created once very 6 months, in April and October. At the release, the
@@ -130,8 +136,6 @@ Everyday at around 5pm PST, the build system takes a snapshot of all
 the packages inside _Bioconductor_ and then the next day after 12 noon
 PST http://bioconductor.org/checkResults/ is created containing the
 output of R CMD build and check on all platforms for each package.
-Your package's build reports are accessible at:
-http://bioconductor.org/checkResults/{{biocVersion}}/bioc-LATEST/{{packageName}}/
 
 When reading the above, please pay attention to the date displayed
 next to - “Snapshot Date:” and “This page was generated on”.  Please
