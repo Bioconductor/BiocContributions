@@ -7,7 +7,7 @@ library(BiocContributions)
 
 options(
     bioc_contributions_github_user="mtmorgan",
-    bioc_contributions_github_auth="6e55b2fa27337750d63a6eada17c400a1609792a"
+    bioc_contributions_github_auth=readLines("~/.git0Auth")
 )
 
 repository <- "https://api.github.com/Bioconductor/Contributions"
