@@ -9,7 +9,6 @@ bioc_views_from_files <- function(files) {
 #'
 #' @param files tar.gz file locations
 #' @return named vector classifying each tar ball to biocViews hierarchy
-#' @export
 bioc_views_classification <- function(files) {
     names(files) <- basename(files)
     views <- bioc_views_from_files (files)

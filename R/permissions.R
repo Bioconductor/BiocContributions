@@ -1,7 +1,6 @@
 #' Read authz permission file
 #'
 #' @param file location passed to rsync
-#' @export
 read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", quiet = TRUE) {
     tmp <- tempfile()
     on.exit(unlink(tmp))
@@ -24,7 +23,6 @@ read_permissions <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz
 #'
 #' @param x object to write
 #' @inheritParams read_permissions
-#' @export
 write_permissions <- function(x, file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", ...) {
     tmp <- tempfile()
     on.exit(unlink(tmp))
@@ -58,22 +56,18 @@ run_command_on_file <- function(command) {
 NULL
 
 #' @describeIn run_commands Check out a RCS tracked file
-#' @export
 rcs_check_out <- run_command_on_file("co -l")
 
 #' @param message commit message for the check in
 #' @describeIn run_commands Check in a RCS tracked file
-#' @export
 rcs_check_in <- function(file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz", message, args = NULL) {
     (run_command_on_file("ci -u"))(file = file, c(paste0("-m", message), args))
 }
 
-#' @export
 format.authz <- function(x, ...) {
     unlist(lapply(x, format.authz_section, ...), use.names = FALSE)
 }
 
-#' @export
 format.authz_section <- function(x, ...) {
     named <- if (is.null(names(x))) {
         rep(FALSE, length(x))
@@ -88,7 +82,6 @@ format.authz_section <- function(x, ...) {
       res)
 }
 
-#' @export
 print.authz_section <- print.authz <- print.authz_lines <- function(x, ...) {
     cat(unlist(format(x, ...), use.names = FALSE), sep = "\n")
 }
@@ -99,13 +92,11 @@ print.authz_section <- print.authz <- print.authz_lines <- function(x, ...) {
 #' @param version The release version number
 #' @param x The edits to perform
 #' @param ... Additional arguments passed to methods
-#' @export
 edit_software_permissions <- function(x, ...) {
     UseMethod("edit_software_permissions")
 }
 
 #' @describeIn edit_software_permissions data.frame input, expects columns \sQuote{package} and \sQuote{user}
-#' @export
 edit_software_permissions.data.frame <- function(x, data = read_permissions(),
     version = 3.2, ...) {
     assert(all(c("package", "user") %in% colnames(x)),
@@ -155,7 +146,6 @@ edit_permissions <- function(data, group, locations) {
 }
 
 #' @describeIn edit_software_permissions list input, expects a named list of packages and users
-#' @export
 edit_software_permissions.list <- edit_permissions(quote(read_permissions()), "bioconductor-readers",
     quote({
         trunk_loc <- paste0("/trunk/madman/Rpacks/", pkg)
@@ -173,13 +163,11 @@ edit_software_permissions.list <- edit_permissions(quote(read_permissions()), "b
 #' @param version The release version number
 #' @param x The edits to perform
 #' @param ... Additional arguments passed to methods
-#' @export
 edit_data_experiment_permissions <- function(x, ...) {
     UseMethod("edit_data_experiment_permissions")
 }
 
 #' @describeIn edit_data_experiment_permissions data.frame input, expects columns \sQuote{package} and \sQuote{user}
-#' @export
 edit_data_experiment_permissions.data.frame <- function(x, data = read_permissions("hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz"), version = 3.2, ...) {
     assert(all(c("package", "user") %in% colnames(x)),
         "'x' must have two columns named 'package' and 'user'")
@@ -191,7 +179,6 @@ edit_data_experiment_permissions.data.frame <- function(x, data = read_permissio
 # it is worth trying to use a common helper...
 
 #' @describeIn edit_data_experiment_permissions list input, expects a named list of packages and users
-#' @export
 edit_data_experiment_permissions.list <- edit_permissions(quote(read_permissions("hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz")),
     "bioc-data-readers",
     quote({
@@ -215,7 +202,6 @@ edit_data_experiment_permissions.list <- edit_permissions(quote(read_permissions
 #' Generate a standard commit message for permission edits
 #'
 #' @param x the edits to make, if a data.frame will be coerced to a named list.
-#' @export
 standard_commit_message <- function(x) {
     if (is.data.frame(x)) {
         assert(all(c("package", "user") %in% colnames(x)),
@@ -261,7 +247,6 @@ authz_section <- function(x, name) {
 #' @param x Permissions to add, can be a named \code{list} or \code{data.frame}.
 #' @param message Commit message to use
 #' @param file File containing the permissions to edit
-#' @export
 add_software_permisions <- function(x, message = standard_commit_message(x),
     file = "hedgehog:/extra/svndata/gentleman/svn_authz/bioconductor.authz") {
 
@@ -282,7 +267,6 @@ add_software_permisions <- function(x, message = standard_commit_message(x),
 #' @param x Permissions to add, can be a named \code{list} or \code{data.frame}.
 #' @param message Commit message to use
 #' @param file File containing the permissions to edit
-#' @export
 add_data_experiment_permisions <- function(x, message = standard_commit_message(x),
     file =  "hedgehog:/extra/svndata/gentleman/svn_authz/bioc-data.authz") {
 

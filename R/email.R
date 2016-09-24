@@ -100,7 +100,6 @@ readFile <- function(file) {
 #' @param userId The SVN user ID for the maintainer
 #' @param password The SVN password for the maintainer
 #' @param senderName The name of the email sender for use in the signature
-#' @export
 emailMaintainer <-
     function(tarball, userId = "user.id", password = "password",
              senderName = getOption("bioc_contributions_signature",

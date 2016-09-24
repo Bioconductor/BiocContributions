@@ -371,7 +371,6 @@ creditworthy <- function(creditDays= 30, userName=NA_character_) {
 #'
 #' @param Date Date to tabulate from, default is the last thirty days.
 #' @param users people to tabulate about, default is the devteam.
-#' @export
 tabulate_activity <- function(issues = tracker_search(columns = c("id", "activity", "title", "creator", "status", "assignedto", "actor")),
     date = Sys.Date() - 30, users = devteam) {
 

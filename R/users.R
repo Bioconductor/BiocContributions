@@ -1,7 +1,6 @@
 #' See if a person already exists in the user db
 #'
 #' @param x a person object to lookup
-#' @export
 #' @examples
 #' pkg <- system.file(package="BiocContributions",
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
@@ -43,12 +42,10 @@ db2person <- function(x) {
         USE.NAMES = FALSE)
 }
 
-#' @export
 no_match <- function(x) {
   vapply(x, function(x) length(x[[1]]) == 0, logical(1))
 }
 
-#' @export
 print.user_matches <- function(x, ...) {
     inputs <- lapply(attr(x, "input"), format)
     matches <- lapply(x, format)
@@ -71,31 +68,26 @@ print.user_matches <- function(x, ...) {
 #'
 #' @param x the object to extract email from
 #' @param ... Additional arguments passed to methods.
-#' @export
 email <- function(x, ...) {
     UseMethod("email")
 }
 
 #' @describeIn email person object
-#' @export
 email.person <- function(x, ...) {
     x$email
 }
 
 #' @describeIn email user match object from \code{\link{match_user}}
-#' @export
 email.user_matches <- function(x, ...) {
     format(attr(x, "input"))
 }
 
 #' @describeIn email list - calls \code{\link{email}} on every item in the list.
-#' @export
 email.list <- function(x, ...) {
     unlist(lapply(x, email))
 }
 
 #' @describeIn email - simply returns the character vector unchanged.
-#' @export
 email.character <- function(x, ...) {
     x
 }
@@ -104,7 +96,6 @@ email.character <- function(x, ...) {
 #'
 #' @return each maintainer as a 'person' object.
 #' @param tarball the package tarball to read
-#' @export
 #' @examples
 #' pkg <- system.file(package="BiocContributions",
 #'   "testpackages", "RNASeqPower_1.11.0.tar.gz")
@@ -170,17 +161,14 @@ request_credentials <-
             sender = sender)))
 }
 
-#' @export
 username <- function(x, ...) {
     UseMethod("username")
 }
 
-#' @export
 username.person <- function(x, ...) {
     x$comment
 }
 
-#' @export
 username.list <- username.user_matches <- function(x, ...) {
     unlist(lapply(x, username))
 }

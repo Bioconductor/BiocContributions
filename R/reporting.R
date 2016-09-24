@@ -12,7 +12,6 @@ tracker_spreadsheet <- function(x) {
 #' @param x issues to add
 #' @param ws The worksheet number or name to append to.
 #' @param ... Additional arguments passed to \code{\link[googlesheets]{gs_add_row}}
-#' @export
 #' @examples
 #' \dontrun{
 #' pkgs <- unassigned_packages()

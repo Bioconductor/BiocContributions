@@ -4,7 +4,6 @@
 #' @param method httr verb function (GET, POST, etc)
 #' @param postdata data to POST (if method == POST)
 #' @param include_message Whether to include the message in the result
-#' @export
 #' @import httr
 #' @return a data frame based on the result from github
 
@@ -38,7 +37,6 @@ get_tracker_repos <- function()
 #' @param status the status codes used to filter
 #' @param ... Additional query parameters
 #' @param session the HTTP session to use
-#' @export
 #' @examples
 #' tracker_search("@search_text" = "normalize450k")
 gh_tracker_search <-
@@ -167,7 +165,6 @@ github_search <- function(params)
 
 #' Show unassigned packages
 #'
-#' @export
 #' @return a data frame of unassigned packages or NULL if none.
 #' @examples
 #' gh_unassigned_packages()
@@ -178,7 +175,6 @@ gh_unassigned_packages <- function()
 
 #' Show pre-accepted packages
 #'
-#' @export
 #' @return a data frame of pre-accepted packages or NULL if none.
 #' @examples
 #' gh_pre_accepted_packages()
@@ -190,7 +186,6 @@ gh_pre_accepted_packages <- function()
 #' Show packages assigned to a github user
 #'
 #' @param github_username The github username
-#' @export
 #' @return a data frame of packages assigned to \code{github_username}
 #' @examples
 #' gh_packages_assigned_to("dtenenba")
@@ -204,7 +199,6 @@ gh_packages_assigned_to <- function(github_username)
 #' Retrieve all messages associated with an issue
 #'
 #' @param number The issue number
-#' @export
 #' @return a data frame/issue of messages associated with issue \code{number}
 #' @examples
 #' gh_issue(21)

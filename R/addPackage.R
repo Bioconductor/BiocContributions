@@ -107,7 +107,6 @@ print.description <- function(x, ...) {
 #' @inheritParams package_name
 #' @param svnDir Directory of the Rpacks checkout
 #' @param copyToSvnDir whether to copy the files to the SVN directory
-#' @export
 clean <- function(tarball, svnDir=proj_path("Rpacks"), copyToSvnDir=TRUE,
                   svnAccountExists=FALSE)
 {
@@ -161,7 +160,6 @@ clean <- function(tarball, svnDir=proj_path("Rpacks"), copyToSvnDir=TRUE,
 
 #' Extract a packages name from a tarball
 #'
-#' @export
 #' @param tarball package tarball
 #' @return the package name
 #' @examples
@@ -180,7 +178,6 @@ package_name <- function(tarball) {
 #'     \sQuote{data_store} checkout.
 #' @inheritParams package_name
 #' @return File paths to the copied locations (invisibly).
-#' @export
 #' @examples
 #' \dontrun{
 #' pkg <- system.file(package="BiocContributions",

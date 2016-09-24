@@ -8,7 +8,6 @@ NULL
 #' @param assignInTracker logical(1) indicating whether package
 #'     assignments should be updated in the tracker.
 #' @param secret character(1) path to JSON API client access secret.
-#' @export
 CreatePackageAssignmentEmail <-
     function(assignInTracker=FALSE,
              secret=proj_path("bioconductorseattle-gmail.json"))
@@ -38,7 +37,6 @@ CreatePackageAssignmentEmail <-
 #' @param pre data.frame() returned by \code{pre_accepted_packages()},
 #'     retrieved from the tracker and indicating packages tagged as
 #'     'pre-accepted'
-#' @export
 DownloadNewPackageTarballs <-
     function(pre=pre_accepted_packages())
 {
@@ -88,7 +86,6 @@ DownloadNewPackageTarballs <-
 #'     format "new-packages-metadata_20160211.RData"
 #' @param createDraft logical(1) draft email to FHCRC for SVN new user
 #'     credentials
-#' @export
 ManageNewPackagesCredentials <-
     function(metadata, createDraft=TRUE)
 {
@@ -152,7 +149,6 @@ ManageNewPackagesCredentials <-
 
 
 #' @rdname workflow_standard
-#' @export
 DraftWeeklySummaryEmail <- function()
 {
     gmailr::gmail_auth(scope="compose")

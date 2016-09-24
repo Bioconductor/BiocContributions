@@ -2,7 +2,6 @@
 #'
 #' This is primarily a helper function for using svn progromatically.
 #' @param dir The SVN directory
-#' @export
 #' @examples
 #' \dontrun{
 #' s <- svn("my/svn/location")
@@ -137,30 +136,6 @@ add_package_type <- function(svn_location, manifest, clean_function,
 #' @name add_packages
 NULL
 
-#' @describeIn add_packages Software Packages
-#' @export
-add_software_packages <- add_package_type(
-    svn_location = proj_path("Rpacks"),
-    manifest =
-        sprintf("bioc_%s.manifest",
-                getOption("bioc_contributions_devel_version", "3.4")),
-    clean_function = quote(clean),
-    adding_code = quote(s$add(pkg_names)))
-
-#' @describeIn add_packages Data Experiment Packages
-#' @export
-add_data_experiment_packages <- add_package_type(
-    svn_location = proj_path("experiment"),
-    manifest =
-        sprintf("pkgs/bioc-data-experiment.%s.manifest",
-                getOption("bioc_contributions_devel_version", "3.4")),
-    clean_function = quote(clean_data_package),
-    adding_code = quote({
-        s$add(file.path("pkgs", pkg_names))
-        s$add(file.path("data_store", pkg_names))
-    }))
-
-#' @export
 print.svn_logentry <- function(x, ...) {
   cat(sep = "\n",
       paste(sep = " | ",

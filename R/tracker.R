@@ -35,7 +35,6 @@ the <- new.env(parent=emptyenv())
 #' @param url tracker url
 #' @param user username used to login
 #' @param password password used to login
-#' @export
 tracker_login <- function(
     url = "https://tracker.bioconductor.org",
     user = getOption("tracker_user"),
@@ -62,7 +61,6 @@ tracker_login <- function(
 #' @param status the status codes used to filter
 #' @param ... Additional query parameters
 #' @param session the HTTP session to use
-#' @export
 #' @examples
 #' tracker_search("@search_text" = "normalize450k")
 tracker_search <-
@@ -92,7 +90,6 @@ tracker_search <-
     data
 }
 
-#' @export
 keyword_map <- memoise::memoise(function(url = "https://tracker.bioconductor.org/keyword?@template=item",
                                          session = tracker_login()) {
     res <- rvest::jump_to(session,
@@ -104,13 +101,11 @@ keyword_map <- memoise::memoise(function(url = "https://tracker.bioconductor.org
     keyword_names
 })
 
-#' @export
 #' @describeIn tracker_search retrieve unassigned packages
 unassigned_packages <- function(status = c(-1, 1, 2, 3, 4, 5, 9), ..., session = tracker_login()) {
     tracker_search(session = session, status = status, assignedto = -1)
 }
 
-#' @export
 #' @describeIn tracker_search retrieve pre-accepted packages
 pre_accepted_packages <-
     function(status = 9, ..., session = tracker_login())
@@ -122,7 +117,6 @@ pre_accepted_packages <-
 #'
 #' @inheritParams post
 #' @param note The acceptance note to post to the tracker.
-#' @export
 #' @examples
 #' \dontrun{
 #' accept_package(1318, "transcriptR_0.99.4.tar.gz")
@@ -136,7 +130,6 @@ accept_package <- function(issue = issue,
     post(issue = issue, session = session, note = note, status = status, ...)
 }
 
-#' @export
 #' @describeIn tracker_search retrieve the logged in users packages
 my_issues <-
     function(user = NULL, status = c(-1, 1, 2, 3, 4, 5, 9, 10), ...,
@@ -162,7 +155,6 @@ my_issues <-
 #' name.
 #' @param pkgs the packages to assign
 #' @param team team members to assign to
-#' @export
 assign_new_packages <- function(pkgs = unassigned_packages(session),
                                 team = devteam) {
 
@@ -189,7 +181,6 @@ assign_new_packages <- function(pkgs = unassigned_packages(session),
 #'
 #' @param number the issue number to retrieve
 #' @inheritParams tracker_search
-#' @export
 issue <- function(number, session = tracker_login()) {
     response <- rvest::jump_to(session, paste0("/issue", number))
 
@@ -259,19 +250,14 @@ issue <- function(number, session = tracker_login()) {
 #'
 #' @param x object to be coerced
 #' @param ... Additional arguments passed to methods
-#' @export
 as.issue <- function(x, ...) UseMethod("as.issue")
 
-#' @export
 as.issue.issue <- function(x, ...) x
 
-#' @export
 as.issue.numeric <- function(x, ...) issue(number = x, ...)
 
-#' @export
 as.issue.integer <- as.issue.numeric
 
-#' @export
 as.issue.character <- as.issue.numeric
 
 #' Post a message to an issue
@@ -305,10 +291,8 @@ post <- function(issue, session = NULL, note = edit(), file = NULL, ...) {
     rvest::submit_form(session, form)
 }
 
-#' @export
 session <- function(...) UseMethod("session")
 
-#' @export
 session.issue <- function(x, ...) {
     attr(x, "session")
 }
@@ -322,7 +306,6 @@ session.issue <- function(x, ...) {
 #' @param pattern Regular expression for files to download.
 #' @param overwrite Will only overwrite existing \code{path} if TRUE.
 #' @param ... Additional Arguments passed to \code{\link[rvest]{jump_to}}.
-#' @export
 download <- function(issue,
                      dir = proj_path(),
                      last_only = TRUE,
@@ -372,13 +355,11 @@ parse_attachments <- function(x, ...) {
         stringsAsFactors = FALSE)
 }
 
-#' @export
 print.issue <- function(x, ...) {
     cat(format(x, ...), sep = "\n")
     invisible(x)
 }
 
-#' @export
 format.issue <- function(x, ...) {
     paste0(
         crayon::bold("ID: "), x$id, "\n",
@@ -392,7 +373,6 @@ format.issue <- function(x, ...) {
 
 #' Retrieve the user list
 #' @inheritParams tracker_search
-#' @export
 users <- memoise::memoise(function(session = tracker_login()) {
     session <- rvest::jump_to(session, "https://tracker.bioconductor.org/user")
     tbl <- as.data.frame(rvest::html_table(rvest::html_node(session, "table.list")))
@@ -407,7 +387,6 @@ users <- memoise::memoise(function(session = tracker_login()) {
 #' @param code code to run, output of \code{\link{assign_new_packages}()}
 #' @param date date to title the email
 #' @param additional arguments passed to \code{\link{assign_new_packages}()}
-#' @export
 package_assignment_email <- function(pkgs = unassigned_packages(...),
                                      code = assign_new_packages(pkgs, ...),
                                      date = Sys.Date(),
@@ -448,7 +427,6 @@ package_assignment_email <- function(pkgs = unassigned_packages(...),
 }
 
 #' @describeIn assign_package assign multiple packages with assignment code
-#' @export
 assign_packages <- function(pkgs, code = assign_new_packages(...), ...) {
     assignments <- eval(code, envir = baseenv())
 
@@ -461,7 +439,6 @@ assign_packages <- function(pkgs, code = assign_new_packages(...), ...) {
 #'
 #' @param number issue number
 #' @param assignment lookup assignee by name
-#' @export
 assign_package <- function(issue, assignee, ...) {
     issue <- as.issue(issue)
 

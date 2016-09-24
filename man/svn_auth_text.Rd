@@ -6,11 +6,11 @@
 \alias{svn_software_auth_text}
 \title{Update svn authz files}
 \usage{
-svn_software_auth_text(filenames, version = getOption("BC_auth_version",
-  "3_3"))
+svn_software_auth_text(filenames,
+  version = getOption("bioc_contributions_devel_version", "3.4"))
 
 svn_data_experiment_auth_text(filenames,
-  version = getOption("BC_auth_version", "3_3"))
+  version = getOption("bioc_contributions_devel_version", "3.4"))
 }
 \arguments{
 \item{filenames}{character() vector of (full) paths to package tar balls.}
