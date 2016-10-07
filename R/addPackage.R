@@ -40,7 +40,7 @@
             ".gitignore", ".travis.yml")
     suspect <- dir(dir, pattern="^\\.", recursive=TRUE, all=TRUE,
                    include.dirs=TRUE)
-    drop <- setdiff(suspect, ok)
+    drop <- file.path(dir, setdiff(suspect, ok))
     stopifnot(unlink(drop, recursive=TRUE, force=TRUE) == 0L)
 }
 
