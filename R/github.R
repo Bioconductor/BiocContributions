@@ -38,8 +38,22 @@
 }
 
 .github_download <- function(issue) {
-    repos <- sub(".*Repository: *([[:alnum:]/:\\.-]+).*", "\\1", issue$body)
-    system2("git", sprintf("clone %s", repos), stdout=TRUE, stderr=TRUE)
+    message("downloading ", sQuote(issue$title))
+    repos <- sub(".*Repository: *([[:alnum:]/:\\.-]+).*", "\\1",
+                 issue$body)
+
+    path <- sprintf("/issues/%d/comments", issue$number)
+    comments <- .github_get(path)
+    for (comment in comments) {
+        if (!grepl("AdditionalPackage", comment$body))
+            next
+        repos <- c(repos,
+                   sub("AdditionalPackage: *([[:alnum:]/:\\.-]+).*", "\\1",
+                         comment$body))
+    }
+
+    for (repo in repos)
+        system2("git", sprintf("clone %s", repo), stdout=TRUE, stderr=TRUE)
     basename(repos)
 }
 
@@ -92,7 +106,7 @@
     svn_manifest <- file.path(
         svn_location,
         sprintf("pkgs/bioc-data-experiment.%s.manifest", bioc_version))
-    
+
     s <- svn(svn_location)
     s$update()
 
@@ -105,7 +119,7 @@
             s$add(file.path("pkgs", pkg_names))
             s$add(file.path("data_store", pkg_names))
         }
-        s$write(svn_manifest, append(current, paste0("Package: ", 
+        s$write(svn_manifest, append(current, paste0("Package: ",
             pkg_names, "\n")))
         s$status()
         s$commit(paste0("Adding ", paste(collapse = ", ", pkg_names)))
@@ -130,7 +144,7 @@ github_accept <- function() {
     ## close issues
     issues <- setNames(issues, basename(pkgs))
     state <- vapply(issues, .github_close, character(1))
-    
+
     types$ExperimentData <- file.path("experiment", types$ExperimentData)
     types
 }
