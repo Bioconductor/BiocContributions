@@ -53,8 +53,9 @@
     }
 
     for (repo in repos)
-        system2("git", sprintf("clone %s", repo), stdout=TRUE, stderr=TRUE)
-    basename(repos)
+        system2("git", sprintf("clone --depth 1 %s", repo),
+                stdout=TRUE, stderr=TRUE)
+    setNames(basename(repos), rep(issue$title, length(repos)))
 }
 
 .github_close <- function(issue) {
@@ -137,7 +138,7 @@ github_accept <- function() {
     owd <- setwd(proj_path())
     on.exit(setwd(owd))
 
-    pkgs <- vapply(issues, .github_download, character(1))
+    pkgs <- unlist(lapply(issues, .github_download))
     types <- bioc_views_classification(pkgs)
     types$Software <- .github_to_svn_Software(types$Software)
     types$ExperimentData <-
