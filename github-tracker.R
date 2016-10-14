@@ -7,7 +7,9 @@ library(BiocContributions)
 
 options(
     bioc_contributions_github_user="mtmorgan",
-    bioc_contributions_github_auth=readLines("~/.git0Auth")
+    bioc_contributions_github_auth=readLines("~/.git0Auth"),
+    bioc_contributions_manifest_version="3.4", # for manifest update
+    bioc_contributions_release_version="3.4"   # for svn_*_auth_text
 )
 
 repository <- "https://api.github.com/Bioconductor/Contributions"

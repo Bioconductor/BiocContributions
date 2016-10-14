@@ -72,7 +72,8 @@
     for (pkg in pkgs)
         clean(pkg)
 
-    bioc_version <- getOption("bioc_contributions_devel_version", "3.4")
+    bioc_version <- getOption("bioc_contributions_manifest_version")
+    stopifnot(!is.null(bioc_version))
     svn_manifest <-
         file.path(svn_location, sprintf("bioc_%s.manifest", bioc_version))
 
@@ -102,7 +103,8 @@
     for (pkg in pkgs)
         clean_data_package(pkg)
 
-    bioc_version <- getOption("bioc_contributions_devel_version", "3.4")
+    bioc_version <- getOption("bioc_contributions_manifest_version")
+    stopifnot(!is.null(bioc_version))
     svn_manifest <- file.path(
         svn_location,
         sprintf("pkgs/bioc-data-experiment.%s.manifest", bioc_version))

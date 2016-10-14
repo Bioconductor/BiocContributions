@@ -17,11 +17,11 @@ NULL
 ##' @export
 svn_software_auth_text <-
     function(filenames,
-             version=getOption("bioc_contributions_devel_version", "3.4"))
+             version=getOption("bioc_contributions_release_version"))
 {
     version <- sprintf("%d_%d",
                        package_version(version)$major,
-                       package_version(version)$minor - 1)
+                       package_version(version)$minor)
     m <- lapply(filenames, maintainers)
     userid <- tolower(vapply(m, function(elt) {
         elt <- elt[[1]]                 # first maintainer only
@@ -51,11 +51,11 @@ svn_software_auth_text <-
 ##' @export
 svn_data_experiment_auth_text <-
     function(filenames,
-             version=getOption("bioc_contributions_devel_version", "3.4"))
+             version=getOption("bioc_contributions_release_version"))
 {
     version <- sprintf("%d_%d",
                        package_version(version)$major,
-                       package_version(version)$minor - 1)
+                       package_version(version)$minor)
     m <- lapply(filenames, maintainers)
     userid <- tolower(vapply(m, function(elt) {
         elt <- elt[[1]]                 # first maintainer only
