@@ -187,14 +187,14 @@ package_name <- function(tarball) {
 clean_data_package <-
     function(tarball, svn_pkgs = proj_path("experiment/pkgs"),
              svn_data_store = proj_path("experiment/data_store"),
-             data_dirs = c("data", "inst/extdata")) {
-
+             data_dirs = c("data", "inst/extdata"))
+{
     desc <- readDESCRIPTION(tarball)
 
-    # Remove the Packaged field
+    ## Remove the Packaged field
     desc$Packaged <- NULL
 
-    # Extract the tarball and cleanup afterwards
+    ## Extract the tarball and cleanup afterwards
     if (endsWith(tarball, ".tar.gz")) {
         untar(tarball, exdir = tempdir())
         pkg_dir <- file.path(tempdir(), desc$Package)
@@ -203,20 +203,22 @@ clean_data_package <-
         pkg_dir <- tarball
     }
 
-    # Get all extracted files
+    ## FIXME: clean(tarball)
+    ## Get all extracted files
     files <- dir(pkg_dir, recursive = TRUE)
 
     object_files <- "src/.*\\.(o|sl|so|dylib|a|dll|def)$"
 
-    # find all unwanted files
+    ## find all unwanted files
     unwanted <- grepl(
         paste0("^", paste0(collapse = "|",
-                    c("DESCRIPTION", "inst/doc", "build", "\\.git", object_files))),
+                           c("DESCRIPTION", "inst/doc", "build", "\\.git",
+                             object_files))),
         files)
 
     files <- files[!unwanted]
 
-    # find data directories
+    ## find data directories
     is_data <- grepl(
         paste0("^", paste0(collapse="|", data_dirs)),
         files)
@@ -226,27 +228,30 @@ clean_data_package <-
     non_data_files <- file.path(desc$Package, files[!is_data])
 
     copy_files <- function(from, to) {
-        # create all directories in the new location
-        lapply(unique(dirname(to)), dir.create, recursive = TRUE, showWarnings = FALSE)
+        ## create all directories in the new location
+        lapply(unique(dirname(to)), dir.create, recursive = TRUE,
+               showWarnings = FALSE)
 
         Map(file.copy, from, to)
     }
 
-    # copy non data files to the pkgs
+    ## copy non data files to the pkgs
     copy_files(file.path(dirname(pkg_dir), non_data_files),
-        file.path(svn_pkgs, non_data_files))
+               file.path(svn_pkgs, non_data_files))
 
-    # copy the data files to the data store
+    ## copy the data files to the data store
     copy_files(file.path(dirname(pkg_dir), data_files),
-        file.path(svn_data_store, data_files))
+               file.path(svn_data_store, data_files))
 
-    # write the data paths in external_data_store.txt
-    writeLines(sub("^[^/]+/", "", unique(dirname(data_files))),
-        file.path(svn_pkgs, desc$Package, "external_data_store.txt"))
+    data_path <- unique(dirname(data_files))
+    ## FIXME: shortest common path prefix
+    ## write the data paths in external_data_store.txt
+    writeLines(sub("^[^/]+/", "", data_path),
+               file.path(svn_pkgs, desc$Package, "external_data_store.txt"))
 
-    # write the modified description
+    ## write the modified description
     write.dcf(desc, file.path(svn_pkgs, desc$Package, "DESCRIPTION"))
 
     invisible(c(file.path(svn_pkgs, desc$Package),
-        file.path(svn_data_store, desc$Package)))
+                file.path(svn_data_store, desc$Package)))
 }
