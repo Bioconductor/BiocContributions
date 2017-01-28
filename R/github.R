@@ -44,12 +44,12 @@
 
     path <- sprintf("/issues/%d/comments", issue$number)
     comments <- .github_get(path)
+    tag <- "AdditionalPackage: *([[:alnum:]/:\\.-]+).*"
     for (comment in comments) {
-        if (!grepl("AdditionalPackage", comment$body))
+        if (!grepl(tag, comment$body))
             next
         repos <- c(repos,
-                   sub("AdditionalPackage: *([[:alnum:]/:\\.-]+).*", "\\1",
-                         comment$body))
+                   sub(tag, "\\1", comment$body))
     }
 
     for (repo in repos)
@@ -145,7 +145,6 @@ github_accept <- function() {
         .github_to_svn_ExperimentData(types$ExperimentData)
 
     ## close issues
-    issues <- setNames(issues, basename(pkgs))
     state <- vapply(issues, .github_close, character(1))
 
     types$ExperimentData <- file.path("experiment", types$ExperimentData)
