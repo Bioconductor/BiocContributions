@@ -2,13 +2,13 @@
 ########################################################
 ##
 ## TODO: deal with multiple maintainers more elegantly!
-## TODO: write email function to request svn account from Carl.
+## TODO: write email function to request svn account from scicomp.
 ##
 ########################################################
 
 
 
-## I need to send emails to Carl, new/older authors, as well as
+## I need to send emails to scicomp, new/older authors, as well as
 ## prospective authors.  These should all be functions if for no other
 ## reason than to allow their contents to be edited by all team
 ## members via svn.
@@ -128,10 +128,10 @@ emailMaintainer <-
 ##########################################################################
 ##########################################################################
 ## email for new svn accounts.  This one takes a tarball and sends an
-## email to Carl at scicomp regarding new accounts.
+## email to scicomp at scicomp regarding new accounts.
 
 .makeNewSvnUserRequestMsg <- function(emailsAndUserNames){
-    msg <- paste("Hi Carl,
+    msg <- paste("Hi scicomp,
 
 Could you please create a new svn account on hedgehog for
 

@@ -98,7 +98,7 @@ ManageNewPackagesCredentials <-
     creds = .CheckUsersCredentials(metadata)
     print(creds)
 
-    cat("##### Gmail draft to Carl Benson <scicomp@fhcrc.org>", '\n\n', sep='')
+    cat("##### Gmail draft to scicomp <scicomp@fhcrc.org>", '\n\n', sep='')
 
     mimeDetails <- list(
         From = "packages@bioconductor.org",
@@ -106,7 +106,7 @@ ManageNewPackagesCredentials <-
         Subject = "New SVN users for Hedgehog"
     )
 
-    email <- c("Hi Carl,", "",
+    email <- c("Hi scicomp,", "",
                "Can you please create new SVN account(s) on Hedgehog for", "",
                "@@NEWUSERS@@", "",
                "Thanks,", "",

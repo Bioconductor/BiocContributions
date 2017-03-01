@@ -96,7 +96,7 @@ them.
 ### Credentials
 
 After the 'save()' above, this function will find and use the most
-recently saved metadata to continue package acceptance after Carl's
+recently saved metadata to continue package acceptance after scicomp's
 reply.
 
 1.  Ask for svn accounts. The code is tries to guess svn user

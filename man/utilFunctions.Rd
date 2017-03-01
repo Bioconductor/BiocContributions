@@ -47,7 +47,7 @@
   get the credentials, these will have to be pasted in, but at least the
   rest of the message will be put together.
 
-  emailNewSvnAccount: used to send an email to Carl (with a custom guess
+  emailNewSvnAccount: used to send an email to scicomp (with a custom guess
   for the proposed username) so that he can make a new svn account.  If
   a user like this already exists, then you can refuse to send the email
   and it will instead print a message out so that you can just change
