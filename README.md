@@ -28,26 +28,26 @@ There is no need to mess with any branches in this setup, just do everything on 
 
 ## TODO
 
-[ ] BiocCheck error on invalid/inappropriate files in github repo, eg: .DS_STORE
+- [ ] BiocCheck error on invalid/inappropriate files in github repo, eg: .DS_STORE
 
-[ ] BiocCheck requires github key
+- [ ] BiocCheck requires github key
 
-[ ] (optional) .gitignore template
+- [ ] (optional) .gitignore template
 
 ## Repository after acceptance
 
-[ ] 'bare' clone of developer github repository
+- [ ] 'bare' clone of developer github repository
 
-[ ] add to git@git.bioconductor.org (e.g. git push)
+- [ ] add to git@git.bioconductor.org (e.g. git push)
 
-[ ] add developer public key to keydir
+- [ ] add developer public key to keydir
 
-[ ] create unique id/ use github id
+- [ ] create unique id/ use github id
 
-[ ] update packages.conf
+- [ ] update packages.conf
 
-[ ] update manifest file
+- [ ] update manifest file
 
-[ ] run gitolite-setup 
+- [ ] run gitolite-setup 
 
-[ ] close github issue, pointing to developers to documentation
+- [ ] close github issue, pointing to developers to documentation
