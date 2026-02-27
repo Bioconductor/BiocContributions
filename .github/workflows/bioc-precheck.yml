@@ -1,0 +1,45 @@
+name: Bioconductor Submission Precheck
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: write   # REQUIRED for pushing to submissions branch
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout default branch (contains workflow + scripts)
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          path: repo
+
+      # Checkout submissions branch (where CSV lives)
+      - name: Checkout submissions branch
+        uses: actions/checkout@v4
+        with:
+          ref: submissions
+          path: submissions
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0   # required for push
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run validation
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          SUBMISSIONS_PATH: submissions/submissions.csv
+        run: python repo/scripts/validate.py
