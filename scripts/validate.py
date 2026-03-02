@@ -160,6 +160,26 @@ def record_submission(package_name):
     if committed:
         run_git_command(["git", "-C", "submissions", "push", "origin", "submissions"])
 
+# ----------------------------
+# Git LFS Check 
+# ----------------------------
+
+def check_git_lfs(owner, repo):
+    failures = []
+    gitattributes = github_get(f"https://api.github.com/repos/{owner}/{repo}/contents/.gitattributes")
+    if gitattributes and gitattributes.get("content"):
+        try:
+            attr_text = base64.b64decode(gitattributes["content"]).decode("utf-8")
+            if "filter=lfs" in attr_text:
+                failures.append(
+                    "Git LFS usage detected in `.gitattributes`. "
+                    "Bioconductor does NOT allow Git LFS. "
+                    "Please remove LFS tracking and rewrite repository history."
+                )
+        except Exception:
+            failures.append("Unable to parse `.gitattributes` file.")
+    return failures
+
 
 # ----------------------------
 # Validation Logic
@@ -261,6 +281,8 @@ def main():
                     failures.append(f"File '{item['path']}' exceeds 5MB limit.")
         else:
             failures.append("Unable to retrieve repository file tree.")
+
+    failures.extend(check_git_lfs(owner, repo))
 
     finalize(failures, package_name)
 
