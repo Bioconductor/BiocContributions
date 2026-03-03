@@ -55,12 +55,12 @@ def main():
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
-    comment_body = event["comment"]["body"].strip()
+    comment_body = event["comment"]["body"].strip().lower()
     commenter = event["comment"]["user"]["login"]
     issue_author = event["issue"]["user"]["login"]
 
     # Allow both "/accept-policies" and "accept-policies"
-    if comment_body.lower().strip() not in ["/accept-policies", "accept-policies"]:
+    if comment_body not in ["/accept-policies", "accept-policies"]:
         # Ignore other comments
         sys.exit(0)
 
