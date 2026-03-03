@@ -33,4 +33,4 @@ jobs:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           SUBMISSIONS_PATH: submissions/submitted_packages.csv
-        run: python repo/scripts/validate.py
+        run: python scripts/validate.py
