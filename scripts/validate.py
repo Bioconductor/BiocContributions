@@ -81,6 +81,7 @@ def add_label(label):
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
     requests.post(url, headers=HEADERS, json={"labels": [label]})
 
+
 # ----------------------------
 # Submission Table Helpers
 # ----------------------------
@@ -190,6 +191,33 @@ def record_submission(package_name):
 
         
 # ----------------------------
+# Large File Check Helper/Overrider
+# ----------------------------
+
+def is_team_member(org, team_slug, username):
+    """
+    Temporary override for local development.
+    Always returns True so team restrictions are bypassed.
+    url = f"https://api.github.com/orgs/{org}/teams/{team_slug}/memberships/{username}"
+    r = requests.get(url, headers=HEADERS)
+    return r.status_code == 200
+    """
+    return True
+
+
+def allow_large_file_override():
+    """
+    Returns True if the issue has the allow-large-files label
+    """
+    with open(EVENT_PATH) as f:
+        event = json.load(f)
+
+    labels = event["issue"].get("labels", [])
+    # For local dev, is_team_member always returns True
+    return any(label["name"] == "allow-large-files" for label in labels)
+
+
+# ----------------------------
 # Git LFS Check
 # ----------------------------
 
@@ -230,9 +258,28 @@ def main():
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
+    action = event.get("action")
     issue_body = event["issue"]["body"] or ""
 
-    #match = re.search(r"https://github\.com/([\w\-]+)/([\w\.\-]+)", issue_body)
+    org = "Bioconductor"
+    team_slug = "packagereviewers"
+
+    actor = event["sender"]["login"]
+
+    # ----------------------------
+    # Reopen restriction
+    # ----------------------------
+    if action == "reopened":
+        if not is_team_member(org, team_slug, actor):
+            close_issue()
+            post_comment(
+                "⚠️ Only members of the PackageReview team can reopen this issue. Issue closed again."
+            )
+            sys.exit(1)
+
+    # ----------------------------
+    # Extract GitHub URL
+    # ----------------------------
     match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)", issue_body)
     if not match:
         failures.append("No valid GitHub repository URL found in issue body.")
@@ -244,6 +291,9 @@ def main():
     if repo.endswith(".git"):
         repo = repo[:-4]
 
+    # ----------------------------
+    # Check URL accessible
+    # ----------------------------
     repo_data = github_get(f"https://api.github.com/repos/{owner}/{repo}")
     if not repo_data:
         failures.append("Repository does not exist or is not accessible.")
@@ -255,6 +305,9 @@ def main():
 
     default_branch = repo_data.get("default_branch")
 
+    # ----------------------------
+    # Check DESCRIPTION and vignettes exists
+    # ----------------------------
     description_file = github_get(
         f"https://api.github.com/repos/{owner}/{repo}/contents/DESCRIPTION"
     )
@@ -271,6 +324,9 @@ def main():
 
     package_name = None
 
+    # ----------------------------
+    # DESCRIPTION file checks
+    # ----------------------------
     if description_file:
         try:
             description_text = base64.b64decode(
@@ -306,6 +362,9 @@ def main():
         except Exception:
             failures.append("Unable to decode or parse DESCRIPTION file.")
 
+    # ----------------------------
+    # Duplicate Submission Check
+    # ----------------------------
     if package_name:
         is_dup, dup_msg = check_duplicate(package_name)
         if is_dup:
@@ -313,20 +372,34 @@ def main():
             finalize(failures)
             return
 
+    # ----------------------------
+    # Large File Check
+    # ----------------------------
     if default_branch:
         tree = github_get(
             f"https://api.github.com/repos/{owner}/{repo}/git/trees/{default_branch}?recursive=1"
         )
 
+        allow_large_files = allow_large_file_override()
+
         if tree and "tree" in tree:
             for item in tree["tree"]:
                 if item.get("type") == "blob" and item.get("size", 0) > MAX_FILE_SIZE:
-                    failures.append(f"File '{item['path']}' exceeds 5MB limit.")
+                    if not allow_large_files:
+                        failures.append(f"File '{item['path']}' exceeds 5MB limit.")
+                    else:
+                        print(f"[INFO] Large file exception applied: {item['path']}")
         else:
             failures.append("Unable to retrieve repository file tree.")
 
+    # ----------------------------
+    # Git LFS check
+    # ----------------------------
     failures.extend(check_git_lfs(owner, repo))
 
+    # ----------------------------
+    # Finalization
+    # ----------------------------
     finalize(failures, package_name)
 
 
