@@ -11,9 +11,7 @@ permissions:
 jobs:
   accept:
     runs-on: ubuntu-latest
-    if: >
-      startsWith(toLower(github.event.comment.body), '/accept-policies')
-      || startsWith(toLower(github.event.comment.body), 'accept-policies')
+    if: github.event.comment.body == 'accept-policies' || github.event.comment.body == '/accept-policies' 
 
     steps:
       - name: Checkout
