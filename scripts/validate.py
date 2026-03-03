@@ -193,13 +193,17 @@ def main():
 
     issue_body = event["issue"]["body"] or ""
 
-    match = re.search(r"https://github\.com/([\w\-]+)/([\w\.\-]+)", issue_body)
+    #match = re.search(r"https://github\.com/([\w\-]+)/([\w\.\-]+)", issue_body)
+    match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)", issue_body)
     if not match:
         failures.append("No valid GitHub repository URL found in issue body.")
         finalize(failures)
         return
 
     owner, repo = match.group(1), match.group(2)
+
+    if repo.endswith(".git"):
+        repo = repo[:-4]
 
     repo_data = github_get(f"https://api.github.com/repos/{owner}/{repo}")
     if not repo_data:
