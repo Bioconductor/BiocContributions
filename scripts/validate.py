@@ -227,7 +227,7 @@ def main():
         f"https://api.github.com/repos/{owner}/{repo}/contents/vignettes"
     )
 
-    if not vignette_dir or vignette_dir.get("type") != "dir":
+    if not vignette_dir or not isinstance(vignette_dir, list):
         failures.append("vignettes/ directory not found.")
 
     package_name = None
