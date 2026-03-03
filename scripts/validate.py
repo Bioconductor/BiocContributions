@@ -14,7 +14,7 @@ import requests
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
-SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_PATH", "submissions/submissions.csv")
+SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -81,21 +81,39 @@ def add_label(label):
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
     requests.post(url, headers=HEADERS, json={"labels": [label]})
 
-
 # ----------------------------
 # Submission Table Helpers
 # ----------------------------
 
+def get_current_branch():
+    """Return the current git branch name, or None if it cannot be determined."""
+    result = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True)
+    if result.returncode == 0:
+        return result.stdout.strip()
+    return None
+
+
 def load_submissions():
+    """Load submissions from the CSV on the submissions branch."""
     submissions = []
 
-    if not os.path.exists(SUBMISSIONS_FILE):
-        return submissions
+    submissions_csv = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
+    current_branch = get_current_branch()
 
-    with open(SUBMISSIONS_FILE, newline="") as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            submissions.append(row)
+    # Fetch & checkout submissions branch
+    run_git_command(["git", "fetch", "origin", "submissions"])
+    run_git_command(["git", "checkout", "-B", "submissions", "origin/submissions"])
+
+    # Read CSV if it exists
+    if os.path.exists(submissions_csv):
+        with open(submissions_csv, newline="") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                submissions.append(row)
+
+    # Return to original branch
+    if current_branch:
+        run_git_command(["git", "checkout", current_branch])
 
     return submissions
 
@@ -115,6 +133,11 @@ def check_duplicate(package_name):
 
 
 def record_submission(package_name):
+    """
+    Append a new submission to the submissions branch CSV.
+    Ensures the branch exists, appends safely, commits, pushes, and returns to the original branch.
+    """
+
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
@@ -122,10 +145,20 @@ def record_submission(package_name):
     issue_number = event["issue"]["number"]
     repo_full = f"{event['repository']['owner']['login']}/{event['repository']['name']}"
 
-    os.makedirs(os.path.dirname(SUBMISSIONS_FILE), exist_ok=True)
-    file_exists = os.path.exists(SUBMISSIONS_FILE)
+    submissions_csv = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
+    actor = os.environ.get("GITHUB_ACTOR", "github-actions[bot]")
+    current_branch = get_current_branch()
 
-    with open(SUBMISSIONS_FILE, "a", newline="") as csvfile:
+    # --- 1. Fetch and checkout submissions branch ---
+    run_git_command(["git", "fetch", "origin", "submissions"])
+    run_git_command(["git", "checkout", "-B", "submissions", "origin/submissions"])
+
+    # --- 2. Ensure directory exists ---
+    os.makedirs(os.path.dirname(submissions_csv), exist_ok=True)
+
+    # --- 3. Append row to CSV ---
+    file_exists = os.path.exists(submissions_csv)
+    with open(submissions_csv, "a", newline="") as csvfile:
         fieldnames = ["package_name", "repo_full", "submitter", "issue_number"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -139,37 +172,42 @@ def record_submission(package_name):
             "issue_number": issue_number
         })
 
-    actor = os.environ.get("GITHUB_ACTOR", "github-actions[bot]")
+    # --- 4. Configure Git user ---
+    run_git_command(["git", "config", "user.name", actor])
+    run_git_command(["git", "config", "user.email", f"{actor}@users.noreply.github.com"])
 
-    run_git_command(["git", "-C", "submissions", "config", "user.name", actor])
-    run_git_command(["git", "-C", "submissions", "config", "user.email",
-                     f"{actor}@users.noreply.github.com"])
-
-    run_git_command(["git", "-C", "submissions", "add", "submissions.csv"])
-
-    commit_message = (
-        f"Record submission of {package_name} by {submitter} "
-        f"(issue #{issue_number})"
-    )
-
-    committed = run_git_command([
-        "git", "-C", "submissions",
-        "commit", "-m", commit_message
-    ])
+    # --- 5. Commit and push ---
+    run_git_command(["git", "add", submissions_csv])
+    commit_message = f"Record submission of {package_name} by {submitter} (issue #{issue_number})"
+    committed = run_git_command(["git", "commit", "-m", commit_message])
 
     if committed:
-        run_git_command(["git", "-C", "submissions", "push", "origin", "submissions"])
+        run_git_command(["git", "push", "origin", "submissions"])
 
+    # --- 6. Return to original branch ---
+    if current_branch:
+        run_git_command(["git", "checkout", current_branch])
+
+        
 # ----------------------------
-# Git LFS Check 
+# Git LFS Check
 # ----------------------------
 
 def check_git_lfs(owner, repo):
+    """
+    Checks if the repository uses Git LFS by inspecting the .gitattributes file.
+    Returns a list of failure messages if Git LFS usage is detected or if the file cannot be read.
+    """
     failures = []
+
+    # Fetch .gitattributes from repo
     gitattributes = github_get(f"https://api.github.com/repos/{owner}/{repo}/contents/.gitattributes")
+
     if gitattributes and gitattributes.get("content"):
         try:
+            # Decode base64 content
             attr_text = base64.b64decode(gitattributes["content"]).decode("utf-8")
+
             if "filter=lfs" in attr_text:
                 failures.append(
                     "Git LFS usage detected in `.gitattributes`. "
@@ -178,11 +216,12 @@ def check_git_lfs(owner, repo):
                 )
         except Exception:
             failures.append("Unable to parse `.gitattributes` file.")
+
     return failures
 
 
 # ----------------------------
-# Validation Logic
+# Validation
 # ----------------------------
 
 def main():
