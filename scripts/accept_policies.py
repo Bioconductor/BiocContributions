@@ -76,7 +76,8 @@ def main():
 
     post_comment(
         "✅ Bioconductor policies accepted.\n\n"
-        "Your submission will now proceed to the build and check process."
+        "Your submission will now proceed to the build and check process.\n"
+        "When build/check is clean a reviewer will be assigned for indepth review."
     )
 
 
