@@ -456,8 +456,8 @@ def finalize(failures, package_name=None):
             "I am familiar with the [Bioconductor code of conduct](https://bioconductor.org/about/code-of-conduct/) and agree to abide by it.",
 
             "I am familiar with the essential aspects of _Bioconductor_ software management, including:\n"
-            "- The 'devel' branch for new packages and features.\n"
-            "- The stable 'release' branch, made available every six months, for bug fixes."
+            "    - The 'devel' branch for new packages and features.\n"
+            "    - The stable 'release' branch, made available every six months, for bug fixes."
         ]
 
         for p in points:
