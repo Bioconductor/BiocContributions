@@ -12,8 +12,8 @@ jobs:
   accept:
     runs-on: ubuntu-latest
     if: >
-      startsWith(toLower(trim(github.event.comment.body)), '/accept-policies')
-      || startsWith(toLower(trim(github.event.comment.body)), 'accept-policies')
+      startsWith(toLower(github.event.comment.body), '/accept-policies')
+      || startsWith(toLower(github.event.comment.body), 'accept-policies')
 
     steps:
       - name: Checkout
