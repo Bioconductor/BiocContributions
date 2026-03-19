@@ -70,8 +70,6 @@ def main():
 
     # Add label to indicate policies accepted
     add_label("policies-accepted")
-    add_label("pre-review")
-    remove_label("precheck-passed") 
     remove_label("awaiting policy acceptance")  
 
     post_comment(
