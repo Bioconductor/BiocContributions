@@ -482,9 +482,10 @@ def finalize(failures, package_name=None, skip_duplicates=False):
             "`/accept-policies`"
         )
         
-        post_comment(message)
-        add_label("precheck-passed")
+        if not has_label("precheck-passed"):
+            add_label("precheck-passed")
         if not has_label("policies-accepted"):
+            post_comment(message)
             add_label("awaiting policy acceptance")
         sys.exit(0)
 
