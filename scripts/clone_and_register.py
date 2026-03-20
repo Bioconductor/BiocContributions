@@ -139,6 +139,7 @@ def clone_and_push():
         post_comment(f"❌ Failed to check target repo: {r_target.text}")
         sys.exit(1)
 
+    # Only wrap the git commands in try/except
     try:
         # Full clone (no --depth) to avoid shallow history issues
         subprocess.run(["git", "clone", source_url], check=True)
