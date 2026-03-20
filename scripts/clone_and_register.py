@@ -129,6 +129,7 @@ def clone_and_push():
         r_contents = requests.get(f"{target_repo_api_url}/contents", headers=TARGET_HEADERS)
         if r_contents.status_code == 200 and len(r_contents.json()) > 0:
             post_comment(f"ℹ️ Target repository **{GIT_TARGET_ORG}/{source_repo}** already exists and is not empty. Skipping clone/push.")
+            add_collaborator(source_repo, original_submitter, permission="write")
             return f"{GIT_TARGET_ORG}/{source_repo}"
         repo_empty = True
     else:
@@ -151,8 +152,11 @@ def clone_and_push():
         shutil.rmtree(source_repo)
 
         set_default_branch(source_repo, "devel")
+        
         post_comment(f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)")
 
+        add_collaborator(source_repo, original_submitter, permission="write")
+        
     except subprocess.CalledProcessError as e:
         post_comment(f"❌ Git operation failed: {e}")
         sys.exit(1)
