@@ -102,12 +102,13 @@ def add_collaborator(repo_name, username, permission="write"):
 # Clone & push
 # ----------------------------
 def clone_and_push():
-    match = re.search(r"https://github\.com/([\w\-]+)/([\w\.\-]+)", issue_body)
+    match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)(?:\.git)?", issue_body)
     if not match:
         post_comment("❌ No valid GitHub repo URL found in issue body.")
         sys.exit(1)
 
     source_owner, source_repo = match.groups()
+    source_repo = source_repo.rstrip(".git")
     source_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{source_owner}/{source_repo}.git"
     target_url = f"https://x-access-token:{TARGET_GITHUB_TOKEN}@github.com/{GIT_TARGET_ORG}/{source_repo}.git"
 
