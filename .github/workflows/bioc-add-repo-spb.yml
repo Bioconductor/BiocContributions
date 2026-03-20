@@ -1,0 +1,45 @@
+name: Clone to SPB source and Runiverse
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  clone_and_register:
+    if: github.event.label.name == 'policies-accepted'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout workflow repo
+        uses: actions/checkout@v4
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "Bioconductor Bot"
+          git config --global user.email "bot@bioconductor.org"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Clone Default Branch & Register
+        env:
+          # Token for reading original repo, commenting, labels
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Token with write access to target org
+          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
+          # Organization to push repo into
+          GIT_TARGET_ORG: "tempbioc"          
+          # GitHub Actions event info
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/clone_and_register.py
+
