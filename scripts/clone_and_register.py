@@ -120,7 +120,24 @@ def clone_and_push():
         sys.exit(1)
     source_default_branch = r.json().get("default_branch", "main")
 
-    create_target_repo(source_repo)
+    # Check if target repo exists
+    target_repo_api_url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{source_repo}"
+    r_target = requests.get(target_repo_api_url, headers=TARGET_HEADERS)
+
+    if r_target.status_code == 404:
+        # Repo does not exist — create it
+        create_target_repo(source_repo)
+        repo_empty = True
+    elif r_target.status_code == 200:
+        # Repo exists — check if it is empty
+        r_contents = requests.get(f"{target_repo_api_url}/contents", headers=TARGET_HEADERS)
+        if r_contents.status_code == 200 and len(r_contents.json()) > 0:
+            post_comment(f"ℹ️ Target repository **{GIT_TARGET_ORG}/{source_repo}** already exists and is not empty. Skipping clone/push.")
+            return f"{GIT_TARGET_ORG}/{source_repo}"
+        repo_empty = True  # Repo exists but empty
+    else:
+        post_comment(f"❌ Failed to check target repo: {r_target.text}")
+        sys.exit(1)
 
     try:
         # Full clone (no --depth) to avoid shallow history issues
@@ -138,8 +155,9 @@ def clone_and_push():
         subprocess.run(["git", "remote", "remove", "origin"], check=True)
         subprocess.run(["git", "remote", "add", "origin", target_url], check=True)
 
-        # Push to target repo with force (safe for empty repo)
-        subprocess.run(["git", "push", "-u", "origin", "devel", "--force"], check=True)
+        # Push only if repo is empty
+        if repo_empty:
+            subprocess.run(["git", "push", "-u", "origin", "devel"], check=True)
 
         # Clean up
         os.chdir("..")
@@ -155,6 +173,7 @@ def clone_and_push():
         sys.exit(1)
 
     return f"{GIT_TARGET_ORG}/{source_repo}"
+
 
 # ----------------------------
 # Update packages.json
@@ -181,28 +200,29 @@ def update_registry(repo_path):
 
         already_exists = any(entry.get("package") == package_name or entry.get("url") == repo_url
                              for entry in data if isinstance(entry, dict))
+ 
         if already_exists:
             post_comment(f"ℹ️ Already registered: **{package_name}**")
         else:
-            insert_index = 0
-            for i, entry in enumerate(data):
-                if "package" in entry and entry["package"].lower() > package_name.lower():
-                    insert_index = i
-                    break
-                insert_index = i + 1
-            data.insert(insert_index, {"package": package_name, "url": repo_url})
+            # Append new package at the end to preserve existing order
+            data.append({"package": package_name, "url": repo_url})
             with open(packages_file, "w") as f:
                 json.dump(data, f, indent=2)
+
+            # Stage changes
             subprocess.run(["git", "add", packages_file], check=True)
+
+            # Commit and push if there are changes
             if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode != 0:
+                subprocess.run(["git", "config", "user.name", "Bioconductor Bot"], check=True)
+                subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"], check=True)
                 subprocess.run(["git", "commit", "-m", f"Add {package_name}"], check=True)
                 subprocess.run(["git", "push"], check=True)
                 post_comment(f"✅ Added **{package_name}** to registry.")
+
+        # Clean up
         os.chdir("..")
         shutil.rmtree(registry_repo)
-    except subprocess.CalledProcessError as e:
-        post_comment(f"❌ Failed to update registry: {e}")
-        sys.exit(1)
 
 # ----------------------------
 # Main
