@@ -48,7 +48,6 @@ if "issue" in EVENT:
     issue_body = EVENT["issue"]["body"]
     original_submitter = EVENT["issue"]["user"]["login"]
 else:
-    # Manual trigger: fetch issue via API
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{ISSUE_NUMBER}"
     r = requests.get(url, headers=HEADERS)
     if r.status_code != 200:
@@ -120,53 +119,38 @@ def clone_and_push():
         sys.exit(1)
     source_default_branch = r.json().get("default_branch", "main")
 
-    # Check if target repo exists
+    # Check if target repo exists and is empty
     target_repo_api_url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{source_repo}"
     r_target = requests.get(target_repo_api_url, headers=TARGET_HEADERS)
-
     if r_target.status_code == 404:
-        # Repo does not exist — create it
         create_target_repo(source_repo)
         repo_empty = True
     elif r_target.status_code == 200:
-        # Repo exists — check if it is empty
         r_contents = requests.get(f"{target_repo_api_url}/contents", headers=TARGET_HEADERS)
         if r_contents.status_code == 200 and len(r_contents.json()) > 0:
             post_comment(f"ℹ️ Target repository **{GIT_TARGET_ORG}/{source_repo}** already exists and is not empty. Skipping clone/push.")
             return f"{GIT_TARGET_ORG}/{source_repo}"
-        repo_empty = True  # Repo exists but empty
+        repo_empty = True
     else:
         post_comment(f"❌ Failed to check target repo: {r_target.text}")
         sys.exit(1)
 
-    # Only wrap the git commands in try/except
     try:
-        # Full clone (no --depth) to avoid shallow history issues
         subprocess.run(["git", "clone", source_url], check=True)
         os.chdir(source_repo)
-
-        # Configure Git user
         subprocess.run(["git", "config", "user.name", "Bioconductor Bot"], check=True)
         subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"], check=True)
-
-        # Rename branch to devel
         subprocess.run(["git", "branch", "-M", "devel"], check=True)
-
-        # Point remote to target repo
         subprocess.run(["git", "remote", "remove", "origin"], check=True)
         subprocess.run(["git", "remote", "add", "origin", target_url], check=True)
 
-        # Push only if repo is empty
         if repo_empty:
             subprocess.run(["git", "push", "-u", "origin", "devel"], check=True)
 
-        # Clean up
         os.chdir("..")
         shutil.rmtree(source_repo)
 
-        # Set default branch on GitHub
         set_default_branch(source_repo, "devel")
-
         post_comment(f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)")
 
     except subprocess.CalledProcessError as e:
@@ -174,7 +158,6 @@ def clone_and_push():
         sys.exit(1)
 
     return f"{GIT_TARGET_ORG}/{source_repo}"
-
 
 # ----------------------------
 # Update packages.json
@@ -201,19 +184,16 @@ def update_registry(repo_path):
 
         already_exists = any(entry.get("package") == package_name or entry.get("url") == repo_url
                              for entry in data if isinstance(entry, dict))
- 
+
         if already_exists:
             post_comment(f"ℹ️ Already registered: **{package_name}**")
         else:
-            # Append new package at the end to preserve existing order
             data.append({"package": package_name, "url": repo_url})
             with open(packages_file, "w") as f:
                 json.dump(data, f, indent=2)
 
-            # Stage changes
             subprocess.run(["git", "add", packages_file], check=True)
 
-            # Commit and push if there are changes
             if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode != 0:
                 subprocess.run(["git", "config", "user.name", "Bioconductor Bot"], check=True)
                 subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"], check=True)
@@ -221,9 +201,12 @@ def update_registry(repo_path):
                 subprocess.run(["git", "push"], check=True)
                 post_comment(f"✅ Added **{package_name}** to registry.")
 
-        # Clean up
         os.chdir("..")
         shutil.rmtree(registry_repo)
+
+    except subprocess.CalledProcessError as e:
+        post_comment(f"❌ Failed to update registry: {e}")
+        sys.exit(1)
 
 # ----------------------------
 # Main
