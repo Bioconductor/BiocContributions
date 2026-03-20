@@ -52,10 +52,15 @@ def remove_label(issue_number, label):
     requests.delete(url, headers=HEADERS)
 
     
-def has_label(label_name):
-    with open(EVENT_PATH) as f:
-        event = json.load(f)
-    labels = event["issue"].get("labels", [])
+def has_label(issue_number, label_name):
+    owner, repo = REPO_FULL.split("/")
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
+
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code != 200:
+        return False  # or handle error if you want
+
+    labels = response.json()
     return any(label["name"] == label_name for label in labels)
 
 
@@ -85,7 +90,7 @@ def main():
         sys.exit(1)
             
     # Add label to indicate policies accepted
-    if not has_label("policies-accepted"):
+    if not has_label(issue_number, "policies-accepted"):
         add_label(issue_number, "policies-accepted")
         post_comment(issue_number,
             "✅ Bioconductor policies accepted.\n\n"
