@@ -363,17 +363,6 @@ def main():
             failures.append("Unable to decode or parse DESCRIPTION file.")
 
     # ----------------------------
-    # Duplicate Submission Check
-    # ----------------------------
-    if package_name:
-        is_dup, dup_msg = check_duplicate(package_name)
-        if is_dup:
-            add_label("duplicate")
-            failures.append(dup_msg)
-            finalize(failures)
-            return
-
-    # ----------------------------
     # Large File Check
     # ----------------------------
     if default_branch:
@@ -397,6 +386,17 @@ def main():
     # Git LFS check
     # ----------------------------
     failures.extend(check_git_lfs(owner, repo))
+
+    # ----------------------------
+    # Duplicate Submission Check
+    # ----------------------------
+    if package_name:
+        is_dup, dup_msg = check_duplicate(package_name)
+        if is_dup:
+            add_label("duplicate")
+            failures.append(dup_msg)
+            finalize(failures)
+            return
 
     # ----------------------------
     # Finalization
