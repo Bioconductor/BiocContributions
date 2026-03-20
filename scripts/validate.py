@@ -368,6 +368,7 @@ def main():
     if package_name:
         is_dup, dup_msg = check_duplicate(package_name)
         if is_dup:
+            add_label("duplicate")
             failures.append(dup_msg)
             finalize(failures)
             return
