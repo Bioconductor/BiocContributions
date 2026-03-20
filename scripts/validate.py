@@ -405,13 +405,13 @@ def main():
         if is_dup:
             add_label("duplicate")
             failures.append(dup_msg)
-            finalize(failures)
+            finalize(failures, package_name, skip_duplicates)
             return
 
     # ----------------------------
     # Finalization
     # ----------------------------
-    finalize(failures, package_name)
+    finalize(failures, package_name, skip_duplicates)
 
 
 # ----------------------------
