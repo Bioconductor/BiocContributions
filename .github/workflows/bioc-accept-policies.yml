@@ -1,17 +1,27 @@
-name: Bioconductor Policy Acceptance
+name: Bioconductor Policy Acceptance & Clone
 
 on:
   issue_comment:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to process'
+        required: true
+        default: '1'
 
 permissions:
   issues: write
-  contents: read
+  contents: write
 
 jobs:
-  accept:
+  accept_policies:
     runs-on: ubuntu-latest
-    if: github.event.comment.body == 'accept-policies' || github.event.comment.body == '/accept-policies' 
+    # Run if triggered by comment OR manually
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.comment.body == 'accept-policies' ||
+      github.event.comment.body == '/accept-policies'
 
     steps:
       - name: Checkout
@@ -31,3 +41,69 @@ jobs:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/accept_policies.py
+
+  clone_and_register:
+    runs-on: ubuntu-latest
+    needs: accept_policies
+    if: success()
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "Bioconductor Bot"
+          git config --global user.email "bot@bioconductor.org"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Clone Default Branch & Register
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
+          GIT_TARGET_ORG: "tempbioc"
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/clone_and_register.py
+
+
+# name: Bioconductor Policy Acceptance
+
+# on:
+#   issue_comment:
+#     types: [created]
+
+# permissions:
+#   issues: write
+#   contents: read
+
+# jobs:
+#   accept:
+#     runs-on: ubuntu-latest
+#     if: github.event.comment.body == 'accept-policies' || github.event.comment.body == '/accept-policies' 
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+
+#       - name: Setup Python
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11"
+
+#       - name: Install dependencies
+#         run: pip install requests
+
+#       - name: Handle acceptance
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           GITHUB_EVENT_PATH: ${{ github.event_path }}
+#           GITHUB_REPOSITORY: ${{ github.repository }}
+#         run: python scripts/accept_policies.py
