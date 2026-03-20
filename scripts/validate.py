@@ -81,6 +81,13 @@ def add_label(label):
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
     requests.post(url, headers=HEADERS, json={"labels": [label]})
 
+    
+def has_label(label_name):
+    with open(EVENT_PATH) as f:
+        event = json.load(f)
+    labels = event["issue"].get("labels", [])
+    return any(label["name"] == label_name for label in labels)
+
 
 # ----------------------------
 # Submission Table Helpers
@@ -390,7 +397,10 @@ def main():
     # ----------------------------
     # Duplicate Submission Check
     # ----------------------------
-    if package_name:
+    is_reopened = action == "reopened"
+    precheck_passed = has_label("precheck-passed")
+    skip_duplicates = is_reopened and precheck_passed
+    if package_name and not skip_duplicates:
         is_dup, dup_msg = check_duplicate(package_name)
         if is_dup:
             add_label("duplicate")
@@ -408,7 +418,7 @@ def main():
 # Finalization
 # ----------------------------
 
-def finalize(failures, package_name=None):
+def finalize(failures, package_name=None, skip_duplicates=False):
     if failures:
         message = "## ❌ Bioconductor Precheck Failed\n\n"
         message += "The following pre-checks did not pass:\n\n"
@@ -421,7 +431,7 @@ def finalize(failures, package_name=None):
         sys.exit(1)
 
     else:
-        if package_name:
+        if package_name and not skip_duplicates:
             record_submission(package_name)
 
         message = "## ✅ Bioconductor Precheck Passed\n\n"
@@ -474,7 +484,8 @@ def finalize(failures, package_name=None):
         
         post_comment(message)
         add_label("precheck-passed")
-        add_label("awaiting policy acceptance")
+        if not has_label("policies-accepted"):
+            add_label("awaiting policy acceptance")
         sys.exit(0)
 
 
