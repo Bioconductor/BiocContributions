@@ -51,6 +51,13 @@ def remove_label(issue_number, label):
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
     requests.delete(url, headers=HEADERS)
 
+    
+def has_label(label_name):
+    with open(EVENT_PATH) as f:
+        event = json.load(f)
+    labels = event["issue"].get("labels", [])
+    return any(label["name"] == label_name for label in labels)
+
 
 def main():
     with open(EVENT_PATH) as f:
@@ -76,16 +83,17 @@ def main():
     if commenter != issue_author:
         post_comment(issue_number, "Only the original submitter can accept the Bioconductor policies.")
         sys.exit(1)
-
+            
     # Add label to indicate policies accepted
-    add_label(issue_number, "policies-accepted")
-    remove_label(issue_number, "awaiting policy acceptance")  
+    if not has_label("policies-accepted"):
+        add_label(issue_number, "policies-accepted")
+        post_comment(issue_number,
+            "✅ Bioconductor policies accepted.\n\n"
+            "Your submission will now proceed to the build and check process.\n"
+            "When build/check is clean a reviewer will be assigned for indepth review."
+        )
 
-    post_comment(issue_number,
-        "✅ Bioconductor policies accepted.\n\n"
-        "Your submission will now proceed to the build and check process.\n"
-        "When build/check is clean a reviewer will be assigned for indepth review."
-    )
+    remove_label(issue_number, "awaiting policy acceptance")  
 
 
 if __name__ == "__main__":
