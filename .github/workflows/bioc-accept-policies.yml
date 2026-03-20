@@ -41,7 +41,7 @@ jobs:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           AUTO_ACCEPT: true
-	  ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
+          ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
         run: python scripts/accept_policies.py
 
   clone_and_register:
@@ -73,7 +73,7 @@ jobs:
           GIT_TARGET_ORG: "tempbioc"
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-	  ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
+          ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
         run: python scripts/clone_and_register.py
 
 
