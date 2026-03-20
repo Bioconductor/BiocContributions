@@ -123,21 +123,32 @@ def clone_and_push():
     create_target_repo(source_repo)
 
     try:
-        subprocess.run(["git", "clone", "--branch", source_default_branch, "--depth", "1", source_url], check=True)
+        # Full clone (no --depth) to avoid shallow history issues
+        subprocess.run(["git", "clone", source_url], check=True)
         os.chdir(source_repo)
+
+        # Configure Git user
         subprocess.run(["git", "config", "user.name", "Bioconductor Bot"], check=True)
         subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"], check=True)
-        subprocess.run(["git", "branch", "-m", "devel"], check=True)
+
+        # Rename branch to devel
+        subprocess.run(["git", "branch", "-M", "devel"], check=True)
+
+        # Point remote to target repo
         subprocess.run(["git", "remote", "remove", "origin"], check=True)
         subprocess.run(["git", "remote", "add", "origin", target_url], check=True)
-        subprocess.run(["git", "push", "-u", "origin", "devel"], check=True)
+
+        # Push to target repo with force (safe for empty repo)
+        subprocess.run(["git", "push", "-u", "origin", "devel", "--force"], check=True)
+
+        # Clean up
         os.chdir("..")
         shutil.rmtree(source_repo)
-        set_default_branch(source_repo, "devel")
-        post_comment(f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)")
 
-        # Add original submitter as collaborator
-        add_collaborator(source_repo, original_submitter)
+        # Set default branch on GitHub
+        set_default_branch(source_repo, "devel")
+
+        post_comment(f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)")
 
     except subprocess.CalledProcessError as e:
         post_comment(f"❌ Git operation failed: {e}")
