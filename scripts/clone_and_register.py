@@ -30,9 +30,12 @@ TARGET_HEADERS = {
 with open(GITHUB_EVENT_PATH) as f:
     EVENT = json.load(f)
 
-ISSUE_NUMBER = EVENT["issue"]["number"]
 OWNER, REPO = GITHUB_REPOSITORY.split("/")
 
+if "issue" in EVENT:
+    ISSUE_NUMBER = EVENT["issue"]["number"]
+else:
+    ISSUE_NUMBER = int(os.environ.get("ISSUE_NUMBER"))
 
 # ----------------------------
 # GitHub Helpers
