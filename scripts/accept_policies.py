@@ -55,10 +55,25 @@ def main():
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
-    comment_body = event["comment"]["body"].strip().lower()
-    commenter = event["comment"]["user"]["login"]
-    issue_author = event["issue"]["user"]["login"]
+    # comment_body = event["comment"]["body"].strip().lower()
+    # commenter = event["comment"]["user"]["login"]
+    # issue_author = event["issue"]["user"]["login"]
 
+    auto_accept = os.environ.get("AUTO_ACCEPT") == "true"
+
+    if event.get("comment"):
+        comment_body = event["comment"]["body"].strip().lower()
+        commenter = event["comment"]["user"]["login"]
+        issue_author = event["issue"]["user"]["login"]
+    elif auto_accept:
+        # Manual trigger: simulate acceptance
+        comment_body = "/accept-policies"
+        # Use workflow actor as both commenter and issue author (or adapt as needed)
+        commenter = issue_author = event.get("sender", {}).get("login")
+    else:
+        # Not a comment and not manually forced, do nothing
+        sys.exit(0)
+   
     # Allow both "/accept-policies" and "accept-policies"
     if comment_body not in ["/accept-policies", "accept-policies"]:
         # Ignore other comments
