@@ -117,6 +117,8 @@ def load_submissions():
         with open(submissions_csv, newline="") as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
+                row.setdefault("last_sha", "")
+                row.setdefault("last_version", "")
                 submissions.append(row)
 
     # Return to original branch
@@ -167,7 +169,7 @@ def record_submission(package_name):
     # --- 3. Append row to CSV ---
     file_exists = os.path.exists(submissions_csv)
     with open(submissions_csv, "a", newline="") as csvfile:
-        fieldnames = ["package_name", "repo_full", "submitter", "issue_number"]
+        fieldnames = ["package_name", "repo_full", "submitter", "issue_number", "last_sha", "last_version"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         if not file_exists:
@@ -177,7 +179,9 @@ def record_submission(package_name):
             "package_name": package_name,
             "repo_full": repo_full,
             "submitter": submitter,
-            "issue_number": issue_number
+            "issue_number": issue_number,
+            "last_sha": "",
+            "last_version": ""
         })
 
     # --- 4. Configure Git user ---
