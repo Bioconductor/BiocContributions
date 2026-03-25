@@ -1,0 +1,235 @@
+import os
+import csv
+import requests
+from datetime import datetime, timedelta
+import subprocess
+import re
+
+# ----------------------------
+# Environment
+# ----------------------------
+GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
+SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_FILE", "submissions/submitted_packages.csv")
+RUNIVERSE_WORKFLOW = os.environ["RUNIVERSE_WORKFLOW"]
+PACKAGE_NAME = os.environ.get("PACKAGE_NAME")
+ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
+
+HEADERS = {
+    "Authorization": f"Bearer {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
+
+# ----------------------------
+# 10-minute cutoff
+# ----------------------------
+cutoff_dt = datetime.utcnow() - timedelta(minutes=10)
+
+# ----------------------------
+# Exact package matching 
+# ----------------------------
+def matches_package(text, pkg):
+    text_lower = text.lower()
+    pkg_lower = pkg.lower()
+
+    pattern = r'(?<![a-z0-9])' + re.escape(pkg_lower) + r'(?![a-z0-9])'
+    return re.search(pattern, text_lower) is not None
+
+# ----------------------------
+# Version helpers
+# ----------------------------
+def parse_version(ver):
+    try:
+        x, y, z = [int(p) for p in ver.split(".")]
+        return x, y, z
+    except Exception:
+        return None, None, None
+
+def valid_z_bump(old, new):
+    if not old:
+        return True  # first run
+    old_x, old_y, old_z = parse_version(old)
+    new_x, new_y, new_z = parse_version(new)
+    if old_x is None or new_x is None:
+        return False
+    return old_x == new_x and old_y == new_y and new_z > old_z
+
+# ----------------------------
+# Get version from DESCRIPTION
+# ----------------------------
+def get_version_from_description(owner, repo, sha):
+    url = f"https://raw.githubusercontent.com/{owner}/{repo}/{sha}/DESCRIPTION"
+    try:
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"[WARN] Could not fetch DESCRIPTION for {owner}/{repo}@{sha}: {e}")
+        return None
+
+    for line in resp.text.splitlines():
+        if line.startswith("Version:"):
+            return line.split("Version:")[1].strip()
+    return None
+
+# ----------------------------
+# Fetch latest workflow runs (all packages)
+# ----------------------------
+def get_recent_workflow_runs():
+    url = RUNIVERSE_WORKFLOW.replace(
+        "workflows/build.yml",
+        "runs?branch=devel&event=push&status=completed&per_page=100"
+    )
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=10)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"[WARN] Failed to fetch workflow runs: {e}")
+        return []
+
+    all_runs = resp.json().get("workflow_runs", [])
+    recent_runs = []
+
+    for run in all_runs:
+        run_time = datetime.strptime(run["created_at"], "%Y-%m-%dT%H:%M:%SZ")
+
+        if run_time < cutoff_dt:
+            break
+
+        recent_runs.append(run)
+
+    return recent_runs
+
+# ----------------------------
+# Load CSV submissions
+# ----------------------------
+csv_rows = {}
+if os.path.exists(SUBMISSIONS_FILE):
+    with open(SUBMISSIONS_FILE, newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            row.setdefault("last_sha", "")
+            row.setdefault("last_version", "")
+            csv_rows[row["package_name"]] = row
+
+# ----------------------------
+# Map package -> latest run
+# ----------------------------
+recent_runs = get_recent_workflow_runs()
+
+latest_run_per_package = {}
+remaining_pkgs = set(csv_rows.keys())
+
+for run in recent_runs:
+    run_name = run.get("name", "") or ""
+    display_title = run.get("display_title", "") or ""
+    text = run_name + " " + display_title
+
+    if PACKAGE_NAME and PACKAGE_NAME.lower() not in text.lower():
+        continue
+
+    sha = run.get("head_sha")
+    if not sha:
+        continue
+
+    for pkg in list(remaining_pkgs):
+        if matches_package(text, pkg):   # <-- ONLY CHANGE USED HERE
+            latest_run_per_package[pkg] = {
+                "sha": sha,
+                "run_url": run["html_url"]
+            }
+            remaining_pkgs.remove(pkg)
+
+    if not remaining_pkgs:
+        break
+
+# ----------------------------
+# Process only packages that had a run
+# ----------------------------
+updated_rows = []
+changes_made = False
+
+GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
+queue_owner, queue_repo = GITHUB_REPOSITORY.split("/")
+
+for pkg, row in csv_rows.items():
+    run_info = latest_run_per_package.get(pkg)
+
+    if not run_info:
+        updated_rows.append(row)
+        continue
+
+    sha = run_info["sha"]
+    run_url = run_info["run_url"]
+    last_sha = row.get("last_sha", "")
+    last_version = row.get("last_version", "")
+
+    try:
+        owner, repo = row["repo_full"].split("/")
+    except Exception:
+        updated_rows.append(row)
+        continue
+
+    if sha == last_sha:
+        updated_rows.append(row)
+        continue
+
+    version = get_version_from_description(owner, repo, sha)
+    if not version:
+        updated_rows.append(row)
+        continue
+
+    if valid_z_bump(last_version, version):
+
+        print(f"[INFO] {pkg}: New build detected {last_version} -> {version}")
+        row["last_sha"] = sha
+        row["last_version"] = version
+        changes_made = True
+
+        issue_num = row.get("issue_number")
+        if issue_num:
+            url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}/comments"
+            try:
+                resp = requests.post(url, headers=HEADERS, json={
+                    "body": f"✅ New build detected for {pkg}, version {version}.\n"
+                            f"🔗 Detailed run: {run_url}\n"
+                            f"📊 Check summary table: https://tempbioc.r-universe.dev/{pkg}$checktable"
+                }, timeout=10)
+                resp.raise_for_status()
+            except requests.RequestException as e:
+                print(f"[ERROR] Failed to post success comment for {pkg}: {e}")
+    else:
+        print(f"[WARN] {pkg}: Version bump invalid ({last_version} -> {version})")
+        issue_num = row.get("issue_number")
+        if issue_num:
+            url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}/comments"
+            try:
+                resp = requests.post(url, headers=HEADERS, json={
+                    "body": f"⚠️ Build detected for {pkg} with invalid version bump ({last_version} -> {version}). "
+                            f"Only z should increase; please correct version.\n"
+                }, timeout=10)
+                resp.raise_for_status()
+            except requests.RequestException as e:
+                print(f"[ERROR] Failed to post warning comment for {pkg}: {e}")
+
+    updated_rows.append(row)
+
+# ----------------------------
+# Commit updated CSV if needed
+# ----------------------------
+if changes_made:
+    branch = "submissions"
+    subprocess.run(["git", "fetch", "origin", branch])
+    subprocess.run(["git", "checkout", "-B", branch, f"origin/{branch}"])
+
+    fieldnames = ["package_name","repo_full","submitter","issue_number","last_sha","last_version"]
+    with open(SUBMISSIONS_FILE, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(updated_rows)
+
+    subprocess.run(["git", "config", "user.name", "Bioconductor Bot"])
+    subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"])
+    subprocess.run(["git", "add", SUBMISSIONS_FILE])
+    subprocess.run(["git", "commit", "-m", "Update build SHAs and versions"])
+    subprocess.run(["git", "push", "origin", branch])
+else:
+    print("[INFO] No updates detected; nothing to commit.")

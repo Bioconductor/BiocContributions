@@ -1,0 +1,43 @@
+name: Track Runiverse Builds
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_name:
+        description: "Optional package to check (leave blank for all)"
+        required: false
+      issue_number:
+        description: "Optional issue number for reference"
+        required: false
+  schedule:
+    - cron: "*/10 * * * *"  # every ten minutes
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  track_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Run Runiverse Build Tracker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          SUBMISSIONS_FILE: submissions/submitted_packages.csv
+          RUNIVERSE_WORKFLOW: "https://github.com/r-universe/tempbioc/actions/workflows/build.yml"
+          PACKAGE_NAME: ${{ github.event.inputs.package_name || "" }}
+          ISSUE_NUMBER: ${{ github.event.inputs.issue_number || "" }}
+        run: python scripts/track_runiverse_build.py
