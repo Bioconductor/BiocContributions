@@ -74,12 +74,21 @@ def get_version_from_description(owner, repo, sha):
 # Fetch latest workflow runs (all packages)
 # ----------------------------
 def get_recent_workflow_runs():
-    url = RUNIVERSE_WORKFLOW.replace(
-        "workflows/build.yml",
-        "runs?branch=devel&event=push&status=completed&per_page=100"
-    )
+    parts = RUNIVERSE_WORKFLOW.split("/")
+    owner = parts[3]
+    repo = parts[4]
+    workflow_file = parts[-1]  # build.yml
+
+    url = f"https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_file}/runs"
+
+    params = {
+        "event": "push",
+        "status": "completed",
+        "per_page": 100
+    }
+
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=10)
+        resp = requests.get(url, headers=HEADERS, params=params, timeout=10)
         resp.raise_for_status()
     except requests.RequestException as e:
         print(f"[WARN] Failed to fetch workflow runs: {e}")
