@@ -142,7 +142,7 @@ def check_duplicate(package_name):
     return False, ""
 
 
-def record_submission(package_name, owner, repo):
+def record_submission(package_name, owner, repo, package_version):
     """
     Append a new submission to the submissions branch CSV.
     Ensures the branch exists, appends safely, commits, pushes, and returns to the original branch.
@@ -181,7 +181,7 @@ def record_submission(package_name, owner, repo):
             "submitter": submitter,
             "issue_number": issue_number,
             "last_sha": "",
-            "last_version": ""
+            "last_version": package_version
         })
 
     # --- 4. Configure Git user ---
@@ -360,8 +360,10 @@ def main():
                         f"Package name '{package_name}' does not match repository name '{repo}'."
                     )
 
+            package_version = ""
             if version_match:
                 version = version_match.group(1).strip()
+                package_version=version
                 parts = version.split(".")
                 if len(parts) != 3 or parts[1] != "99" or not all(p.isdigit() for p in parts):
                     failures.append("Version must be in format x.99.z")
@@ -415,14 +417,14 @@ def main():
     # ----------------------------
     # Finalization
     # ----------------------------
-    finalize(failures, package_name, skip_duplicates, owner, repo)
+    finalize(failures, package_name, skip_duplicates, owner, repo, package_version)
 
 
 # ----------------------------
 # Finalization
 # ----------------------------
 
-def finalize(failures, package_name=None, skip_duplicates=False, owner=None, repo=None):
+def finalize(failures, package_name=None, skip_duplicates=False, owner=None, repo=None, package_version=None):
     if failures:
         message = "## ❌ Bioconductor Precheck Failed\n\n"
         message += "The following pre-checks did not pass:\n\n"
@@ -436,7 +438,7 @@ def finalize(failures, package_name=None, skip_duplicates=False, owner=None, rep
 
     else:
         if package_name and not skip_duplicates:
-            record_submission(package_name, owner, repo)
+            record_submission(package_name, owner, repo, package_version)
 
         message = "## ✅ Bioconductor Precheck Passed\n\n"
         message += (
