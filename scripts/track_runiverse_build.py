@@ -150,6 +150,8 @@ for run in recent_runs:
     run_name = run.get("name", "") or ""
     display_title = run.get("display_title", "") or ""
     text = run_name + " " + display_title
+    print(f"[DEBUG] Matching run text: '{text}'")
+    print(f"[DEBUG] Remaining packages: {remaining_pkgs}")
 
     if PACKAGE_NAME and PACKAGE_NAME.lower() not in text.lower():
         continue
@@ -159,7 +161,8 @@ for run in recent_runs:
         continue
 
     for pkg in list(remaining_pkgs):
-        if matches_package(text, pkg):   # <-- ONLY CHANGE USED HERE
+        if matches_package(text, pkg):
+            print(f"[DEBUG] MATCH FOUND: {pkg} in '{text}'")
             latest_run_per_package[pkg] = {
                 "sha": sha,
                 "run_url": run["html_url"]
