@@ -22,7 +22,9 @@ HEADERS = {
 # ----------------------------
 # 10-minute cutoff
 # ----------------------------
-cutoff_dt = datetime.utcnow() - timedelta(minutes=10)
+#cutoff_dt = datetime.utcnow() - timedelta(minutes=10)
+# temporarily relax while debugging
+cutoff_dt = datetime.utcnow() - timedelta(hours=4)
 
 # ----------------------------
 # Exact package matching 
