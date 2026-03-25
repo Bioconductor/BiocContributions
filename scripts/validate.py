@@ -142,7 +142,7 @@ def check_duplicate(package_name):
     return False, ""
 
 
-def record_submission(package_name):
+def record_submission(package_name, owner, repo):
     """
     Append a new submission to the submissions branch CSV.
     Ensures the branch exists, appends safely, commits, pushes, and returns to the original branch.
@@ -153,7 +153,7 @@ def record_submission(package_name):
 
     submitter = event["issue"]["user"]["login"]
     issue_number = event["issue"]["number"]
-    repo_full = f"{event['repository']['owner']['login']}/{event['repository']['name']}"
+    repo_full = f"{owner}/{repo}"
 
     submissions_csv = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
     actor = os.environ.get("GITHUB_ACTOR", "github-actions[bot]")
@@ -415,14 +415,14 @@ def main():
     # ----------------------------
     # Finalization
     # ----------------------------
-    finalize(failures, package_name, skip_duplicates)
+    finalize(failures, package_name, skip_duplicates, owner, repo)
 
 
 # ----------------------------
 # Finalization
 # ----------------------------
 
-def finalize(failures, package_name=None, skip_duplicates=False):
+def finalize(failures, package_name=None, skip_duplicates=False, owner=None, repo=None):
     if failures:
         message = "## ❌ Bioconductor Precheck Failed\n\n"
         message += "The following pre-checks did not pass:\n\n"
@@ -436,7 +436,7 @@ def finalize(failures, package_name=None, skip_duplicates=False):
 
     else:
         if package_name and not skip_duplicates:
-            record_submission(package_name)
+            record_submission(package_name, owner, repo)
 
         message = "## ✅ Bioconductor Precheck Passed\n\n"
         message += (
