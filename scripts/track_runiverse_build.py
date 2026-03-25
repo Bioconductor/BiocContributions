@@ -25,6 +25,7 @@ HEADERS = {
 #cutoff_dt = datetime.utcnow() - timedelta(minutes=10)
 # temporarily relax while debugging
 cutoff_dt = datetime.utcnow() - timedelta(hours=4)
+print(f"[DEBUG] Cutoff datetime: {cutoff_dt}")
 
 # ----------------------------
 # Exact package matching 
@@ -97,6 +98,8 @@ def get_recent_workflow_runs():
         return []
 
     all_runs = resp.json().get("workflow_runs", [])
+    print(f"[DEBUG] Total runs returned: {len(all_runs)}")
+    print(f"[DEBUG] First run created_at: {all_runs[0]['created_at'] if all_runs else 'N/A'}")
     recent_runs = []
 
     for run in all_runs:
