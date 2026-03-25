@@ -137,6 +137,9 @@ if os.path.exists(SUBMISSIONS_FILE):
             row.setdefault("last_sha", "")
             row.setdefault("last_version", "")
             csv_rows[row["package_name"]] = row
+print(f"[DEBUG] SUBMISSIONS_FILE path: {SUBMISSIONS_FILE}")
+print(f"[DEBUG] CSV rows loaded: {len(csv_rows)}")
+print(f"[DEBUG] CSV package names: {list(csv_rows.keys())}")
 
 # ----------------------------
 # Map package -> latest run
