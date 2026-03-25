@@ -90,6 +90,8 @@ def get_recent_workflow_runs():
         "per_page": 100
     }
 
+    print(f"[DEBUG] Fetching workflow runs: {url}")
+
     try:
         resp = requests.get(url, headers=HEADERS, params=params, timeout=10)
         resp.raise_for_status()
@@ -97,18 +99,30 @@ def get_recent_workflow_runs():
         print(f"[WARN] Failed to fetch workflow runs: {e}")
         return []
 
-    all_runs = resp.json().get("workflow_runs", [])
+    data = resp.json()
+    all_runs = data.get("workflow_runs", [])
+
     print(f"[DEBUG] Total runs returned: {len(all_runs)}")
-    print(f"[DEBUG] First run created_at: {all_runs[0]['created_at'] if all_runs else 'N/A'}")
+
+    if not all_runs:
+        return []
+
+    print(f"[DEBUG] Most recent run created_at: {all_runs[0]['created_at']}")
+
     recent_runs = []
 
     for run in all_runs:
         run_time = datetime.strptime(run["created_at"], "%Y-%m-%dT%H:%M:%SZ")
 
-        if run_time < cutoff_dt:
-            break
+        print(f"[DEBUG] Comparing run_time={run_time} vs cutoff_dt={cutoff_dt}")
 
-        recent_runs.append(run)
+        if run_time >= cutoff_dt:
+            print(f"[DEBUG] KEEP: {run.get('name')} ({run['created_at']})")
+            recent_runs.append(run)
+        else:
+            print(f"[DEBUG] SKIP (too old): {run.get('name')} ({run['created_at']})")
+
+    print(f"[DEBUG] Runs after cutoff filter: {len(recent_runs)}")
 
     return recent_runs
 
