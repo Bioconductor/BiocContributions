@@ -251,6 +251,7 @@ for pkg, row in csv_rows.items():
                 resp = requests.post(url, headers=HEADERS, json={
                     "body": f"⚠️ Build detected for {pkg} with invalid version bump ({last_version} -> {version}). "
                             f"Only z should increase; please correct version.\n"
+                            f"Reports not posted but can be accessed directly at https://tempbioc.r-universe.dev/builds"
                 }, timeout=10)
                 resp.raise_for_status()
             except requests.RequestException as e:
@@ -258,7 +259,11 @@ for pkg, row in csv_rows.items():
 
     updated_rows.append(row)
 
-
+    #
+    # Parse r-universe Package json
+    #   Change Labels (Build OK, Build Warning, Build Error)
+    #   Assign Reviewer if no ERROR and not assigned
+    #
 
 # ----------------------------
 # Commit updated CSV if needed
