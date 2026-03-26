@@ -237,7 +237,7 @@ for pkg, row in csv_rows.items():
                 resp = requests.post(url, headers=HEADERS, json={
                     "body": f"✅ New build detected for {pkg}, version {version}.\n"
                             f"🔗 Detailed run: {run_url}\n"
-                            f"📊 Check summary table: https://tempbioc.r-universe.dev/{pkg}$checktable"
+                            f"📊 Check summary table: https://tempbioc.r-universe.dev/{pkg}#checktable"
                 }, timeout=10)
                 resp.raise_for_status()
             except requests.RequestException as e:
