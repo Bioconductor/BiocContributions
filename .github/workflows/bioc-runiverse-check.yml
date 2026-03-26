@@ -10,7 +10,7 @@ on:
         description: "Optional issue number for reference"
         required: false
   schedule:
-    - cron: "*/10 * * * *"  # every ten minutes
+    - cron: "*/10 * * * *"
 
 permissions:
   contents: write
@@ -21,22 +21,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ----------------------------
+      # Checkout default branch (code only)
+      # ----------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # REQUIRED for branch switching
 
+      # ----------------------------
+      # Setup Python
+      # ----------------------------
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install requests pyyaml
+        run: pip install requests
 
+      # ----------------------------
+      # Run tracker
+      # ----------------------------
       - name: Run Runiverse Build Tracker
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          SUBMISSIONS_FILE: submissions/submitted_packages.csv
+          SUBMISSIONS_PATH: submissions/submitted_packages.csv
           RUNIVERSE_WORKFLOW: "https://github.com/r-universe/tempbioc/actions/workflows/build.yml"
           PACKAGE_NAME: ${{ github.event.inputs.package_name }}
           ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}

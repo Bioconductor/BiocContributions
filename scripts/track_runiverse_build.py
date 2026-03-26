@@ -9,7 +9,7 @@ import re
 # Environment
 # ----------------------------
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
-SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_FILE", "submissions/submitted_packages.csv")
+SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
 RUNIVERSE_WORKFLOW = os.environ["RUNIVERSE_WORKFLOW"]
 PACKAGE_NAME = os.environ.get("PACKAGE_NAME")
 ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
@@ -28,7 +28,7 @@ cutoff_dt = datetime.utcnow() - timedelta(hours=4)
 print(f"[DEBUG] Cutoff datetime: {cutoff_dt}")
 
 # ----------------------------
-# Exact package matching 
+# Helper Functions
 # ----------------------------
 def matches_package(text, pkg):
     text_lower = text.lower()
@@ -37,9 +37,6 @@ def matches_package(text, pkg):
     pattern = r'(?<![a-z0-9])' + re.escape(pkg_lower) + r'(?![a-z0-9])'
     return re.search(pattern, text_lower) is not None
 
-# ----------------------------
-# Version helpers
-# ----------------------------
 def parse_version(ver):
     try:
         x, y, z = [int(p) for p in ver.split(".")]
@@ -55,6 +52,21 @@ def valid_z_bump(old, new):
     if old_x is None or new_x is None:
         return False
     return old_x == new_x and old_y == new_y and new_z > old_z
+
+def run_git_command(args):
+    result = subprocess.run(args, capture_output=True, text=True)
+    return result.returncode == 0
+
+
+def get_current_branch():
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        capture_output=True,
+        text=True
+    )
+    if result.returncode == 0:
+        return result.stdout.strip()
+    return None
 
 # ----------------------------
 # Get version from DESCRIPTION
@@ -80,7 +92,7 @@ def get_recent_workflow_runs():
     parts = RUNIVERSE_WORKFLOW.split("/")
     owner = parts[3]
     repo = parts[4]
-    workflow_file = parts[-1]  # build.yml
+    workflow_file = parts[-1]  
 
     url = f"https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_file}/runs"
 
@@ -247,23 +259,44 @@ for pkg, row in csv_rows.items():
     updated_rows.append(row)
 
 # ----------------------------
+# updated CSV if needed
+# ----------------------------
+# ----------------------------
 # Commit updated CSV if needed
 # ----------------------------
 if changes_made:
-    branch = "submissions"
-    subprocess.run(["git", "fetch", "origin", branch])
-    subprocess.run(["git", "checkout", "-B", branch, f"origin/{branch}"])
+    current_branch = get_current_branch()
+    actor = os.environ.get("GITHUB_ACTOR", "github-actions[bot]")
 
-    fieldnames = ["package_name","repo_full","submitter","issue_number","last_sha","last_version"]
+    # --- switch to submissions branch ---
+    run_git_command(["git", "fetch", "origin", "submissions"])
+    run_git_command(["git", "checkout", "-B", "submissions", "origin/submissions"])
+
+    # --- ensure directory exists ---
+    os.makedirs(os.path.dirname(SUBMISSIONS_FILE), exist_ok=True)
+
+    # --- write updated CSV ---
     with open(SUBMISSIONS_FILE, "w", newline="") as f:
+        fieldnames = ["package_name","repo_full","submitter","issue_number","last_sha","last_version"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(updated_rows)
 
-    subprocess.run(["git", "config", "user.name", "Bioconductor Bot"])
-    subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"])
-    subprocess.run(["git", "add", SUBMISSIONS_FILE])
-    subprocess.run(["git", "commit", "-m", "Update build SHAs and versions"])
-    subprocess.run(["git", "push", "origin", branch])
+    # --- commit + push ---
+    run_git_command(["git", "config", "user.name", actor])
+    run_git_command(["git", "config", "user.email", f"{actor}@users.noreply.github.com"])
+    run_git_command(["git", "add", SUBMISSIONS_FILE])
+
+    committed = run_git_command(["git", "commit", "-m", "Update build SHAs and versions"])
+
+    if committed:
+        run_git_command(["git", "push", "origin", "submissions"])
+
+    # --- return to original branch ---
+    if current_branch:
+        run_git_command(["git", "checkout", current_branch])
+
+    print("[INFO] CSV updated and pushed to submissions branch")
+
 else:
-    print("[INFO] No updates detected; nothing to commit.")
+    print("[INFO] No updates detected")
