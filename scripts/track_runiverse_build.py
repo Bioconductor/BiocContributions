@@ -71,13 +71,13 @@ def get_current_branch():
 # ----------------------------
 # Get version from DESCRIPTION
 # ----------------------------
-def get_version_from_description(owner, repo, sha):
-    url = f"https://raw.githubusercontent.com/{owner}/{repo}/{sha}/DESCRIPTION"
+def get_version_from_description(pkg, branch="devel"):
+    url = f"https://raw.githubusercontent.com/tempbioc/{pkg}/{branch}/DESCRIPTION"
     try:
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(f"[WARN] Could not fetch DESCRIPTION for {owner}/{repo}@{sha}: {e}")
+        print(f"[WARN] Could not fetch DESCRIPTION for {pkg}@{branch}: {e}")
         return None
 
     for line in resp.text.splitlines():
@@ -211,30 +211,22 @@ for pkg, row in csv_rows.items():
         updated_rows.append(row)
         continue
 
-    sha = run_info["sha"]
     run_url = run_info["run_url"]
     last_sha = row.get("last_sha", "")
     last_version = row.get("last_version", "")
 
-    try:
-        owner, repo = row["repo_full"].split("/")
-    except Exception:
+    if last_sha == run_info["sha"]:
         updated_rows.append(row)
         continue
 
-    if sha == last_sha:
-        updated_rows.append(row)
-        continue
-
-    version = get_version_from_description(owner, repo, sha)
+    version = get_version_from_description(pkg)
     if not version:
         updated_rows.append(row)
         continue
 
     if valid_z_bump(last_version, version):
-
         print(f"[INFO] {pkg}: New build detected {last_version} -> {version}")
-        row["last_sha"] = sha
+        row["last_sha"] = run_info["sha"]
         row["last_version"] = version
         changes_made = True
 
@@ -266,9 +258,8 @@ for pkg, row in csv_rows.items():
 
     updated_rows.append(row)
 
-# ----------------------------
-# updated CSV if needed
-# ----------------------------
+
+
 # ----------------------------
 # Commit updated CSV if needed
 # ----------------------------
