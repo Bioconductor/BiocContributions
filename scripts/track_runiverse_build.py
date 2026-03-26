@@ -142,6 +142,10 @@ def get_recent_workflow_runs():
 # Load CSV submissions
 # ----------------------------
 csv_rows = {}
+current_branch = get_current_branch()
+run_git_command(["git", "fetch", "origin", "submissions"])
+run_git_command(["git", "checkout", "-B", "submissions", "origin/submissions"])
+
 if os.path.exists(SUBMISSIONS_FILE):
     with open(SUBMISSIONS_FILE, newline="") as f:
         reader = csv.DictReader(f)
@@ -149,10 +153,14 @@ if os.path.exists(SUBMISSIONS_FILE):
             row.setdefault("last_sha", "")
             row.setdefault("last_version", "")
             csv_rows[row["package_name"]] = row
+
 print(f"[DEBUG] SUBMISSIONS_FILE path: {SUBMISSIONS_FILE}")
 print(f"[DEBUG] CSV rows loaded: {len(csv_rows)}")
 print(f"[DEBUG] CSV package names: {list(csv_rows.keys())}")
 
+if current_branch:
+    run_git_command(["git", "checkout", current_branch])
+    
 # ----------------------------
 # Map package -> latest run
 # ----------------------------
