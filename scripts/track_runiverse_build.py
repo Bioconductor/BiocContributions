@@ -152,6 +152,7 @@ if os.path.exists(SUBMISSIONS_FILE):
         for row in reader:
             row.setdefault("last_sha", "")
             row.setdefault("last_version", "")
+            row.setdefault("last_valid_version", "")
             csv_rows[row["package_name"]] = row
 
 print(f"[DEBUG] SUBMISSIONS_FILE path: {SUBMISSIONS_FILE}")
@@ -214,20 +215,42 @@ for pkg, row in csv_rows.items():
     run_url = run_info["run_url"]
     last_sha = row.get("last_sha", "")
     last_version = row.get("last_version", "")
+    last_valid_version = row.get("last_valid_version", "")
+    
+    version = get_version_from_description(pkg)
+    if not version:
+        updated_rows.append(row)
+        continue
+    
+    if version == last_version:
+        if last_sha != run_info["sha"]:
+            issue_num = row.get("issue_number")
+            if issue_num:
+                url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}/comments"
+                try:
+                    requests.post(url, headers=HEADERS, json={
+                        "body": f"⚠️ A new commit was detected for {pkg}, but the package version ({version}) was not updated.\n"
+                                f"Please increment the z component (x.99.z).\n"
+                                f"🔗  Detailed run: {run_url}"
+                    }, timeout=10)
+                except requests.RequestException as e:
+                    print(f"[ERROR] Failed to post no-version-bump warning for {pkg}: {e}")
+
+            row["last_sha"] = run_info["sha"]
+            changes_made = True
+
+        updated_rows.append(row)
+        continue
 
     if last_sha == run_info["sha"]:
         updated_rows.append(row)
         continue
 
-    version = get_version_from_description(pkg)
-    if not version:
-        updated_rows.append(row)
-        continue
-
-    if valid_z_bump(last_version, version):
-        print(f"[INFO] {pkg}: New build detected {last_version} -> {version}")
+    if valid_z_bump(last_valid_version, version):
+        print(f"[INFO] {pkg}: New build detected {last_valid_version} -> {version}")
         row["last_sha"] = run_info["sha"]
         row["last_version"] = version
+        row["last_valid_version"] = version
         changes_made = True
 
         issue_num = row.get("issue_number")
@@ -243,19 +266,22 @@ for pkg, row in csv_rows.items():
             except requests.RequestException as e:
                 print(f"[ERROR] Failed to post success comment for {pkg}: {e}")
     else:
-        print(f"[WARN] {pkg}: Version bump invalid ({last_version} -> {version})")
-        issue_num = row.get("issue_number")
-        if issue_num:
-            url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}/comments"
-            try:
-                resp = requests.post(url, headers=HEADERS, json={
-                    "body": f"⚠️ Build detected for {pkg} with invalid version bump ({last_version} -> {version}). "
-                            f"Only z should increase; please correct version.\n"
-                            f"Reports not posted but can be accessed directly at https://tempbioc.r-universe.dev/builds"
-                }, timeout=10)
-                resp.raise_for_status()
-            except requests.RequestException as e:
-                print(f"[ERROR] Failed to post warning comment for {pkg}: {e}")
+        if version != last_version:
+            print(f"[WARN] {pkg}: Version bump invalid ({last_valid_version} -> {version})")
+            row["last_version"] = version
+            changes_made = True
+            issue_num = row.get("issue_number")
+            if issue_num:
+                url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}/comments"
+                try:
+                    resp = requests.post(url, headers=HEADERS, json={
+                        "body": f"⚠️ Build detected for {pkg} with invalid version bump ({last_version} -> {version}). "
+                                f"Only z should increase; please correct version.\n"
+                                f"Reports not posted but can be accessed directly at https://tempbioc.r-universe.dev/builds"
+                       }, timeout=10)
+                    resp.raise_for_status()
+                except requests.RequestException as e:
+                    print(f"[ERROR] Failed to post warning comment for {pkg}: {e}")
 
     updated_rows.append(row)
 
@@ -281,7 +307,7 @@ if changes_made:
 
     # --- write updated CSV ---
     with open(SUBMISSIONS_FILE, "w", newline="") as f:
-        fieldnames = ["package_name","repo_full","submitter","issue_number","last_sha","last_version"]
+        fieldnames = ["package_name","repo_full","submitter","issue_number","last_sha","last_version","last_valid_version"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(updated_rows)
