@@ -6,10 +6,8 @@ import subprocess
 # --------------------------------------------
 # Environment
 # --------------------------------------------
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]             # workflow repo token
-BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")     # org/team membership
-TARGET_GITHUB_TOKEN = os.environ.get("TARGET_GITHUB_TOKEN")  # repo actions
-
+GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]             # repo workflow token
+BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")     # org/team token
 ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
@@ -31,17 +29,15 @@ if label_name != "assign reviewer":
 # --------------------------------------------
 # Headers
 # --------------------------------------------
-# For org/team API calls
 ORG_HEADERS = {
     "Authorization": f"Bearer {BIOC_ORG_TOKEN}",
     "Accept": "application/vnd.github+json"
 } if BIOC_ORG_TOKEN else {"Authorization": f"Bearer {GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
 
-# For repo-level actions (issues, comments, assignees)
 REPO_HEADERS = {
-    "Authorization": f"Bearer {TARGET_GITHUB_TOKEN}",
+    "Authorization": f"Bearer {GITHUB_TOKEN}",
     "Accept": "application/vnd.github+json"
-} if TARGET_GITHUB_TOKEN else {"Authorization": f"Bearer {GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
+}
 
 # --------------------------------------------
 # Helper Functions
@@ -50,12 +46,18 @@ def add_label(issue_number, label):
     owner, repo = REPO_FULL.split("/")
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
     r = requests.post(url, headers=REPO_HEADERS, json={"labels": [label]})
+    r.raise_for_status()
+    print(f"[DEBUG] Label '{label}' added to issue #{issue_number}")
 
 
 def remove_label(issue_number, label):
     owner, repo = REPO_FULL.split("/")
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
     r = requests.delete(url, headers=REPO_HEADERS)
+    if r.status_code in (200, 204, 404):
+        print(f"[DEBUG] Label '{label}' removed from issue #{issue_number}")
+    else:
+        r.raise_for_status()
 
 
 # --------------------------------------------
