@@ -69,7 +69,7 @@ jobs:
       - name: Clone Default Branch & Register
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
+          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
           GIT_TARGET_ORG: "tempbioc"
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
