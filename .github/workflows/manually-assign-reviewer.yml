@@ -35,4 +35,4 @@ jobs:
           EXCLUDED_REVIEWERS: ${{ secrets.EXCLUDED_REVIEWERS }}
           REVIEWER_STATE_PATH: submissions/last_assignee.txt
           TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
-        run: python scripts/assign-reviewer.py
+        run: python scripts/assign_reviewer.py
