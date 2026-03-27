@@ -14,5 +14,5 @@ PharmacoGx,bhklab/PharmacoGx,p-smirnov,23,,,
 signeR,rvalieris/signeR,rvalieris,24,,,
 gread,asrinivasan-oa/gread,asrinivasan-oa,25,,,
 CVE,andreasmock/CVE,andreasmock,26,,,
-LoriPkgTest2,lshep/LoriPkgTest2,lshep,16,,0.99.0,0.99.0
-LoriTestPkg4,lshep/LoriTestPkg4,lshep,18,,0.99.3,0.99.3
+LoriPkgTest2,lshep/LoriPkgTest2,lshep,16,73999825923d6ead19e6c2207981830ad1a0068e,0.99.0,0.99.0
+LoriTestPkg4,lshep/LoriTestPkg4,lshep,18,394cffb8fed71474f3e4ff41d2154a5ed05d21f6,0.99.3,0.99.3
