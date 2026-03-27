@@ -7,7 +7,9 @@ import subprocess
 # Environment
 # --------------------------------------------
 TOKEN = os.environ["GITHUB_TOKEN"]
-ORG_NAME = os.environ["ORG_NAME"]
+#ORG_NAME = os.environ["ORG_NAME"]
+# temporarily use testing team at tempbioc
+ORG_NAME = "tempbioc"
 TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
