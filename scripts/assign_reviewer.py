@@ -6,10 +6,11 @@ import subprocess
 # --------------------------------------------
 # Environment
 # --------------------------------------------
-TOKEN = os.environ["GITHUB_TOKEN"]
-#ORG_NAME = os.environ["ORG_NAME"]
-# temporarily use testing team at tempbioc
-ORG_NAME = "tempbioc"
+GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]             # workflow repo token
+BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")     # org/team membership
+TARGET_GITHUB_TOKEN = os.environ.get("TARGET_GITHUB_TOKEN")  # repo actions
+
+ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
@@ -26,44 +27,47 @@ label_name = event["label"]["name"]
 if label_name != "assign reviewer":
     print(f"Label '{label_name}' is not 'assign reviewer', exiting.")
     exit(0)
-   
-TARGET_GITHUB_TOKEN = os.environ["TARGET_GITHUB_TOKEN"]
-headers = {"Authorization": f"Bearer {TOKEN}", "Accept": "application/vnd.github+json"}
-headersV2 = {"Authorization": f"Bearer {TARGET_GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
 
 # --------------------------------------------
-# Helper Functions 
+# Headers
+# --------------------------------------------
+# For org/team API calls
+ORG_HEADERS = {
+    "Authorization": f"Bearer {BIOC_ORG_TOKEN}",
+    "Accept": "application/vnd.github+json"
+} if BIOC_ORG_TOKEN else {"Authorization": f"Bearer {GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
+
+# For repo-level actions (issues, comments, assignees)
+REPO_HEADERS = {
+    "Authorization": f"Bearer {TARGET_GITHUB_TOKEN}",
+    "Accept": "application/vnd.github+json"
+} if TARGET_GITHUB_TOKEN else {"Authorization": f"Bearer {GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
+
+# --------------------------------------------
+# Helper Functions
 # --------------------------------------------
 def add_label(issue_number, label):
     owner, repo = REPO_FULL.split("/")
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
-    r = requests.post(url, headers=headers, json={"labels": [label]})
-    r.raise_for_status()
-    print(f"[DEBUG] Label '{label}' added to issue #{issue_number}")
+    r = requests.post(url, headers=REPO_HEADERS, json={"labels": [label]})
 
 
 def remove_label(issue_number, label):
     owner, repo = REPO_FULL.split("/")
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
-    r = requests.delete(url, headers=headers)
-    if r.status_code in (200, 204, 404):
-        print(f"[DEBUG] Label '{label}' removed from issue #{issue_number}")
-    else:
-        r.raise_for_status()
+    r = requests.delete(url, headers=REPO_HEADERS)
 
 
 # --------------------------------------------
 # Retrieve all reviewers
 # --------------------------------------------
-
-r = requests.get(f"https://api.github.com/orgs/{ORG_NAME}/teams/{TEAM}/members", headers=headersV2)
+r = requests.get(f"https://api.github.com/orgs/{ORG_NAME}/teams/{TEAM}/members", headers=ORG_HEADERS)
 r.raise_for_status()
 all_members = [m["login"] for m in r.json()]
 
 # --------------------------------------------
-# excluded reviewers (temporary leave or requested break)
+# Excluded reviewers
 # --------------------------------------------
-
 excluded_raw = os.environ.get("EXCLUDED_REVIEWERS", "")
 excluded = [x.strip() for x in excluded_raw.split(",") if x.strip()]
 eligible_reviewers = [m for m in all_members if m not in excluded]
@@ -73,9 +77,8 @@ print(f"[DEBUG] excluded_members: {excluded}")
 print(f"[DEBUG] eligible_reviewers: {eligible_reviewers}")
 
 # --------------------------------------------
-# check if label was added by a member of the team
+# Check if label was added by a member of the team
 # --------------------------------------------
-
 sender = event.get("sender", {}).get("login")
 if sender not in all_members:
     print(f"User '{sender}' is not allowed to assign reviewers. Exiting.")
@@ -86,9 +89,8 @@ if not eligible_reviewers:
     exit(0)
 
 # --------------------------------------------
-# Checkout submissions branch where last_assignee.txt lives
+# Checkout submissions branch for last_assignee.txt
 # --------------------------------------------
-
 subprocess.run(["git", "fetch", "origin", "submissions"], check=True)
 subprocess.run(["git", "checkout", "-B", "submissions", "origin/submissions"], check=True)
 
@@ -98,11 +100,10 @@ if os.path.exists(REVIEWER_STATE_FILE):
         last_assigned = f.read().strip()
 
 print(f"[DEBUG] last_assigned: {last_assigned}")
-        
-# --------------------------------------------
-# Determine and assign next reviewer
-# --------------------------------------------
 
+# --------------------------------------------
+# Determine next reviewer (round-robin)
+# --------------------------------------------
 if last_assigned in eligible_reviewers:
     idx = eligible_reviewers.index(last_assigned)
     next_idx = (idx + 1) % len(eligible_reviewers)
@@ -112,14 +113,16 @@ reviewer = eligible_reviewers[next_idx]
 
 print(f"Assigning reviewer: {reviewer}")
 
+# --------------------------------------------
+# Assign reviewer
+# --------------------------------------------
 assign_url = f"https://api.github.com/repos/{REPO_FULL}/issues/{ISSUE_NUMBER}/assignees"
-r2 = requests.post(assign_url, headers=headers, json={"assignees": [reviewer]})
+r2 = requests.post(assign_url, headers=REPO_HEADERS, json={"assignees": [reviewer]})
 r2.raise_for_status()
 print(f"Reviewer {reviewer} assigned successfully.")
 
 # --------------------------------------------
-# Overwrite last_assignee.txt with new reviewer
-#   and commit & push to submissions branch
+# Update last_assignee.txt and commit
 # --------------------------------------------
 os.makedirs(os.path.dirname(REVIEWER_STATE_FILE), exist_ok=True)
 with open(REVIEWER_STATE_FILE, "w") as f:
@@ -132,18 +135,16 @@ subprocess.run(['git', 'commit', '-m', f"Update last assigned reviewer for {TEAM
 subprocess.run(['git', 'push', 'origin', 'submissions'], check=True)
 
 # --------------------------------------------
-# Update Labels and Post Comment
+# Remove label and post comment
 # --------------------------------------------
-
 remove_label(ISSUE_NUMBER, "assign reviewer")
 
 comment_url = f"https://api.github.com/repos/{REPO_FULL}/issues/{ISSUE_NUMBER}/comments"
 comment_body = {"body": f"👤 Reviewer @{reviewer} has been assigned."}
 
-r3 = requests.post(comment_url, headers=headers, json=comment_body)
+r3 = requests.post(comment_url, headers=REPO_HEADERS, json=comment_body)
 try:
     r3.raise_for_status()
     print(f"Comment posted: Reviewer {reviewer} assigned.")
 except requests.RequestException as e:
     print(f"[ERROR] Failed to post assignment comment: {e}")
-

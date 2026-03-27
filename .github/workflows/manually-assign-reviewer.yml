@@ -28,11 +28,12 @@ jobs:
       - name: Assign reviewer from PackageReviewers
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
           ORG_NAME: Bioconductor
           TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           EXCLUDED_REVIEWERS: ${{ secrets.EXCLUDED_REVIEWERS }}
           REVIEWER_STATE_PATH: submissions/last_assignee.txt
-          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
         run: python scripts/assign_reviewer.py
