@@ -181,7 +181,8 @@ def record_submission(package_name, owner, repo, package_version):
             "submitter": submitter,
             "issue_number": issue_number,
             "last_sha": "",
-            "last_version": package_version
+            "last_version": package_version,
+            "last_valid_version": package_version
         })
 
     # --- 4. Configure Git user ---
