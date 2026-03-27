@@ -26,41 +26,35 @@ if label_name != "assign reviewer":
     exit(0)
    
 TARGET_GITHUB_TOKEN = os.environ["TARGET_GITHUB_TOKEN"]
-#headers = {"Authorization": f"Bearer {TOKEN}", "Accept": "application/vnd.github+json"}
-headers = {"Authorization": f"Bearer {TARGET_GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
+headers = {"Authorization": f"Bearer {TOKEN}", "Accept": "application/vnd.github+json"}
+headersV2 = {"Authorization": f"Bearer {TARGET_GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
 
 # --------------------------------------------
 # Helper Functions 
 # --------------------------------------------
 def add_label(issue_number, label):
-    with open(EVENT_PATH) as f:
-        event = json.load(f)
-
-    #issue_number = event["issue"]["number"]
     owner, repo = REPO_FULL.split("/")
-
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
-    github_post(url, {"labels": [label]})
+    r = requests.post(url, headers=headers, json={"labels": [label]})
+    r.raise_for_status()
+    print(f"[DEBUG] Label '{label}' added to issue #{issue_number}")
 
 
 def remove_label(issue_number, label):
-    """Remove a GitHub label from the issue."""
-    with open(EVENT_PATH) as f:
-        event = json.load(f)
-
-    #issue_number = event["issue"]["number"]
     owner, repo = REPO_FULL.split("/")
-
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
-    requests.delete(url, headers=HEADERS)
-
+    r = requests.delete(url, headers=headers)
+    if r.status_code in (200, 204, 404):
+        print(f"[DEBUG] Label '{label}' removed from issue #{issue_number}")
+    else:
+        r.raise_for_status()
 
 
 # --------------------------------------------
 # Retrieve all reviewers
 # --------------------------------------------
 
-r = requests.get(f"https://api.github.com/orgs/{ORG_NAME}/teams/{TEAM}/members", headers=headers)
+r = requests.get(f"https://api.github.com/orgs/{ORG_NAME}/teams/{TEAM}/members", headers=headersV2)
 r.raise_for_status()
 all_members = [m["login"] for m in r.json()]
 
@@ -136,7 +130,18 @@ subprocess.run(['git', 'commit', '-m', f"Update last assigned reviewer for {TEAM
 subprocess.run(['git', 'push', 'origin', 'submissions'], check=True)
 
 # --------------------------------------------
-# Update Labels
+# Update Labels and Post Comment
 # --------------------------------------------
 
 remove_label(ISSUE_NUMBER, "assign reviewer")
+
+comment_url = f"https://api.github.com/repos/{REPO_FULL}/issues/{ISSUE_NUMBER}/comments"
+comment_body = {"body": f"👤 Reviewer @{reviewer} has been assigned."}
+
+r3 = requests.post(comment_url, headers=headers, json=comment_body)
+try:
+    r3.raise_for_status()
+    print(f"Comment posted: Reviewer {reviewer} assigned.")
+except requests.RequestException as e:
+    print(f"[ERROR] Failed to post assignment comment: {e}")
+
