@@ -51,4 +51,6 @@ jobs:
           RUNIVERSE_WORKFLOW: "https://github.com/r-universe/tempbioc/actions/workflows/build.yml"
           PACKAGE_NAME: ${{ github.event.inputs.package_name }}
           ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
         run: python scripts/track_runiverse_build.py

@@ -13,9 +13,21 @@ SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_pac
 RUNIVERSE_WORKFLOW = os.environ["RUNIVERSE_WORKFLOW"]
 PACKAGE_NAME = os.environ.get("PACKAGE_NAME")
 ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
+BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")
+TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
+
+ORG_HEADERS = {
+    "Authorization": f"Bearer {BIOC_ORG_TOKEN}",
+    "Accept": "application/vnd.github+json"
+} if BIOC_ORG_TOKEN else HEADERS
+
+TEMP_BIOC_HEADERS = {
+    "Authorization": f"Bearer {TEMP_BIOC_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -105,7 +117,7 @@ def get_recent_workflow_runs():
     print(f"[DEBUG] Fetching workflow runs: {url}")
 
     try:
-        resp = requests.get(url, headers=HEADERS, params=params, timeout=10)
+        resp = requests.get(url, headers=TEMP_BIOC_HEADERS, params=params, timeout=10)
         resp.raise_for_status()
     except requests.RequestException as e:
         print(f"[WARN] Failed to fetch workflow runs: {e}")
@@ -221,7 +233,31 @@ for pkg, row in csv_rows.items():
     if not version:
         updated_rows.append(row)
         continue
-    
+
+    # First build: last_sha is empty
+    first_build = (not last_sha)
+
+    if first_build:
+        print(f"[INFO] {pkg}: First build detected, version {version}")
+        row["last_sha"] = run_info["sha"]
+        changes_made = True
+
+        issue_num = row.get("issue_number")
+        if issue_num:
+            url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}/comments"
+            try:
+                requests.post(url, headers=HEADERS, json={
+                    "body": f"✅ First build detected for {pkg}, version {version}.\n"
+                            f"🔗 Detailed run: {run_url}\n"
+                            f"📊 Check summary table: https://tempbioc.r-universe.dev/{pkg}#checktable"
+                }, timeout=10)
+            except requests.RequestException as e:
+                print(f"[ERROR] Failed to post first-build comment for {pkg}: {e}")
+
+        updated_rows.append(row)
+        continue
+
+    # Version matches last_version
     if version == last_version:
         if last_sha != run_info["sha"]:
             issue_num = row.get("issue_number")
@@ -242,10 +278,12 @@ for pkg, row in csv_rows.items():
         updated_rows.append(row)
         continue
 
+    # SHA matches last SHA
     if last_sha == run_info["sha"]:
         updated_rows.append(row)
         continue
 
+    # Valid z bump
     if valid_z_bump(last_valid_version, version):
         print(f"[INFO] {pkg}: New build detected {last_valid_version} -> {version}")
         row["last_sha"] = run_info["sha"]
@@ -266,6 +304,7 @@ for pkg, row in csv_rows.items():
             except requests.RequestException as e:
                 print(f"[ERROR] Failed to post success comment for {pkg}: {e}")
     else:
+        # Invalid bump
         if version != last_version:
             print(f"[WARN] {pkg}: Version bump invalid ({last_valid_version} -> {version})")
             row["last_version"] = version
@@ -284,7 +323,7 @@ for pkg, row in csv_rows.items():
                     print(f"[ERROR] Failed to post warning comment for {pkg}: {e}")
 
     updated_rows.append(row)
-
+    
     #
     # Parse r-universe Package json
     #   Change Labels (Build OK, Build Warning, Build Error)
