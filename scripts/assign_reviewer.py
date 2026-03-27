@@ -140,6 +140,8 @@ subprocess.run(['git', 'push', 'origin', 'submissions'], check=True)
 # Remove label and post comment
 # --------------------------------------------
 remove_label(ISSUE_NUMBER, "assign reviewer")
+remove_label(ISSUE_NUMBER, "pre-review")
+add_label(ISSUE_NUMBER, "review in progress")
 
 comment_url = f"https://api.github.com/repos/{REPO_FULL}/issues/{ISSUE_NUMBER}/comments"
 comment_body = {"body": f"👤 Reviewer @{reviewer} has been assigned."}
