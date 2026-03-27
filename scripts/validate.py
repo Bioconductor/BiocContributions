@@ -169,7 +169,7 @@ def record_submission(package_name, owner, repo, package_version):
     # --- 3. Append row to CSV ---
     file_exists = os.path.exists(submissions_csv)
     with open(submissions_csv, "a", newline="") as csvfile:
-        fieldnames = ["package_name", "repo_full", "submitter", "issue_number", "last_sha", "last_version"]
+        fieldnames = ["package_name", "repo_full", "submitter", "issue_number", "last_sha", "last_version", "last_valid_version"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         if not file_exists:
