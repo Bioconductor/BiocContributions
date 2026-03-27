@@ -15,11 +15,17 @@ GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
+BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
+
+ORG_HEADERS = {
+    "Authorization": f"Bearer {BIOC_ORG_TOKEN}",
+    "Accept": "application/vnd.github+json"
+} if BIOC_ORG_TOKEN else HEADERS
 
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
@@ -29,7 +35,6 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 # ----------------------------
 
 def run_git_command(args):
-    """Run git command safely and return True if success."""
     result = subprocess.run(args, capture_output=True, text=True)
     return result.returncode == 0
 
@@ -94,7 +99,6 @@ def has_label(label_name):
 # ----------------------------
 
 def get_current_branch():
-    """Return the current git branch name, or None if it cannot be determined."""
     result = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True)
     if result.returncode == 0:
         return result.stdout.strip()
@@ -102,17 +106,14 @@ def get_current_branch():
 
 
 def load_submissions():
-    """Load submissions from the CSV on the submissions branch."""
     submissions = []
 
     submissions_csv = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
     current_branch = get_current_branch()
 
-    # Fetch & checkout submissions branch
     run_git_command(["git", "fetch", "origin", "submissions"])
     run_git_command(["git", "checkout", "-B", "submissions", "origin/submissions"])
 
-    # Read CSV if it exists
     if os.path.exists(submissions_csv):
         with open(submissions_csv, newline="") as csvfile:
             reader = csv.DictReader(csvfile)
@@ -121,7 +122,6 @@ def load_submissions():
                 row.setdefault("last_version", "")
                 submissions.append(row)
 
-    # Return to original branch
     if current_branch:
         run_git_command(["git", "checkout", current_branch])
 
@@ -143,10 +143,6 @@ def check_duplicate(package_name):
 
 
 def record_submission(package_name, owner, repo, package_version):
-    """
-    Append a new submission to the submissions branch CSV.
-    Ensures the branch exists, appends safely, commits, pushes, and returns to the original branch.
-    """
 
     with open(EVENT_PATH) as f:
         event = json.load(f)
@@ -159,14 +155,11 @@ def record_submission(package_name, owner, repo, package_version):
     actor = os.environ.get("GITHUB_ACTOR", "github-actions[bot]")
     current_branch = get_current_branch()
 
-    # --- 1. Fetch and checkout submissions branch ---
     run_git_command(["git", "fetch", "origin", "submissions"])
     run_git_command(["git", "checkout", "-B", "submissions", "origin/submissions"])
 
-    # --- 2. Ensure directory exists ---
     os.makedirs(os.path.dirname(submissions_csv), exist_ok=True)
 
-    # --- 3. Append row to CSV ---
     file_exists = os.path.exists(submissions_csv)
     with open(submissions_csv, "a", newline="") as csvfile:
         fieldnames = ["package_name", "repo_full", "submitter", "issue_number", "last_sha", "last_version", "last_valid_version"]
@@ -185,11 +178,9 @@ def record_submission(package_name, owner, repo, package_version):
             "last_valid_version": package_version
         })
 
-    # --- 4. Configure Git user ---
     run_git_command(["git", "config", "user.name", actor])
     run_git_command(["git", "config", "user.email", f"{actor}@users.noreply.github.com"])
 
-    # --- 5. Commit and push ---
     run_git_command(["git", "add", submissions_csv])
     commit_message = f"Record submission of {package_name} by {submitter} (issue #{issue_number})"
     committed = run_git_command(["git", "commit", "-m", commit_message])
@@ -197,7 +188,6 @@ def record_submission(package_name, owner, repo, package_version):
     if committed:
         run_git_command(["git", "push", "origin", "submissions"])
 
-    # --- 6. Return to original branch ---
     if current_branch:
         run_git_command(["git", "checkout", current_branch])
 
@@ -207,25 +197,24 @@ def record_submission(package_name, owner, repo, package_version):
 # ----------------------------
 
 def is_team_member(org, team_slug, username):
-    """
-    Temporary override for local development.
-    Always returns True so team restrictions are bypassed.
     url = f"https://api.github.com/orgs/{org}/teams/{team_slug}/memberships/{username}"
-    r = requests.get(url, headers=HEADERS)
-    return r.status_code == 200
-    """
-    return True
+    r = requests.get(url, headers=ORG_HEADERS)
 
+    if r.status_code == 200:
+        data = r.json()
+        return data.get("state") == "active"
+
+    if r.status_code == 404:
+        return False
+
+    print(f"[WARN] Team membership check failed: {r.status_code} {r.text}")
+    return False
 
 def allow_large_file_override():
-    """
-    Returns True if the issue has the allow-large-files label
-    """
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
     labels = event["issue"].get("labels", [])
-    # For local dev, is_team_member always returns True
     return any(label["name"] == "allow-large-files" for label in labels)
 
 
@@ -234,10 +223,6 @@ def allow_large_file_override():
 # ----------------------------
 
 def check_git_lfs(owner, repo):
-    """
-    Checks if the repository uses Git LFS by inspecting the .gitattributes file.
-    Returns a list of failure messages if Git LFS usage is detected or if the file cannot be read.
-    """
     failures = []
 
     # Fetch .gitattributes from repo

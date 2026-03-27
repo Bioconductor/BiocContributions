@@ -30,6 +30,7 @@ jobs:
       - name: Run validation
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           SUBMISSIONS_PATH: submissions/submitted_packages.csv
