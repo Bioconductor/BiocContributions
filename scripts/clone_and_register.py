@@ -219,9 +219,6 @@ def update_registry(repo_path):
 # ----------------------------
 # Main
 # ----------------------------
-# ----------------------------
-# Main
-# ----------------------------
 if __name__ == "__main__":
     add_label("pre-review")
     repo_path, clone_msg = clone_and_push()
@@ -232,26 +229,27 @@ if __name__ == "__main__":
 
 {registry_msg}
 
-Your package is cloned to the Bioconductor new submission source repository
-and r-universe for testing.
+Your package is cloned to the Bioconductor new submission source repository and r-universe for testing.
 
 If you want to push command line updates, you need to update your remotes:
+```
   git remote add tempbioc https://github.com/{GIT_TARGET_ORG}/{repo_path.split('/')[-1]}
   git push tempbioc devel
+```
 
 Bioconductor uses **devel** as its default branch.
 If you use a different branch (example: main) map branches when pushing:
+``` 
   git push tempbioc main:devel
+```
 
 You will receive your build report shortly.
 
 Reminders:
 
   - All packages should be free of Errors and Warnings.
-  - Any Errors or Warnings must be fixed or justified; a reviewer
-    will not be assigned until this is complete.
-  - Once a reviewer is assigned, address their comments with a
-    point-by-point response.
+  - Any Errors or Warnings must be fixed or justified; a reviewer will not be assigned until this is complete.
+  - Once a reviewer is assigned, address their comments with a point-by-point response.
 """
 
     post_comment(full_message)
