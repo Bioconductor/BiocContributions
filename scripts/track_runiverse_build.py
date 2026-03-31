@@ -98,7 +98,7 @@ def get_queue_owner_repo():
         return repo.split("/")
     return None, None
 
-def update_labels(issue_number, status_list, headers=None):
+def update_labels(issue_number, status_list, issue_data, headers=None):
 
     if headers is None:
         headers = HEADERS
@@ -111,15 +111,6 @@ def update_labels(issue_number, status_list, headers=None):
     # Map status_list to canonical labels
     desired_labels = [STATUS_LABELS[s] for s in status_list if s in STATUS_LABELS]
 
-    url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_number}"
-    try:
-        resp = requests.get(url, headers=headers, timeout=10)
-        resp.raise_for_status()
-    except requests.RequestException as e:
-        print(f"[ERROR] Failed to fetch issue #{issue_number}: {e}")
-        return
-
-    issue_data = resp.json()
     current_labels = [lbl["name"] for lbl in issue_data.get("labels", [])]
 
     to_add = [lbl for lbl in desired_labels if lbl not in current_labels]
@@ -409,8 +400,18 @@ for pkg, row in csv_rows.items():
 
     ru = parse_runiverse_build(pkg)
     issue_num = row.get("issue_number")
+    issue_data = None
     if issue_num:
-        update_labels(issue_number, ru['status'], headers=HEADERS)
+        url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_num}"
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=10)
+            resp.raise_for_status()
+            issue_data = resp.json()
+        except requests.RequestException as e:
+            print(f"[ERROR] Failed to fetch issue #{issue_num}: {e}")
+
+    if issue_data:
+        update_labels(issue_num, ru['status'], issue_data, headers=HEADERS)
     
     # First build: last_sha is empty
     first_build = (not last_sha)
