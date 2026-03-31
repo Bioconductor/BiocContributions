@@ -79,23 +79,23 @@ def create_target_repo(repo_name):
     data = {"name": repo_name, "private": False, "auto_init": False}
     r = requests.post(url, headers=TEMP_BIOC_HEADERS, json=data)
     if r.status_code not in [201, 422]:
-        post_comment(f"❌ Failed to create repo: {r.text}")
+        print(f"❌ Failed to create repo: {r.status_code} {r.text}")
         sys.exit(1)
 
 def set_default_branch(repo_name, branch="devel"):
     url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}"
     r = requests.patch(url, headers=TEMP_BIOC_HEADERS, json={"default_branch": branch})
     if r.status_code != 200:
-        post_comment(f"⚠️ Could not set default branch to {branch}: {r.text}")
+        print(f"⚠️ Could not set default branch to {branch}: {r.status_code} {r.text}")
 
 def add_collaborator(repo_name, username, permission="write"):
     url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}/collaborators/{username}"
     data = {"permission": permission}
     r = requests.put(url, headers=TEMP_BIOC_HEADERS, json=data)
     if r.status_code not in [201, 204]:
-        post_comment(f"⚠️ Failed to add @{username}: {r.text}")
+        print(f"⚠️ Failed to add @{username}: {r.status_code} {r.text}")
     else:
-        post_comment(f"✅ Added @{username} as collaborator with {permission} access")
+        print(f"✅ Added @{username} as collaborator with {permission} access")
 
 # ----------------------------
 # Clone & push
@@ -103,7 +103,7 @@ def add_collaborator(repo_name, username, permission="write"):
 def clone_and_push():
     match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)(?:\.git)?", issue_body)
     if not match:
-        post_comment("❌ No valid GitHub repo URL found in issue body.")
+        print("❌ No valid GitHub repo URL found in issue body.")
         sys.exit(1)
 
     source_owner, source_repo = match.groups()
@@ -115,7 +115,7 @@ def clone_and_push():
     repo_api_url = f"https://api.github.com/repos/{source_owner}/{source_repo}"
     r = requests.get(repo_api_url, headers=HEADERS)
     if r.status_code != 200:
-        post_comment(f"❌ Failed to fetch repo info for {source_owner}/{source_repo}")
+        print(f"❌ Failed to fetch repo info for {source_owner}/{source_repo}")
         sys.exit(1)
     source_default_branch = r.json().get("default_branch", "main")
 
@@ -133,7 +133,7 @@ def clone_and_push():
             return f"{GIT_TARGET_ORG}/{source_repo}"
         repo_empty = True
     else:
-        post_comment(f"❌ Failed to check target repo: {r_target.text}")
+        print(f"❌ Failed to check target repo: {r_target.text}")
         sys.exit(1)
 
     try:
@@ -158,7 +158,7 @@ def clone_and_push():
         add_collaborator(source_repo, original_submitter, permission="write")
         
     except subprocess.CalledProcessError as e:
-        post_comment(f"❌ Git operation failed: {e}")
+        print(f"❌ Git operation failed: {e}")
         sys.exit(1)
 
     return f"{GIT_TARGET_ORG}/{source_repo}"
@@ -183,7 +183,7 @@ def update_registry(repo_path):
             data = []
 
         if not isinstance(data, list):
-            post_comment("❌ packages.json must be a list.")
+            print("❌ packages.json must be a list.")
             sys.exit(1)
 
         already_exists = any(entry.get("package") == package_name or entry.get("url") == repo_url
@@ -209,7 +209,7 @@ def update_registry(repo_path):
         shutil.rmtree(registry_repo)
 
     except subprocess.CalledProcessError as e:
-        post_comment(f"❌ Failed to update registry: {e}")
+        print(f"❌ Failed to update registry: {e}")
         sys.exit(1)
 
 # ----------------------------
