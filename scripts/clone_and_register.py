@@ -101,6 +101,7 @@ def add_collaborator(repo_name, username, permission="write"):
 # Clone & push
 # ----------------------------
 def clone_and_push():
+    msg = ""
     match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)(?:\.git)?", issue_body)
     if not match:
         print("❌ No valid GitHub repo URL found in issue body.")
@@ -128,9 +129,10 @@ def clone_and_push():
     elif r_target.status_code == 200:
         r_contents = requests.get(f"{target_repo_api_url}/contents", headers=TEMP_BIOC_HEADERS)
         if r_contents.status_code == 200 and len(r_contents.json()) > 0:
-            post_comment(f"ℹ️ Target repository **{GIT_TARGET_ORG}/{source_repo}** already exists and is not empty. Skipping clone/push.")
+            msg = (f"ℹ️ Target repository **{GIT_TARGET_ORG}/{source_repo}** already exists and is not empty.\n"
+                   "  - Cloning is skipped to avoid overwriting existing content.\n")
             add_collaborator(source_repo, original_submitter, permission="write")
-            return f"{GIT_TARGET_ORG}/{source_repo}"
+            return f"{GIT_TARGET_ORG}/{source_repo}", msg
         repo_empty = True
     else:
         print(f"❌ Failed to check target repo: {r_target.text}")
@@ -153,7 +155,7 @@ def clone_and_push():
 
         set_default_branch(source_repo, "devel")
         
-        post_comment(f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)")
+        msg = f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)"
 
         add_collaborator(source_repo, original_submitter, permission="write")
         
@@ -161,12 +163,13 @@ def clone_and_push():
         print(f"❌ Git operation failed: {e}")
         sys.exit(1)
 
-    return f"{GIT_TARGET_ORG}/{source_repo}"
+    return f"{GIT_TARGET_ORG}/{source_repo}", msg
 
 # ----------------------------
 # Update packages.json
 # ----------------------------
 def update_registry(repo_path):
+    msg = ""
     registry_repo = "tempbioc.r-universe.dev"
     repo_url = f"https://github.com/{repo_path}"
     package_name = repo_path.split("/")[-1]
@@ -190,7 +193,7 @@ def update_registry(repo_path):
                              for entry in data if isinstance(entry, dict))
 
         if already_exists:
-            post_comment(f"ℹ️ Already registered: **{package_name}**")
+            msg = f"ℹ️ Already registered: **{package_name}**"
         else:
             data.append({"package": package_name, "url": repo_url})
             with open(packages_file, "w") as f:
@@ -203,11 +206,12 @@ def update_registry(repo_path):
                 subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"], check=True)
                 subprocess.run(["git", "commit", "-m", f"Add {package_name}"], check=True)
                 subprocess.run(["git", "push"], check=True)
-                post_comment(f"✅ Added **{package_name}** to registry.")
+                msg = f"✅ Added **{package_name}** to registry."
 
         os.chdir("..")
         shutil.rmtree(registry_repo)
-
+        return msg
+    
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to update registry: {e}")
         sys.exit(1)
@@ -215,7 +219,39 @@ def update_registry(repo_path):
 # ----------------------------
 # Main
 # ----------------------------
+# ----------------------------
+# Main
+# ----------------------------
 if __name__ == "__main__":
     add_label("pre-review")
-    repo_path = clone_and_push()
-    update_registry(repo_path)
+    repo_path, clone_msg = clone_and_push()
+    registry_msg = update_registry(repo_path)
+
+    full_message = f"""
+{clone_msg}
+
+{registry_msg}
+
+Your package is cloned to the Bioconductor new submission source repository
+and r-universe for testing.
+
+If you want to push command line updates, you need to update your remotes:
+  git remote add tempbioc https://github.com/{GIT_TARGET_ORG}/{repo_path.split('/')[-1]}
+  git push tempbioc devel
+
+Bioconductor uses **devel** as its default branch.
+If you use a different branch (example: main) map branches when pushing:
+  git push tempbioc main:devel
+
+You will receive your build report shortly.
+
+Reminders:
+
+  - All packages should be free of Errors and Warnings.
+  - Any Errors or Warnings must be fixed or justified; a reviewer
+    will not be assigned until this is complete.
+  - Once a reviewer is assigned, address their comments with a
+    point-by-point response.
+"""
+
+    post_comment(full_message)
