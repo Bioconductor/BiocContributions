@@ -97,6 +97,112 @@ def get_version_from_description(pkg, branch="devel"):
             return line.split("Version:")[1].strip()
     return None
 
+
+# ------------------------------
+# Parse R-Universe Package API
+#   For Build Results
+# ------------------------------
+def parse_runiverse_build(pkg):
+    url = f"https://tempbioc.r-universe.dev/api/packages/{pkg}"
+
+    try:
+        resp = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
+        if resp.status_code == 404:
+            return {
+                "status": "error",
+                "message": f"❌ Package `{pkg}` not available in R-universe (likely build failure)"
+            }
+        resp.raise_for_status()
+        data = resp.json()
+    except requests.RequestException as e:
+        print(f"[WARN] API fetch failed for {pkg}: {e}")
+        return {
+            "status": "unknown",
+            "message": f"⚠️ Could not fetch R-universe data for `{pkg}`"
+        }
+
+    build_url = data.get("_buildurl")
+
+    # HARD FAILURE
+    failure_msg = data.get("_failure")
+    if failure_msg:
+        fail_build_url = failure_msg.get("buildurl") or build_url
+        table = (
+            "| Platform | R | Status | URL |\n"
+            "|----------|---|--------|------|\n"
+            f"| ❌ build | — | ❌ BUILD FAILED | "
+            f"{f'[run]({fail_build_url})' if fail_build_url else ''} |"
+        )
+        return {
+            "status": "ERROR",
+            "message": (
+                f"🚨 R-universe build failed for `{pkg}` "
+                f"(no check results available)\n\n{table}"
+            )
+        }
+
+    # PARSE JOBS
+    jobs = data.get("_jobs", [])
+    rows = []
+
+    for job in jobs:
+        if not isinstance(job, dict) or "check" not in job:
+            continue
+
+        status_str = str(job.get("check", "UNKNOWN")).upper()
+        if status_str == "OK":
+            status = "✅ OK"
+        elif status_str == "WARNING":
+            status = "⚠️ WARNING"
+        elif status_str == "ERROR":
+            status = "❌ ERROR"
+        else:
+            status = "❓ UNKNOWN"
+
+        rows.append({
+            "platform": job.get("config"),
+            "r": job.get("r"),
+            "status": status,
+            "job_id": job.get("job") or job.get("artifact"),
+        })
+
+    # NO JOBS
+    if not rows:
+        table = (
+            "| Platform | R | Status | URL |\n"
+            "|----------|---|--------|------|\n"
+            "| ❓ unknown | — | ❓ NO DATA | — |"
+        )
+        return {
+            "status": "unknown",
+            "message": f"⚠️ No check results available for `{pkg}`\n\n{table}"
+        }
+
+    # BUILD TABLE
+    header = "| Platform | R | Status | URL |\n|----------|---|--------|------|\n"
+    lines = []
+    overall_status = "OK"
+
+    for r in sorted(rows, key=lambda x: (str(x["platform"]), str(x["r"]))):
+        if "❌" in r["status"]:
+            overall_status = "ERROR"
+        elif "⚠️" in r["status"] and overall_status != "ERROR":
+            overall_status = "WARNING"
+
+        job_url = f"{build_url}/job/{r['job_id']}" if build_url and r["job_id"] else None
+        link = f"[run]({job_url})" if job_url else ""
+
+        lines.append(
+            f"| {r['platform']} | {r['r']} | {r['status']} | {link} |"
+        )
+
+    table = header + "\n".join(lines)
+    return {
+        "status": overall_status,
+        "message": f"📊 R-universe check results for `{pkg}`\n\n{table}"
+    }
+
+
 # ----------------------------
 # Fetch latest workflow runs (all packages)
 # ----------------------------
@@ -234,6 +340,8 @@ for pkg, row in csv_rows.items():
         updated_rows.append(row)
         continue
 
+    ru = parse_runiverse_build(pkg)
+    
     # First build: last_sha is empty
     first_build = (not last_sha)
 
@@ -249,7 +357,8 @@ for pkg, row in csv_rows.items():
                 requests.post(url, headers=HEADERS, json={
                     "body": f"✅ First build detected for {pkg}, version {version}.\n"
                             f"🔗 Detailed run: {run_url}\n"
-                            f"📊 Check summary table: https://tempbioc.r-universe.dev/{pkg}#checktable"
+                            f"🌐 R-universe package page: https://tempbioc.r-universe.dev/{pkg}#checktable\n\n"
+                            f"{ru['message']}"
                 }, timeout=10)
             except requests.RequestException as e:
                 print(f"[ERROR] Failed to post first-build comment for {pkg}: {e}")
@@ -298,7 +407,8 @@ for pkg, row in csv_rows.items():
                 resp = requests.post(url, headers=HEADERS, json={
                     "body": f"✅ New build detected for {pkg}, version {version}.\n"
                             f"🔗 Detailed run: {run_url}\n"
-                            f"📊 Check summary table: https://tempbioc.r-universe.dev/{pkg}#checktable"
+                            f"🌐 R-universe package page: https://tempbioc.r-universe.dev/{pkg}#checktable\n\n"
+                            f"{ru['message']}"
                 }, timeout=10)
                 resp.raise_for_status()
             except requests.RequestException as e:
