@@ -408,6 +408,9 @@ for pkg, row in csv_rows.items():
         continue
 
     ru = parse_runiverse_build(pkg)
+    issue_num = row.get("issue_number")
+    if issue_num:
+        update_labels(issue_number, ru['status'], headers=HEADERS)
     
     # First build: last_sha is empty
     first_build = (not last_sha)
@@ -501,9 +504,7 @@ for pkg, row in csv_rows.items():
 
     updated_rows.append(row)
     
-    #
-    # Parse r-universe Package json
-    #   Change Labels (Build OK, Build Warning, Build Error)
+    #   TODO:
     #   Assign Reviewer if no ERROR and not assigned
     #
 
