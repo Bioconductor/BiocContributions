@@ -109,7 +109,7 @@ def parse_runiverse_build(pkg):
         resp = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
         if resp.status_code == 404:
             return {
-                "status": "ERROR",
+                "status": ["ERROR"],
                 "message": f"❌ Package `{pkg}` not available in R-universe (likely build failure)"
             }
         resp.raise_for_status()
@@ -117,7 +117,7 @@ def parse_runiverse_build(pkg):
     except requests.RequestException as e:
         print(f"[WARN] API fetch failed for {pkg}: {e}")
         return {
-            "status": "UNKNOWN",
+            "status": ["UNKNOWN"],
             "message": f"⚠️ Could not fetch R-universe data for `{pkg}`"
         }
 
@@ -134,7 +134,7 @@ def parse_runiverse_build(pkg):
             f"{f'[run]({fail_build_url})' if fail_build_url else ''} |"
         )
         return {
-            "status": "ERROR",
+            "status": ["ERROR"],
             "message": (
                 f"🚨 R-universe build failed for `{pkg}` "
                 f"(no check results available)\n\n{table}"
@@ -174,36 +174,35 @@ def parse_runiverse_build(pkg):
             "| ❓ unknown | — | ❓ NO DATA | — |"
         )
         return {
-            "status": "UNKNOWN",
+            "status": ["UNKNOWN"],
             "message": f"⚠️ No check results available for `{pkg}`\n\n{table}"
         }
 
     # BUILD TABLE
     header = "| Platform | R | Status | URL |\n|----------|---|--------|------|\n"
     lines = []
-    overall_status = "OK"
+    unique_statuses = set()
 
     for r in sorted(rows, key=lambda x: (str(x["platform"]), str(x["r"]))):
         if "❌" in r["status"]:
-            overall_status = "ERROR"
-        elif "⚠️" in r["status"] and overall_status != "ERROR":
-            overall_status = "WARNING"
-        elif r["status"] == "UNKNOWN" and overall_status not in ("ERROR", "WARNING"):
-            overall_status = "UNKNOWN"
+            unique_statuses.add("ERROR")
+        elif "⚠️" in r["status"]:
+            unique_statuses.add("WARNING")
+        elif r["status"] == "❓ UNKNOWN":
+            unique_statuses.add("UNKNOWN")
+        else:
+            unique_statuses.add("OK")
 
         job_url = f"{build_url}/job/{r['job_id']}" if build_url and r["job_id"] else None
         link = f"[run]({job_url})" if job_url else ""
 
-        lines.append(
-            f"| {r['platform']} | {r['r']} | {r['status']} | {link} |"
-        )
+        lines.append(f"| {r['platform']} | {r['r']} | {r['status']} | {link} |")
 
     table = header + "\n".join(lines)
     return {
-        "status": overall_status,
+        "status": sorted(unique_statuses),  
         "message": f"📊 R-universe check results for `{pkg}`\n\n{table}"
     }
-
 
 # ----------------------------
 # Fetch latest workflow runs (all packages)
