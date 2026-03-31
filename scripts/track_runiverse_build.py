@@ -109,7 +109,7 @@ def parse_runiverse_build(pkg):
         resp = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
         if resp.status_code == 404:
             return {
-                "status": "error",
+                "status": "ERROR",
                 "message": f"❌ Package `{pkg}` not available in R-universe (likely build failure)"
             }
         resp.raise_for_status()
@@ -117,7 +117,7 @@ def parse_runiverse_build(pkg):
     except requests.RequestException as e:
         print(f"[WARN] API fetch failed for {pkg}: {e}")
         return {
-            "status": "unknown",
+            "status": "UNKNOWN",
             "message": f"⚠️ Could not fetch R-universe data for `{pkg}`"
         }
 
@@ -174,7 +174,7 @@ def parse_runiverse_build(pkg):
             "| ❓ unknown | — | ❓ NO DATA | — |"
         )
         return {
-            "status": "unknown",
+            "status": "UNKNOWN",
             "message": f"⚠️ No check results available for `{pkg}`\n\n{table}"
         }
 
@@ -188,6 +188,8 @@ def parse_runiverse_build(pkg):
             overall_status = "ERROR"
         elif "⚠️" in r["status"] and overall_status != "ERROR":
             overall_status = "WARNING"
+        elif r["status"] == "UNKNOWN" and overall_status not in ("ERROR", "WARNING"):
+            overall_status = "UNKNOWN"
 
         job_url = f"{build_url}/job/{r['job_id']}" if build_url and r["job_id"] else None
         link = f"[run]({job_url})" if job_url else ""
