@@ -81,6 +81,72 @@ def get_current_branch():
     return None
 
 # ----------------------------
+# GitHub Label Helpers
+# ----------------------------
+
+# Mapping of Status to Valid Label 
+STATUS_LABELS = {
+    "OK": "Build OK",
+    "WARNING": "Build Warning",
+    "ERROR": "Build Error",
+    "UNKNOWN": "Build Unknown"
+}
+
+def get_queue_owner_repo():
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if "/" in repo:
+        return repo.split("/")
+    return None, None
+
+def update_labels(issue_number, status_list, headers=None):
+
+    if headers is None:
+        headers = HEADERS
+
+    queue_owner, queue_repo = get_queue_owner_repo()
+    if not queue_owner or not queue_repo:
+        print("[WARN] Cannot determine queue_owner/queue_repo from environment")
+        return
+
+    # Map status_list to canonical labels
+    desired_labels = [STATUS_LABELS[s] for s in status_list if s in STATUS_LABELS]
+
+    url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_number}"
+    try:
+        resp = requests.get(url, headers=headers, timeout=10)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"[ERROR] Failed to fetch issue #{issue_number}: {e}")
+        return
+
+    issue_data = resp.json()
+    current_labels = [lbl["name"] for lbl in issue_data.get("labels", [])]
+
+    to_add = [lbl for lbl in desired_labels if lbl not in current_labels]
+    to_remove = [lbl for lbl in current_labels if lbl in STATUS_LABELS.values() and lbl not in desired_labels]
+
+    if to_add:
+        url_add = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_number}/labels"
+        try:
+            resp = requests.post(url_add, headers=headers, json={"labels": to_add}, timeout=10)
+            resp.raise_for_status()
+            print(f"[INFO] Added labels {to_add} to issue #{issue_number}")
+        except requests.RequestException as e:
+            print(f"[ERROR] Failed to add labels to issue #{issue_number}: {e}")
+
+    for lbl in to_remove:
+        url_remove = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_number}/labels/{lbl}"
+        try:
+            resp = requests.delete(url_remove, headers=headers, timeout=10)
+            if resp.status_code in (200, 204):
+                print(f"[INFO] Removed label {lbl} from issue #{issue_number}")
+            else:
+                print(f"[WARN] Could not remove label {lbl} (status {resp.status_code})")
+        except requests.RequestException as e:
+            print(f"[ERROR] Failed to remove label {lbl} from issue #{issue_number}: {e}")
+
+
+# ----------------------------
 # Get version from DESCRIPTION
 # ----------------------------
 def get_version_from_description(pkg, branch="devel"):
@@ -205,7 +271,7 @@ def parse_runiverse_build(pkg):
     }
 
 # ----------------------------
-# Fetch latest workflow runs (all packages)
+# Fetch latest workflow runs
 # ----------------------------
 def get_recent_workflow_runs():
     parts = RUNIVERSE_WORKFLOW.split("/")
@@ -315,9 +381,9 @@ for run in recent_runs:
     if not remaining_pkgs:
         break
 
-# ----------------------------
+# -------------------------------------
 # Process only packages that had a run
-# ----------------------------
+# -------------------------------------
 updated_rows = []
 changes_made = False
 
