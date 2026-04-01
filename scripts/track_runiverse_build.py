@@ -167,10 +167,16 @@ def assign_reviewer(issue_number):
     env["ISSUE_NUMBER"] = str(issue_number)
     env["REVIEWER_STATE_PATH"] = REVIEWER_STATE_FILE
     try:
-        subprocess.run([sys.executable, "scripts/assign_reviewer.py"],check=True,env=env)
+        result = subprocess.run([sys.executable, "scripts/assign_reviewer.py"],check=False,env=env,capture_output=True,text=True)
         print(f"[INFO] assign_reviewer.py completed for issue #{issue_number}")
     except subprocess.CalledProcessError as e:
         print(f"[ERROR] assign_reviewer.py failed for issue #{issue_number}: {e}")
+
+    print("----- Child stdout -----")
+    print(result.stdout)
+    print("----- Child stderr -----")
+    print(result.stderr)
+
 
 # ------------------------------
 # Parse R-Universe Package API

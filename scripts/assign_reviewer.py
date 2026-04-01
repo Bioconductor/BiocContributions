@@ -12,22 +12,21 @@ ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
-
-if "GITHUB_EVENT_PATH" in os.environ and os.path.exists(os.environ["GITHUB_EVENT_PATH"]):
+add_bot=False
+try:
     with open(os.environ["GITHUB_EVENT_PATH"]) as f:
         event = json.load(f)
-else:
+except (KeyError, FileNotFoundError, json.JSONDecodeError) as e:
     issue_number = os.environ.get("ISSUE_NUMBER")
-    sender_login = os.environ.get("SENDER_LOGIN", "github-actions[bot]")
-    label_name = os.environ.get("LABEL_NAME", "assign reviewer")
     if not issue_number:
         raise ValueError("ISSUE_NUMBER must be set when GITHUB_EVENT_PATH is missing")
     event = {
         "issue": {"number": int(issue_number)},
-        "sender": {"login": sender_login},
-        "label": {"name": label_name}
+        "sender": {"login": "github-actions[bot]"},
+        "label": {"name": "assign reviewer"}
     }
-
+    add_bot=True
+    
 ISSUE_NUMBER = event["issue"]["number"]
 
 # --------------------------------------------
@@ -84,8 +83,8 @@ def get_current_branch():
 r = requests.get(f"https://api.github.com/orgs/{ORG_NAME}/teams/{TEAM}/members", headers=ORG_HEADERS)
 r.raise_for_status()
 all_members = [m["login"] for m in r.json()]
-if "GITHUB_EVENT_PATH" not in os.environ:
-    all_members.append(event["sender"]["login"])
+if add_bot:
+    all_members.append("github-actions[bot]")
 
 # --------------------------------------------
 # Excluded reviewers
@@ -135,7 +134,27 @@ else:
 reviewer = eligible_reviewers[next_idx]
 
 print(f"Assigning reviewer: {reviewer}")
+# --------------------------------------------
+# Remove existing reviewer if triggered
+#   by label
+# --------------------------------------------
+if not add_bot:
+    issue_url = f"https://api.github.com/repos/{REPO_FULL}/issues/{ISSUE_NUMBER}"
+    r_issue = requests.get(issue_url, headers=REPO_HEADERS)
+    r_issue.raise_for_status()
+    current_assignees = [u["login"] for u in r_issue.json().get("assignees", [])]
 
+    if current_assignees:
+        print(f"[INFO] Removing existing assignees: {current_assignees}")
+        r_remove = requests.delete(
+            f"{issue_url}/assignees",
+            headers=REPO_HEADERS,
+            json={"assignees": current_assignees}
+        )
+        if r_remove.status_code not in (200, 204):
+            print(f"[WARN] Failed to remove existing assignees (status {r_remove.status_code})")
+        else:
+            print("[INFO] Existing assignees cleared")    
 # --------------------------------------------
 # Assign reviewer
 # --------------------------------------------
