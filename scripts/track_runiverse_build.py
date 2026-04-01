@@ -261,11 +261,11 @@ def parse_runiverse_build(pkg):
         if any(ok in plat for ok in platforms_ok):
             if stat_upper != "OK":
                 build_clean = False
-                print(f"[FAIL] Platform {plat} expected OK, got {stat}")
+                print(f"[FAIL] Package {pkg} Platform {plat} expected OK, got {stat}")
         elif any(w in plat for w in platforms_warnings):
             if stat_upper not in ["OK", "WARNING"]:
                 build_clean = False
-                print(f"[FAIL] Platform {plat} expected OK or WARNING, got {stat}")
+                print(f"[FAIL] Package {pkg} Platform {plat} expected OK or WARNING, got {stat}")
 
     # NO JOBS
     if not rows:
@@ -556,8 +556,10 @@ for pkg, row in csv_rows.items():
 
     updated_rows.append(row)
     
-    #   Assign Reviewer if not ERROR and not assignee
     clean_build = ru['_build_clean']
+    print(f"[DEBUG] Processing package: {pkg}")
+    print(f"[DEBUG] issue_num: {issue_num}")
+    print(f"[DEBUG] ru['_build_clean']: {ru['_build_clean']}")
     if issue_data:
         assignees = issue_data.get("assignees", [])
         if not assignees:
