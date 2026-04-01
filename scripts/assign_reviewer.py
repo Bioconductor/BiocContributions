@@ -13,8 +13,20 @@ TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
 
-with open(os.environ["GITHUB_EVENT_PATH"]) as f:
-    event = json.load(f)
+if "GITHUB_EVENT_PATH" in os.environ and os.path.exists(os.environ["GITHUB_EVENT_PATH"]):
+    with open(os.environ["GITHUB_EVENT_PATH"]) as f:
+        event = json.load(f)
+else:
+    issue_number = os.environ.get("ISSUE_NUMBER")
+    sender_login = os.environ.get("SENDER_LOGIN", "github-actions[bot]")
+    label_name = os.environ.get("LABEL_NAME", "assign reviewer")
+    if not issue_number:
+        raise ValueError("ISSUE_NUMBER must be set when GITHUB_EVENT_PATH is missing")
+    event = {
+        "issue": {"number": int(issue_number)},
+        "sender": {"login": sender_login},
+        "label": {"name": label_name}
+    }
 
 ISSUE_NUMBER = event["issue"]["number"]
 
@@ -72,6 +84,8 @@ def get_current_branch():
 r = requests.get(f"https://api.github.com/orgs/{ORG_NAME}/teams/{TEAM}/members", headers=ORG_HEADERS)
 r.raise_for_status()
 all_members = [m["login"] for m in r.json()]
+if "GITHUB_EVENT_PATH" not in os.environ:
+    all_members.append(event["sender"]["login"])
 
 # --------------------------------------------
 # Excluded reviewers
