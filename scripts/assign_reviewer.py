@@ -99,6 +99,8 @@ if add_bot:
 # --------------------------------------------
 excluded_raw = os.environ.get("EXCLUDED_REVIEWERS", "")
 excluded = [x.strip() for x in excluded_raw.split(",") if x.strip()]
+if add_bot:
+    excluded.append("github-actions[bot]")
 eligible_reviewers = [m for m in all_members if m not in excluded]
 
 print(f"[DEBUG] all_members: {all_members}")
