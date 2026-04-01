@@ -161,13 +161,16 @@ def get_version_from_description(pkg, branch="devel"):
 # ------------------------------
 def parse_runiverse_build(pkg):
     url = f"https://tempbioc.r-universe.dev/api/packages/{pkg}"
-
+    build_clean = True
+    platforms_ok = ["source", "linux"]
+    platforms_warnings = ["bioccheck"]
     try:
         resp = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
         if resp.status_code == 404:
             return {
                 "status": ["ERROR"],
-                "message": f"❌ Package `{pkg}` not available in R-universe (likely build failure)"
+                "message": f"❌ Package `{pkg}` not available in R-universe (likely build failure)",
+                "_build_clean": False
             }
         resp.raise_for_status()
         data = resp.json()
@@ -175,7 +178,8 @@ def parse_runiverse_build(pkg):
         print(f"[WARN] API fetch failed for {pkg}: {e}")
         return {
             "status": ["UNKNOWN"],
-            "message": f"⚠️ Could not fetch R-universe data for `{pkg}`"
+            "message": f"⚠️ Could not fetch R-universe data for `{pkg}`",
+            "_build_clean": False
         }
 
     build_url = data.get("_buildurl")
@@ -195,12 +199,14 @@ def parse_runiverse_build(pkg):
             "message": (
                 f"🚨 R-universe build failed for `{pkg}` "
                 f"(no check results available)\n\n{table}"
-            )
+            ),
+            "_build_clean": False
         }
 
     # PARSE JOBS
     jobs = data.get("_jobs", [])
     rows = []
+    platform_status = {}
 
     for job in jobs:
         if not isinstance(job, dict) or "check" not in job:
@@ -216,12 +222,27 @@ def parse_runiverse_build(pkg):
         else:
             status = "❓ UNKNOWN"
 
+        platform = str(job.get("config"))
+        platform_status[platform] = status_str
+
         rows.append({
-            "platform": job.get("config"),
+            "platform": platform,
             "r": job.get("r"),
             "status": status,
             "job_id": job.get("job") or job.get("artifact"),
         })
+
+    # CHECK BUILD CLEAN AFTER ALL JOBS
+    for plat, stat in platform_status.items():
+        stat_upper = stat.upper()
+        if any(ok in plat for ok in platforms_ok):
+            if stat_upper != "OK":
+                build_clean = False
+                print(f"[FAIL] Platform {plat} expected OK, got {stat}")
+        elif any(w in plat for w in platforms_warnings):
+            if stat_upper not in ["OK", "WARNING"]:
+                build_clean = False
+                print(f"[FAIL] Platform {plat} expected OK or WARNING, got {stat}")
 
     # NO JOBS
     if not rows:
@@ -232,7 +253,8 @@ def parse_runiverse_build(pkg):
         )
         return {
             "status": ["UNKNOWN"],
-            "message": f"⚠️ No check results available for `{pkg}`\n\n{table}"
+            "message": f"⚠️ No check results available for `{pkg}`\n\n{table}",
+            "_build_clean": False
         }
 
     # BUILD TABLE
@@ -257,8 +279,9 @@ def parse_runiverse_build(pkg):
 
     table = header + "\n".join(lines)
     return {
-        "status": sorted(unique_statuses),  
-        "message": f"📊 R-universe check results for `{pkg}`\n\n{table}"
+        "status": sorted(unique_statuses),
+        "message": f"📊 R-universe check results for `{pkg}`\n\n{table}",
+        "_build_clean": build_clean
     }
 
 # ----------------------------
@@ -511,8 +534,8 @@ for pkg, row in csv_rows.items():
     updated_rows.append(row)
     
     #   TODO:
-    #   Assign Reviewer if no ERROR and not assigned
-    #
+    #   Assign Reviewer if not ERROR and not assignee
+    
 
 # ----------------------------
 # Commit updated CSV if needed
