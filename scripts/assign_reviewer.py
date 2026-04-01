@@ -13,20 +13,26 @@ TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
 add_bot=False
-try:
-    with open(os.environ["GITHUB_EVENT_PATH"]) as f:
-        event = json.load(f)
-except (KeyError, FileNotFoundError, json.JSONDecodeError) as e:
+
+if event_path and os.path.exists(event_path):
+    try:
+        with open(event_path) as f:
+            event = json.load(f)
+    except json.JSONDecodeError:
+        event = {}
+
+if "issue" not in event:
     issue_number = os.environ.get("ISSUE_NUMBER")
     if not issue_number:
-        raise ValueError("ISSUE_NUMBER must be set when GITHUB_EVENT_PATH is missing")
+        raise ValueError("ISSUE_NUMBER must be set when no valid event['issue'] exists")
+
     event = {
         "issue": {"number": int(issue_number)},
         "sender": {"login": "github-actions[bot]"},
         "label": {"name": "assign reviewer"}
     }
-    add_bot=True
-    
+    add_bot = True
+
 ISSUE_NUMBER = event["issue"]["number"]
 
 # --------------------------------------------
