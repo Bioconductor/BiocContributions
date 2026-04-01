@@ -459,7 +459,26 @@ for pkg, row in csv_rows.items():
 
     if issue_data:
         update_labels(issue_num, ru['status'], issue_data, headers=HEADERS)
-    
+
+    clean_build = ru['_build_clean']
+    print(f"[DEBUG] Processing package: {pkg}")
+    print(f"[DEBUG] issue_num: {issue_num}")
+    print(f"[DEBUG] ru['_build_clean']: {ru['_build_clean']}")
+    if issue_data:
+        assignees = issue_data.get("assignees", [])
+        if not assignees:
+            if clean_build and issue_num:
+                try:
+                    assign_reviewer(issue_num)
+                except Exception as e:
+                    print(f"[ERROR] Failed to assign reviewer: {e}")
+            else:
+                print("[INFO] No Assignee but Not Clean Build")
+        else:
+            print("[INFO] Already assigned:", [u["login"] for u in assignees])
+    else:
+        print("[INFO] No issue data")
+        
     # First build: last_sha is empty
     first_build = (not last_sha)
 
@@ -555,26 +574,7 @@ for pkg, row in csv_rows.items():
                     print(f"[ERROR] Failed to post warning comment for {pkg}: {e}")
 
     updated_rows.append(row)
-    
-    clean_build = ru['_build_clean']
-    print(f"[DEBUG] Processing package: {pkg}")
-    print(f"[DEBUG] issue_num: {issue_num}")
-    print(f"[DEBUG] ru['_build_clean']: {ru['_build_clean']}")
-    if issue_data:
-        assignees = issue_data.get("assignees", [])
-        if not assignees:
-            if clean_build and issue_num:
-                try:
-                    assign_reviewer(issue_num)
-                except Exception as e:
-                    print(f"[ERROR] Failed to assign reviewer: {e}")
-            else:
-                print("[INFO] No Assignee but Not Clean Build")
-        else:
-            print("[INFO] Already assigned:", [u["login"] for u in assignees])
-    else:
-        print("[INFO] No issue data")
-    
+   
 # ----------------------------
 # Commit updated CSV if needed
 # ----------------------------
