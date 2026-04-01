@@ -12,8 +12,10 @@ ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
-add_bot=False
 
+add_bot=False
+event = {}
+event_path = os.environ.get("GITHUB_EVENT_PATH")
 if event_path and os.path.exists(event_path):
     try:
         with open(event_path) as f:
