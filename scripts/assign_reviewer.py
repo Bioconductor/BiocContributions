@@ -59,6 +59,12 @@ def remove_label(issue_number, label):
     else:
         r.raise_for_status()
 
+def get_current_branch():
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        capture_output=True, text=True
+    )
+    return result.stdout.strip() if result.returncode == 0 else None
 
 # --------------------------------------------
 # Retrieve all reviewers
@@ -93,6 +99,7 @@ if not eligible_reviewers:
 # --------------------------------------------
 # Checkout submissions branch for last_assignee.txt
 # --------------------------------------------
+current_branch = get_current_branch()
 subprocess.run(["git", "fetch", "origin", "submissions"], check=True)
 subprocess.run(["git", "checkout", "-B", "submissions", "origin/submissions"], check=True)
 
@@ -136,6 +143,8 @@ subprocess.run(['git', 'add', REVIEWER_STATE_FILE], check=True)
 subprocess.run(['git', 'commit', '-m', f"Update last assigned reviewer for {TEAM}: {reviewer}"], check=False)
 subprocess.run(['git', 'push', 'origin', 'submissions'], check=True)
 
+if current_branch:
+    subprocess.run(["git", "checkout", current_branch], check=True)
 # --------------------------------------------
 # Remove label and post comment
 # --------------------------------------------

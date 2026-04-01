@@ -46,11 +46,17 @@ jobs:
       - name: Run Runiverse Build Tracker
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
           SUBMISSIONS_PATH: submissions/submitted_packages.csv
           RUNIVERSE_WORKFLOW: "https://github.com/r-universe/tempbioc/actions/workflows/build.yml"
           PACKAGE_NAME: ${{ github.event.inputs.package_name }}
           ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
-          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
-          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+          ORG_NAME: Bioconductor
+          TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
+          EXCLUDED_REVIEWERS: ${{ secrets.EXCLUDED_REVIEWERS }}
+          REVIEWER_STATE_PATH: submissions/last_assignee.txt
         run: python scripts/track_runiverse_build.py

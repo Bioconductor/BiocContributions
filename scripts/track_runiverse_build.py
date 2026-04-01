@@ -4,6 +4,7 @@ import requests
 from datetime import datetime, timedelta
 import subprocess
 import re
+import sys
 
 # ----------------------------
 # Environment
@@ -15,6 +16,10 @@ PACKAGE_NAME = os.environ.get("PACKAGE_NAME")
 ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
 BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")
 TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
+ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
+TEAM = os.environ["TEAM_SLUG"]
+REPO_FULL = os.environ["GITHUB_REPOSITORY"]
+REVIEWER_STATE_FILE = os.environ["REVIEWER_STATE_PATH"]
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -154,6 +159,18 @@ def get_version_from_description(pkg, branch="devel"):
             return line.split("Version:")[1].strip()
     return None
 
+# ----------------------------
+# Assign Reviewer
+# ----------------------------
+def assign_reviewer(issue_number):
+    env = os.environ.copy()
+    env["ISSUE_NUMBER"] = str(issue_number)
+    env["REVIEWER_STATE_PATH"] = REVIEWER_STATE_FILE
+    try:
+        subprocess.run([sys.executable, "scripts/assign_reviewer.py"],check=True,env=env)
+        print(f"[INFO] assign_reviewer.py completed for issue #{issue_number}")
+    except subprocess.CalledProcessError as e:
+        print(f"[ERROR] assign_reviewer.py failed for issue #{issue_number}: {e}")
 
 # ------------------------------
 # Parse R-Universe Package API
@@ -533,14 +550,16 @@ for pkg, row in csv_rows.items():
 
     updated_rows.append(row)
     
-    #   TODO:
     #   Assign Reviewer if not ERROR and not assignee
     clean_build = ru['_build_clean']
     if issue_data:
         assignees = issue_data.get("assignees", [])
         if not assignees:
-            if clean_build:
-                print("[INFO] Assignee Someone")
+            if clean_build and issue_num:
+                try:
+                    assign_reviewer(issue_num)
+                except Exception as e:
+                    print(f"[ERROR] Failed to assign reviewer: {e}")
             else:
                 print("[INFO] No Assignee but Not Clean Build")
         else:
