@@ -535,8 +535,19 @@ for pkg, row in csv_rows.items():
     
     #   TODO:
     #   Assign Reviewer if not ERROR and not assignee
+    clean_build = ru['_build_clean']
+    if issue_data:
+        assignees = issue_data.get("assignees", [])
+        if not assignees:
+            if clean_build:
+                print("[INFO] Assignee Someone")
+            else:
+                print("[INFO] No Assignee but Not Clean Build")
+        else:
+            print("[INFO] Already assigned:", [u["login"] for u in assignees])
+    else:
+        print("[INFO] No issue data")
     
-
 # ----------------------------
 # Commit updated CSV if needed
 # ----------------------------
