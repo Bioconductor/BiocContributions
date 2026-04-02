@@ -249,7 +249,8 @@ Reminders:
 
   - All packages should be free of Errors and Warnings.
   - Any Errors or Warnings must be fixed or justified; a reviewer will not be assigned until this is complete.
-  - Once a reviewer is assigned, address their comments with a point-by-point response.
+  - Once a reviewer is assigned, justify any remaining Errors, Warnings, or Notes
+  - Address reviewer comments with a point-by-point response.
 """
 
     post_comment(full_message)
