@@ -113,10 +113,18 @@ print(f"[DEBUG] eligible_reviewers: {eligible_reviewers}")
 sender = event.get("sender", {}).get("login")
 if sender not in all_members:
     print(f"User '{sender}' is not allowed to assign reviewers. Exiting.")
+    try:
+        remove_label(ISSUE_NUMBER, "assign reviewer")
+    except Exception as e:
+        print(f"[WARN] Failed to remove 'assign reviewer' label: {e}")   
     exit(0)
 
 if not eligible_reviewers:
     print("No eligible reviewers left to assign.")
+    try:
+        remove_label(ISSUE_NUMBER, "assign reviewer")
+    except Exception as e:
+        print(f"[WARN] Failed to remove 'assign reviewer' label: {e}")   
     exit(0)
 
 # --------------------------------------------
