@@ -141,6 +141,21 @@ def update_labels(issue_number, status_list, issue_data, headers=None):
         except requests.RequestException as e:
             print(f"[ERROR] Failed to remove label {lbl} from issue #{issue_number}: {e}")
 
+            
+def add_label(issue_number, label, headers=None):
+    if headers is None:
+        headers = HEADERS
+    queue_owner, queue_repo = get_queue_owner_repo()
+    if not queue_owner or not queue_repo:
+        print("[WARN] Cannot determine queue_owner/queue_repo from environment")
+        return
+    url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_number}/labels"
+    try:
+        resp = requests.post(url, headers=headers, json={"labels": [label]}, timeout=10)
+        resp.raise_for_status()
+        print(f"[INFO] Label '{label}' added to issue #{issue_number}")
+    except requests.RequestException as e:
+        print(f"[ERROR] Failed to add label '{label}' to issue #{issue_number}: {e}")
 
 # ----------------------------
 # Get version from DESCRIPTION
@@ -476,6 +491,7 @@ for pkg, row in csv_rows.items():
                 print("[INFO] No Assignee but Not Clean Build")
         else:
             print("[INFO] Already assigned:", [u["login"] for u in assignees])
+            add_label(issue_num, "review in progress", headers=HEADERS)
     else:
         print("[INFO] No issue data")
         
