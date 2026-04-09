@@ -128,18 +128,12 @@ def load_submissions():
     return submissions
 
 
-def check_duplicate(package_name):
+def get_existing_submission(package_name):
     submissions = load_submissions()
-
     for row in submissions:
         if row["package_name"].strip().lower() == package_name.strip().lower():
-            return (
-                True,
-                f"Package '{package_name}' has already been submitted by "
-                f"{row['submitter']} (repo: {row['repo_full']}, issue #{row['issue_number']})."
-            )
-
-    return False, ""
+            return row
+    return None
 
 
 def record_submission(package_name, owner, repo, package_version):
@@ -389,16 +383,19 @@ def main():
     # ----------------------------
     # Duplicate Submission Check
     # ----------------------------
-    is_reopened = action == "reopened"
-    precheck_passed = has_label("precheck-passed")
-    skip_duplicates = is_reopened and precheck_passed
-    if package_name and not skip_duplicates:
-        is_dup, dup_msg = check_duplicate(package_name)
-        if is_dup:
+    existing = get_existing_submission(package_name) if package_name else None
+    skip_duplicates = False
+    if existing:
+        current_issue_number = event["issue"]["number"]
+        if str(existing["issue_number"]) != str(current_issue_number):
+            skip_duplicates = True
             add_label("duplicate")
-            failures.append(dup_msg)
+            failures.append(
+                f"Package '{package_name}' has already been submitted by "
+                f"{existing['submitter']} (repo: {existing['repo_full']}, issue #{existing['issue_number']})."
+            )
             finalize(failures, package_name, skip_duplicates)
-            return
+
 
     # ----------------------------
     # Finalization
