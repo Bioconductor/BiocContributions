@@ -1,0 +1,43 @@
+name: Close Issue For Inactivity
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+  contents: write  
+
+jobs:
+  inactive_review:
+    runs-on: ubuntu-latest
+
+    # Only run if the label added is "inactive review"
+    if: ${{ github.event.label.name == 'inactive review' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Close Issue For Inactivity
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          ORG_NAME: Bioconductor
+          TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+	  ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GIT_TARGET_ORG: "tempbioc"
+        run: python scripts/inactive_review.py
