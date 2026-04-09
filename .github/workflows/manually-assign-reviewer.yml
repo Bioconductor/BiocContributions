@@ -29,7 +29,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
-          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
           ORG_NAME: Bioconductor
           TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
           GITHUB_REPOSITORY: ${{ github.repository }}

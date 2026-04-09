@@ -48,7 +48,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
           TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
-          TARGET_GITHUB_TOKEN: ${{ secrets.TARGET_GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           SUBMISSIONS_PATH: submissions/submitted_packages.csv
