@@ -188,10 +188,10 @@ def main():
 
 This issue is being closed because there has been no progress for an extended period of time.
 
-You are welcome to reopen the issue when you are able to actively participate in the review and submission process. Please keep in mind that acceptance requires a commitment to ongoing package maintenance.
+You are welcome to request the issue be reopened when you are able to actively participate in the review and submission process. Please keep in mind that acceptance requires a commitment to ongoing package maintenance.
 
 Your package has been removed from the new submission location and registry. 
-If you reopen, please complete the precheck and policy acceptance again to reinitialize review process. 
+If reopened, please complete the precheck and policy acceptance again to reinitialize review process. 
 
 Thank you for your interest in Bioconductor.
 """
