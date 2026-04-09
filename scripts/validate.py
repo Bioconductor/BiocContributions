@@ -87,6 +87,26 @@ def add_label(label):
     requests.post(url, headers=HEADERS, json={"labels": [label]})
 
     
+def remove_label(label):
+    with open(EVENT_PATH) as f:
+        event = json.load(f)
+
+    issue_number = event["issue"]["number"]
+    owner, repo = REPO_FULL.split("/")
+
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
+    try:
+        resp = requests.delete(url, headers=HEADERS, timeout=10)
+        if resp.status_code in (200, 204):
+            print(f"[INFO] Label '{label}' removed from issue #{issue_number}")
+        elif resp.status_code == 404:
+            print(f"[INFO] Label '{label}' not present on issue #{issue_number}")
+        else:
+            print(f"[WARN] Could not remove label '{label}' (status {resp.status_code})")
+    except requests.RequestException as e:
+        print(f"[ERROR] Failed to remove label '{label}' from issue #{issue_number}: {e}")
+
+
 def has_label(label_name):
     with open(EVENT_PATH) as f:
         event = json.load(f)
@@ -267,7 +287,10 @@ def main():
                 "⚠️ Only members of the PackageReview team can reopen this issue. Please request your issue be reopened on package-submission Bioconductor zulip channel."
             )
             sys.exit(1)
-
+        else:
+            if has_label("inactive review"):
+                remove_label("inactive review")
+            
     # ----------------------------
     # Extract GitHub URL
     # ----------------------------
