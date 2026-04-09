@@ -38,6 +38,6 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
-	  ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
           GIT_TARGET_ORG: "tempbioc"
         run: python scripts/inactive_review.py
