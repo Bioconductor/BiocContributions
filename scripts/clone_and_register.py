@@ -97,6 +97,34 @@ def add_collaborator(repo_name, username, permission="write"):
     else:
         print(f"✅ Added @{username} as collaborator with {permission} access")
 
+
+# ----------------------------
+#  Current tempbioc is Free not Team
+#  Cannot implement rulesets org wide
+#  Implement per repo
+#      protect devel
+#      no force pushes except for admins
+# ----------------------------
+
+def protect_devel(repo_name):
+    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}/branches/devel/protection"
+
+    data = {
+        "required_status_checks": None,
+        "enforce_admins": False,
+        "required_pull_request_reviews": None,
+        "restrictions": None,
+        "allow_force_pushes": False,
+        "allow_deletions": False
+    }
+
+    r = requests.put(url, headers=TEMP_BIOC_HEADERS, json=data)
+    if r.status_code not in [200]:
+        print(f"⚠️ Failed to protect devel: {r.status_code} {r.text}")
+    else:
+        print("✅ devel protection applied")
+
+       
 # ----------------------------
 # Clone & push
 # ----------------------------
@@ -154,7 +182,8 @@ def clone_and_push():
         shutil.rmtree(source_repo)
 
         set_default_branch(source_repo, "devel")
-        
+        protect_devel(source_repo)
+       
         msg = f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)"
 
         add_collaborator(source_repo, original_submitter, permission="write")
@@ -215,7 +244,7 @@ def update_registry(repo_path):
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to update registry: {e}")
         sys.exit(1)
-
+ 
 # ----------------------------
 # Main
 # ----------------------------
