@@ -92,6 +92,7 @@ def get_current_branch():
 # Mapping of Status to Valid Label 
 STATUS_LABELS = {
     "OK": "Build OK",
+    "NOTE": "Build OK",
     "WARNING": "Build Warning",
     "ERROR": "Build Error",
     "UNKNOWN": "Build Unknown"
@@ -274,6 +275,8 @@ def parse_runiverse_build(pkg):
         status_str = str(job.get("check", "UNKNOWN")).upper()
         if status_str == "OK":
             status = "✅ OK"
+        elif status_str == "NOTE":
+            status = "✅ NOTE"
         elif status_str == "WARNING":
             status = "⚠️ WARNING"
         elif status_str == "ERROR":
