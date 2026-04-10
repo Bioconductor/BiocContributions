@@ -46,6 +46,13 @@ def remove_label(issue_number, label):
     else:
         r.raise_for_status()
 
+def get_issue_labels(issue_number):
+    owner, repo = REPO_FULL.split("/")
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
+    r = requests.get(url, headers=HEADERS)
+    r.raise_for_status()
+    return {label["name"] for label in r.json()}
+
 
 def post_comment(issue_number, body):
     owner, repo = REPO_FULL.split("/")
@@ -175,11 +182,18 @@ def main():
     # --------------------------------------------
     # clean up labels
     # --------------------------------------------
-    remove_label(issue_number, "pre-review")
-    remove_label(issue_number, "awaiting policy acceptance")
-    remove_label(issue_number, "policies-accepted")
-    remove_label(issue_number, "precheck-passed")
-    remove_label(issue_number, "review in progress")
+    LABELS_TO_REMOVE = {
+        "pre-review",
+        "awaiting policy acceptance",
+        "policies-accepted",
+        "precheck-passed",
+        "review in progress",
+    }
+    existing_labels = get_issue_labels(issue_number)
+    to_remove = LABELS_TO_REMOVE & existing_labels
+    for lbl in to_remove:
+        remove_label(issue_number, lbl)
+        
 
     # --------------------------------------------
     # Post Comment and Close Issue
