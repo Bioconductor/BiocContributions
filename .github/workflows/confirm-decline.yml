@@ -1,0 +1,44 @@
+name: Confirm Decline Package
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  contents: write
+
+jobs:
+  confirm_decline:
+    runs-on: ubuntu-latest
+    # Run if triggered by comment OR manually
+    if: >
+      github.event.comment.body == 'confirm-decline-package' ||
+      github.event.comment.body == '/confirm-decline-package'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Confirm Decline
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+          ORG_NAME: Bioconductor
+          TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GIT_TARGET_ORG: "tempbioc"
+          ADMIN_REVIEWERS: ${{ secrets.ADMIN_REVIEWERS }}
+        run: python scripts/confirm_decline.py
