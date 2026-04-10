@@ -143,7 +143,8 @@ def main():
 
     issue_number = event["issue"]["number"]
     issue = get_issue(issue_number)
-
+    issue_body = issue.get("body") or ""
+    
     # --------------------------------------------
     # Verify Confirm Delete by admin or assignee
     # --------------------------------------------
