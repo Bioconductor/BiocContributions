@@ -157,6 +157,27 @@ def add_label(issue_number, label, headers=None):
     except requests.RequestException as e:
         print(f"[ERROR] Failed to add label '{label}' to issue #{issue_number}: {e}")
 
+
+def remove_label(issue_number, label, headers=None):
+    if headers is None:
+        headers = HEADERS
+
+    queue_owner, queue_repo = get_queue_owner_repo()
+    if not queue_owner or not queue_repo:
+        print("[WARN] Cannot determine queue_owner/queue_repo from environment")
+        return
+
+    url = f"https://api.github.com/repos/{queue_owner}/{queue_repo}/issues/{issue_number}/labels/{label}"
+    try:
+        resp = requests.delete(url, headers=headers, timeout=10)
+        if resp.status_code in (200, 204, 404):
+            print(f"[INFO] Label '{label}' removed from issue #{issue_number}")
+        else:
+            print(f"[WARN] Could not remove label '{label}' (status {resp.status_code})")
+    except requests.RequestException as e:
+        print(f"[ERROR] Failed to remove label '{label}' from issue #{issue_number}: {e}")
+
+
 # ----------------------------
 # Get version from DESCRIPTION
 # ----------------------------
@@ -491,7 +512,11 @@ for pkg, row in csv_rows.items():
                 print("[INFO] No Assignee but Not Clean Build")
         else:
             print("[INFO] Already assigned:", [u["login"] for u in assignees])
-            add_label(issue_num, "review in progress", headers=HEADERS)
+            current_labels = [lbl["name"] for lbl in issue_data.get("labels",[])]
+            if "review in progress" not in current_labels:
+                add_label(issue_num, "review in progress", headers=HEADERS)
+            if "pre-review" in current_labels:
+                remove_label(issue_num, "pre-review", headers=HEADERS)
     else:
         print("[INFO] No issue data")
         
