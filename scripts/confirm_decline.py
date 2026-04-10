@@ -4,6 +4,7 @@ import requests
 import re
 import sys
 import base64
+import time
 
 # --------------------------------------------
 # Environment
@@ -198,6 +199,7 @@ The package has been removed from the submission registry and the temporary revi
 Thank you for your submission and interest in Bioconductor.
 """
     post_comment(issue_number, closing_comment)
+    time.sleep(3)
     close_issue(issue_number)
 
 if __name__ == "__main__":

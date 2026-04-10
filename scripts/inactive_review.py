@@ -5,6 +5,7 @@ import subprocess
 import re
 import sys
 import base64
+import time
 
 # --------------------------------------------
 # Environment
@@ -210,6 +211,7 @@ If reopened, please complete the precheck and policy acceptance again to reiniti
 Thank you for your interest in Bioconductor.
 """
     post_comment(issue_number, closing_comment)
+    time.sleep(3)
     close_issue(issue_number)
 
 if __name__ == "__main__":
