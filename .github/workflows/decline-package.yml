@@ -1,0 +1,41 @@
+name: Decline Package
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  decline_package:
+    runs-on: ubuntu-latest
+
+    # Only run if the label added is "package declined"
+    if: ${{ github.event.label.name == 'package declined' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Decline Package
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          ORG_NAME: Bioconductor
+          TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          ADMIN_REVIEWERS: ${{ secrets.ADMIN_REVIEWERS }}
+        run: python scripts/decline_package.py
