@@ -15,6 +15,5 @@ signeR,rvalieris/signeR,rvalieris,24,,,
 gread,asrinivasan-oa/gread,asrinivasan-oa,25,,,
 CVE,andreasmock/CVE,andreasmock,26,,,
 LoriPkgTest2,lshep/LoriPkgTest2,lshep,16,ab2b7e57fd5d8aa3b333dc1d4b7b987a2a53d55a,0.99.4,0.99.4
-LoriTestPkg4,lshep/LoriTestPkg4,lshep,18,ce566fe7d9b77ffcf7f72183dfd13fbc3525121f,0.99.4,0.99.4
-LoriTestPkg5,lshep/LoriTestPkg5,lshep,19,1e5cb414698a23e8efbcb84e1d0f06267d697e0c,0.99.2,0.99.2
 LoriTestPkg4,lshep/LoriTestPkg4,lshep,18,,0.99.4,0.99.4
+LoriTestPkg5,lshep/LoriTestPkg5,lshep,19,0e64807e1e5e44893858ed66da6aa24bc0b77209,0.99.4,0.99.4
