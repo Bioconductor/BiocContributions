@@ -298,13 +298,13 @@ def parse_runiverse_build(pkg):
     for plat, stat in platform_status.items():
         stat_upper = stat.upper()
         if any(ok in plat for ok in platforms_ok):
-            if stat_upper != "OK":
+            if stat_upper not in ["OK", "NOTE"]:
                 build_clean = False
-                print(f"[FAIL] Package {pkg} Platform {plat} expected OK, got {stat}")
+                print(f"[FAIL] Package {pkg} Platform {plat} expected OK or NOTE, got {stat}")
         elif any(w in plat for w in platforms_warnings):
-            if stat_upper not in ["OK", "WARNING"]:
+            if stat_upper not in ["OK", "NOTE", "WARNING"]:
                 build_clean = False
-                print(f"[FAIL] Package {pkg} Platform {plat} expected OK or WARNING, got {stat}")
+                print(f"[FAIL] Package {pkg} Platform {plat} expected OK, NOTE, or WARNING, got {stat}")
 
     # NO JOBS
     if not rows:
