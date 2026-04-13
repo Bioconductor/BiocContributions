@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import subprocess
 import re
 import sys
+import yaml
 
 # ----------------------------
 # Environment
@@ -220,22 +221,45 @@ def assign_reviewer(issue_number):
 #   For Build Results
 # ------------------------------
 def parse_runiverse_build(pkg):
+    # -----------------------------
+    # Platform policy
+    # -----------------------------
+    platforms_ok = ["source"]
+    platforms_warnings = ["bioccheck", "linux", "macos", "windows"]
+    ALWAYS_KEEP = ["source", "bioc-check"]
     url = f"https://tempbioc.r-universe.dev/api/packages/{pkg}"
+
     build_clean = True
-    platforms_ok = ["source", "linux"]
-    platforms_warnings = ["bioccheck"]
+
+    bioc_r_version = None
+    try:
+        cfg_url = "https://bioconductor.org/config.yaml"
+        cfg_resp = requests.get(cfg_url, timeout=30)
+        cfg_resp.raise_for_status()
+
+        config = yaml.safe_load(cfg_resp.text)
+        single_pkg = config.get("single_package_builder", {})
+        bioc_r_version = single_pkg.get("r_version")
+
+        print(f"[DEBUG] Bioconductor R version: {bioc_r_version}")
+
+    except Exception as e:
+        print(f"[WARN] Could not fetch Bioconductor config, skipping R filtering: {e}")
+
     try:
         resp = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
+
         if resp.status_code == 404:
             return {
                 "status": ["ERROR"],
                 "message": f"❌ Package `{pkg}` not available in R-universe (likely build failure)",
                 "_build_clean": False
             }
+
         resp.raise_for_status()
         data = resp.json()
+
     except requests.RequestException as e:
-        print(f"[WARN] API fetch failed for {pkg}: {e}")
         return {
             "status": ["UNKNOWN"],
             "message": f"⚠️ Could not fetch R-universe data for `{pkg}`",
@@ -244,16 +268,20 @@ def parse_runiverse_build(pkg):
 
     build_url = data.get("_buildurl")
 
-    # HARD FAILURE
+    # -----------------------------
+    # HARD FAILURE CASE 
+    # -----------------------------
     failure_msg = data.get("_failure")
     if failure_msg:
         fail_build_url = failure_msg.get("buildurl") or build_url
+
         table = (
             "| Platform | R | Status | URL |\n"
             "|----------|---|--------|------|\n"
             f"| ❌ build | — | ❌ BUILD FAILED | "
             f"{f'[run]({fail_build_url})' if fail_build_url else ''} |"
         )
+
         return {
             "status": ["ERROR"],
             "message": (
@@ -263,16 +291,62 @@ def parse_runiverse_build(pkg):
             "_build_clean": False
         }
 
-    # PARSE JOBS
     jobs = data.get("_jobs", [])
-    rows = []
-    platform_status = {}
+
+
+    # -----------------------------
+    # HELPER FUNCTIONS
+    # -----------------------------
+    def matches_r_version(job_r):
+        if not bioc_r_version:
+            return True
+        if not job_r:
+            return False
+        return str(job_r).startswith(str(bioc_r_version))
+
+    def keep_platform(platform, job_r):
+        p = (platform or "").lower()
+        # ALWAYS KEEP CORE
+        if any(k in p for k in ALWAYS_KEEP):
+            return True
+        # R filtering applies only if config exists
+        if bioc_r_version:
+            return matches_r_version(job_r)
+        return True
+
+    def match_platform(platform, key):
+        return key in (platform or "").lower()
+
+    # -----------------------------
+    # FILTER JOBS
+    # -----------------------------
+    filtered = []
 
     for job in jobs:
-        if not isinstance(job, dict) or "check" not in job:
+        if not isinstance(job, dict):
             continue
 
+        platform = str(job.get("config"))
+        job_r = job.get("r")
+
+        if keep_platform(platform, job_r):
+            filtered.append(job)
+
+    if not filtered:
+        return {
+            "status": ["UNKNOWN"],
+            "message": f"⚠️ No filtered check results available for `{pkg}`",
+            "_build_clean": False
+        }
+
+    rows = []
+    unique_statuses = set()
+
+    for job in filtered:
+        platform = str(job.get("config"))
+        rver = job.get("r")
         status_str = str(job.get("check", "UNKNOWN")).upper()
+
         if status_str == "OK":
             status = "✅ OK"
         elif status_str == "NOTE":
@@ -284,64 +358,58 @@ def parse_runiverse_build(pkg):
         else:
             status = "❓ UNKNOWN"
 
-        platform = str(job.get("config"))
-        platform_status[platform] = status_str
+        plat_lower = platform.lower()
 
-        rows.append({
-            "platform": platform,
-            "r": job.get("r"),
-            "status": status,
-            "job_id": job.get("job") or job.get("artifact"),
-        })
-
-    # CHECK BUILD CLEAN AFTER ALL JOBS
-    for plat, stat in platform_status.items():
-        stat_upper = stat.upper()
-        if any(ok in plat for ok in platforms_ok):
-            if stat_upper not in ["OK", "NOTE"]:
+        if any(match_platform(plat_lower, p) for p in platforms_ok):
+            # strict
+            if status_str not in ["OK", "NOTE"]:
                 build_clean = False
-                print(f"[FAIL] Package {pkg} Platform {plat} expected OK or NOTE, got {stat}")
-        elif any(w in plat for w in platforms_warnings):
-            if stat_upper not in ["OK", "NOTE", "WARNING"]:
+                print(f"[FAIL] {pkg} {platform} expected OK/NOTE got {status_str}")
+        elif any(match_platform(plat_lower, p) for p in platforms_warnings):
+            # lenient
+            if status_str not in ["OK", "NOTE", "WARNING"]:
                 build_clean = False
-                print(f"[FAIL] Package {pkg} Platform {plat} expected OK, NOTE, or WARNING, got {stat}")
+                print(f"[FAIL] {pkg} {platform} expected OK/NOTE/WARNING got {status_str}")
+        else:
+            if status_str != "OK":
+                build_clean = False
+                print(f"[FAIL] {pkg} {platform} unexpected platform rule got {status_str}")
 
-    # NO JOBS
-    if not rows:
-        table = (
-            "| Platform | R | Status | URL |\n"
-            "|----------|---|--------|------|\n"
-            "| ❓ unknown | — | ❓ NO DATA | — |"
-        )
-        return {
-            "status": ["UNKNOWN"],
-            "message": f"⚠️ No check results available for `{pkg}`\n\n{table}",
-            "_build_clean": False
-        }
-
-    # BUILD TABLE
-    header = "| Platform | R | Status | URL |\n|----------|---|--------|------|\n"
-    lines = []
-    unique_statuses = set()
-
-    for r in sorted(rows, key=lambda x: (str(x["platform"]), str(x["r"]))):
-        if "❌" in r["status"]:
+        if status == "❌ ERROR":
             unique_statuses.add("ERROR")
-        elif "⚠️" in r["status"]:
+        elif status == "⚠️ WARNING":
             unique_statuses.add("WARNING")
-        elif r["status"] == "❓ UNKNOWN":
-            unique_statuses.add("UNKNOWN")
-        elif r["status"] == "ℹ️ NOTE":
+        elif status == "ℹ️ NOTE":
             unique_statuses.add("NOTE")
+        elif status == "❓ UNKNOWN":
+            unique_statuses.add("UNKNOWN")
         else:
             unique_statuses.add("OK")
 
-        job_url = f"{build_url}/job/{r['job_id']}" if build_url and r["job_id"] else None
+        job_url = f"{build_url}/job/{job.get('job') or job.get('artifact')}" if build_url else None
         link = f"[run]({job_url})" if job_url else ""
 
-        lines.append(f"| {r['platform']} | {r['r']} | {r['status']} | {link} |")
+        rows.append({
+            "platform": platform,
+            "r": rver,
+            "status": status,
+            "job_id": job.get("job") or job.get("artifact"),
+            "link": link
+        })
+
+    # -----------------------------
+    # BUILD RESULT FILTERED TABLE 
+    # -----------------------------
+    header = "| Platform | R | Status | URL |\n|----------|---|--------|------|\n"
+
+    lines = []
+    for r in sorted(rows, key=lambda x: (x["platform"], str(x["r"]))):
+        lines.append(
+            f"| {r['platform']} | {r['r']} | {r['status']} | {r['link']} |"
+        )
 
     table = header + "\n".join(lines)
+
     return {
         "status": sorted(unique_statuses),
         "message": f"📊 R-universe check results for `{pkg}`\n\n{table}",

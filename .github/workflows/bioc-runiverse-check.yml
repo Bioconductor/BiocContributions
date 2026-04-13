@@ -38,7 +38,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests pyyaml
 
       # ----------------------------
       # Run tracker
