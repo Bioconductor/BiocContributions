@@ -402,8 +402,16 @@ def parse_runiverse_build(pkg):
     # -----------------------------
     header = "| Platform | R | Status | URL |\n|----------|---|--------|------|\n"
 
+    def platform_priority(p):
+        p = (p or "").lower()
+        if "source" in p:
+             return 0
+        if "bioc-check" in p or "bioccheck" in p:
+            return 1
+        return 2
+
     lines = []
-    for r in sorted(rows, key=lambda x: (x["platform"], str(x["r"]))):
+    for r in sorted(rows, key=lambda x: (platform_priority(x["platform"]), x["platform"], str(x["r"]))):
         lines.append(
             f"| {r['platform']} | {r['r']} | {r['status']} | {r['link']} |"
         )
