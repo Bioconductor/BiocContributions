@@ -40,7 +40,7 @@ def get_open_issues():
         url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues"
         r = requests.get(
             url,
-            headers=HEADERS,
+            headers=ORG_HEADERS,
             params={
                 "state": "open",
                 "per_page": 100,
@@ -56,7 +56,48 @@ def get_open_issues():
         page += 1
     return issues
 
+# --------------------------------------------
+# GitHub API: repository listing
+# --------------------------------------------
+def get_org_repos():
+    repos = []
+    page = 1
+    while True:
+        url = f"https://api.github.com/orgs/{GIT_TARGET_ORG}/repos"
+        r = requests.get(
+            url,
+            headers=TEMP_BIOC_HEADERS,
+            params={
+                "per_page": 100,
+                "page": page,
+                "type": "all"
+            },
+            timeout=10
+        )
+        r.raise_for_status()
+        batch = r.json()
+        if not batch:
+            break
+        repos.extend([repo["name"] for repo in batch])
+        page += 1
+    return set(repos)
 
+
+def find_repos_without_issues(open_packages, org_repos):
+    open_lower = {p.lower() for p in open_packages}
+    org_map = {r.lower(): r for r in org_repos}
+    missing_issue_repos = [
+        org_map[r]
+        for r in org_map
+        if r not in open_lower
+    ]
+    print("\n=========== REPOS WITHOUT OPEN ISSUES ===========\n")
+    for repo in sorted(missing_issue_repos):
+        print(repo)
+    print("\n================================================\n")
+    print(f"[INFO] Total repos without open issues: {len(missing_issue_repos)}")
+
+    
 # --------------------------------------------
 # Canonical package extraction 
 # --------------------------------------------
@@ -137,7 +178,12 @@ def main():
     print("\n===============================================\n")
     print(f"[INFO] Total stale packages: {len(stale_packages)}")
 
+    print("\n[INFO] Fetching org repositories...")
+    org_repos = get_org_repos()
+    print(f"[INFO] Org repos: {len(org_repos)}")
+    find_repos_without_issues(open_packages, org_repos)
 
+    
     ## Should this auto clean up registry and cloned repos
     
 if __name__ == "__main__":
