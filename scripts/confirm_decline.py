@@ -76,6 +76,28 @@ def get_issue(issue_number):
     r.raise_for_status()
     return r.json()
 
+
+def get_label_adder(owner, repo, issue_number, label_name, headers):
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/events"
+    try:
+        while url:
+            resp = requests.get(url, headers=headers, timeout=10)
+            resp.raise_for_status()
+            events = resp.json()
+            # iterate newest → oldest within this page
+            for event in reversed(events):
+                if event.get("event") == "labeled":
+                    label = event.get("label", {}).get("name")
+                    if label == label_name:
+                        actor = event.get("actor", {})
+                        return actor.get("login")
+            # move to next page if present
+            url = resp.links.get("next", {}).get("url")
+    except requests.RequestException as e:
+        print(f"[ERROR] Failed to fetch issue events for #{issue_number}: {e}")
+        return None
+    return None
+
 # ----------------------------
 # TEMPBIOC CLEANUP
 # ----------------------------
@@ -145,6 +167,7 @@ def main():
     issue_number = event["issue"]["number"]
     issue = get_issue(issue_number)
     issue_body = issue.get("body") or ""
+    owner, repo = extract_repo(issue_body)
     
     # --------------------------------------------
     # Verify Confirm Delete by admin or assignee
@@ -153,15 +176,24 @@ def main():
     admin_list = [x.strip() for x in admin_raw.split(",") if x.strip()]
     assignees = [a["login"] for a in issue.get("assignees", [])]
     allowed_users = set(admin_list + assignees)
+    # remove original label adder so two unique reviewers
+    label_actor = get_label_adder(owner, repo, issue_number, "package declined", ORG_HEADERS)
+    existing_labels = {l["name"] for l in issue.get("labels", [])}
     
+    if label_actor:
+        allowed_users.discard(label_actor)
+
+    print(f"[DEBUG] Label added by: {label_actor} and Confirm Delete by: {actor}")
     if actor not in allowed_users:
         post_comment(issue_number, f"User '{actor}' is not allowed to confirm delete. Exiting.")
         sys.exit(0)
 
+    if "package declined" not in existing_labels:
+        post_comment(issue_number, "⚠️ Cannot confirm decline: 'package declined' label is no longer present.")
+        sys.exit(0)
     # --------------------------------------------
     # extra repo, delete clone and from registry
     # --------------------------------------------
-    owner, repo = extract_repo(issue_body)
     if repo and repo.endswith(".git"):
         repo = repo[:-4]
 
@@ -181,7 +213,6 @@ def main():
         "precheck-passed",
         "review in progress",
     }
-    existing_labels = {l["name"] for l in issue.get("labels", [])}
     to_remove = LABELS_TO_REMOVE & existing_labels
     for lbl in to_remove:
         remove_label(issue_number, lbl)
