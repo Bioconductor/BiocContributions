@@ -12,6 +12,7 @@ TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
 GIT_TARGET_ORG = os.environ["GIT_TARGET_ORG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
+OWNER, REPO = REPO_FULL.split("/")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
