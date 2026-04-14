@@ -349,12 +349,16 @@ def main():
 
             pkg_match = re.search(r"^Package:\s*(.+)$", description_text, re.MULTILINE)
             version_match = re.search(r"^Version:\s*(.+)$", description_text, re.MULTILINE)
+            biocViews_match = re.search(r"^biocViews:\s*(.+)$", description_text, re.MULTILINE)
 
             if not pkg_match:
                 failures.append("DESCRIPTION missing 'Package:' field.")
 
             if not version_match:
                 failures.append("DESCRIPTION missing 'Version:' field.")
+
+            if not biocViews_match:
+                failures.append("DESCRIPTION missing 'biocViews:' field.")
 
             if pkg_match:
                 package_name = pkg_match.group(1).strip()
