@@ -48,7 +48,7 @@ jobs:
       - name: Force SSH key usage
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.GITOLITE_SSH_KEY }}" > ~/.ssh/id_ed25519_bic_ci
+          echo "${{ secrets.GITOLITE_SSH_KEY }}" > ~/.ssh/id_ed25519_bioc_ci
           chmod 600 ~/.ssh/id_ed25519_bioc_ci
           ssh-add ~/.ssh/id_ed25519_bioc_ci
 
