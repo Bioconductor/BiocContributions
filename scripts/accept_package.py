@@ -1165,7 +1165,8 @@ def main():
     # --------------------------------------------
 
     try:
-        configure_gitolite(valid_ids, repo, pkg_type, dry_run=False)
+        print("[INFO] gitolite configuration step")
+#        configure_gitolite(valid_ids, repo, pkg_type, dry_run=False)
     except Exception as e:
         print(f"[ERROR] Gitolite configuration failed: {e}")
         pipeline_success = False
@@ -1182,7 +1183,8 @@ We appreciate your patience as we investigate
     # Clone to git.bioconductor.org
     # --------------------------------------------
     try:
-        transfer_to_git_bioc(repo, dry_run=False)
+        print("[INFO] cloning to git.bioconductor.org step")
+#        transfer_to_git_bioc(repo, dry_run=False)
     except Exception as e:
         print(f"[ERROR] Cloning to git.bioconductor.org failed: {e}")
         pipeline_success = False
@@ -1238,8 +1240,9 @@ We appreciate your patience as we investigate
     # --------------------------------------------
     if repo:
         if pipeline_success:
-            delete_temp_repo(repo)
-            remove_from_registry(repo)
+             print("[INFO] Cleaning tempbioc")
+#            delete_temp_repo(repo)
+#            remove_from_registry(repo)
         else:
             print("[WARN] Either gitolite configuration or cloning failed.")
             print("[Skip] Skipping removal from SPB for debugging.")
@@ -1265,8 +1268,8 @@ We appreciate your patience as we investigate
     }
     existing_labels = get_issue_labels(issue_number)
     to_remove = LABELS_TO_REMOVE & existing_labels
-    for lbl in to_remove:
-        remove_label(issue_number, lbl)
+#    for lbl in to_remove:
+#        remove_label(issue_number, lbl)
 
 
     # --------------------------------------------
@@ -1310,7 +1313,7 @@ Welcome to Bioconductor.
 
     post_comment(issue_number, closing_comment)
     time.sleep(3)
-    close_issue(issue_number)
+#    close_issue(issue_number)
 
 if __name__ == "__main__":
     main()
