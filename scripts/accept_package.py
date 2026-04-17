@@ -776,6 +776,22 @@ def clone_github_repo(owner, repo, dest):
         env=_git_env()
     )
 
+
+def clone_tempbioc_repo(repo, dest):
+    url = f"https://github.com/{GIT_TARGET_ORG}/{repo}.git"
+
+    if os.path.exists(dest):
+        if not dest.startswith("/tmp/"):
+            raise RuntimeError(f"Refusing to delete unsafe path: {dest}")
+        shutil.rmtree(dest)
+
+    subprocess.run(
+        ["git", "clone", "--single-branch", "--branch", "devel", url, dest],
+        check=True,
+        env=_git_env()
+    )
+    
+
 def set_bioc_remote(repo_dir, repo_name):
     bioc_url = f"git@git.bioconductor.org:packages/{repo_name}.git"
     subprocess.run(
@@ -788,6 +804,7 @@ def set_bioc_remote(repo_dir, repo_name):
         cwd=repo_dir,
         check=True
     )
+
     
 def ensure_devel_branch(repo_dir):
     subprocess.run(
@@ -809,9 +826,9 @@ def push_to_bioc(repo_dir, dry_run=False):
         env=_git_env()
     )
 
-def transfer_to_git_bioc(owner, repo, dry_run=False):
+def transfer_to_git_bioc(repo, dry_run=False):
     tmp_clone = f"/tmp/{repo}"
-    clone_github_repo(owner, repo, tmp_clone)
+    clone_tempbioc_repo(repo, tmp_clone)
     ensure_devel_branch(tmp_clone)
     set_bioc_remote(tmp_clone, repo)
     push_to_bioc(tmp_clone, dry_run=dry_run)
@@ -1165,7 +1182,7 @@ We appreciate your patience as we investigate
     # Clone to git.bioconductor.org
     # --------------------------------------------
     try:
-        transfer_to_git_bioc(owner, repo, dry_run=False)
+        transfer_to_git_bioc(repo, dry_run=False)
     except Exception as e:
         print(f"[ERROR] Cloning to git.bioconductor.org failed: {e}")
         pipeline_success = False
