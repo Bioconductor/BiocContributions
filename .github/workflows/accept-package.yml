@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "REPO=$GITOLITE_ADMIN_REPO"
           GIT_SSH_COMMAND="ssh -vvv" git clone "$GITOLITE_ADMIN_REPO" /tmp/gitolite-admin
-	
+
       - name: SSH connectivity test (critical)
         run: |
           ssh -o BatchMode=yes -T git@git.bioconductor.org || true
