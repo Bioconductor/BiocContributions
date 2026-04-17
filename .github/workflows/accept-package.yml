@@ -34,23 +34,22 @@ jobs:
 
       - name: Ensure git is installed
         run: git --version
-  
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.GITOLITE_SSH_KEY }}
 
-      - name: Add git.bioconductor.org to known_hosts
+      - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H git.bioconductor.org >> ~/.ssh/known_hosts
-
-      - name: Force SSH key usage
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GITOLITE_SSH_KEY }}" > ~/.ssh/id_ed25519_bioc_ci
+          eval "$(ssh-agent -s)"
+          echo "${{ secrets.GITOLITE_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519_bioc_ci
           chmod 600 ~/.ssh/id_ed25519_bioc_ci
           ssh-add ~/.ssh/id_ed25519_bioc_ci
+
+          ssh-keyscan -H git.bioconductor.org >> ~/.ssh/known_hosts
+
+          cat > ~/.ssh/config <<EOF
+          Host git.bioconductor.org
+            IdentityFile ~/.ssh/id_ed25519_bioc_ci
+            IdentitiesOnly yes
+          EOF
 
       - name: FULL Git SSH debug clone
         env:
