@@ -512,7 +512,7 @@ def bioc_credentials_lookup(github_id, maintainer_email, auth):
                 email_id = normalize_bioc_response(data)
 
                 if email_id:
-                    print(f"[INFO] email {email} → {email_id}")
+                    print(f"[INFO] BiocCredentials ID found → {email_id}")
                     email_id_results.append(email_id)
                 else:
                     print(f"[INFO] email {email} → NOT FOUND")
