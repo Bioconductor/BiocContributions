@@ -40,6 +40,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GITOLITE_SSH_KEY }}
 
+      - name: Add git.bioconductor.org to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H git.bioconductor.org >> ~/.ssh/known_hosts
+    
       - name: Accept Package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
