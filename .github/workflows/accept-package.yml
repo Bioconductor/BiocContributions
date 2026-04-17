@@ -45,16 +45,16 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H git.bioconductor.org >> ~/.ssh/known_hosts
 
-      - name: SSH debug - agent state
+      - name: Force SSH key usage
         run: |
-          echo "=== SSH_AUTH_SOCK ==="
-          echo $SSH_AUTH_SOCK
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GITOLITE_SSH_KEY }}" > ~/.ssh/id_ed25519_bic_ci
+          chmod 600 ~/.ssh/id_ed25519_bioc_ci
+          ssh-add ~/.ssh/id_ed25519_bioc_ci
 
-          echo "=== ssh-add -l ==="
-          ssh-add -l || true
-
-          echo "=== SSH key scan test ==="
-          ssh-keyscan -H git.bioconductor.org || true
+      - name: Debug Git SSH usage
+        run: |
+          GIT_SSH_COMMAND="ssh -vvv" git clone $GITOLITE_ADMIN_REPO /tmp/gitolite-admin
 
       - name: SSH connectivity test (critical)
         run: |
