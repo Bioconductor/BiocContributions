@@ -52,10 +52,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519_bioc_ci
           ssh-add ~/.ssh/id_ed25519_bioc_ci
 
-      - name: Debug Git SSH usage
-        run: |
-          GIT_SSH_COMMAND="ssh -vvv" git clone $GITOLITE_ADMIN_REPO /tmp/gitolite-admin
-
+     - name: FULL Git SSH debug clone
+       env:
+         GITOLITE_ADMIN_REPO: ${{ secrets.GITOLITE_ADMIN_REPO }}
+       run: |
+         echo "REPO=$GITOLITE_ADMIN_REPO"
+         GIT_SSH_COMMAND="ssh -vvv" git clone "$GITOLITE_ADMIN_REPO" /tmp/gitolite-admin
+	
       - name: SSH connectivity test (critical)
         run: |
           ssh -o BatchMode=yes -T git@git.bioconductor.org || true
