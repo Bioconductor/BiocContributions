@@ -108,8 +108,8 @@ def extract_repo(issue_body):
     return owner, repo
 
 
-def get_description_file(owner, repo):
-    url = f"https://raw.githubusercontent.com/{owner}/{repo}/devel/DESCRIPTION"
+def get_description_file(repo):
+    url = f"https://raw.githubusercontent.com/{GIT_TARGET_ORG}/{repo}/devel/DESCRIPTION"
     try:
         r = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
         r.raise_for_status()
@@ -1111,7 +1111,7 @@ def main():
     # --------------------------------------------
     # package type based on bioctype / biocViews
     # --------------------------------------------
-    desc_text = get_description_file(owner, repo)
+    desc_text = get_description_file(repo)
     if not desc_text:
         print("[ERROR] DESCRIPTION file not found — cannot proceed")
         sys.exit(1)
