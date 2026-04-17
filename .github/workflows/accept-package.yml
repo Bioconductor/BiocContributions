@@ -44,6 +44,21 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H git.bioconductor.org >> ~/.ssh/known_hosts
+
+      - name: SSH debug - agent state
+        run: |
+          echo "=== SSH_AUTH_SOCK ==="
+          echo $SSH_AUTH_SOCK
+
+          echo "=== ssh-add -l ==="
+          ssh-add -l || true
+
+          echo "=== SSH key scan test ==="
+          ssh-keyscan -H git.bioconductor.org || true
+
+      - name: SSH connectivity test (critical)
+        run: |
+          ssh -o BatchMode=yes -T git@git.bioconductor.org || true
     
       - name: Accept Package
         env:

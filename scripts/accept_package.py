@@ -665,7 +665,7 @@ def identity_resolution(submitter, res, metadata, auth):
 
 def _git_env():
     env = os.environ.copy()
-    env["GIT_SSH_COMMAND"] = "ssh -o IdentitiesOnly=yes"
+    env["GIT_SSH_COMMAND"] = "ssh -vvv -o IdentitiesOnly=yes"
     return env    
 
 def clone_gitolite_admin(dest_dir):
