@@ -23,10 +23,11 @@ part of the Bioconductor precheck validation:
      - The link provided is a valid, public,  github url
      - DESCRIPTION file and vignettes directory exist
      - DESCRIPTION file checks including:
-       		   + Package, Version, and biocViews fields present
-		   + Package name matches repository name (case sensitive)
-		   + Version number: Incoming packages must be  x.99.y
-		   + No remotes. Bioconductor does not allow use of Remotes.
+       
+        + Package, Version, and biocViews fields present
+		+ Package name matches repository name (case sensitive)
+		+ Version number: Incoming packages must be  x.99.y
+	    + No remotes. Bioconductor does not allow use of Remotes.
 
      - Large File Check: Files may not exceed 5MB
      - Git LFS Check: Bioconductor does not allow use of Git LFS
