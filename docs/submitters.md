@@ -201,6 +201,13 @@ for an extended period of time, the reviewer may add the inactive review tag. Th
 If the submitter wishes to reinstate the review process, they may comment on the issue for the review team
 to re-open the issue.  The validation and policy acceptance will need to be re-completed. 
 
+### Accidental Closure
+
+If you accidently close the issue, you will need to request the issue be
+re-opened by a member of the package review team. The vaidation checks will
+rerun but you should be able to pick up the process where you left off.
+
+
 ## Conclusion
 
 We thank you for your interest in Bioconductor. If you have any questions, concerns, or feedback regarding the 
