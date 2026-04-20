@@ -70,7 +70,7 @@ ERRORs are resolved. In most cases, even if a reviewer is assigned, the package
 should be free of ERROR and Warnings before a reviewer will do an in-depth
 review. Any Notes, Warnings, or Errors that remain in the package reports should
 be justified and a reviewer will consider if an exception should be made or
-not. See below section on Build Report Breakdown<br>
+not. See below section on [Build Report Breakdown](#build-report-breakdown)<br>
 Once a reviewer is assigned, a ![review in
 progress](https://img.shields.io/badge/review_in_progress-1d76db) label is
 added. New build reports will not register unless there is a valid version
@@ -93,7 +93,7 @@ decision on the package by adjusting the issue label to:
 + ![package declined](https://img.shields.io/badge/package_declined-b60205)
 + ![inactive review](https://img.shields.io/badge/inactive_review-b60205)
 
-See below section on Package Submission Status for details on what occurs with each of these actions.
+See below section on [Package Submission Status](#package-submission-status) for details on what occurs with each of these actions.
 
 ## Build Report Breakdown
 A Build Report will post and looks something like the following:
