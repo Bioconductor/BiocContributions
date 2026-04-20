@@ -5,7 +5,8 @@ trigger action events.  Please be mindful, considerate, and cautious with this
 power and responsibility.<br>
 <br>
 All previous administration steps are now automated up to assigning the
-reviewer. Some pre-check that admins would formerly do will no longer occur. You
+reviewer. See [submitters overview](https://github.com/Bioconductor/BiocContributions/blob/devel/docs/submitters.md#overview-of-submission-steps-and-automated-actions) for more information on what occurs during the submission process.<br>
+Some pre-check that admins would formerly do will no longer occur. You
 as a reviewer should use your best judgement if a package is appropriate for
 Bioconductor and must enforce a package to adhere to Bioconductor standards and
 guidelines. This includes interoperability with existing packages and pipelines,
@@ -85,8 +86,34 @@ The labels on the issue will update based on the reports. If any platform result
 +  ![Build Error](https://img.shields.io/badge/Build_Error-D60409)
 +  ![Build Unknown](https://img.shields.io/badge/Build_Unknown-d4c5f9)
 
+## Close Accept Decline Inactive
+
+Reviewers should NEVER close an issue manually. Please use the designated labels. 
+Each label is associated with an action that will preform clean up, adjust labels, 
+post a closing comment, and close the issue.  It may take several minutes but it 
+should happen automatically.  The labels are:
 
 
++ ![package accepted](https://img.shields.io/badge/package_accepted-1d76db)
++ ![package declined](https://img.shields.io/badge/package_declined-b60205)
++ ![inactive review](https://img.shields.io/badge/inactive_review-b60205)
+
+There is also a new process for declining a package. If the assigned reviewer adds
+the package declined label, a secondary reviewer from a list of admins will automatically
+be added to the issue for an independent look at the package. This ensure that a 
+package being declined was verified by at least two separate reviewers. 
+
+
+
+## FAQ
+
+
+- Related Packages/Circular Dependencies<br>
+Related packages should now be submitted as separate issues. The r-universe will
+be able to find the related packages on subsequent builds. We may manually
+adjust assigned reviewers to have a common reviewer if it is appropriate to
+review together. You may also provide a comment on the issue if you would like
+to suggest a set of packages should be reviewed together by a single person
 
 
 
