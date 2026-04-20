@@ -103,6 +103,24 @@ the package declined label, a secondary reviewer from a list of admins will auto
 be added to the issue for an independent look at the package. This ensure that a 
 package being declined was verified by at least two separate reviewers. 
 
+## Reopening Issues
+
+Anyone from the package review team may now reopen issues. When reopening the package 
+will be re-evaluated by the validation prechecks and the submitter may be asked to
+verify Bioconductor policies again. You should not have to change any labels manually. <br>
+There is an option in the validation precheck to add a  ![allow large files](https://img.shields.io/badge/allow--large--files-fbca04).
+This allows exception for packages containing files over 5 MB. This exception should be used
+sparingly and generally should not be allowed but available for certain circumstances.
+
+
+## Reassignment and Leave of Absence
+
+Anyone from the package reviewer team may reassign a reviewer.  This may be done manually
+(hopefully after a discussion with the newly assigned reviewer) or to assign the next
+available reviewer in the review queue, you may apply the label ![assign reviewer](https://img.shields.io/badge/assign--reviewer-fbca04).
+<br>
+If you are taking an extended leave and would temporarily like to be excluded from new assignments, 
+please let a package reviewer admin know; they can still progamatically exclude through action variables.
 
 
 ## FAQ
