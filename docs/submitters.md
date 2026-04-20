@@ -7,6 +7,12 @@ CMD check, and BiocCheck, a package will undergo a formal review from a member
 of the Bioconductor Review Team for Bioconductor appropriateness and adherence
 to [Bioconductor standard policies and guidelines][1].
 
+## Table of Contents
+* [Overview](#overview-of-submission-steps-and-automated-actions)
+* [Build Report Breakdown](#build-report-breakdown)
+* [Package Submission Status](#package-submission-status)
+
+
 ## Overview of Submission steps and automated actions
 
 1. [Open an Issue][2] using the issue_template. <br>Do NOT change the template.  Please
@@ -64,14 +70,32 @@ ERRORs are resolved. In most cases, even if a reviewer is assigned, the package
 should be free of ERROR and Warnings before a reviewer will do an in-depth
 review. Any Notes, Warnings, or Errors that remain in the package reports should
 be justified and a reviewer will consider if an exception should be made or
-not.<br>
+not. See below section on Build Report Breakdown<br>
 Once a reviewer is assigned, a ![review in
 progress](https://img.shields.io/badge/review_in_progress-1d76db) label is
 added. New build reports will not register unless there is a valid version
-bump; a valid version bump is advancing only the z of version x.y.z. Example:
+bump that is pushed to the new Bioconductor location NOT your individual original github;
+a valid version bump is advancing only the z of version x.y.z. Example:
 0.99.0 was initial submission, a valid version bump is 0.99.1, 0.99.2...
 
-6. Build Report Breakdown<br>
+7. Review<br>
+A review will take place typically within 3 weeks of a clean build and/or
+justifications of remaining build report issues. Once the reviewer posts
+any concerns or comments, the submitter should alter the package accordingly,
+kick off a new build with a valid version bump, and respond point by point to
+reviewers comments. This may involve several interations.
+
+8. Package Acceptance, Package Decline, or Inactive.<br>
+Once the assigned reviewer feels the review is complete or staled, they may assign the
+decision on the package by adjusting the issue label to:
+
++ ![package accepted](https://img.shields.io/badge/package_accepted-1d76db)
++ ![package declined](https://img.shields.io/badge/package_declined-b60205)
++ ![inactive review](https://img.shields.io/badge/inactive_review-b60205)
+
+See below section on Package Submission Status for details on what occurs with each of these actions.
+
+## Build Report Breakdown
 A Build Report will post and looks something like the following:
 ```
 ✅ New build detected for LoriPkgTest2, version 0.99.5.
@@ -94,7 +118,94 @@ A Build Report will post and looks something like the following:
 | windows-release | 4.6.0 | ⚠️ WARNING | [run](https://github.com/r-universe/tempbioc/actions/runs/24356343947/job/71124597648) |
 
 
-explanation 
+Let us review what information each of these pieces of the report contain. 
+```
+✅ New build detected for LoriPkgTest2, version 0.99.5.
+```
+This shows the package name and version that the report was generated on.
+
+```
+⚙️ Detailed run: https://github.com/r-universe/tempbioc/actions/runs/24356343947
+```
+This shows the full r-universe install, build, and check logs of the package across all platforms. 
+```
+📦 Bioconductor staging repository: https://github.com/tempbioc/LoriPkgTest2
+```
+This is a link to the current source of the package building in r-universe. 
+```
+🌐 R-universe package page: https://tempbioc.r-universe.dev/LoriPkgTest2#checktable
+```
+This is the complete landing page in r-universe for the package. 
+It also includes a table of results for all platforms r-universe builds on. 
+While all platforms are encouraged to be clean, Bioconductor new submissions will be 
+evaluted on the current associated R version for current Bioconductor devel. For this
+reason the table provided in the comments is a filtered table of relevant platforms.
+<br><br>
+The table provides the **Platform**, the version of **R**, **Status** of the Run, and **URL** to detailed 
+log of the run. All **Status** should be minimally `ℹ️ NOTE` and ideally `✅ OK`. Warnings and 
+Errors should be fixed or justified in a comment to the reviewer. To see the reports, you can 
+click on the URL. This will take you to the run overview for that platform. 
+<br>To see the detailed reports from the r-universe logs:<br> 
++ "source" expand "Build source package and vignettes" section of the log<br>
++ "bioc-check expand "Run BiocCheck for packagename" <br>
++ all other platforms expand either "Build package packagename" or "R CMD CMD"
+<br>
+The labels on the issue will update based on the reports. If any platform results in that level of status.
+
++  ![Build OK](https://img.shields.io/badge/Build_OK-8aca2b)
++  ![Build Note](https://img.shields.io/badge/Build_Note-c2e0c6)
++  ![Build Warning](https://img.shields.io/badge/Build_Warning-FFB302)
++  ![Build Error](https://img.shields.io/badge/Build_Error-D60409)
++  ![Build Unknown](https://img.shields.io/badge/Build_Unknown-d4c5f9)
+
+
+## Package Submission Status 
+
+There are three completion actions to a review:
+
++ ![package accepted](https://img.shields.io/badge/package_accepted-1d76db)
++ ![package declined](https://img.shields.io/badge/package_declined-b60205)
++ ![inactive review](https://img.shields.io/badge/inactive_review-b60205)
+
+### Package Acceptance
+
+When a package is accepted, the issue will be closed and the package will move to the live 
+Bioconductor devel location. This includes:
+
+	1. Cloning the github repository to the canonical Bioconductor location. Instructions are given in the issue comment to update remotes.
+	2. Add the package to the official Bioconductor manifest for Bioconductor devel
+	3. Create a BiocCredential account to manage ssh-keys for push access to the new location
+	4. Remove the package from the new submission organization and r-universe registry
+	5. Close the issue
+
+### Package Decline
+
+If the original reviewer deemed the package not appropriate for Bioconductor, they will add this label. 
+At this time a secondary reviewer is assigned to look at the package to see if they concur. If this occurs, 
+we encourage the submitter to make any additional comments or statements regarding the initial review. If
+the second reviewer agrees the package should be declined, they will confirm the package decline triggering
+
+	1. Remove the package from the new submission organization and r-universe registry
+	2. Close the issue
+
+### Inactive Review
+
+We understand that package development is not always top priority for submitters. However, the review
+process should proceed in a timely fashion.  If the review has staled, the reviewer will likely ping
+the submitter for an update on progress and intention to continue the review. If the review stays idol
+for an extended period of time, the reviewer may add the inactive review tag. This results in 
+
+	1. Remove the package from the new submission organization and r-universe registry
+	2. Close the issue
+
+If the submitter wishes to reinstate the review process, they may comment on the issue for the review team
+to re-open the issue.  The validation and policy acceptance will need to be re-completed. 
+
+## Conclusion
+
+We thank you for your interest in Bioconductor. If you have any questions, concerns, or feedback regarding the 
+submissions process we encourage you to reach out to the package review team admins. 
+
 
 [1]: https://contributions.bioconductor.org/develop-overview.html
 [2]: https://github.com/Bioconductor/BiocContributions/issues
