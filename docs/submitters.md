@@ -207,6 +207,15 @@ If you accidently close the issue, you will need to request the issue be
 re-opened by a member of the package review team. The vaidation checks will
 rerun but you should be able to pick up the process where you left off.
 
+## FAQs
+
+- Related Packages/Circular Dependencies<br>
+Related packages should now be submitted as separate issues. The r-universe will
+be able to find the related packages on subsequent builds. We may manually
+adjust assigned reviewers to have a common reviewer if it is appropriate to
+review together. You may also provide a comment on the issue if you would like
+to suggest a set of packages should be reviewed together by a single person
+
 
 ## Conclusion
 
