@@ -49,6 +49,51 @@ action. Once policies are accepted,
 ![pre-review](https://img.shields.io/badge/pre--review-cfd3d7) labels are added
 to the issue.
 
+4. Clone and register the package in the new package submission process
+r-universe. At this time, the original repository is cloned into an organization
+that mimics standards of Bioconductor git repositories. It also adds the package
+to a new submission r-universe to start receiving build reports. The system adds
+instructions for linking and pushing to the new location. This will be required
+to trigger future build reports on the system. It can take some time for new
+builds to be picked up in the r-universe system; please be patient. If you do
+not receive a build report within 24 hours please contact Bioconductor review
+admins for assistance.
+
+5. Build Reports and Reviewer Assignment.
+Bioconductor will not assign a reviewer to a package until
+ERRORs are resolved. In most cases, even if a reviewer is assigned, the package
+should be free of ERROR and Warnings before a reviewer will do an in-depth
+review. Any Notes, Warnings, or Errors that remain in the package reports should
+be justified and a reviewer will consider if an exception should be made or
+not.
+Once a reviewer is assigned, a ![review in
+progress](https://img.shields.io/badge/review_in_progress-1d76db) label is
+added. New build reports will not register unless there is a valid version
+bump; a valid version bump is advancing only the z of version x.y.z. Example:
+0.99.0 was initial submission, a valid version bump is 0.99.1, 0.99.2...
+
+6. Build Report Breakdown
+
+```
+✅ New build detected for LoriTestPkg5, version 0.99.5.
+⚙️ Detailed run: https://github.com/r-universe/tempbioc/actions/runs/24356345288
+📦 Bioconductor staging repository: https://github.com/tempbioc/LoriTestPkg5
+🌐 R-universe package page: https://tempbioc.r-universe.dev/LoriTestPkg5#checktable
+
+📊 R-universe check results for `LoriTestPkg5`
+
+| Platform | R | Status | URL |
+|----------|---|--------|------|
+| source | 4.5.3 | ✅ OK | [run](https://github.com/r-universe/tempbioc/actions/runs/24356345288/job/71124219924) |
+| bioc-checks | 4.5.3 | ℹ️ NOTE | [run](https://github.com/r-universe/tempbioc/actions/runs/24356345288/job/71125390494) |
+| linux-devel-x86_64 | 4.6.0 | ✅ OK | [run](https://github.com/r-universe/tempbioc/actions/runs/24356345288/job/71125390503) |
+| macos-release-arm64 | 4.6.0 | ✅ OK | [run](https://github.com/r-universe/tempbioc/actions/runs/24356345288/job/71125390585) |
+| windows-release | 4.6.0 | ✅ OK | [run](https://github.com/r-universe/tempbioc/actions/runs/24356345288/job/71125390637) |
+```
+
+
+
+
 
 
 [1]: https://contributions.bioconductor.org/develop-overview.html
