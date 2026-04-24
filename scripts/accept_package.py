@@ -18,13 +18,14 @@ from datetime import datetime
 # --------------------------------------------
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]             # repo workflow token
 BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")     # org/team token
-TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
 ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
-GIT_TARGET_ORG = os.environ["GIT_TARGET_ORG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
+BIOC_STAGING_ORG = os.environ["BIOC_STAGING_ORG"]
+SPB_RUNIVERSE = os.environ["SPB_RUNIVERSE"]
+BIOC_STAGING_TOKEN = os.environ.get("BIOC_STAGING_TOKEN")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -36,8 +37,8 @@ ORG_HEADERS = {
     "Accept": "application/vnd.github+json"
 } if BIOC_ORG_TOKEN else HEADERS
 
-TEMP_BIOC_HEADERS = {
-    "Authorization": f"Bearer {TEMP_BIOC_TOKEN}",
+BIOC_STAGING_HEADERS = {
+    "Authorization": f"Bearer {BIOC_STAGING_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -109,9 +110,9 @@ def extract_repo(issue_body):
 
 
 def get_description_file(repo):
-    url = f"https://raw.githubusercontent.com/{GIT_TARGET_ORG}/{repo}/devel/DESCRIPTION"
+    url = f"https://raw.githubusercontent.com/{BIOC_STAGING_ORG}/{repo}/devel/DESCRIPTION"
     try:
-        r = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
+        r = requests.get(url, headers=BIOC_STAGING_HEADERS, timeout=10)
         r.raise_for_status()
         return r.text
     except requests.RequestException as e:
@@ -778,7 +779,7 @@ def clone_github_repo(owner, repo, dest):
 
 
 def clone_tempbioc_repo(repo, dest):
-    url = f"https://github.com/{GIT_TARGET_ORG}/{repo}.git"
+    url = f"https://github.com/{BIOC_STAGING_ORG}/{repo}.git"
 
     if os.path.exists(dest):
         if not dest.startswith("/tmp/"):
@@ -1033,8 +1034,8 @@ def generate_bioc_pkg_doi(pkg, authors, pubyear=None, event="publish", testing=T
 # ----------------------------
 
 def delete_temp_repo(repo_name):
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}"
-    r = requests.delete(url, headers=TEMP_BIOC_HEADERS)
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{repo_name}"
+    r = requests.delete(url, headers=BIOC_STAGING_HEADERS)
 
     if r.status_code == 204:
         print(f"[INFO] Deleted repo {repo_name}")
@@ -1045,10 +1046,10 @@ def delete_temp_repo(repo_name):
 
 
 def remove_from_registry(repo_name):
-    registry_repo = "tempbioc.r-universe.dev"
+    registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
 
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{registry_repo}/contents/packages.json"
-    r = requests.get(url, headers=TEMP_BIOC_HEADERS)
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{registry_repo}/contents/packages.json"
+    r = requests.get(url, headers=BIOC_STAGING_HEADERS)
 
     if r.status_code != 200:
         print("[WARN] Could not fetch registry")
@@ -1065,7 +1066,7 @@ def remove_from_registry(repo_name):
 
     updated = json.dumps(new_content, indent=2)
 
-    r = requests.put(url, headers=TEMP_BIOC_HEADERS, json={
+    r = requests.put(url, headers=BIOC_STAGING_HEADERS, json={
         "message": f"Remove {repo_name}",
         "content": base64.b64encode(updated.encode()).decode(),
         "sha": data["sha"]
@@ -1284,7 +1285,7 @@ It has been added to the official Bioconductor devel system.
 
 If you want to push command line updates, you need to update your remotes:
 ```
-  git remote remove tempbioc
+  git remote remove {SPB_RUNIVERSE}
   git remote add bioc git@git.bioconductor.org:packages/{repo}
   git push bioc devel
 ```

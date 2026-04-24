@@ -59,9 +59,10 @@ jobs:
           TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+          BIOC_STAGING_TOKEN: ${{ secrets.BIOC_STAGING_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          GIT_TARGET_ORG: "tempbioc"
+          SPB_RUNIVERSE: biocstaging
+          BIOC_STAGING_ORG: BiocStaging
           GITOLITE_ADMIN_REPO: ${{ secrets.GITOLITE_ADMIN_REPO }}
           MANIFEST_REPO: ${{ secrets.MANIFEST_REPO }}
           DATACITE_USERNAME: ${{ secrets.DATACITE_USERNAME }}
