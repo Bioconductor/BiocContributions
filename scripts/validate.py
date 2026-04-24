@@ -322,6 +322,9 @@ def main():
     # ----------------------------
     # Check DESCRIPTION and vignettes exists
     # ----------------------------
+    package_name = None
+    package_version = None
+
     description_file = github_get(
         f"https://api.github.com/repos/{owner}/{repo}/contents/DESCRIPTION"
     )
@@ -335,8 +338,6 @@ def main():
 
     if not vignette_dir or not isinstance(vignette_dir, list):
         failures.append("vignettes/ directory not found.")
-
-    package_name = None
 
     # ----------------------------
     # DESCRIPTION file checks
