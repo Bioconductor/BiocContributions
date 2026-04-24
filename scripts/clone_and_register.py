@@ -203,7 +203,7 @@ def update_registry(repo_path):
     registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
     repo_url = f"https://github.com/{repo_path}"
     package_name = repo_path.split("/")[-1]
-    clone_url = f"https://x-access-token:{TEMP_BIOC_TOKEN}@github.com/{BIOC_STAGING_ORG}/{registry_repo}.git"
+    clone_url = f"https://x-access-token:{BIOC_STAGING_TOKEN}@github.com/{BIOC_STAGING_ORG}/{registry_repo}.git"
 
     try:
         subprocess.run(["git", "clone", clone_url], check=True)
