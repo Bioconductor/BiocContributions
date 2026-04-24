@@ -227,7 +227,7 @@ def parse_runiverse_build(pkg):
     # Platform policy
     # -----------------------------
     platforms_ok = ["source"]
-    platforms_warnings = ["bioccheck", "linux", "macos", "windows"]
+    platforms_warnings = ["bioc-check", "linux", "macos", "windows"]
     ALWAYS_KEEP = ["source", "bioc-check"]
     url = f"https://{SPB_RUNIVERSE}.r-universe.dev/api/packages/{pkg}"
 
