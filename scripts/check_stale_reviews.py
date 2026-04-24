@@ -8,11 +8,12 @@ import re
 # --------------------------------------------
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]             # repo workflow token
 BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")     # org/team token
-TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
-GIT_TARGET_ORG = os.environ["GIT_TARGET_ORG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
 OWNER, REPO = REPO_FULL.split("/")
+BIOC_STAGING_ORG = os.environ["BIOC_STAGING_ORG"]
+SPB_RUNIVERSE = os.environ["SPB_RUNIVERSE"]
+BIOC_STAGING_TOKEN = os.environ.get("BIOC_STAGING_TOKEN")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -24,8 +25,8 @@ ORG_HEADERS = {
     "Accept": "application/vnd.github+json"
 } if BIOC_ORG_TOKEN else HEADERS
 
-TEMP_BIOC_HEADERS = {
-    "Authorization": f"Bearer {TEMP_BIOC_TOKEN}",
+BIOC_STAGING_HEADERS = {
+    "Authorization": f"Bearer {BIOC_STAGING_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -63,10 +64,10 @@ def get_org_repos():
     repos = []
     page = 1
     while True:
-        url = f"https://api.github.com/orgs/{GIT_TARGET_ORG}/repos"
+        url = f"https://api.github.com/orgs/{BIOC_STAGING_ORG}/repos"
         r = requests.get(
             url,
-            headers=TEMP_BIOC_HEADERS,
+            headers=BIOC_STAGING_HEADERS,
             params={
                 "per_page": 100,
                 "page": page,
@@ -124,9 +125,9 @@ def extract_package(issue, failures=None):
 # Registry
 # --------------------------------------------
 def get_registry_packages():
-    registry_repo = "tempbioc.r-universe.dev"
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{registry_repo}/contents/packages.json"
-    r = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
+    registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{registry_repo}/contents/packages.json"
+    r = requests.get(url, headers=BIOC_STAGING_HEADERS, timeout=10)
     r.raise_for_status()
     data = r.json()
     content = json.loads(base64.b64decode(data["content"]).decode())

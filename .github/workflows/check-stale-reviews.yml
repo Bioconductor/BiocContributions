@@ -28,8 +28,9 @@ jobs:
           BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
-          GIT_TARGET_ORG: "tempbioc"
+          BIOC_STAGING_TOKEN: ${{ secrets.BIOC_STAGING_TOKEN }}
+          SPB_RUNIVERSE: biocstaging
+          BIOC_STAGING_ORG: BiocStaging
         run: |
           python scripts/check_stale_reviews.py
 
