@@ -2,5 +2,5 @@ package_name,repo_full,submitter,issue_number,last_sha,last_version,last_valid_v
 spbtest,dtenenba/spbtest,dtenenba,4,,,
 spbtest2,dtenenba/spbtest2,dtenenba,4,,,
 LoriPkgTest2,lshep/LoriPkgTest2,lshep,16,9ee6df4c68d0575907304e10c8c50be9cfdafbaa,0.99.5,0.99.5
-LoriTestPkg4,lshep/LoriTestPkg4,lshep,21,,0.99.4,0.99.4
-LoriTestPkg5,lshep/LoriTestPkg5,lshep,22,,0.99.5,0.99.5
+LoriTestPkg4,lshep/LoriTestPkg4,lshep,21,6f5e0959257dfb3d6df2137e81aab7d2143f4329,0.99.4,0.99.4
+LoriTestPkg5,lshep/LoriTestPkg5,lshep,22,11be81f3503eabc95cda6fcf4d66e05f1294b1d4,0.99.5,0.99.5
