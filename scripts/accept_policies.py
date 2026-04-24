@@ -22,7 +22,6 @@ def post_comment(issue_number, body):
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
-    #issue_number = event["issue"]["number"]
     owner, repo = REPO_FULL.split("/")
 
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments"
@@ -33,7 +32,6 @@ def add_label(issue_number, label):
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
-    #issue_number = event["issue"]["number"]
     owner, repo = REPO_FULL.split("/")
 
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels"
@@ -45,7 +43,6 @@ def remove_label(issue_number, label):
     with open(EVENT_PATH) as f:
         event = json.load(f)
 
-    #issue_number = event["issue"]["number"]
     owner, repo = REPO_FULL.split("/")
 
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
