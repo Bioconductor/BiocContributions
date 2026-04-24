@@ -10,11 +10,12 @@ import shutil
 # Environment / Tokens
 # ----------------------------
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
-TEMP_BIOC_TOKEN = os.environ["TEMP_BIOC_TOKEN"]
+BIOC_STAGING_TOKEN = os.environ["BIOC_STAGING_TOKEN"]
 GITHUB_EVENT_PATH = os.environ.get("GITHUB_EVENT_PATH")
 GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
-GIT_TARGET_ORG = os.environ["GIT_TARGET_ORG"]
-ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")  # mandatory for manual trigger
+BIOC_STAGING_ORG = os.environ["BIOC_STAGING_ORG"]
+ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
+SPB_RUNIVERSE = os.environ["SPB_RUNIVERSE"]
 
 OWNER, REPO = GITHUB_REPOSITORY.split("/")
 
@@ -23,8 +24,8 @@ HEADERS = {
     "Accept": "application/vnd.github+json"
 }
 
-TEMP_BIOC_HEADERS = {
-    "Authorization": f"Bearer {TEMP_BIOC_TOKEN}",
+BIOC_STAGING_HEADERS = {
+    "Authorization": f"Bearer {BIOC_STAGING_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -75,23 +76,23 @@ def remove_label(label):
 # GitHub repo management
 # ----------------------------
 def create_target_repo(repo_name):
-    url = f"https://api.github.com/orgs/{GIT_TARGET_ORG}/repos"
+    url = f"https://api.github.com/orgs/{BIOC_STAGING_ORG}/repos"
     data = {"name": repo_name, "private": False, "auto_init": False}
-    r = requests.post(url, headers=TEMP_BIOC_HEADERS, json=data)
+    r = requests.post(url, headers=BIOC_STAGING_HEADERS, json=data)
     if r.status_code not in [201, 422]:
         print(f"❌ Failed to create repo: {r.status_code} {r.text}")
         sys.exit(1)
 
 def set_default_branch(repo_name, branch="devel"):
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}"
-    r = requests.patch(url, headers=TEMP_BIOC_HEADERS, json={"default_branch": branch})
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{repo_name}"
+    r = requests.patch(url, headers=BIOC_STAGING_HEADERS, json={"default_branch": branch})
     if r.status_code != 200:
         print(f"⚠️ Could not set default branch to {branch}: {r.status_code} {r.text}")
 
 def add_collaborator(repo_name, username, permission="write"):
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}/collaborators/{username}"
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{repo_name}/collaborators/{username}"
     data = {"permission": permission}
-    r = requests.put(url, headers=TEMP_BIOC_HEADERS, json=data)
+    r = requests.put(url, headers=BIOC_STAGING_HEADERS, json=data)
     if r.status_code not in [201, 204]:
         print(f"⚠️ Failed to add @{username}: {r.status_code} {r.text}")
     else:
@@ -107,7 +108,7 @@ def add_collaborator(repo_name, username, permission="write"):
 # ----------------------------
 
 def protect_devel(repo_name):
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}/branches/devel/protection"
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{repo_name}/branches/devel/protection"
 
     data = {
         "required_status_checks": None,
@@ -118,7 +119,7 @@ def protect_devel(repo_name):
         "allow_deletions": False
     }
 
-    r = requests.put(url, headers=TEMP_BIOC_HEADERS, json=data)
+    r = requests.put(url, headers=BIOC_STAGING_HEADERS, json=data)
     if r.status_code not in [200]:
         print(f"⚠️ Failed to protect devel: {r.status_code} {r.text}")
     else:
@@ -138,7 +139,7 @@ def clone_and_push():
     source_owner, source_repo = match.groups()
     source_repo = source_repo.rstrip(".git")
     source_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{source_owner}/{source_repo}.git"
-    target_url = f"https://x-access-token:{TEMP_BIOC_TOKEN}@github.com/{GIT_TARGET_ORG}/{source_repo}.git"
+    target_url = f"https://x-access-token:{BIOC_STAGING_TOKEN}@github.com/{BIOC_STAGING_ORG}/{source_repo}.git"
 
     # Fetch source default branch
     repo_api_url = f"https://api.github.com/repos/{source_owner}/{source_repo}"
@@ -149,18 +150,18 @@ def clone_and_push():
     source_default_branch = r.json().get("default_branch", "main")
 
     # Check if target repo exists and is empty
-    target_repo_api_url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{source_repo}"
-    r_target = requests.get(target_repo_api_url, headers=TEMP_BIOC_HEADERS)
+    target_repo_api_url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{source_repo}"
+    r_target = requests.get(target_repo_api_url, headers=BIOC_STAGING_HEADERS)
     if r_target.status_code == 404:
         create_target_repo(source_repo)
         repo_empty = True
     elif r_target.status_code == 200:
-        r_contents = requests.get(f"{target_repo_api_url}/contents", headers=TEMP_BIOC_HEADERS)
+        r_contents = requests.get(f"{target_repo_api_url}/contents", headers=BIOC_STAGING_HEADERS)
         if r_contents.status_code == 200 and len(r_contents.json()) > 0:
-            msg = (f"ℹ️ Target repository **{GIT_TARGET_ORG}/{source_repo}** already exists and is not empty.\n"
+            msg = (f"ℹ️ Target repository **{BIOC_STAGING_ORG}/{source_repo}** already exists and is not empty.\n"
                    "  - Cloning is skipped to avoid overwriting existing content.\n")
             add_collaborator(source_repo, original_submitter, permission="write")
-            return f"{GIT_TARGET_ORG}/{source_repo}", msg
+            return f"{BIOC_STAGING_ORG}/{source_repo}", msg
         repo_empty = True
     else:
         print(f"❌ Failed to check target repo: {r_target.text}")
@@ -184,7 +185,7 @@ def clone_and_push():
         set_default_branch(source_repo, "devel")
         protect_devel(source_repo)
        
-        msg = f"✅ Cloned **{source_owner}/{source_repo}** → **{GIT_TARGET_ORG}/{source_repo}** (branch: `devel`)"
+        msg = f"✅ Cloned **{source_owner}/{source_repo}** → **{BIOC_STAGING_ORG}/{source_repo}** (branch: `devel`)"
 
         add_collaborator(source_repo, original_submitter, permission="write")
         
@@ -192,17 +193,17 @@ def clone_and_push():
         print(f"❌ Git operation failed: {e}")
         sys.exit(1)
 
-    return f"{GIT_TARGET_ORG}/{source_repo}", msg
+    return f"{BIOC_STAGING_ORG}/{source_repo}", msg
 
 # ----------------------------
 # Update packages.json
 # ----------------------------
 def update_registry(repo_path):
     msg = ""
-    registry_repo = "tempbioc.r-universe.dev"
+    registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
     repo_url = f"https://github.com/{repo_path}"
     package_name = repo_path.split("/")[-1]
-    clone_url = f"https://x-access-token:{TEMP_BIOC_TOKEN}@github.com/{GIT_TARGET_ORG}/{registry_repo}.git"
+    clone_url = f"https://x-access-token:{TEMP_BIOC_TOKEN}@github.com/{BIOC_STAGING_ORG}/{registry_repo}.git"
 
     try:
         subprocess.run(["git", "clone", clone_url], check=True)
@@ -262,14 +263,14 @@ Your package is cloned to the Bioconductor new submission source repository and 
 
 If you want to push command line updates, you need to update your remotes:
 ```
-  git remote add tempbioc https://github.com/{GIT_TARGET_ORG}/{repo_path.split('/')[-1]}
-  git push tempbioc devel
+  git remote add {SPB_RUNIVERSE} https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+  git push {SPB_RUNIVERSE} devel
 ```
 
 Bioconductor uses **devel** as its default branch.
 If you use a different branch (example: main) map branches when pushing:
 ``` 
-  git push tempbioc main:devel
+  git push {SPB_RUNIVERSE} main:devel
 ```
 
 You will receive your build report shortly.
