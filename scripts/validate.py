@@ -413,9 +413,9 @@ def main():
     existing = get_existing_submission(package_name) if package_name else None
     skip_duplicates = False
     if existing:
+        skip_duplicates = True
         current_issue_number = event["issue"]["number"]
         if str(existing["issue_number"]) != str(current_issue_number):
-            skip_duplicates = True
             add_label("duplicate")
             failures.append(
                 f"Package '{package_name}' has already been submitted by "
