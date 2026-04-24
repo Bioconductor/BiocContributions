@@ -70,8 +70,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BIOC_STAGING_TOKEN: ${{ secrets.BIOC_STAGING_TOKEN }}
-          BIOC_STAGING_ORG: "BiocStaging"
-          SPB_RUNIVERSE: "biocstaging"
+          BIOC_STAGING_ORG: BiocStaging
+          SPB_RUNIVERSE: biocstaging
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}

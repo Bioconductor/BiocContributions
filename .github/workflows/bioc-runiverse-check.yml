@@ -47,11 +47,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
-          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+          BIOC_STAGING_TOKEN: ${{ secrets.BIOC_STAGING_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           SUBMISSIONS_PATH: submissions/submitted_packages.csv
-          RUNIVERSE_WORKFLOW: "https://github.com/r-universe/tempbioc/actions/workflows/build.yml"
+          SPB_RUNIVERSE: biocstaging
+          BIOC_STAGING_ORG: BiocStaging
           PACKAGE_NAME: ${{ github.event.inputs.package_name }}
           ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
           ORG_NAME: Bioconductor

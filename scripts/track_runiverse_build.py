@@ -12,11 +12,13 @@ import yaml
 # ----------------------------
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 SUBMISSIONS_FILE = os.environ.get("SUBMISSIONS_PATH", "submissions/submitted_packages.csv")
-RUNIVERSE_WORKFLOW = os.environ["RUNIVERSE_WORKFLOW"]
+SPB_RUNIVERSE = os.environ["SPB_RUNIVERSE"]
+RUNIVERSE_WORKFLOW = f"https://github.com/r-universe/{SPB_RUNIVERSE}/actions/workflows/build.yml"
 PACKAGE_NAME = os.environ.get("PACKAGE_NAME")
 ISSUE_NUMBER = os.environ.get("ISSUE_NUMBER")
 BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")
-TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
+BIOC_STAGING_ORG = os.environ["BIOC_STAGING_ORG"]
+BIOC_STAGING_TOKEN = os.environ.get("BIOC_STAGING_TOKEN")
 ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
@@ -32,8 +34,8 @@ ORG_HEADERS = {
     "Accept": "application/vnd.github+json"
 } if BIOC_ORG_TOKEN else HEADERS
 
-TEMP_BIOC_HEADERS = {
-    "Authorization": f"Bearer {TEMP_BIOC_TOKEN}",
+BIOC_STAGING_HEADERS = {
+    "Authorization": f"Bearer {BIOC_STAGING_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -184,9 +186,9 @@ def remove_label(issue_number, label, headers=None):
 # Get version from DESCRIPTION
 # ----------------------------
 def get_version_from_description(pkg, branch="devel"):
-    url = f"https://raw.githubusercontent.com/tempbioc/{pkg}/{branch}/DESCRIPTION"
+    url = f"https://raw.githubusercontent.com/{BIOC_STAGING_ORG}/{pkg}/{branch}/DESCRIPTION"
     try:
-        resp = requests.get(url, timeout=10)
+        resp = requests.get(url, headers=BIOC_STAGING_HEADERS, timeout=10)
         resp.raise_for_status()
     except requests.RequestException as e:
         print(f"[WARN] Could not fetch DESCRIPTION for {pkg}@{branch}: {e}")
@@ -227,7 +229,7 @@ def parse_runiverse_build(pkg):
     platforms_ok = ["source"]
     platforms_warnings = ["bioccheck", "linux", "macos", "windows"]
     ALWAYS_KEEP = ["source", "bioc-check"]
-    url = f"https://tempbioc.r-universe.dev/api/packages/{pkg}"
+    url = f"https://{SPB_RUNIVERSE}.r-universe.dev/api/packages/{pkg}"
 
     build_clean = True
 
@@ -247,7 +249,7 @@ def parse_runiverse_build(pkg):
         print(f"[WARN] Could not fetch Bioconductor config, skipping R filtering: {e}")
 
     try:
-        resp = requests.get(url, headers=TEMP_BIOC_HEADERS, timeout=10)
+        resp = requests.get(url, headers=BIOC_STAGING_HEADERS, timeout=10)
 
         if resp.status_code == 404:
             return {
@@ -444,7 +446,7 @@ def get_recent_workflow_runs():
     print(f"[DEBUG] Fetching workflow runs: {url}")
 
     try:
-        resp = requests.get(url, headers=TEMP_BIOC_HEADERS, params=params, timeout=10)
+        resp = requests.get(url, headers=BIOC_STAGING_HEADERS, params=params, timeout=10)
         resp.raise_for_status()
     except requests.RequestException as e:
         print(f"[WARN] Failed to fetch workflow runs: {e}")
@@ -555,7 +557,7 @@ for pkg, row in csv_rows.items():
     last_sha = row.get("last_sha", "")
     last_version = row.get("last_version", "")
     last_valid_version = row.get("last_valid_version", "")
-    temp_repo_url = f"https://github.com/tempbioc/{pkg}"
+    temp_repo_url = f"https://github.com/{BIOC_STAGING_ORG}/{pkg}"
 
     version = get_version_from_description(pkg)
     if not version:
@@ -617,7 +619,7 @@ for pkg, row in csv_rows.items():
                     "body": f"✅ First build detected for {pkg}, version {version}.\n"
                             f"⚙️ Detailed run: {run_url}\n"
                             f"📦 Bioconductor staging repository: {temp_repo_url}\n"
-                            f"🌐 R-universe package page: https://tempbioc.r-universe.dev/{pkg}#checktable\n\n"
+                            f"🌐 R-universe package page: https://{SPB_RUNIVERSE}.r-universe.dev/{pkg}#checktable\n\n"
                             f"{ru['message']}"
                 }, timeout=10)
             except requests.RequestException as e:
@@ -669,7 +671,7 @@ for pkg, row in csv_rows.items():
                     "body": f"✅ New build detected for {pkg}, version {version}.\n"
                             f"⚙️ Detailed run: {run_url}\n"
                             f"📦 Bioconductor staging repository: {temp_repo_url}\n"
-                            f"🌐 R-universe package page: https://tempbioc.r-universe.dev/{pkg}#checktable\n\n"
+                            f"🌐 R-universe package page: https://{SPB_RUNIVERSE}.r-universe.dev/{pkg}#checktable\n\n"
                             f"{ru['message']}"
                 }, timeout=10)
                 resp.raise_for_status()
@@ -689,7 +691,7 @@ for pkg, row in csv_rows.items():
                         "body": f"⚠️ Build detected for {pkg} with invalid version bump ({last_version} -> {version}). "
                                 f"Only z should increase; please correct version.\n"
                                 f"📦 Bioconductor staging repository: {temp_repo_url}\n"
-                                f"Reports not posted but can be accessed directly at https://tempbioc.r-universe.dev/builds"
+                                f"Reports not posted but can be accessed directly at https://{SPB_RUNIVERSE}.r-universe.dev/builds"
                        }, timeout=10)
                     resp.raise_for_status()
                 except requests.RequestException as e:
