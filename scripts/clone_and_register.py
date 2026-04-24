@@ -274,6 +274,7 @@ If you use a different branch (example: main) map branches when pushing:
 ```
 
 You will receive your build report shortly.
+If you do not receive a build report withihn 24 hours please ask for assistance.
 
 Reminders:
 
