@@ -34,11 +34,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
-          TEMP_BIOC_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
+          BIOC_STAGING_TOKEN: ${{ secrets.TEMP_BIOC_TOKEN }}
           ORG_NAME: Bioconductor
           TEAM_SLUG: packagereviewers    # GitHub team slug, always lowercase
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-          GIT_TARGET_ORG: "tempbioc"
+          SPB_RUNIVERSE: biocstaging
+          BIOC_STAGING_ORG: BiocStaging
           ADMIN_REVIEWERS: ${{ secrets.ADMIN_REVIEWERS }}
         run: python scripts/confirm_decline.py

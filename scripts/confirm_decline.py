@@ -11,12 +11,13 @@ import time
 # --------------------------------------------
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]             # repo workflow token
 BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN")     # org/team token
-TEMP_BIOC_TOKEN = os.environ.get("TEMP_BIOC_TOKEN")
 ORG_NAME = os.environ.get("ORG_NAME", "Bioconductor")
 TEAM = os.environ["TEAM_SLUG"]
-GIT_TARGET_ORG = os.environ["GIT_TARGET_ORG"]
 REPO_FULL = os.environ["GITHUB_REPOSITORY"]
 EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
+BIOC_STAGING_ORG = os.environ["BIOC_STAGING_ORG"]
+SPB_RUNIVERSE = os.environ["SPB_RUNIVERSE"]
+BIOC_STAGING_TOKEN = os.environ.get("BIOC_STAGING_TOKEN")
 
 OWNER, REPO = REPO_FULL.split("/")
 
@@ -30,8 +31,8 @@ ORG_HEADERS = {
     "Accept": "application/vnd.github+json"
 } if BIOC_ORG_TOKEN else HEADERS
 
-TEMP_BIOC_HEADERS = {
-    "Authorization": f"Bearer {TEMP_BIOC_TOKEN}",
+BIOC_STAGING_HEADERS = {
+    "Authorization": f"Bearer {BIOC_STAGING_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -103,8 +104,8 @@ def get_label_adder(owner, repo, issue_number, label_name, headers):
 # ----------------------------
 
 def delete_temp_repo(repo_name):
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{repo_name}"
-    r = requests.delete(url, headers=TEMP_BIOC_HEADERS)
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{repo_name}"
+    r = requests.delete(url, headers=BIOC_STAGING_HEADERS)
 
     if r.status_code == 204:
         print(f"[INFO] Deleted repo {repo_name}")
@@ -115,10 +116,10 @@ def delete_temp_repo(repo_name):
 
 
 def remove_from_registry(repo_name):
-    registry_repo = "tempbioc.r-universe.dev"
+    registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
 
-    url = f"https://api.github.com/repos/{GIT_TARGET_ORG}/{registry_repo}/contents/packages.json"
-    r = requests.get(url, headers=TEMP_BIOC_HEADERS)
+    url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{registry_repo}/contents/packages.json"
+    r = requests.get(url, headers=BIOC_STAGING_HEADERS)
 
     if r.status_code != 200:
         print("[WARN] Could not fetch registry")
@@ -135,7 +136,7 @@ def remove_from_registry(repo_name):
 
     updated = json.dumps(new_content, indent=2)
 
-    r = requests.put(url, headers=TEMP_BIOC_HEADERS, json={
+    r = requests.put(url, headers=BIOC_STAGING_HEADERS, json={
         "message": f"Remove {repo_name}",
         "content": base64.b64encode(updated.encode()).decode(),
         "sha": data["sha"]

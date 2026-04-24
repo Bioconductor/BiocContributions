@@ -153,7 +153,7 @@ except requests.RequestException as e:
 comment_url = f"https://api.github.com/repos/{REPO_FULL}/issues/{ISSUE_NUMBER}/comments"
 comment_body = {
     "body": (
-        f"👤 A secondary Reviewer @{chosen_admin} has been assigned.\n\n"
+        f"👤 A secondary Reviewer @{chosen_admin} has been assigned. Please comment `/confirm-decline-package` to verify package decline.\n\n"
         "Your package has been declined by the first reviewer for reasons stated in the review. "
         "We have assigned a secondary reviewer to take a second look. "
         "In the meantime, please feel free to leave any additional comments to assist in the review."
