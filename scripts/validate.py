@@ -282,10 +282,11 @@ def main():
     # ----------------------------
     if action == "reopened":
         if not is_team_member(org, team_slug, actor):
-            close_issue()
             post_comment(
                 "⚠️ Only members of the PackageReview team can reopen this issue. Please request your issue be reopened on package-submission Bioconductor zulip channel."
             )
+            time.sleep(3)
+            close_issue()
             sys.exit(1)
         else:
             if has_label("inactive review"):
