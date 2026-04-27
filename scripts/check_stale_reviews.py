@@ -87,10 +87,13 @@ def get_org_repos():
 def find_repos_without_issues(open_packages, org_repos):
     open_lower = {p.lower() for p in open_packages}
     org_map = {r.lower(): r for r in org_repos}
+
+    excluded = {".github", "biocstaging.r-universe.dev"}
+
     missing_issue_repos = [
         org_map[r]
         for r in org_map
-        if r not in open_lower
+        if r not in open_lower and r not in excluded
     ]
     print("\n=========== REPOS WITHOUT OPEN ISSUES ===========\n")
     for repo in sorted(missing_issue_repos):
@@ -171,7 +174,7 @@ def main():
         if pkg_lower not in open_packages
     ]
 
-    print("\n================ STALE PACKAGES ================\n")
+    print("\n================ STALE PACKAGES IN REGISTRY ================\n")
 
     for pkg in sorted(stale_packages):
         print(pkg)
