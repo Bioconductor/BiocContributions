@@ -1241,7 +1241,7 @@ We appreciate your patience as we investigate
     # --------------------------------------------
     if repo:
         if pipeline_success:
-             print("[INFO] Cleaning tempbioc")
+            print("[INFO] Cleaning tempbioc")
             delete_temp_repo(repo)
             remove_from_registry(repo)
         else:
