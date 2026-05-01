@@ -11,7 +11,13 @@ as a reviewer should use your best judgement if a package is appropriate for
 Bioconductor and must enforce a package to adhere to Bioconductor standards and
 guidelines. This includes interoperability with existing packages and pipelines,
 novel concepts not already introduced, and executing live code in vignettes, man
-pages, and tests. Please refer to the [Bioconductor standard policies and guidelines][1]<br>
+pages, and tests. <br>
+
+Useful links:
+
+- [Bioconductor standard policies and guidelines][1]
+- [reviewer template checklist](https://contributions.bioconductor.org/docs/package-review-checklist.md)
+
 <br>
 
 
