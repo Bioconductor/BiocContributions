@@ -82,7 +82,7 @@ click on the URL. This will take you to the run overview for that platform.
 <br>To see the detailed reports from the r-universe logs:<br> 
 + "source" expand "Build source package and vignettes" section of the log<br>
 + "bioc-check expand "Run BiocCheck for packagename" <br>
-+ all other platforms expand either "Build package packagename" or "R CMD CMD"
++ all other platforms expand either "Build package packagename" or "R CMD check"
 <br>
 The labels on the issue will update based on the reports. If any platform results in that level of status.
 
@@ -95,7 +95,7 @@ The labels on the issue will update based on the reports. If any platform result
 ## Close Accept Decline Inactive
 
 Reviewers should NEVER close an issue manually. Please use the designated labels. 
-Each label is associated with an action that will preform clean up, adjust labels, 
+Each label is associated with an action that will perform clean up, adjust labels, 
 post a closing comment, and close the issue.  It may take several minutes but it 
 should happen automatically.  The labels are:
 
@@ -106,7 +106,7 @@ should happen automatically.  The labels are:
 
 There is also a new process for declining a package. If the assigned reviewer adds
 the package declined label, a secondary reviewer from a list of admins will automatically
-be added to the issue for an independent look at the package. This ensure that a 
+be added to the issue for an independent look at the package. This ensures that a 
 package being declined was verified by at least two separate reviewers. 
 
 ## Reopening Issues
