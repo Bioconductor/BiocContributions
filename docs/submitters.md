@@ -19,7 +19,7 @@ to [Bioconductor standard policies and guidelines][1].
 name the issue the name of the package and in the template replace the link with
 a link to your github repository for the package.
 
-2. Validation step. <br> Opening an issue will trigger a validation action. The following are
+2. Address any validation issues. <br> Opening an issue will trigger a validation action. The following are
 part of the Bioconductor precheck validation:
 
      - The link provided is a valid, public,  github url
@@ -44,7 +44,7 @@ part of the Bioconductor precheck validation:
 	![awaiting policy acceptance](https://img.shields.io/badge/awaiting_policy_acceptance-d93f0b)
 	label is also added to the issue
 
-3. Policy Acceptance.<br>
+3. Accept Bioconductor Policies.<br>
 The submitter must understand and accept Bioconductor
 policies to continue the review process. This is achieved by the submitter
 commenting exactly `/accept-policies`. This will trigger the next automatic
@@ -53,8 +53,7 @@ action. Once policies are accepted,
 ![pre-review](https://img.shields.io/badge/pre--review-cfd3d7) labels are added
 to the issue.
 
-4. Clone and register the package in the new package submission process
-r-universe. <br>
+4. Wait for the build Report<br>
 At this time, the original repository is cloned into an organization
 that mimics standards of Bioconductor git repositories. It also adds the package
 to a new submission r-universe to start receiving build reports. The system adds
@@ -64,7 +63,7 @@ builds to be picked up in the r-universe system; please be patient. If you do
 not receive a build report within 24 hours please contact Bioconductor review
 admins for assistance.
 
-5. Build Reports and Reviewer Assignment.<br>
+5. Fix issues and justify any notes, warnings, or errors to be assigned a reviewer.<br>
 Bioconductor will not assign a reviewer to a package until
 ERRORs are resolved. In most cases, even if a reviewer is assigned, the package
 should be free of ERROR and Warnings before a reviewer will do an in-depth
@@ -78,14 +77,14 @@ bump that is pushed to the new Bioconductor location NOT your individual origina
 a valid version bump is advancing only the z of version x.y.z. Example:
 0.99.0 was initial submission, a valid version bump is 0.99.1, 0.99.2...
 
-7. Review<br>
+6. Work with reviewer to improve package for acceptance <br>
 A review will take place typically within 3 weeks of a clean build and/or
 justifications of remaining build report issues. Once the reviewer posts
 any concerns or comments, the submitter should alter the package accordingly,
 kick off a new build with a valid version bump, and respond point by point to
 reviewers comments. This may involve several interations.
 
-8. Package Acceptance, Package Decline, or Inactive.<br>
+7. Package Acceptance, Package Decline, or Inactive.<br>
 Once the assigned reviewer feels the review is complete or staled, they may assign the
 decision on the package by adjusting the issue label to:
 
