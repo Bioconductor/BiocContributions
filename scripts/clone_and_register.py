@@ -137,7 +137,7 @@ def clone_and_push():
         sys.exit(1)
 
     source_owner, source_repo = match.groups()
-    source_repo = source_repo.rstrip(".git")
+    source_repo = source_repo.removesuffix(".git")
     source_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{source_owner}/{source_repo}.git"
     target_url = f"https://x-access-token:{BIOC_STAGING_TOKEN}@github.com/{BIOC_STAGING_ORG}/{source_repo}.git"
 
