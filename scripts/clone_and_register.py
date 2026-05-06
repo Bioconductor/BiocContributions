@@ -259,11 +259,14 @@ if __name__ == "__main__":
 
 {registry_msg}
 
-Your package is cloned to the Bioconductor new submission source repository and r-universe for testing.
+Your package is cloned to the Bioconductor new submission source repository and r-universe for testing. 
+
+We have added you as a collaborator at https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+You will need to accept this invitation to push future changes.
 
 If you want to push command line updates, you need to update your remotes:
 ```
-  git remote add {SPB_RUNIVERSE} https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+  git remote add {SPB_RUNIVERSE} git@github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
   git push {SPB_RUNIVERSE} devel
 ```
 
@@ -274,7 +277,7 @@ If you use a different branch (example: main) map branches when pushing:
 ```
 
 You will receive your build report shortly.
-If you do not receive a build report withihn 24 hours please ask for assistance.
+If you do not receive a build report within 24 hours please ask for assistance.
 
 Reminders:
 
