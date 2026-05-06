@@ -81,12 +81,14 @@ def create_target_repo(repo_name):
     r = requests.post(url, headers=BIOC_STAGING_HEADERS, json=data)
     if r.status_code not in [201, 422]:
         print(f"❌ Failed to create repo: {r.status_code} {r.text}")
+        post_comment("❌ Failed to create repo: ask admins for assistance")
         sys.exit(1)
 
 def set_default_branch(repo_name, branch="devel"):
     url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{repo_name}"
     r = requests.patch(url, headers=BIOC_STAGING_HEADERS, json={"default_branch": branch})
     if r.status_code != 200:
+        post_comment("⚠ Failed to set default branch: ask admins for assistance")
         print(f"⚠️ Could not set default branch to {branch}: {r.status_code} {r.text}")
 
 def add_collaborator(repo_name, username, permission="write"):
@@ -95,6 +97,7 @@ def add_collaborator(repo_name, username, permission="write"):
     r = requests.put(url, headers=BIOC_STAGING_HEADERS, json=data)
     if r.status_code not in [201, 204]:
         print(f"⚠️ Failed to add @{username}: {r.status_code} {r.text}")
+        post_comment(f"⚠ Failed adding @{username} as collaborator: ask admins for assistance")
     else:
         print(f"✅ Added @{username} as collaborator with {permission} access")
 
@@ -134,6 +137,7 @@ def clone_and_push():
     match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)(?:\.git)?", issue_body)
     if not match:
         print("❌ No valid GitHub repo URL found in issue body.")
+        post_comment(f"❌  No valid GitHub repo found: ask admins for assistance")
         sys.exit(1)
 
     source_owner, source_repo = match.groups()
@@ -146,6 +150,7 @@ def clone_and_push():
     r = requests.get(repo_api_url, headers=HEADERS)
     if r.status_code != 200:
         print(f"❌ Failed to fetch repo info for {source_owner}/{source_repo}")
+        post_comment(f"❌  Failed to fetch repo info for {source_owner}/{source_repo} : ask admins for assistance")
         sys.exit(1)
     source_default_branch = r.json().get("default_branch", "main")
 
@@ -191,6 +196,7 @@ def clone_and_push():
         
     except subprocess.CalledProcessError as e:
         print(f"❌ Git operation failed: {e}")
+        post_comment(f"❌  Failed to clone : ask admins for assistance")
         sys.exit(1)
 
     return f"{BIOC_STAGING_ORG}/{source_repo}", msg
@@ -217,6 +223,7 @@ def update_registry(repo_path):
 
         if not isinstance(data, list):
             print("❌ packages.json must be a list.")
+            post_comment(f"❌  Failed to add to runiverse registry : ask admins for assistance")
             sys.exit(1)
 
         already_exists = any(entry.get("package") == package_name or entry.get("url") == repo_url
@@ -244,6 +251,7 @@ def update_registry(repo_path):
     
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to update registry: {e}")
+        post_comment(f"❌  Failed to add to runiverse registry : ask admins for assistance")
         sys.exit(1)
  
 # ----------------------------
@@ -262,7 +270,8 @@ if __name__ == "__main__":
 Your package is cloned to the Bioconductor new submission source repository and r-universe for testing. 
 
 We have added you as a collaborator at https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
-You will need to accept this invitation to push future changes.
+You will need to accept the github invitation to push future changes.
+**Task:** Please accept collaborator access now.
 
 If you want to push command line updates, you need to update your remotes:
 ```
