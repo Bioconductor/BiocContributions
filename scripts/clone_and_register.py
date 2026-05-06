@@ -285,7 +285,8 @@ If you use a different branch (example: main) map branches when pushing:
   git push {SPB_RUNIVERSE} main:devel
 ```
 
-You will receive your build report shortly.
+You will receive your build report shortly.  Builds may take an hour or two to
+    register based on github action scheduler.
 If you do not receive a build report within 24 hours please ask for assistance.
 
 Reminders:
