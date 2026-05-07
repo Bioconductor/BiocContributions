@@ -83,7 +83,7 @@ click on the URL. This will take you to the run overview for that platform.
 <br>To see the detailed reports from the r-universe logs:<br> 
 + "source" expand "Build source package and vignettes" section of the log<br>
 + "bioc-check expand "Run BiocCheck for packagename" <br>
-+ all other platforms expand either "Build package packagename" or "R CMD check"
++ all other platforms expand "R CMD check"
 <br>
 The labels on the issue will update based on the reports. If any platform results in that level of status.
 
