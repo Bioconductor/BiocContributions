@@ -15,7 +15,7 @@ to [Bioconductor standard policies and guidelines][1].
 
 ## Overview of Submission steps and automated actions
 
-1. [Open an Issue][2] using the issue_template. <br>Do NOT change the template.  Please
+1. [Open an Issue][2] using the new_submission_template. <br>Do NOT change the template.  Please
 name the issue the name of the package and in the template replace the link with
 a link to your github repository for the package.
 
