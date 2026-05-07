@@ -146,7 +146,7 @@ Errors should be fixed or justified in a comment to the reviewer. To see the rep
 click on the URL. This will take you to the run overview for that platform. 
 <br>To see the detailed reports from the r-universe logs:<br> 
 + "source" expand "Build source package and vignettes" section of the log<br>
-+ "bioc-check expand "Run BiocCheck for packagename" <br>
++ "bioc-check" expand "Run BiocCheck for packagename" <br>
 + all other platforms expand either "Build package packagename" or "R CMD check"
 <br>
 The labels on the issue will update based on the reports. If any platform results in that level of status.
@@ -203,7 +203,7 @@ to re-open the issue.  The validation and policy acceptance will need to be re-c
 ### Accidental Closure
 
 If you accidently close the issue, you will need to request the issue be
-re-opened by a member of the package review team. The vaidation checks will
+re-opened by a member of the package review team. The validation checks will
 rerun but you should be able to pick up the process where you left off.
 
 ## FAQs
