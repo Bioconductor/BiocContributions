@@ -69,8 +69,9 @@ This is a link to the current source of the package building in r-universe.
 ```
 🌐 R-universe package page: https://tempbioc.r-universe.dev/LoriPkgTest2#checktable
 ```
-This is the complete landing page in r-universe for the package. 
-It also includes a table of results for all platforms r-universe builds on. 
+This is the complete landing page in r-universe for the package. This includes
+the built source or binaries for various platforms available for download and
+testing locally. It also includes a table of results for all platforms r-universe builds on. 
 While all platforms are encouraged to be clean, Bioconductor new submissions will be 
 evaluted on the current associated R version for current Bioconductor devel. For this
 reason the table provided in the comments is a filtered table of relevant platforms.
