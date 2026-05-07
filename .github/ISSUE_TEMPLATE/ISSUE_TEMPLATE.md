@@ -1,6 +1,6 @@
 ---
-name: issue_template
-about: new submission template that describes Bioconductor policies
+name: new_submission_template
+about: new submission template to submit a package for Bioconductor review
 title: ''
 labels: ''
 assignees: ''
