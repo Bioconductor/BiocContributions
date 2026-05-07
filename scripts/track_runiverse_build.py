@@ -637,9 +637,8 @@ for pkg, row in csv_rows.items():
                 try:
                     requests.post(url, headers=HEADERS, json={
                         "body": f"⚠️ A new commit was detected for {pkg}, but the package version ({version}) was not updated.\n"
-                                f"Please increment the z component (x.99.z).\n"
-                                f"📦 Bioconductor staging repository: {temp_repo_url}\n"
-                                f"⚙️ Detailed run: {run_url}"
+                                f"Please increment the z component (x.99.z e.g. x.99.1, x.99.2) to see new build report.\n"
+                                f"Bioconductor requires version bump for building and propagating.\n"
                     }, timeout=10)
                 except requests.RequestException as e:
                     print(f"[ERROR] Failed to post no-version-bump warning for {pkg}: {e}")
@@ -689,10 +688,8 @@ for pkg, row in csv_rows.items():
                 try:
                     resp = requests.post(url, headers=HEADERS, json={
                         "body": f"⚠️ Build detected for {pkg} with invalid version bump ({last_version} -> {version}). "
-                                f"Only z should increase; please correct version.\n"
-                                f"📦 Bioconductor staging repository: {temp_repo_url}\n"
-                                f"Reports not posted but can be accessed directly at https://{SPB_RUNIVERSE}.r-universe.dev/builds"
-                       }, timeout=10)
+                                f"Only z should increase (x.99.z e.g. x.99.1, x.99.2); please correct version to see a new build report.\n"
+                        }, timeout=10)
                     resp.raise_for_status()
                 except requests.RequestException as e:
                     print(f"[ERROR] Failed to post warning comment for {pkg}: {e}")
