@@ -584,6 +584,9 @@ for pkg, row in csv_rows.items():
     print(f"[DEBUG] issue_num: {issue_num}")
     print(f"[DEBUG] ru['_build_clean']: {ru['_build_clean']}")
     is_invalid = version == last_version or not valid_z_bump(last_valid_version, version)
+    print(f"[DEBUG] version: {version}")
+    print(f"[DEBUG] last_version: {last_version}")
+    print(f"[DEBUG] is_invalid: {is_invalid}")
     if issue_data:
         assignees = issue_data.get("assignees", [])
         if not assignees:
