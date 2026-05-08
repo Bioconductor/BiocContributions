@@ -1,7 +1,4 @@
 package_name,repo_full,submitter,issue_number,last_sha,last_version,last_valid_version
-spbtest,dtenenba/spbtest,dtenenba,4,,,
-spbtest2,dtenenba/spbtest2,dtenenba,4,,,
-LoriPkgTest2,lshep/LoriPkgTest2,lshep,16,0c6b9b929ae431981b093a83687cfff0ff25c6dd,0.99.8,0.99.8
 LoriTestPkg4,lshep/LoriTestPkg4,lshep,21,d135b5dd3ba24f53eb26be43540eea0a963fd3fd,0.99.5,0.99.5
 LoriTestPkg5,lshep/LoriTestPkg5,lshep,22,8e4d7e62b89801f9ef79863938bbaed89e1ff504,0.99.8,0.99.8
 MultipleAlignment,Bioconductor/MultipleAlignment,hpages,23,34fe7574ea8bf6db5f73de8f7db32b4a03adee83,0.99.1,0.99.1
