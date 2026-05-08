@@ -3,13 +3,16 @@
 ## Introduction
 
 Starting in 2026, Bioconductor has moved its new submission process that
-utilized physical building machines, to a [GitHub Action][2] and [R-universe][3] approach.
+utilized physical building machines to a [GitHub Action][2] and [R-universe][3] approach.
 
 ## Contributing a _Bioconductor_ Package
 
-This repository is used to contribute new packages to the
-[Bioconductor][1] project for the analysis and comprehension of
-high-throughput genomic data. Please
+This repository is used to contribute new R packages to the
+[Bioconductor][1] project. Bioconductor is an open-source project that provides
+R packages of software, data, and analytical workflows for the analysis,
+comprehension, and visualization of biological data including but not limited to
+genetics, genomics, transcriptomics, proteomics, metabolomics, and other related
+domains. Please
 
 - Review the [package submission][5] process.
 
@@ -25,7 +28,7 @@ By using this service, please note that:
 
 * The build reports and comments during the review process are public.
 
-* Any GitHub user may add comments to the package review.
+* Any GitHub user may add comments to the package review for consideration.
 
 * You are submitting a package for inclusion in _Bioconductor_; the
   build service we provide is meant only for individuals submitting
