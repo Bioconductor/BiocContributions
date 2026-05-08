@@ -1299,8 +1299,7 @@ Other useful documentation for pushing to git.bioconductor.org may be found
 [here](http://contributions.bioconductor.org/git-version-control.html#new-package-workflow)
 
 Currently we use ssh-keys for git.bioconductor.org access. To manage your keys
-and future access, activate your [BiocCredentials
-Account](https://git.bioconductor.org/BiocCredentials)
+and future access, activate your [BiocCredentials Account](https://git.bioconductor.org/BiocCredentials)
 
 Reminder:
 Packages must remain ERROR free to avoid deprecation and removal. It is your
