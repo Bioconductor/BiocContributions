@@ -11,6 +11,7 @@ to [Bioconductor standard policies and guidelines][1].
 * [Overview](#overview-of-submission-steps-and-automated-actions)
 * [Build Report Breakdown](#build-report-breakdown)
 * [Package Submission Status](#package-submission-status)
+* [FAQ](#faqs)
 
 
 ## Overview of Submission steps and automated actions

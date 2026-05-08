@@ -13,7 +13,15 @@ guidelines. This includes interoperability with existing packages and pipelines,
 novel concepts not already introduced, and executing live code in vignettes, man
 pages, and tests. <br>
 
-Useful links:
+## Table of Contents
+
+* [Useful Links](#useful-links)
+* [Build Report Breakdown](#build-reports)
+* [Accept/Decline/Inactive](#close-accept-decline-inactive)
+* [Reassignment/Leave of Absence](#reassignment-and-leave-of-absence)
+* [FAQ](#faqs)
+
+## Useful links:
 
 - [Bioconductor standard policies and guidelines][1]
 - [reviewer template checklist](https://contributions.bioconductor.org/docs/package-review-checklist.md)
