@@ -3,7 +3,7 @@
 ## Introduction
 
 Starting in 2026, Bioconductor has moved its new submission process that
-utilized physical building machines to a [GitHub Action][2] and [R-universe][3] approach.
+utilized physical building machines to this [GitHub Action][2] and [R-universe][3] approach.
 
 ## Contributing a _Bioconductor_ Package
 
