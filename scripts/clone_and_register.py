@@ -275,7 +275,7 @@ You will need to accept the github invitation to push future changes.
 
 If you want to push command line updates, you need to update your remotes:
 ```
-  git remote add {SPB_RUNIVERSE} git@github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+  git remote add {SPB_RUNIVERSE} git@github.com:{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
   git push {SPB_RUNIVERSE} devel
 ```
 

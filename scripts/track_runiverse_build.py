@@ -637,8 +637,7 @@ for pkg, row in csv_rows.items():
                 try:
                     requests.post(url, headers=HEADERS, json={
                         "body": f"⚠️ A new commit was detected for {pkg}, but the package version ({version}) was not updated.\n"
-                                f"Please increment the z component (x.99.z e.g. x.99.1, x.99.2) to see new build report.\n"
-                                f"Bioconductor requires version bump for building and propagating.\n"
+                                f"Please increment the z component (x.99.z) to see new build report (e.g. x.99.0 ->  x.99.1, x.99.2).\n"
                     }, timeout=10)
                 except requests.RequestException as e:
                     print(f"[ERROR] Failed to post no-version-bump warning for {pkg}: {e}")
