@@ -41,8 +41,7 @@ BIOC_STAGING_HEADERS = {
 # Helper Functions
 # --------------------------------------------
 def remove_label(issue_number, label):
-    owner, repo = REPO_FULL.split("/")
-    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/labels/{label}"
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{issue_number}/labels/{label}"
     r = requests.delete(url, headers=HEADERS)
     if r.status_code in (200, 204, 404):
         print(f"[DEBUG] Label '{label}' removed from issue #{issue_number}")
@@ -51,15 +50,13 @@ def remove_label(issue_number, label):
 
 
 def post_comment(issue_number, body):
-    owner, repo = REPO_FULL.split("/")
-    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments"
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{issue_number}/comments"
     r = requests.post(url, headers=HEADERS, json={"body": body})
     if r.status_code >= 300:
         print(f"[WARN] Failed to post comment: {r.status_code} {r.text}")
 
 def close_issue(issue_number):
-    owner, repo = REPO_FULL.split("/")
-    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}"
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{issue_number}"
     r = requests.patch(url, headers=HEADERS, json={"state": "closed"})
     if r.status_code >= 300:
         print(f"[WARN] Failed to close issue: {r.status_code} {r.text}")
@@ -68,8 +65,8 @@ def extract_repo(issue_body):
     match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)", issue_body)
     if not match:
         return None, None
-    owner, repo = match.group(1), match.group(2)
-    return owner, repo
+    owner_submit, repo_submit = match.group(1), match.group(2)
+    return owner_submit, repo_submit
 
 def get_issue(issue_number):
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{issue_number}"
@@ -143,6 +140,7 @@ def remove_from_registry(repo_name):
     })
     if r.status_code >= 300:
         print(f"[WARN] Failed to update registry: {r.status_code} {r.text}")
+        return
 
     print(f"[INFO] Removed {repo_name} from registry")
 
@@ -160,7 +158,7 @@ def main():
     comment_body = event["comment"]["body"].strip().lower()
     actor = event.get("sender", {}).get("login")
     
-    # Allow both "/confirm-decline-package" and "confirm-decline-pacakge"
+    # Allow both "/confirm-decline-package" and "confirm-decline-package"
     if comment_body not in ["/confirm-decline-package", "confirm-decline-package"]:
         # Ignore other comments
         sys.exit(0)
@@ -168,7 +166,7 @@ def main():
     issue_number = event["issue"]["number"]
     issue = get_issue(issue_number)
     issue_body = issue.get("body") or ""
-    owner, repo = extract_repo(issue_body)
+    owner_submit, repo_submit = extract_repo(issue_body)
     
     # --------------------------------------------
     # Verify Confirm Delete by admin or assignee
@@ -178,7 +176,7 @@ def main():
     assignees = [a["login"] for a in issue.get("assignees", [])]
     allowed_users = set(admin_list + assignees)
     # remove original label adder so two unique reviewers
-    label_actor = get_label_adder(owner, repo, issue_number, "package declined", ORG_HEADERS)
+    label_actor = get_label_adder(OWNER, REPO, issue_number, "package declined", ORG_HEADERS)
     existing_labels = {l["name"] for l in issue.get("labels", [])}
     
     if label_actor:
@@ -195,12 +193,12 @@ def main():
     # --------------------------------------------
     # extra repo, delete clone and from registry
     # --------------------------------------------
-    if repo and repo.endswith(".git"):
-        repo = repo[:-4]
+    if repo_submit and repo_submit.endswith(".git"):
+        repo_submit = repo_submit[:-4]
 
-    if repo:
-        delete_temp_repo(repo)
-        remove_from_registry(repo)
+    if repo_submit:
+        delete_temp_repo(repo_submit)
+        remove_from_registry(repo_submit)
     else:
         print(f"[WARN] Could not extract repo from issue body: {issue_number} ")
 
