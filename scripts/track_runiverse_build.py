@@ -583,10 +583,11 @@ for pkg, row in csv_rows.items():
     print(f"[DEBUG] Processing package: {pkg}")
     print(f"[DEBUG] issue_num: {issue_num}")
     print(f"[DEBUG] ru['_build_clean']: {ru['_build_clean']}")
+    is_invalid = version == last_version or not valid_z_bump(last_valid_version, version)
     if issue_data:
         assignees = issue_data.get("assignees", [])
         if not assignees:
-            if clean_build and issue_num:
+            if clean_build and issue_num and not is_invalid:
                 try:
                     assign_reviewer(issue_num)
                 except Exception as e:
