@@ -16,6 +16,10 @@ to [Bioconductor standard policies and guidelines][1].
 
 ## Overview of Submission steps and automated actions
 
+There is also a detailed [Slide
+Deck](https://docs.google.com/presentation/d/1EK2wsDoRbtVGECdYC1GU5nGtYkN-h_7R-on-CSUC6CQ/edit?usp=sharing)
+of the submission process with screenshots.
+
 1. [Open an Issue][2] using the new_submission_template. <br>Do NOT change the template.  Please
 name the issue the name of the package and in the template replace the link with
 a link to your github repository for the package.

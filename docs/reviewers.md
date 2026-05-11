@@ -24,6 +24,7 @@ pages, and tests. <br>
 ## Useful links:
 
 - [Bioconductor standard policies and guidelines][1]
+- [SlideDeck of Process](https://docs.google.com/presentation/d/1P0MROLo4mhr0Cn6X97ZjrhC0AfZ09u3wAuBPFgrjvuQ/edit?usp=sharing)
 - [reviewer template checklist](https://contributions.bioconductor.org/docs/package-review-checklist.md)
 
 <br>
