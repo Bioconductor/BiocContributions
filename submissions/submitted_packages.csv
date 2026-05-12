@@ -2,5 +2,5 @@ package_name,repo_full,submitter,issue_number,last_sha,last_version,last_valid_v
 LoriTestPkg4,lshep/LoriTestPkg4,lshep,21,d135b5dd3ba24f53eb26be43540eea0a963fd3fd,0.99.5,0.99.5
 LoriTestPkg5,lshep/LoriTestPkg5,lshep,22,8e4d7e62b89801f9ef79863938bbaed89e1ff504,0.99.8,0.99.8
 MultipleAlignment,Bioconductor/MultipleAlignment,hpages,23,34fe7574ea8bf6db5f73de8f7db32b4a03adee83,0.99.1,0.99.1
-ontoProc2,vjcitn/ontoProc2,vjcitn,25,252bffd5b41d380e977001d58e882c8cb068190b,0.99.19,0.99.19
+ontoProc2,vjcitn/ontoProc2,vjcitn,25,2c8519fa8774d3273eac00f1aa7b527f7af019cc,0.99.20,0.99.20
 LoriPkgTest2,lshep/LoriPkgTest2,lshep,26,b546b72a8b9279c10539520dee7956c115b41ed7,0.99.10,0.99.10
