@@ -139,7 +139,7 @@ def remove_from_registry(repo_name):
         "sha": data["sha"]
     })
     if r.status_code >= 300:
-        print(f"[WARN] Failed to update registry: {r.status_code} {r.text}")
+        print(f"[WARN] Failed to update registry: {repo_name} {r.status_code} {r.text}")
         return
 
     print(f"[INFO] Removed {repo_name} from registry")
