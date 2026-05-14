@@ -109,7 +109,7 @@ def delete_temp_repo(repo_name):
     elif r.status_code == 404:
         print(f"[INFO] Repo {repo_name} does not exist")
     else:
-        print(f"[WARN] Failed to delete repo: {r.status_code} {r.text}")
+        print(f"[WARN] Failed to delete repo: {url} {r.status_code} {r.text}")
 
 
 def remove_from_registry(repo_name):
@@ -119,7 +119,7 @@ def remove_from_registry(repo_name):
     r = requests.get(url, headers=BIOC_STAGING_HEADERS)
 
     if r.status_code != 200:
-        print("[WARN] Could not fetch registry")
+        print(f"[WARN] Could not fetch registry: {url}")
         return
 
     data = r.json()
