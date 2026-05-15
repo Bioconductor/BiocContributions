@@ -37,7 +37,7 @@ Warnings or Notes left in the reports should be justified by the submitter. If
 this is not provided please ask for it and then use your best judgement if an
 excpetion should be made. If there are any concerns over granting an exception
 please ask in the reviewer closed zulip channel or contact one of the package
-review admins. <br>
+review admins (currently Lori Kern: lori.shepherd@roswellpark.org). <br>
 
 A Build Report will post and looks something like the following:
 ```
@@ -136,7 +136,8 @@ Anyone from the package reviewer team may reassign a reviewer.  This may be done
 available reviewer in the review queue, you may apply the label ![assign reviewer](https://img.shields.io/badge/assign--reviewer-fbca04).
 <br>
 If you are taking an extended leave and would temporarily like to be excluded from new assignments, 
-please let a package reviewer admin know; they can still progamatically exclude through action variables.
+please let a package reviewer admin know either on the closed #reviewer zulip
+channel or directly (currently Lori Kern: lori.shepherd@roswellpark.org); they can still progamatically exclude through action variables.
 
 
 ## FAQ

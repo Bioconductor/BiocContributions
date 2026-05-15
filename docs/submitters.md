@@ -66,7 +66,7 @@ instructions for linking and pushing to the new location. This will be required
 to trigger future build reports on the system. It can take some time for new
 builds to be picked up in the r-universe system; please be patient. If you do
 not receive a build report within 24 hours please contact Bioconductor review
-admins for assistance.
+admins by tagging @Bioconductor/packagereviewers for assistance.
 
 5. Fix issues and justify any notes, warnings, or errors to be assigned a reviewer.<br>
 Bioconductor will not assign a reviewer to a package until
@@ -225,8 +225,10 @@ to suggest a set of packages should be reviewed together by a single person
 ## Conclusion
 
 We thank you for your interest in Bioconductor. If you have any questions, concerns, or feedback regarding the 
-submissions process we encourage you to reach out to the package review team admins. 
+submissions process we encourage you to reach out to the package review team
+admins on the Bioconductor [zulip][3] #packages-submission channel. 
 
 
 [1]: https://contributions.bioconductor.org/develop-overview.html
 [2]: https://github.com/Bioconductor/BiocContributions/issues
+[3]: https://community-bioc.zulipchat.com
