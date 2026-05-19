@@ -2,7 +2,8 @@
 
 All members of the package review team will be able to moderate issues and
 trigger action events.  Please be mindful, considerate, and cautious with this
-power and responsibility.<br>
+power and responsibility. We recommend following Bioconductor/BiocContributions
+to make sure you are notified when assigned <br>
 <br>
 All previous administration steps are now automated up to assigning the
 reviewer. See [submitters overview](https://github.com/Bioconductor/BiocContributions/blob/devel/docs/submitters.md#overview-of-submission-steps-and-automated-actions) for more information on what occurs during the submission process.<br>
