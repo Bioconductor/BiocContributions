@@ -584,8 +584,13 @@ for pkg, row in csv_rows.items():
     print(f"[DEBUG] issue_num: {issue_num}")
     print(f"[DEBUG] ru['_build_clean']: {ru['_build_clean']}")
     is_invalid = version == last_version or not valid_z_bump(last_valid_version, version)
+    # First build: last_sha is empty
+    first_build = (not last_sha)
     print(f"[DEBUG] version: {version}")
     print(f"[DEBUG] last_version: {last_version}")
+    print(f"[DEBUG] first_build: {first_build}")
+    if first_build:
+        is_invalid = False
     print(f"[DEBUG] is_invalid: {is_invalid}")
     if issue_data:
         assignees = issue_data.get("assignees", [])
@@ -606,9 +611,6 @@ for pkg, row in csv_rows.items():
                 remove_label(issue_num, "pre-review", headers=HEADERS)
     else:
         print("[INFO] No issue data")
-        
-    # First build: last_sha is empty
-    first_build = (not last_sha)
 
     if first_build:
         print(f"[INFO] {pkg}: First build detected, version {version}")
