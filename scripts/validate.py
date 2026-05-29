@@ -472,6 +472,9 @@ def finalize(failures, package_name=None, skip_duplicates=False, owner=None, rep
             "The package will then undergo a formal review and recommendations for "
             "acceptance regarding other Bioconductor standards will be addressed.",
 
+            "I understand Bioconductor's [AI and Third Party Code](https://contributions.bioconductor.org/ai-policy-third-party.html) "
+            "policy and will acknowledge accordingly if applicable",
+
             "I am committed to the long-term maintenance of my package. "
             "This includes monitoring the [support site](https://support.bioconductor.org) for issues that users may have, "
             "subscribing to the [bioc-devel](https://stat.ethz.ch/mailman/listinfo/bioc-devel) mailing list to stay aware of developments in the _Bioconductor_ community, "
