@@ -48,9 +48,8 @@ if PACKAGE_NAME:
     print("[INFO] Manual package mode: disabling cutoff filter")
     cutoff_dt = None
 else:
-    print(f"[INFO] Cutoff datetime: {cutoff_dt}")
     cutoff_dt = datetime.utcnow() - timedelta(hours=4)
-
+    print(f"[INFO] Cutoff datetime: {cutoff_dt}")
 
 # ----------------------------
 # Helper Functions
