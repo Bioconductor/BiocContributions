@@ -44,8 +44,13 @@ BIOC_STAGING_HEADERS = {
 # ----------------------------
 #cutoff_dt = datetime.utcnow() - timedelta(minutes=10)
 # temporarily relax while debugging
-cutoff_dt = datetime.utcnow() - timedelta(hours=4)
-print(f"[DEBUG] Cutoff datetime: {cutoff_dt}")
+if PACKAGE_NAME:
+    print("[INFO] Manual package mode: disabling cutoff filter")
+    cutoff_dt = None
+else:
+    print(f"[INFO] Cutoff datetime: {cutoff_dt}")
+    cutoff_dt = datetime.utcnow() - timedelta(hours=4)
+
 
 # ----------------------------
 # Helper Functions
@@ -466,6 +471,11 @@ def get_recent_workflow_runs():
 
     for run in all_runs:
         run_time = datetime.strptime(run["created_at"], "%Y-%m-%dT%H:%M:%SZ")
+
+        if cutoff_dt is None:
+            print(f"[DEBUG] KEEP (no cutoff): {run.get('name')} ({run['created_at']})")
+            recent_runs.append(run)
+            continue
 
         print(f"[DEBUG] Comparing run_time={run_time} vs cutoff_dt={cutoff_dt}")
 
