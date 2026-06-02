@@ -18,6 +18,7 @@ pages, and tests. <br>
 
 * [Useful Links](#useful-links)
 * [Build Report Breakdown](#build-reports)
+* [Reviewing](#reviewing)
 * [Accept/Decline/Inactive](#close-accept-decline-inactive)
 * [Reassignment/Leave of Absence](#reassignment-and-leave-of-absence)
 * [FAQ](#faqs)
@@ -103,6 +104,25 @@ The labels on the issue will update based on the reports. If any platform result
 +  ![Build Error](https://img.shields.io/badge/Build_Error-D60409)
 +  ![Build Unknown](https://img.shields.io/badge/Build_Unknown-d4c5f9)
 
+## Reviewing
+
+Reviewers should adhere to the Bioconductor [Code of Conduct][2] and expect that submitters do the same. 
+If there is ever an issue please reach out to the Core Team member currently admininstrating the Single
+Package Builder Process.
+
+It is recommended to review/clone the [BiocStaging](https://github.com/orgs/BiocStaging/repositories) version of
+the package. This would be the standard git location. R-universe's built versions of the package will not
+allow comparison of certain hidden or ignored files that even while ignored should not be present in 
+publically distributed versions of the package. It also allows validation of things like Authors@R in the 
+DESCRIPTION and evaluating the template and code chunk settings of vignettes,for example andamongst other things that 
+would not be possible on a built version of the package.
+
+Installing and testing the R-universe package directly through Bioconductor's R-universe is fine and encouraged.
+But file evaluation should likely be done from BiocStaging.
+
+Please remember to enforce Bioconductor policies. We encourage you to glance (and contribute to) the
+recommended [checklist](https://contributions.bioconductor.org/docs/package-review-checklist.md)
+
 ## Close Accept Decline Inactive
 
 Reviewers should NEVER close an issue manually. Please use the designated labels. 
@@ -154,3 +174,4 @@ to suggest a set of packages should be reviewed together by a single person
 
 
 [1]: https://contributions.bioconductor.org/develop-overview.html
+[2]: https://bioconductor.org/about/code-of-conduct/
