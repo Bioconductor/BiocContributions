@@ -88,7 +88,7 @@ def find_repos_without_issues(open_packages, org_repos):
     open_lower = {p.lower() for p in open_packages}
     org_map = {r.lower(): r for r in org_repos}
 
-    excluded = {".github", "biocstaging.r-universe.dev"}
+    excluded = {".github", "biocstaging.r-universe.dev", "BiocSubmissionProcess"}
 
     missing_issue_repos = [
         org_map[r]

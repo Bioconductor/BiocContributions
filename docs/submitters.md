@@ -245,7 +245,10 @@ within 24 hours please contact Bioconductor review admins by tagging
 
 We thank you for your interest in Bioconductor. If you have any questions, concerns, or feedback regarding the 
 submissions process we encourage you to reach out to the package review team
-admins on the Bioconductor [zulip][3] #packages-submission channel. 
+admins on the Bioconductor [zulip][3] #packages-submission channel or by opening
+an Issue on the
+[BiocSubmissionProcess](https://github.com/BiocStaging/BiocSubmissionProcess)
+Repository.
 
 
 [1]: https://contributions.bioconductor.org/develop-overview.html
