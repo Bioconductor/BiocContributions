@@ -293,8 +293,8 @@ This is true for every subsequent push to trigger a new build.
 You can check if your changes were properly commited to the Bioconductor respository by
     checking https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
 
-We encourage you to sync and maintain both your individual and Bioconductor GitHub repository
-You can mimic R-universe builds on your individual GitHub repository before
+We encourage you to sync and maintain both your personal and Bioconductor GitHub repository
+You can mimic R-universe builds on your personal GitHub repository before
     pushing to the Bioconductor GitHub repository. 
 See instructions at [Adding Bioconductor R-Universe GitHub Action](https://docs.r-universe.dev/bioconductor/#debugging-the-ci)
 
