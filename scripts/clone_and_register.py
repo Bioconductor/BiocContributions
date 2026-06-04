@@ -289,6 +289,15 @@ You will receive your build report shortly.  Builds may take an hour or two to
     register based on github action scheduler.
 If you do not receive a build report within 24 hours please ask for assistance.
 
+This is true for every subsequent push to trigger a new build.
+You can check if your changes were properly commited to the Bioconductor respository by
+    checking https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+
+We encourage you to sync and maintain both your individual and Bioconductor GitHub repository
+You can mimic R-universe builds on your individual GitHub repository before
+    pushing to the Bioconductor GitHub repository. 
+See instructions at [Adding Bioconductor R-Universe GitHub Action](https://docs.r-universe.dev/bioconductor/#debugging-the-ci)
+
 Reminders:
 
   - All packages should be free of Errors and Warnings.

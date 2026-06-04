@@ -470,7 +470,8 @@ def finalize(failures, package_name=None, skip_duplicates=False, owner=None, rep
             "is to pass R CMD check and R CMD BiocCheck with no ERROR or WARNINGS. "
             "Passing these checks does not result in automatic acceptance. "
             "The package will then undergo a formal review and recommendations for "
-            "acceptance regarding other Bioconductor standards will be addressed.",
+            "acceptance regarding other Bioconductor standards will be addressed."
+            "I can test building and checking by [Adding Bioconductor R-Universe GitHub Action](https://docs.r-universe.dev/bioconductor/#debugging-the-ci).",
 
             "I understand Bioconductor's [AI and Third Party Code](https://contributions.bioconductor.org/ai-policy-third-party.html) "
             "policy and will acknowledge accordingly if applicable",
