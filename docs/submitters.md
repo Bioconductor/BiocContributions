@@ -84,16 +84,20 @@ progress](https://img.shields.io/badge/review_in_progress-1d76db) label is
 added. New build reports will not register unless there is a valid version
 bump that is pushed to the new Bioconductor location NOT your individual original github;
 a valid version bump is advancing only the z of version x.y.z. Example:
-0.99.0 was initial submission, a valid version bump is 0.99.1, 0.99.2...
+0.99.0 was initial submission, a valid version bump is 0.99.1, 0.99.2...<br>
+For every push to trigger a new build, it can take time to be picked up in the r-universe
+system. If you do not receive a build report within 24 hours please contact Bioconductor review
+admins by tagging @Bioconductor/packagereviewers for assistance. You should check first to
+make sure the repository at BiocStaging reflects a pushed commit.
 
-6. Work with reviewer to improve package for acceptance <br>
+7. Work with reviewer to improve package for acceptance <br>
 A review will take place typically within 3 weeks of a clean build and/or
 justifications of remaining build report issues. Once the reviewer posts
 any concerns or comments, the submitter should alter the package accordingly,
 kick off a new build with a valid version bump, and respond point by point to
 reviewers comments. This may involve several interations.
 
-7. Package Acceptance, Package Decline, or Inactive.<br>
+8. Package Acceptance, Package Decline, or Inactive.<br>
 Once the assigned reviewer feels the review is complete or staled, they may assign the
 decision on the package by adjusting the issue label to:
 
@@ -225,6 +229,17 @@ adjust assigned reviewers to have a common reviewer if it is appropriate to
 review together. You may also provide a comment on the issue if you would like
 to suggest a set of packages should be reviewed together by a single person
 
+- No Commit Message <br>
+There is no confirmation that a successful commit is made to the Bioconductor
+version of package. You should check to see the expected commit on the package
+repository at https://github.com/orgs/BiocStaging/repositories
+
+- Delay to Post Report <br>
+There is a delay from when a push happens to when it registers in R-universe.
+There is also a delay from when a build/check run completes to when the report
+is posted on the issue. It can be a hour or two. If you do not receive a build report
+within 24 hours please contact Bioconductor review admins by tagging
+@Bioconductor/packagereviewers for assistance.
 
 ## Conclusion
 
