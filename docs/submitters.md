@@ -7,6 +7,10 @@ CMD check, and BiocCheck, a package will undergo a formal review from a member
 of the Bioconductor Review Team for Bioconductor appropriateness and adherence
 to [Bioconductor standard policies and guidelines][1].
 
+You can add a GitHub action on your personal GitHub repository to mimic the R-universe
+build, check and BiocCheck before pushing to Bioconductor. 
+See [Adding Bioconductor R-Universe GitHub Action](https://docs.r-universe.dev/bioconductor/#debugging-the-ci)
+
 ## Table of Contents
 * [Overview](#overview-of-submission-steps-and-automated-actions)
 * [Build Report Breakdown](#build-report-breakdown)
