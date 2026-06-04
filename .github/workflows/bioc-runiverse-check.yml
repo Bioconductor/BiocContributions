@@ -6,11 +6,8 @@ on:
       package_name:
         description: "Optional package to check (leave blank for all)"
         required: false
-      issue_number:
-        description: "Optional issue number for reference"
-        required: false
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/30 * * * *"
 
 permissions:
   contents: write
