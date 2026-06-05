@@ -198,8 +198,7 @@ Select "Track Runiverse Builds". On the right side, click on the button for "Run
 workflow". Enter the package name (no version number, just name) and select "Run
 Workflow". This will trigger the action and hopefully you should see a build
 report once the action completes. 
-<br>
-<br>
+
 If these steps did not resolve the issue. Contact the Bioconductor core team for
 assistance. 
 
