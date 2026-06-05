@@ -176,32 +176,32 @@ please contact Bioconductor review team by tagging
 [Slide
 Deck](https://docs.google.com/presentation/d/1P0MROLo4mhr0Cn6X97ZjrhC0AfZ09u3wAuBPFgrjvuQ/edit?slide=id.g3e8ac41a748_1_0#slide=id.g3e8ac41a748_1_0)
 for images of each of these steps.
-<br>
-Start by ensuring there was a valid push to the
+
+* Start by ensuring there was a valid push to the
 [Biocstaging](https://github.com/orgs/BiocStaging/repositories) location of the
 package repository. It should show that there was a recent commit (with valid
 version bump). 
-<br>
-Next check if the [R-universe](https://biocstaging.r-universe.dev/builds) built
+
+* Next check if the [R-universe](https://biocstaging.r-universe.dev/builds) built
 the latest version of the package. 
-<br>
-If the R-universe has not updated for package versions you can trigger an update
+
+* If the R-universe has not updated for package versions you can trigger an update
 by clicking on the refresh for the R-universe **NOT** the individual package
 run. See slide deck for location. Once you hit the refresh, the R-universe
 should pick up the changes and once the build completes the BiocContributions
 should pick up the package run within 2 hours. 
-<br>
-You can check the latest R-universe runs to check that there was a recent
+  
+* You can check the latest R-universe runs to check that there was a recent
 completed run for the package at [R-universe
 workflows](https://github.com/r-universe/biocstaging/actions/workflows/build.yml)
-<br>
-If there was a recent run for the package that has not posted on the Issue, you
+  
+* If there was a recent run for the package that has not posted on the Issue, you
 can retrigger the BiocContribution action to search for the run. Navigate to the
 BiocContributions Actions tab and Select "Track Runiverse Builds". On the right
 side, click on the button for "Run workflow". Enter the package name (no version
 number, just name) and select "Run Workflow". This will trigger the action and
 hopefully you should see a build report once the action completes. 
-<br>
+
 If these steps did not resolve the issue. Contact the Bioconductor core team for
 assistance. 
 
