@@ -6,7 +6,10 @@ power and responsibility. We recommend following Bioconductor/BiocContributions
 to make sure you are notified when assigned <br>
 <br>
 All previous administration steps are now automated up to assigning the
-reviewer. See [submitters overview](https://github.com/Bioconductor/BiocContributions/blob/devel/docs/submitters.md#overview-of-submission-steps-and-automated-actions) for more information on what occurs during the submission process.<br>
+reviewer. See [submitters
+overview](https://github.com/Bioconductor/BiocContributions/blob/devel/docs/submitters.md#overview-of-submission-steps-and-automated-actions)
+for more information on what occurs during the submission process or [Slide Deck
+for Submitters](https://docs.google.com/presentation/d/1EK2wsDoRbtVGECdYC1GU5nGtYkN-h_7R-on-CSUC6CQ/edit?usp=sharing).<br>
 Some pre-check that admins would formerly do will no longer occur. You
 as a reviewer should use your best judgement if a package is appropriate for
 Bioconductor and must enforce a package to adhere to Bioconductor standards and
@@ -21,12 +24,13 @@ pages, and tests. <br>
 * [Reviewing](#reviewing)
 * [Accept/Decline/Inactive](#close-accept-decline-inactive)
 * [Reassignment/Leave of Absence](#reassignment-and-leave-of-absence)
+* [Troubleshooting](#troubleshooting)
 * [FAQ](#faqs)
 
 ## Useful links:
 
 - [Bioconductor standard policies and guidelines][1]
-- [SlideDeck of Process](https://docs.google.com/presentation/d/1P0MROLo4mhr0Cn6X97ZjrhC0AfZ09u3wAuBPFgrjvuQ/edit?usp=sharing)
+- [SlideDeck for Reviewers](https://docs.google.com/presentation/d/1P0MROLo4mhr0Cn6X97ZjrhC0AfZ09u3wAuBPFgrjvuQ/edit?usp=sharing)
 - [reviewer template checklist](https://contributions.bioconductor.org/docs/package-review-checklist.md)
 
 <br>
@@ -159,6 +163,44 @@ available reviewer in the review queue, you may apply the label ![assign reviewe
 If you are taking an extended leave and would temporarily like to be excluded from new assignments, 
 please let a package reviewer admin know either on the closed #reviewer zulip
 channel or directly (currently Lori Kern: lori.shepherd@roswellpark.org); they can still progamatically exclude through action variables.
+
+## Troubleshooting
+
+#### No Report
+For every push to trigger a new build, it can take time to be picked up in the r-universe
+system and then also for our system to pick up a completed run for the
+package. We loosely say if you do not receive a build report within 24 hours
+please contact Bioconductor review team by tagging
+@Bioconductor/packagereviewers for assistance. Any reviewer may assist. 
+<br>
+Start by ensuring there was a valid push to the
+[Biocstaging](https://github.com/orgs/BiocStaging/repositories) location of the
+package repository. It should show that there was a recent commit (with valid
+version bump). 
+<br>
+Next check if the [R-universe](https://biocstaging.r-universe.dev/builds) built
+the latest version of the package. 
+<br>
+If the R-universe has not updated for package versions you can trigger an update
+by clicking on the refresh for the R-universe **NOT** the individual package
+run. See slide deck for location. Once you hit the refresh, the R-universe
+should pick up the changes and once the build completes the BiocContributions
+should pick up the package run within 2 hours. 
+<br>
+You can check the latest R-universe runs to check that there was a recent
+completed run for the package at [R-universe
+workflows](https://github.com/r-universe/biocstaging/actions/workflows/build.yml)
+<br>
+If there was a recent run for the package that has not posted on the Issue, you
+can retrigger the BiocContribution action to search for the run. See slide deck
+for pictures of process.  Navigate to the BiocContributions Actions tab and
+Select "Track Runiverse Builds". On the right side, click on the button for "Run
+workflow". Enter the package name (no version number, just name) and select "Run
+Workflow". This will trigger the action and hopefully you should see a build
+report once the action completes. 
+<br>
+If these steps did not resolve the issue. Contact the Bioconductor core team for
+assistance. 
 
 
 ## FAQ
