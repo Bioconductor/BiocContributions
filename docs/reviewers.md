@@ -178,7 +178,7 @@ Deck](https://docs.google.com/presentation/d/1P0MROLo4mhr0Cn6X97ZjrhC0AfZ09u3wAu
 for images of each of these steps.
 
 * Start by ensuring there was a valid push to the
-[Biocstaging](https://github.com/orgs/BiocStaging/repositories) location of the
+[BiocStaging](https://github.com/orgs/BiocStaging/repositories) location of the
 package repository. It should show that there was a recent commit (with valid
 version bump). 
 
@@ -197,7 +197,7 @@ workflows](https://github.com/r-universe/biocstaging/actions/workflows/build.yml
   
 * If there was a recent run for the package that has not posted on the Issue, you
 can retrigger the BiocContribution action to search for the run. Navigate to the
-BiocContributions Actions tab and Select "Track Runiverse Builds". On the right
+[BiocContributions Actions](https://github.com/Bioconductor/BiocContributions/actions/workflows/bioc-runiverse-check.yml) tab and Select "Track Runiverse Builds". On the right
 side, click on the button for "Run workflow". Enter the package name (no version
 number, just name) and select "Run Workflow". This will trigger the action and
 hopefully you should see a build report once the action completes. 
