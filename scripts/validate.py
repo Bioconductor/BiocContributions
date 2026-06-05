@@ -381,6 +381,10 @@ def main():
             if remotes_match:
                 failures.append("DESCRIPTION contains a 'Remotes:' field. All dependencies must be on CRAN or Bioconductor; Remotes are not allowed.")
 
+            addrepo_match = re.search(r"^Additional_repositories:\s*(.+)$", description_text, re.MULTILINE)
+            if addrepo_match:
+                failures.append("DESCRIPTION contains a 'Additional_repositories:' field. All dependencies must be on CRAN or Bioconductor; Additional_repositories are not allowed.")
+
         except Exception:
             failures.append("Unable to decode or parse DESCRIPTION file.")
 
