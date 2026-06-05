@@ -1286,14 +1286,14 @@ It has been added to the official Bioconductor devel system.
 If you want to push command line updates, you need to update your remotes:
 ```
   git remote remove {SPB_RUNIVERSE}
-  git remote add bioc git@git.bioconductor.org:packages/{repo}
-  git push bioc devel
+  git remote add upstream git@git.bioconductor.org:packages/{repo}
+  git push upstream devel
 ```
 
 Bioconductor still uses **devel** as its default branch.
 If you use a different branch (example: main) map branches when pushing:
 ``` 
-  git push bioc main:devel
+  git push upstream main:devel
 ```
 Other useful documentation for pushing to git.bioconductor.org may be found
 [here](http://contributions.bioconductor.org/git-version-control.html#new-package-workflow)
