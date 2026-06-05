@@ -39,6 +39,7 @@ part of the Bioconductor precheck validation:
 		+ Package name matches repository name (case sensitive)
 		+ Version number: Incoming packages must be  x.99.y
 	    + No remotes. Bioconductor does not allow use of Remotes.
+        + No Additional_repositories. Bioconductor only allows dependencies from CRAN or Bioconductor
 
      - Large File Check: Files may not exceed 5MB
      - Git LFS Check: Bioconductor does not allow use of Git LFS
