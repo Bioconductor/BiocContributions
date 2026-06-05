@@ -25,6 +25,7 @@ pages, and tests. <br>
 * [Accept/Decline/Inactive](#close-accept-decline-inactive)
 * [Reassignment/Leave of Absence](#reassignment-and-leave-of-absence)
 * [Troubleshooting](#troubleshooting)
+  - [No Report](#no-report)
 * [FAQ](#faqs)
 
 ## Useful links:
@@ -171,7 +172,10 @@ For every push to trigger a new build, it can take time to be picked up in the r
 system and then also for our system to pick up a completed run for the
 package. We loosely say if you do not receive a build report within 24 hours
 please contact Bioconductor review team by tagging
-@Bioconductor/packagereviewers for assistance. Any reviewer may assist. 
+@Bioconductor/packagereviewers for assistance. Any reviewer may assist. See
+[Slide
+Deck](https://docs.google.com/presentation/d/1P0MROLo4mhr0Cn6X97ZjrhC0AfZ09u3wAuBPFgrjvuQ/edit?slide=id.g3e8ac41a748_1_0#slide=id.g3e8ac41a748_1_0)
+for images of each of these steps.
 <br>
 Start by ensuring there was a valid push to the
 [Biocstaging](https://github.com/orgs/BiocStaging/repositories) location of the
@@ -192,12 +196,11 @@ completed run for the package at [R-universe
 workflows](https://github.com/r-universe/biocstaging/actions/workflows/build.yml)
 <br>
 If there was a recent run for the package that has not posted on the Issue, you
-can retrigger the BiocContribution action to search for the run. See slide deck
-for pictures of process.  Navigate to the BiocContributions Actions tab and
-Select "Track Runiverse Builds". On the right side, click on the button for "Run
-workflow". Enter the package name (no version number, just name) and select "Run
-Workflow". This will trigger the action and hopefully you should see a build
-report once the action completes. 
+can retrigger the BiocContribution action to search for the run. Navigate to the
+BiocContributions Actions tab and Select "Track Runiverse Builds". On the right
+side, click on the button for "Run workflow". Enter the package name (no version
+number, just name) and select "Run Workflow". This will trigger the action and
+hopefully you should see a build report once the action completes. 
 <br>
 If these steps did not resolve the issue. Contact the Bioconductor core team for
 assistance. 
