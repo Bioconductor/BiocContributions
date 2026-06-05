@@ -3,16 +3,16 @@
 ## Table of Contents
 
 * [Submission](#submission)
-  - [Related Packages/Circular Dependencies](#related-packages-circular-dependencies)
+  - [Related Packages/Circular Dependencies](#related-packages-and-circular-dependencies)
 * [Commits and Build Reports](#commits-and-build-reports)
   - [No Commit Message](#no-commit-message)
   - [No Posted Report](#ni=o-posted-report)
 * [General](#general)
-  - [System Issues/Feature Requests](#system-issues-feature-requests)
+  - [System Issues/Feature Requests](#system-issues-and-feature-requests)
 
 ## Submission
 
-#### Related Packages/Circular Dependencies
+#### Related Packages and Circular Dependencies
 Related packages should now be submitted as separate issues. The r-universe will
 be able to find the related packages on subsequent builds. We may manually
 adjust assigned reviewers to have a common reviewer if it is appropriate to
@@ -36,5 +36,5 @@ valid push commit at BiocStaging repository for the package.
 
 ## General
 
-#### System Issues/Feature Requests<br>
+#### System Issues and Feature Requests
 Please open an issue at [BiocSubmissionProcess](https://github.com/BiocStaging/BiocSubmissionProcess)
