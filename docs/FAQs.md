@@ -6,7 +6,7 @@
   - [Related Packages/Circular Dependencies](#related-packages-and-circular-dependencies)
 * [Commits and Build Reports](#commits-and-build-reports)
   - [No Commit Message](#no-commit-message)
-  - [No Posted Report](#ni=o-posted-report)
+  - [No Posted Report](#no-posted-report)
 * [General](#general)
   - [System Issues/Feature Requests](#system-issues-and-feature-requests)
 
