@@ -54,6 +54,12 @@ part of the Bioconductor precheck validation:
 	![awaiting policy acceptance](https://img.shields.io/badge/awaiting_policy_acceptance-d93f0b)
 	label is also added to the issue
 
+  	2c: Other Label: If a ![administration required](https://img.shields.io/badge/administration--required-8d95d9)
+  	is added, the package started a review in the old system as is currently
+  	on gitolite and the Bioconductor git server. The Bioconductor Core Team
+  	will have to do administrative clean up before the reviewer will be able
+  	to accept the package.
+
 3. Accept Bioconductor Policies.<br>
 The submitter must understand and accept Bioconductor
 policies to continue the review process. This is achieved by the submitter

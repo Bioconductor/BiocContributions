@@ -128,6 +128,12 @@ But file evaluation should likely be done from BiocStaging.
 Please remember to enforce Bioconductor policies. We encourage you to glance (and contribute to) the
 recommended [checklist](https://contributions.bioconductor.org/docs/package-review-checklist.md)
 
+If there is a  ![administration required](https://img.shields.io/badge/administration--required-8d95d9) label on
+the issue, please contact the Bioconductor Core Team. This package started a
+review in the old system and already exists on the Bioconductor git server and
+gitolite file. The Bioconductor Core Team will have to run clean up BEFORE the
+issue is accepted to avoid conflicts. They will remove the label once the issue is cleaned.
+
 ## Close Accept Decline Inactive
 
 Reviewers should NEVER close an issue manually. Please use the designated labels. 
