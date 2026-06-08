@@ -20,8 +20,8 @@ jobs:
     # Run if triggered by comment OR manually
     if: >
       github.event_name == 'workflow_dispatch' ||
-      github.event.comment.body == 'accept-policies' ||
-      github.event.comment.body == '/accept-policies'
+      startsWith(github.event.comment.body, 'accept-policies') ||
+      startsWith(github.event.comment.body, '/accept-policies')
 
     steps:
       - name: Checkout
