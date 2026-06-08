@@ -58,7 +58,8 @@ part of the Bioconductor precheck validation:
   	is added, the package started a review in the old system as is currently
   	on gitolite and the Bioconductor git server. The Bioconductor Core Team
   	will have to do administrative clean up before the reviewer will be able
-  	to accept the package.
+  	to accept the package. The label will auto notify; there is no action
+  	needed on your end.
 
 3. Accept Bioconductor Policies.<br>
 The submitter must understand and accept Bioconductor
