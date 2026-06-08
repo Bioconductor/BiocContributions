@@ -4,6 +4,7 @@
 
 * [Submission](#submission)
   - [Related Packages/Circular Dependencies](#related-packages-and-circular-dependencies)
+  - [Administration Required Label)(#administration-required-label)
 * [Commits and Build Reports](#commits-and-build-reports)
   - [No Commit Message](#no-commit-message)
   - [No Posted Report](#no-posted-report)
@@ -18,6 +19,13 @@ be able to find the related packages on subsequent builds. We may manually
 adjust assigned reviewers to have a common reviewer if it is appropriate to
 review together. You may also provide a comment on the issue if you would like
 to suggest a set of packages should be reviewed together by a single person
+
+#### Administration Required Label
+If there is a  ![administration required](https://img.shields.io/badge/administration--required-8d95d9) label on
+the issue, please contact the Bioconductor Core Team. This package started a
+review in the old system and already exists on the Bioconductor git server and
+gitolite file. The Bioconductor Core Team will have to run clean up BEFORE the
+issue is accepted to avoid conflicts. They will remove the label once the issue is cleaned.
 
 ## Commits and Build Reports
 
