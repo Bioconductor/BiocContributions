@@ -258,6 +258,18 @@ def check_git_lfs(owner, repo):
 
     return failures
 
+# ----------------------------------
+# Previous Submission on Old System
+# ----------------------------------
+
+def package_exists(pkg):
+    url = f"https://git.bioconductor.org/packages/{pkg}"
+    result = subprocess.run(
+        ["git", "ls-remote", url],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    return result.returncode == 0
 
 # ----------------------------
 # Validation
@@ -514,6 +526,11 @@ def finalize(failures, package_name=None, skip_duplicates=False, owner=None, rep
         if not has_label("policies-accepted"):
             post_comment(message)
             add_label("awaiting policy acceptance")
+        old_old = False
+        if package_name:
+            on_old = package_exists(package_name)
+            if on_old:
+                add_label("administration required") 
         sys.exit(0)
 
 
