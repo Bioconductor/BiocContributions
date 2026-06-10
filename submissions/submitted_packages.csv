@@ -7,7 +7,7 @@ LoriPkgTest2,lshep/LoriPkgTest2,lshep,26,b546b72a8b9279c10539520dee7956c115b41ed
 GO.ddb,vjcitn/GO.ddb,vjcitn,27,609a46202759b71388cac9b13f7cf381f7b71f2a,0.99.4,0.99.4
 TxParq.Hs.gencode.v49,vjcitn/TxParq.Hs.gencode.v49,vjcitn,28,42d65427ea74293d6262ddac372359c60daecd7d,0.99.2,0.99.2
 iSEEid,iSEE/iSEEid,federicomarini,31,b7d4084d031bfee113a818be3fc45bae7500cc2e,0.99.0,0.99.0
-EMMA,imbeimainz/EMMA,NajlaAbassi,32,aa26e03eb285aa99066591981ca601cd93393e36,0.99.3,0.99.3
+EMMA,imbeimainz/EMMA,NajlaAbassi,32,1a7c5f6dd50bbbe14bbb7f03f58c0131fb4adb8d,0.99.4,0.99.4
 KEGGemUP,imbeimainz/KEGGemUP,federicomarini,33,1109be0677ef45df4df19aca521ea8f4f42c744e,0.99.0,0.99.0
 spatialdataR,HelenaLC/spatialdataR,HelenaLC,34,d637f8faf0b77a2bf4cbaed673adbfab4caaf946,0.99.41,0.99.41
 pgen2gds,zhengxwen/pgen2gds,zhengxwen,35,66f8025b4992522df26331483ca109fca2403068,0.99.2,0.99.2
@@ -26,4 +26,4 @@ DAssemble,himelmallick/DAssemble,Nalin21478,47,a6f30403c0f5a5c9114b4378647d8d0af
 IntegratedLearner,himelmallick/IntegratedLearner,Nalin21478,48,86de3908b215053f51560cf8987a904bee62ad8c,0.99.0,0.99.0
 scCompoundDE,SubhadipJana1409/scCompoundDE,SubhadipJana1409,49,59f8e5b9f44920f0e2bd2a6469d53b21b7a8d73c,0.99.0,0.99.0
 MultiOmicsBridge,SubhadipJana1409/MultiOmicsBridge,SubhadipJana1409,50,b43ff2079392c129033df1e17b78fa24359ee3cf,0.99.0,0.99.0
-rvarsim,liu-sun/rvarsim,liu-sun,52,,0.99.1,0.99.1
+rvarsim,liu-sun/rvarsim,liu-sun,52,7dce20935ea7d52764ac2f83bd3253d944eb2355,0.99.1,0.99.1
