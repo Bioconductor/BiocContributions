@@ -12,7 +12,7 @@ KEGGemUP,imbeimainz/KEGGemUP,federicomarini,33,34ae8d82a306c602b5674226b8717890d
 spatialdataR,HelenaLC/spatialdataR,HelenaLC,34,d637f8faf0b77a2bf4cbaed673adbfab4caaf946,0.99.41,0.99.41
 pgen2gds,zhengxwen/pgen2gds,zhengxwen,35,fd65e5f0a08617d0b541cd5bd2e708328025f990,0.99.3,0.99.3
 gesel,LTLA/gesel,LTLA,36,08e3acc112a8d619fa7ed417b5ff48b8b0a5df43,0.99.4,0.99.4
-MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,d8b7abc5a3889af3c6a796fb15beb24a584be772,0.99.0,0.99.0
+MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,7d7f9675e13e549d29766f5ea709ee7d5cbae06a,0.99.1,0.99.1
 SimiCviz,ML4BM-Lab/SimiCviz,irenemaring,38,4ba7502444b71966b8932e7d66c4ac3bbb70a46b,0.99.0,0.99.0
 grayleafspotr,rotsl/grayleafspotr,rotsl,39,113450e1a688bd010bb90df253d22845620b8544,0.99.2,0.99.2
 TiDEomics,hte123/TiDEomics,hte123,40,838d95726b645dff65b9685bc2a0c1bc9b5237db,0.99.1,0.99.1
@@ -36,4 +36,4 @@ sciNOME,Medinfo-Lab/sciNOME,Medinfo-Lab,59,6ca3186b5eb3dbcf37806869dab2cb981f2e2
 loopcityData,jpflores-13/loopcityData,sarmapar,60,152f7ae9f1ad7b3134a05e7cc7f5dd3565cdafb4,0.99.0,0.99.0
 MOTL,MOohTus/MOTL,MOohTus,61,8821aeba422cbdbce025956944a36167b8aa7cf1,0.99.0,0.99.0
 pepitope,mschubert/pepitope,mschubert,62,64c2cbb43a290620ceadafd39ceaa4c7c3d3be34,0.99.1,0.99.1
-multipointR,mjemons/multipointR,mjemons,63,,0.99.0,0.99.0
+multipointR,mjemons/multipointR,mjemons,63,6d90fa00e8103562cb6f0aaceb6a75eae5031899,0.99.0,0.99.0
