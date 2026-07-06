@@ -9,7 +9,7 @@ TxParq.Hs.gencode.v49,vjcitn/TxParq.Hs.gencode.v49,vjcitn,28,42d65427ea74293d626
 iSEEid,iSEE/iSEEid,federicomarini,31,b7d4084d031bfee113a818be3fc45bae7500cc2e,0.99.0,0.99.0
 EMMA,imbeimainz/EMMA,NajlaAbassi,32,1a7c5f6dd50bbbe14bbb7f03f58c0131fb4adb8d,0.99.4,0.99.4
 KEGGemUP,imbeimainz/KEGGemUP,federicomarini,33,34ae8d82a306c602b5674226b8717890d0016f09,0.99.1,0.99.1
-spatialdataR,HelenaLC/spatialdataR,HelenaLC,34,d637f8faf0b77a2bf4cbaed673adbfab4caaf946,0.99.41,0.99.41
+spatialdataR,HelenaLC/spatialdataR,HelenaLC,34,e2fee0364ac30ec985c09e7d6490e24660ec421d,0.99.44,0.99.44
 pgen2gds,zhengxwen/pgen2gds,zhengxwen,35,fd65e5f0a08617d0b541cd5bd2e708328025f990,0.99.3,0.99.3
 gesel,LTLA/gesel,LTLA,36,e3df246ecefb5ffb954841ffa258b8721725fc48,0.99.5,0.99.5
 MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,7d7f9675e13e549d29766f5ea709ee7d5cbae06a,0.99.1,0.99.1
@@ -26,7 +26,7 @@ DAssemble,himelmallick/DAssemble,Nalin21478,47,a6f30403c0f5a5c9114b4378647d8d0af
 IntegratedLearner,himelmallick/IntegratedLearner,Nalin21478,48,86de3908b215053f51560cf8987a904bee62ad8c,0.99.0,0.99.0
 scCompoundDE,SubhadipJana1409/scCompoundDE,SubhadipJana1409,49,19b2a6307f15ba27ae379fff5f38ff945ed298b8,0.99.1,0.99.1
 MultiOmicsBridge,SubhadipJana1409/MultiOmicsBridge,SubhadipJana1409,50,8051daa1959b39bb7d437914e367a94e72bacc91,0.99.1,0.99.1
-rvarsim,liu-sun/rvarsim,liu-sun,52,3a62d0b974c81d5b92b2863c571f7986a95597de,0.99.2,0.99.2
+rvarsim,liu-sun/rvarsim,liu-sun,52,8589df149d9ab246c671434db7e152cbc15b54d8,0.99.2,0.99.2
 polyICSFlow,SoegaardLab/polyICSFlow,lldietz,53,720d1ce5f27e66336f439eb9f05907b196d55505,0.99.3,0.99.3
 CMEnt,CMG-UA/CMEnt,VasLem,55,7b4db37df8361af481b1375abe8c5555c73952ee,0.99.9,0.99.9
 LIPIDIFy,fayrouzhammal/LIPIDIFy,fayrouzhammal,56,c3f5145f0bb61587ff8914278ef99b3cc3be32e0,0.99.1,0.99.1
@@ -54,5 +54,5 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,,0.99.0,0.99.0
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,72a6559c99428fc4dfd9544238a52d43e76a5409,0.99.0,0.99.0
 faissR,tkcaccia/faissR,tkcaccia,86,60088a2e88e84f827c278e99f7875d3d33f69995,0.99.0,0.99.0
