@@ -36,7 +36,7 @@ sciNOME,Medinfo-Lab/sciNOME,Medinfo-Lab,59,6ca3186b5eb3dbcf37806869dab2cb981f2e2
 loopcityData,jpflores-13/loopcityData,sarmapar,60,152f7ae9f1ad7b3134a05e7cc7f5dd3565cdafb4,0.99.0,0.99.0
 MOTL,MOohTus/MOTL,MOohTus,61,7398345669fd1d8164d69134bac228607ef6c559,0.99.1,0.99.1
 pepitope,mschubert/pepitope,mschubert,62,823beedc9afd6cefb3d1c46cea9acf093c6f3737,0.99.2,0.99.2
-multipointR,mjemons/multipointR,mjemons,63,e918763037d5d52c5f6058a07b08977bb85ab660,0.99.2,0.99.2
+multipointR,mjemons/multipointR,mjemons,63,7e4a5c683b06abf89fcfa360e1a9df0935e6dcab,0.99.3,0.99.3
 PACMOSData,lipikakalson/PACMOSData,lipikakalson,64,9af6dddc1afeba81185d39f5ed2802c9ce238b57,0.99.0,0.99.0
 reglScatterplotR,george123ya/reglScatterplotR,george123ya,65,fb859590b9d946af3161aaa301a98305f434fe8f,0.99.3,0.99.3
 CySA,baj12/CySA,baj12,66,61634013bd842fd8543889d7d571b40d90fa68b6,0.99.7,0.99.7
@@ -54,5 +54,5 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,dfbf8851c14d44835973c87323dc2ceb59f7f4a9,0.99.2,0.99.2
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,bc0ca38729d965411b128464d247bd578452d2cf,0.99.3,0.99.3
 faissR,tkcaccia/faissR,tkcaccia,86,6233d41d3f53bb5558f67c18338c13fa8965576a,0.99.5,0.99.5
