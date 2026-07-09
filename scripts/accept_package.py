@@ -26,6 +26,8 @@ EVENT_PATH = os.environ["GITHUB_EVENT_PATH"]
 BIOC_STAGING_ORG = os.environ["BIOC_STAGING_ORG"]
 SPB_RUNIVERSE = os.environ["SPB_RUNIVERSE"]
 BIOC_STAGING_TOKEN = os.environ.get("BIOC_STAGING_TOKEN")
+BIOC_PKG_HOSTING_ORG = os.environ.get("BIOC_PKG_HOSTING_ORG", "bioconductor-source")
+BIOC_PKG_HOSTING_TOKEN = os.environ.get("BIOC_PKG_HOSTING_TOKEN")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -39,6 +41,11 @@ ORG_HEADERS = {
 
 BIOC_STAGING_HEADERS = {
     "Authorization": f"Bearer {BIOC_STAGING_TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
+
+BIOC_PKG_HOSTING_HEADERS = {
+    "Authorization": f"Bearer {BIOC_PKG_HOSTING_TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
@@ -97,6 +104,57 @@ def is_team_member(username):
     r = requests.get(url, headers=ORG_HEADERS)
 
     return r.status_code == 200 and r.json().get("state") == "active"
+
+
+def github_repo_exists(repo_name):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}"
+    r = requests.get(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS
+    )
+    if r.status_code == 200:
+        return True
+    if r.status_code == 404:
+        return False
+    print(
+        f"[WARN] Unable to check GitHub hosting repo "
+        f"{BIOC_PKG_HOSTING_ORG}/{repo_name}: "
+        f"{r.status_code} {r.text}"
+    )
+    return None
+
+
+def create_github_repo(repo_name):
+    url = f"https://api.github.com/orgs/{BIOC_PKG_HOSTING_ORG}/repos"
+    data = {
+        "name": repo_name,
+        "private": False,
+        "auto_init": False
+    }
+    r = requests.post(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS,
+        json=data
+    )
+    if r.status_code == 201:
+        print(
+            f"[INFO] Created GitHub repository: "
+            f"{BIOC_PKG_HOSTING_ORG}/{repo_name}"
+        )
+        return True
+    if r.status_code == 422:
+        print(
+            f"[WARN] Repository may already exist: "
+            f"{BIOC_PKG_HOSTING_ORG}/{repo_name}"
+        )
+        return False
+    print(
+        f"[WARN] Failed creating GitHub repository "
+        f"{BIOC_PKG_HOSTING_ORG}/{repo_name}: "
+        f"{r.status_code} {r.text}"
+    )
+    return False
+
 
 # --------------------------------------------
 # Helper Functions Parsing and Extracting
@@ -834,8 +892,207 @@ def transfer_to_git_bioc(repo, dry_run=False):
     set_bioc_remote(tmp_clone, repo)
     push_to_bioc(tmp_clone, dry_run=dry_run)
 
+   
+# -----------------------------------------------
+# CLONING TO bioconductor-source Helpers
+# -----------------------------------------------
+def set_bioc_github_remote(repo_dir, repo_name):
+    bioc_url = (
+        f"https://x-access-token:{BIOC_PKG_HOSTING_TOKEN}"
+        f"@github.com/{BIOC_PKG_HOSTING_ORG}/{repo_name}.git"
+    )
+    subprocess.run(
+        ["git", "remote", "remove", "origin"],
+        cwd=repo_dir,
+        check=False
+    )
+    subprocess.run(
+        ["git", "remote", "add", "origin", bioc_url],
+        cwd=repo_dir,
+        check=True
+    )
+    
+    
+def push_to_bioc_github_hosting(repo_dir, dry_run=False):
+    if dry_run:
+        print("[DRY RUN] skipping push")
+        return
+    subprocess.run(
+        ["git", "push", "-u", "origin", "devel"],
+        cwd=repo_dir,
+        check=True
+    )
 
 
+def transfer_to_bioc_github_hosting(repo, dry_run=False):
+    tmp_clone = f"/tmp/{repo}-github"
+    clone_tempbioc_repo(repo, tmp_clone)
+    ensure_devel_branch(tmp_clone)
+    set_bioc_github_remote(tmp_clone, repo)
+    push_to_bioc_github_hosting(tmp_clone, dry_run=dry_run)
+
+
+# ----------------------------------------------------------------
+# defaults and protection bioconductor-source Helpers
+# ----------------------------------------------------------------
+
+
+def set_default_branch(repo_name, branch="devel"):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}"
+    r = requests.patch(url, headers=BIOC_PKG_HOSTING_HEADERS, json={"default_branch": branch})
+    if r.status_code != 200:
+        print(f"⚠️ Could not set default branch to {branch}: {r.status_code} {r.text}")
+        return False
+    print(f"✅ Default branch set to {branch}")
+    return True
+
+
+def admin_force_push_devel_and_release(repo_name):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/rulesets"
+    data = {
+        "name": "Admin-only force push (devel + RELEASE)",
+        "target": "branch",
+        "enforcement": "active",
+        "conditions": {
+            "ref_name": {
+                "include": [
+                    "refs/heads/devel",
+                    "refs/heads/RELEASE_*"
+                ],
+                "exclude": []
+            }
+        },
+        "bypass_actors": [
+            {
+                "actor_type": "RepositoryRole",
+                "actor_id": 5,
+                "bypass_mode": "always"
+            }
+        ],
+        "rules": [
+            {
+                "type": "non_fast_forward"
+            }
+        ]
+    }
+    r = requests.post(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS,
+        json=data
+    )
+    if r.status_code not in [200, 201]:
+        print(f"⚠️ Failed ruleset: {repo_name} {r.status_code} {r.text}")
+        return False
+    print(f"✅ Admin-only force push applied (devel + RELEASE_*)")
+    return True
+
+
+def protect_branch(repo_name, branch="devel"):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/branches/{branch}/protection"
+    data = {
+        "required_status_checks": None,
+        "enforce_admins": True,
+        "required_pull_request_reviews": None,
+        "restrictions": None,
+        "allow_force_pushes": True,
+        "allow_deletions": False
+    }
+    r = requests.put(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS,
+        json=data
+    )
+    if r.status_code != 200:
+        print(f"⚠️ Failed to protect {branch}: {r.status_code} {r.text}")
+        return False
+    print(f"✅ {branch} protection applied")
+    return True
+
+
+def disallow_release_branch(repo_name):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/rulesets"
+    data = {
+        "name": "Disallow non-admin RELEASE branches",
+        "target": "branch",
+        "enforcement": "active",
+        "conditions": {
+            "ref_name": {
+                "include": ["refs/heads/RELEASE_*"],
+                "exclude": []
+            }
+        },
+        "bypass_actors": [
+            {
+                "actor_type": "RepositoryRole",
+                "actor_id": 5,
+                "bypass_mode": "always"
+            }
+        ],
+        "rules": [
+            {
+                "type": "creation"
+            }
+        ]
+    }
+    r = requests.post(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS,
+        json=data
+    )
+    if r.status_code not in [200, 201]:
+        print(f"⚠️ Failed RELEASE ruleset: {repo_name} {r.status_code} {r.text}")
+        return False
+    print(f"✅ RELEASE ruleset applied for {repo_name}")
+    return True
+
+
+def set_repository_topics(repo_name, pkg_type):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/topics"
+    topics = [
+        "r",
+        "bioconductor",
+        "bioc-package"
+    ]
+    type_topics = {
+        "Software": "bioc-software",
+        "ExperimentData": "bioc-data-experiment",
+        "AnnotationData": "bioc-data-annotation",
+        "Workflow": "bioc-workflow",
+        "Book": "bioc-book"
+    }
+    pkg_topic = type_topics.get(pkg_type)
+    if pkg_topic:
+        topics.append(pkg_topic)
+    r = requests.put(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS,
+        json={"names": topics}
+    )
+    if r.status_code != 200:
+        print(f"⚠️ Failed to set repository topics: {repo_name} {r.status_code} {r.text}")
+        return False
+    print(f"✅ Repository topics applied for {repo_name}: {topics}")
+    return True
+
+
+def disable_actions(repo_name):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/actions/permissions"
+    data = {
+        "enabled": False
+    }
+    r = requests.put(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS,
+        json=data
+    )
+    if r.status_code != 204:
+        print(f"⚠️ Failed to disable GitHub Actions: {repo_name} {r.status_code} {r.text}")
+        return False
+    print(f"✅ GitHub Actions disabled for {repo_name}")
+    return True
+
+
+    
 # ----------------------------
 # Add to Manifest Helpers
 # ----------------------------
@@ -1197,6 +1454,58 @@ We appreciate your patience as we investigate
 """
         post_comment(issue_number, closing_comment)
         sys.exit(1)
+	
+    # --------------------------------------------
+    # Clone to bioconductor-source
+    # --------------------------------------------
+    github_hosting_error = False
+    try:
+        github_repo_status = github_repo_exists(repo)
+        if github_repo_status is True:
+            print(f"[ERROR] GitHub repository already exists: {BIOC_PKG_HOSTING_ORG}/{repo}")
+            github_hosting_error = True
+        elif github_repo_status is False:
+            print(f"[INFO] GitHub repository does not exist: {BIOC_PKG_HOSTING_ORG}/{repo}")
+            create_repo_res = create_github_repo(repo)
+            if not create_repo_res:
+                print("[WARN] GitHub repository was not created")
+                github_hosting_error = True
+            else:
+                transfer_to_bioc_github_hosting(repo)
+                default_branch_res = set_default_branch(repo, "devel")
+                if not default_branch_res:
+                    print("[WARN] GitHub default branch not set to devel")
+                    github_hosting_error = True
+                protect_devel_branch = protect_branch(repo, "devel")
+                if not protect_devel_branch:
+                    print("[WARN] GitHub devel branch protection was not applied")
+                    github_hosting_error = True
+                admin_force_res = admin_force_push_devel_and_release(repo)
+                if not admin_force_res:
+                    print("[WARN] GitHub admin force push ruleset was not applied")
+                    github_hosting_error = True
+                disallow_release_res = disallow_release_branch(repo)
+                if not disallow_release_res:
+                    print("[WARN] GitHub disallow release branch ruleset was not applied")
+                    github_hosting_error = True
+                topics_res = set_repository_topics(repo, pkg_type)
+                if not topics_res:
+                    print("[WARN] GitHub topics not applied")
+                    github_hosting_error = True
+                actions_res = disable_actions(repo)
+                if not actions_res:
+                    print("[WARN] GitHub Actions could not be disabled")         
+                    github_hosting_error = True
+        else:
+            print(f"[WARN] Unable to determine GitHub repository status")
+            github_hosting_error = True
+    except Exception as e:
+        print(f"[ERROR] GitHub repository check failed: {e}")  
+        github_hosting_error = True
+
+    if github_hosting_error:
+        print("[WARN] Adding github-hosting-error label for follow-up")
+        add_label(issue_number, "github-hosting-error")
 	
     # --------------------------------------------
     # Add to manifest based on package type

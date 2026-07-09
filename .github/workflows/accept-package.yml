@@ -71,5 +71,7 @@ jobs:
           DATACITE_TESTING_PASSWORD: ${{ secrets.DATACITE_TESTING_PASSWORD }}
           BIOC_CREDENTIALS_USER: ${{ secrets.BIOC_CREDENTIALS_USER }}
           BIOC_CREDENTIALS_PASSWORD: ${{ secrets.BIOC_CREDENTIALS_PASSWORD }}
+          BIOC_PKG_HOSTING_ORG: bioconductor-source
+          BIOC_PKG_HOSTING_TOKEN: ${{ secrets.BIOC_PKG_HOSTING_TOKEN }}
         run: python scripts/accept_package.py
 
