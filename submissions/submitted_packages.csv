@@ -21,12 +21,12 @@ geneslator,knowmics-lab/geneslator,GMicale,42,7f2f5b5cbea171796c131c92212aa07154
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,a676f3ed5d8b1de81f6508f4296e00f6a8a54dfa,0.99.1,0.99.1
 PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,3a7099dff08b6626ec0f7c4b98814b8f65396fde,0.99.4,0.99.4
 sbivar,sthawinke/sbivar,sthawinke,45,f8d09c42c03a4ecf4863d705acc15f92cb7155fb,0.99.27,0.99.27
-epiwraps,ETHZ-INS/epiwraps,plger,46,98bfd584de62060d01c42476817a76d15cce006c,0.99.123,0.99.123
+epiwraps,ETHZ-INS/epiwraps,plger,46,b7b72a5e589c3cbe35578d0ca91a33e39e31ef27,0.99.124,0.99.124
 DAssemble,himelmallick/DAssemble,Nalin21478,47,a6f30403c0f5a5c9114b4378647d8d0af848f956,0.99.0,0.99.0
 IntegratedLearner,himelmallick/IntegratedLearner,Nalin21478,48,86de3908b215053f51560cf8987a904bee62ad8c,0.99.0,0.99.0
 scCompoundDE,SubhadipJana1409/scCompoundDE,SubhadipJana1409,49,19b2a6307f15ba27ae379fff5f38ff945ed298b8,0.99.1,0.99.1
 MultiOmicsBridge,SubhadipJana1409/MultiOmicsBridge,SubhadipJana1409,50,8051daa1959b39bb7d437914e367a94e72bacc91,0.99.1,0.99.1
-rvarsim,liu-sun/rvarsim,liu-sun,52,10ea15d34707041d20b155c949de6eda4ea0dff5,0.99.3,0.99.3
+rvarsim,liu-sun/rvarsim,liu-sun,52,bc7a4027eba228c2190506824648931ea4159ce1,0.99.4,0.99.4
 polyICSFlow,SoegaardLab/polyICSFlow,lldietz,53,720d1ce5f27e66336f439eb9f05907b196d55505,0.99.3,0.99.3
 CMEnt,CMG-UA/CMEnt,VasLem,55,7b4db37df8361af481b1375abe8c5555c73952ee,0.99.9,0.99.9
 LIPIDIFy,fayrouzhammal/LIPIDIFy,fayrouzhammal,56,c3f5145f0bb61587ff8914278ef99b3cc3be32e0,0.99.1,0.99.1
@@ -49,10 +49,10 @@ woven,NathanBresette/woven,NathanBresette,73,de2c80bd0d77dd2b33c65e163955c235976
 tTEscanR,avarassanchez/tTEscanR,avarassanchez,75,15ef446eab4e4274fdcf7c6c19747280731a8b24,0.99.0,0.99.0
 SwitchClass,PYangLab/SwitchClass,DiXiao3447,76,,0.99.0,0.99.0
 MsBackendMetabolomicsWorkbench,rformassspectrometry/MsBackendMetabolomicsWorkbench,gabrieletome,77,001b03f41feddd625e4c8ac5d6bcf91db44b7ee5,0.99.0,0.99.0
-scCertify,Jaya-Surya-dev/scCertify,Jaya-Surya-dev,78,9e72f3add6e111084f3b8319f1f3ea944b5b502f,0.99.1,0.99.1
+scCertify,Jaya-Surya-dev/scCertify,Jaya-Surya-dev,78,a6203eb26cf9d83be1d306b77a2c05240889b622,0.99.2,0.99.2
 PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7ee89796a19691ec2dfba36d1af3432bc,0.99.4,0.99.4
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,bc0ca38729d965411b128464d247bd578452d2cf,0.99.3,0.99.3
-faissR,tkcaccia/faissR,tkcaccia,86,ccf66801aa30edb7043c85576bff35fed92308f5,0.99.10,0.99.10
+faissR,tkcaccia/faissR,tkcaccia,86,59c3aae2851dbaf673ffc94b4a1f96301269d214,0.99.11,0.99.11
