@@ -20,8 +20,8 @@ bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0
 geneslator,knowmics-lab/geneslator,GMicale,42,7f2f5b5cbea171796c131c92212aa07154b9f37a,0.99.2,0.99.2
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,a676f3ed5d8b1de81f6508f4296e00f6a8a54dfa,0.99.1,0.99.1
 PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,3a7099dff08b6626ec0f7c4b98814b8f65396fde,0.99.4,0.99.4
-sbivar,sthawinke/sbivar,sthawinke,45,f8d09c42c03a4ecf4863d705acc15f92cb7155fb,0.99.27,0.99.27
-epiwraps,ETHZ-INS/epiwraps,plger,46,b7b72a5e589c3cbe35578d0ca91a33e39e31ef27,0.99.124,0.99.124
+sbivar,sthawinke/sbivar,sthawinke,45,b7f891e3ba09186c774e79647424c09b1a2dee82,0.99.28,0.99.28
+epiwraps,ETHZ-INS/epiwraps,plger,46,cf5c736795330ca0ef5bf4ae4cae4d5cc9550e51,0.99.125,0.99.125
 DAssemble,himelmallick/DAssemble,Nalin21478,47,b26f393f9667cd759cab851f26f27f857d6d5c79,0.99.1,0.99.1
 IntegratedLearner,himelmallick/IntegratedLearner,Nalin21478,48,86de3908b215053f51560cf8987a904bee62ad8c,0.99.0,0.99.0
 scCompoundDE,SubhadipJana1409/scCompoundDE,SubhadipJana1409,49,19b2a6307f15ba27ae379fff5f38ff945ed298b8,0.99.1,0.99.1
@@ -55,5 +55,5 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,bc0ca38729d965411b128464d247bd578452d2cf,0.99.3,0.99.3
-faissR,tkcaccia/faissR,tkcaccia,86,65bf3bf786e9e0be83ba1e5d9ee18d6542dbc502,0.99.14,0.99.14
+faissR,tkcaccia/faissR,tkcaccia,86,6bc79fb8fd306866b7854c517e0b6f8f43a600f5,0.99.15,0.99.15
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
