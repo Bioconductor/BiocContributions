@@ -1092,7 +1092,41 @@ def disable_actions(repo_name):
     return True
 
 
-    
+def get_workflows(repo_name):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/actions/workflows"
+    r = requests.get(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS
+    )
+    if r.status_code == 404:
+        print(f"[INFO] No workflows found for {repo_name}")
+        return []
+    if r.status_code != 200:
+        print(
+            f"[WARN] Failed to retrieve workflows for {repo_name}: "
+            f"{r.status_code} {r.text}"
+        )
+        return None
+    return r.json()["workflows"]
+
+
+
+def disable_workflow(repo_name, workflow_id, workflow_name):
+    url = f"https://api.github.com/repos/{BIOC_PKG_HOSTING_ORG}/{repo_name}/actions/workflows/{workflow_id}/disable"
+    r = requests.put(
+        url,
+        headers=BIOC_PKG_HOSTING_HEADERS
+    )
+    if r.status_code == 204:
+        print(f"✅ Disabled workflow '{workflow_name}'")
+        return True
+    print(
+        f"⚠️ Failed to disable workflow '{workflow_name}': "
+        f"{r.status_code} {r.text}"
+    )
+    return False
+
+
 # ----------------------------
 # Add to Manifest Helpers
 # ----------------------------
@@ -1496,6 +1530,14 @@ We appreciate your patience as we investigate
                 if not actions_res:
                     print("[WARN] GitHub Actions could not be disabled")         
                     github_hosting_error = True
+                workflows = get_workflows(repo)
+                if workflows is None:
+                    github_hosting_error = True
+                else:
+                    for workflow in workflows:
+                        workflow_res = disable_workflow(repo, workflow["id"], workflow["name"])
+                        if not workflow_res:
+                            github_hosting_error = True               
         else:
             print(f"[WARN] Unable to determine GitHub repository status")
             github_hosting_error = True
