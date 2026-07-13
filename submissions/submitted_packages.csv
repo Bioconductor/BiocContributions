@@ -2,7 +2,7 @@ package_name,repo_full,submitter,issue_number,last_sha,last_version,last_valid_v
 LoriTestPkg4,lshep/LoriTestPkg4,lshep,21,d135b5dd3ba24f53eb26be43540eea0a963fd3fd,0.99.5,0.99.5
 LoriTestPkg5,lshep/LoriTestPkg5,lshep,22,8e4d7e62b89801f9ef79863938bbaed89e1ff504,0.99.8,0.99.8
 MultipleAlignment,Bioconductor/MultipleAlignment,hpages,23,34fe7574ea8bf6db5f73de8f7db32b4a03adee83,0.99.1,0.99.1
-ontoProc2,vjcitn/ontoProc2,vjcitn,25,627cbfd9d0d5b46cdb6fb7d96f8398cbb87d6e57,0.99.26,0.99.26
+ontoProc2,vjcitn/ontoProc2,vjcitn,25,3c19e121d93a699148b3ad1fd0e6e973abc194a2,0.99.27,0.99.27
 LoriPkgTest2,lshep/LoriPkgTest2,lshep,26,b546b72a8b9279c10539520dee7956c115b41ed7,0.99.10,0.99.10
 GO.ddb,vjcitn/GO.ddb,vjcitn,27,609a46202759b71388cac9b13f7cf381f7b71f2a,0.99.4,0.99.4
 TxParq.Hs.gencode.v49,vjcitn/TxParq.Hs.gencode.v49,vjcitn,28,42d65427ea74293d6262ddac372359c60daecd7d,0.99.2,0.99.2
