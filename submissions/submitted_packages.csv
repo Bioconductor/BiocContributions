@@ -71,3 +71,4 @@ DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,,0.99.00,0.99.00
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,,0.99.00,0.99.00
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,,0.99.00,0.99.00
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,,0.99.00,0.99.00
+BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,,0.99.00,0.99.00
