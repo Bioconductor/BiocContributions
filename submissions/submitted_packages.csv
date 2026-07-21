@@ -69,3 +69,4 @@ mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e23
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,70235df4ea98be5c2b484994ccbaa60d92163055,0.99.1,0.99.1
 DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,,0.99.00,0.99.00
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,,0.99.00,0.99.00
+DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,,0.99.00,0.99.00
