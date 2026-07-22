@@ -66,7 +66,7 @@ ClinicalVariantR,safarafique/ClinicalVariantR,safarafique,100,6c334333d368d637df
 multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d829017707,0.99.0,0.99.0
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb120e1de2,0.99.0,0.99.0
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
-SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,552d65bf08f92efc13690fa19c4a8e5a50dec0f7,0.99.2,0.99.2
+SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
 DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,a272df549f25415809da5680cb0b19d89ee64691,0.99.2,0.99.2
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,8df42638a07e52ad3a26bd41284d71c3053c345d,0.99.00,0.99.00
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,38c7cf626f0b3eee35cb48192f8082028ff0679d,0.99.00,0.99.00
