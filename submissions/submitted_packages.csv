@@ -74,7 +74,7 @@ DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,af477ac1c7f63fc9abdc2627f
 BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,8896822468d9350b6f201f3aad3efeb48aa6b0ae,0.99.6,0.99.6
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,3a984c90fa6842405ef985ae1ab44a25799aac45,0.99.2,0.99.2
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
-MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,c5b25dd3d2669470ae9438637c40b0101e600147,0.99.0,0.99.0
+MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
 mesa,cruk-mi/mesa,fpmartinez10,113,b779bd8db22ee889d9e2256947ace5a1cd517b8f,0.99.5,0.99.5
-ggwas,bczech/ggwas,bczech,114,e2c407662d4f22b20d06e2d0df1a5c3e1db85db9,0.99.3,0.99.3
+ggwas,bczech/ggwas,bczech,114,c3478745f66d5fdb2f35c8b5dbec6ff98e8792bf,0.99.5,0.99.5
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,,0.99.0,0.99.0
