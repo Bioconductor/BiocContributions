@@ -15,7 +15,7 @@ gesel,LTLA/gesel,LTLA,36,e3df246ecefb5ffb954841ffa258b8721725fc48,0.99.5,0.99.5
 MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,7d7f9675e13e549d29766f5ea709ee7d5cbae06a,0.99.1,0.99.1
 SimiCviz,ML4BM-Lab/SimiCviz,irenemaring,38,f681f0ca684cdb7e7f0cedf1532b83090cdb6cb0,0.99.2,0.99.2
 grayleafspotr,rotsl/grayleafspotr,rotsl,39,113450e1a688bd010bb90df253d22845620b8544,0.99.2,0.99.2
-TiDEomics,hte123/TiDEomics,hte123,40,01361c7e0e505cf68b3b844bd51b4e65d457e71c,0.99.2,0.99.2
+TiDEomics,hte123/TiDEomics,hte123,40,92dbb4b7ded9bdbe9c17055832ea238a3d6e7e32,0.99.3,0.99.3
 bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0.99.4,0.99.4
 geneslator,knowmics-lab/geneslator,GMicale,42,7f2f5b5cbea171796c131c92212aa07154b9f37a,0.99.2,0.99.2
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,8893b9ae3c59df4c25215db175faf3818543714f,0.99.4,0.99.4
@@ -67,7 +67,7 @@ multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d8290177
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb120e1de2,0.99.0,0.99.0
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
-DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,1dd0f14dbac9d5e387796c584920416928ffc470,0.99.10,0.99.10
+DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,2b9a32033e1388a3862289eb233850d7a4d5ceb6,0.99.14,0.99.14
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,586e166f31b242483e8c8c56e857a1b6c5fc412f,0.99.2,0.99.2
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,af793485579b83d5a731ee15e07974f332fe37da,0.99.1,0.99.1
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,af477ac1c7f63fc9abdc2627f659bbf1e3fe7cf4,0.99.00,0.99.00
