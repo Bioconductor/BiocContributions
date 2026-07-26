@@ -39,7 +39,7 @@ pepitope,mschubert/pepitope,mschubert,62,823beedc9afd6cefb3d1c46cea9acf093c6f373
 multipointR,mjemons/multipointR,mjemons,63,69a3390f1c8480639d546aaa77c7a3e9c9de7541,0.99.4,0.99.4
 PACMOSData,lipikakalson/PACMOSData,lipikakalson,64,9af6dddc1afeba81185d39f5ed2802c9ce238b57,0.99.0,0.99.0
 reglScatterplotR,george123ya/reglScatterplotR,george123ya,65,fb859590b9d946af3161aaa301a98305f434fe8f,0.99.3,0.99.3
-CySA,baj12/CySA,baj12,66,61634013bd842fd8543889d7d571b40d90fa68b6,0.99.7,0.99.7
+CySA,baj12/CySA,baj12,66,92f831333a9980439a3229460bd032bc1d59ba3f,0.99.13,0.99.13
 karioCaS,thiagoparentefiocruz/karioCaS,thiagoparentefiocruz,67,c981b4bc7bc0253098d1a1077fa369c60cb22011,0.99.15,0.99.15
 scOverlay,bernatgel/scOverlay,bernatgel,68,f685f9fbb7d658e1d3ac215b9dc6d1a021087d21,0.99.0,0.99.0
 GPlinksR,Corawang123/GPlinksR,Corawang123,69,d0db3cf96636a4a77c2bef83abd328f2f1d2f80f,0.99.2,0.99.2
@@ -77,5 +77,5 @@ SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
 mesa,cruk-mi/mesa,fpmartinez10,113,b779bd8db22ee889d9e2256947ace5a1cd517b8f,0.99.5,0.99.5
 ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
-quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,0a31feb04e693a35838167a56c460b5a50fb225e,0.99.1,0.99.1
+quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,069163d6dbc86282ef369c21c53b961874b83453,0.99.3,0.99.3
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,a4b04cd1a253fa4d0b30aae3161b229ae79e0659,0.99.96,0.99.96
