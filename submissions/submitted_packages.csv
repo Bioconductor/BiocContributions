@@ -39,7 +39,7 @@ pepitope,mschubert/pepitope,mschubert,62,823beedc9afd6cefb3d1c46cea9acf093c6f373
 multipointR,mjemons/multipointR,mjemons,63,4a1f5257b6ea830580d85170d9fcad0d5c4f15c1,0.99.5,0.99.5
 PACMOSData,lipikakalson/PACMOSData,lipikakalson,64,9af6dddc1afeba81185d39f5ed2802c9ce238b57,0.99.0,0.99.0
 reglScatterplotR,george123ya/reglScatterplotR,george123ya,65,fb859590b9d946af3161aaa301a98305f434fe8f,0.99.3,0.99.3
-CySA,baj12/CySA,baj12,66,3a1f424105dc765c3302113bdf8a1a23d17f2996,0.99.14,0.99.14
+CySA,baj12/CySA,baj12,66,ef53feda50530d7d0c975eaa0d0b74803307b224,0.99.14,0.99.14
 karioCaS,thiagoparentefiocruz/karioCaS,thiagoparentefiocruz,67,c981b4bc7bc0253098d1a1077fa369c60cb22011,0.99.15,0.99.15
 scOverlay,bernatgel/scOverlay,bernatgel,68,f685f9fbb7d658e1d3ac215b9dc6d1a021087d21,0.99.0,0.99.0
 GPlinksR,Corawang123/GPlinksR,Corawang123,69,d0db3cf96636a4a77c2bef83abd328f2f1d2f80f,0.99.2,0.99.2
@@ -71,7 +71,7 @@ DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,2676ed7dfcc3241a2d52f
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,586e166f31b242483e8c8c56e857a1b6c5fc412f,0.99.2,0.99.2
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,af793485579b83d5a731ee15e07974f332fe37da,0.99.1,0.99.1
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,af477ac1c7f63fc9abdc2627f659bbf1e3fe7cf4,0.99.00,0.99.00
-BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,247f6eee6376533141e9a2f69bfc8474db9d3b78,0.99.9,0.99.9
+BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,9285c92e8ecea4675e509ec331c9c6a04fca3c5c,0.99.10,0.99.10
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,3a984c90fa6842405ef985ae1ab44a25799aac45,0.99.2,0.99.2
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
@@ -80,4 +80,4 @@ ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,13d08fa153e52a222a465728295d6b703bfaebe5,0.99.4,0.99.4
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,a4b04cd1a253fa4d0b30aae3161b229ae79e0659,0.99.96,0.99.96
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,9ea413b6899a13577e0c1d8dd4d35e3a8931e427,0.99.3,0.99.3
-exploreSE,jaspitzer/exploreSE,jaspitzer,118,8c0893f681e7ff7edcf17245270d4d29dac251c3,0.99.2,0.99.2
+exploreSE,jaspitzer/exploreSE,jaspitzer,118,0f9a98b233a7649c4990cd617b22b59d08020aac,0.99.2,0.99.2
