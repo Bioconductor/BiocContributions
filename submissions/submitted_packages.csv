@@ -19,7 +19,7 @@ TiDEomics,hte123/TiDEomics,hte123,40,495ea291e23c244a73116e67b1aa2500e54f5c53,0.
 bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0.99.4,0.99.4
 geneslator,knowmics-lab/geneslator,GMicale,42,7f2f5b5cbea171796c131c92212aa07154b9f37a,0.99.2,0.99.2
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,e05b2c1b49fa8798367d609c411c3104f41c6351,0.99.5,0.99.5
-PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,cf4ea40d7870b0fb63d1ca64640b34c1c301ade1,0.99.4,0.99.4
+PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,4246c8dd504db019ab3bf0e5f578daea9ba5ad45,0.99.5,0.99.5
 sbivar,sthawinke/sbivar,sthawinke,45,add1bdf61523d5e0731c1892c08c58b7be0069ef,0.99.30,0.99.30
 epiwraps,ETHZ-INS/epiwraps,plger,46,cf5c736795330ca0ef5bf4ae4cae4d5cc9550e51,0.99.125,0.99.125
 DAssemble,himelmallick/DAssemble,Nalin21478,47,c2869f9a07d461a8eb9266e29b9df9fd54ecefaf,0.99.3,0.99.3
@@ -39,7 +39,7 @@ pepitope,mschubert/pepitope,mschubert,62,823beedc9afd6cefb3d1c46cea9acf093c6f373
 multipointR,mjemons/multipointR,mjemons,63,4a1f5257b6ea830580d85170d9fcad0d5c4f15c1,0.99.5,0.99.5
 PACMOSData,lipikakalson/PACMOSData,lipikakalson,64,9af6dddc1afeba81185d39f5ed2802c9ce238b57,0.99.0,0.99.0
 reglScatterplotR,george123ya/reglScatterplotR,george123ya,65,fb859590b9d946af3161aaa301a98305f434fe8f,0.99.3,0.99.3
-CySA,baj12/CySA,baj12,66,ef53feda50530d7d0c975eaa0d0b74803307b224,0.99.14,0.99.14
+CySA,baj12/CySA,baj12,66,cb8f5f97b54f95571253bbe3d81b8ebcea263bb0,0.99.15,0.99.15
 karioCaS,thiagoparentefiocruz/karioCaS,thiagoparentefiocruz,67,c981b4bc7bc0253098d1a1077fa369c60cb22011,0.99.15,0.99.15
 scOverlay,bernatgel/scOverlay,bernatgel,68,f685f9fbb7d658e1d3ac215b9dc6d1a021087d21,0.99.0,0.99.0
 GPlinksR,Corawang123/GPlinksR,Corawang123,69,d0db3cf96636a4a77c2bef83abd328f2f1d2f80f,0.99.2,0.99.2
@@ -80,4 +80,4 @@ ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,13d08fa153e52a222a465728295d6b703bfaebe5,0.99.4,0.99.4
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,a4b04cd1a253fa4d0b30aae3161b229ae79e0659,0.99.96,0.99.96
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,9ea413b6899a13577e0c1d8dd4d35e3a8931e427,0.99.3,0.99.3
-exploreSE,jaspitzer/exploreSE,jaspitzer,118,0f9a98b233a7649c4990cd617b22b59d08020aac,0.99.2,0.99.2
+exploreSE,jaspitzer/exploreSE,jaspitzer,118,1d76243a43f99146fafb570225bf54905d8f8cfd,0.99.3,0.99.3
