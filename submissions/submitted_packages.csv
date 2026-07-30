@@ -17,7 +17,7 @@ SimiCviz,ML4BM-Lab/SimiCviz,irenemaring,38,f681f0ca684cdb7e7f0cedf1532b83090cdb6
 grayleafspotr,rotsl/grayleafspotr,rotsl,39,113450e1a688bd010bb90df253d22845620b8544,0.99.2,0.99.2
 TiDEomics,hte123/TiDEomics,hte123,40,495ea291e23c244a73116e67b1aa2500e54f5c53,0.99.4,0.99.4
 bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0.99.4,0.99.4
-geneslator,knowmics-lab/geneslator,GMicale,42,752a9b77072610b4091e08a53e5a80bb0f986a99,0.99.5,0.99.5
+geneslator,knowmics-lab/geneslator,GMicale,42,9e45c4ff5ffc43164d050c5930e677eea4a05e5e,0.99.6,0.99.6
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,e05b2c1b49fa8798367d609c411c3104f41c6351,0.99.5,0.99.5
 PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,c82f17845ae1e3df13f6fd877d7b04ae0cccaa71,0.99.6,0.99.6
 sbivar,sthawinke/sbivar,sthawinke,45,add1bdf61523d5e0731c1892c08c58b7be0069ef,0.99.30,0.99.30
@@ -39,7 +39,7 @@ pepitope,mschubert/pepitope,mschubert,62,823beedc9afd6cefb3d1c46cea9acf093c6f373
 multipointR,mjemons/multipointR,mjemons,63,4a1f5257b6ea830580d85170d9fcad0d5c4f15c1,0.99.5,0.99.5
 PACMOSData,lipikakalson/PACMOSData,lipikakalson,64,9af6dddc1afeba81185d39f5ed2802c9ce238b57,0.99.0,0.99.0
 reglScatterplotR,george123ya/reglScatterplotR,george123ya,65,fb859590b9d946af3161aaa301a98305f434fe8f,0.99.3,0.99.3
-CySA,baj12/CySA,baj12,66,5bb26b498aa8eb9fd6b9e877f7251947e9007dc5,0.99.21,0.99.21
+CySA,baj12/CySA,baj12,66,587645754d858cbdd4e4bbc602461f49758cd0bc,0.99.22,0.99.22
 karioCaS,thiagoparentefiocruz/karioCaS,thiagoparentefiocruz,67,c981b4bc7bc0253098d1a1077fa369c60cb22011,0.99.15,0.99.15
 scOverlay,bernatgel/scOverlay,bernatgel,68,f685f9fbb7d658e1d3ac215b9dc6d1a021087d21,0.99.0,0.99.0
 GPlinksR,Corawang123/GPlinksR,Corawang123,69,d0db3cf96636a4a77c2bef83abd328f2f1d2f80f,0.99.2,0.99.2
@@ -61,7 +61,7 @@ selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d941
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,2526ebd5d184c58b468b844384011d3b27e91456,0.99.0,0.99.0
 QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3ebc,1.99.8,1.99.8
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
-pepVet,LangeLab/pepVet,eneskemalergin,98,f441caaab6fd3c441d163f910288d96c05d5acd0,0.99.0,0.99.0
+pepVet,LangeLab/pepVet,eneskemalergin,98,3adcd3e3b435b4f5e2d298ea3daf5b9409e8922d,0.99.1,0.99.1
 ClinicalVariantR,safarafique/ClinicalVariantR,safarafique,100,6c334333d368d637df05bf2f14c7eb15521c5e40,0.99.0,0.99.0
 multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d829017707,0.99.0,0.99.0
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb120e1de2,0.99.0,0.99.0
@@ -77,7 +77,7 @@ SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
 mesa,cruk-mi/mesa,fpmartinez10,113,d1e773bcd13ea818fe85a21122968974fb65e204,0.99.6,0.99.6
 ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
-quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,13d08fa153e52a222a465728295d6b703bfaebe5,0.99.4,0.99.4
+quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,5c4c7970b91364342c504a3a4d3fd462aecf15a8,0.99.5,0.99.5
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,537e44232798fd6e4f28eba50b7e3dd3bb844c90,0.99.99,0.99.99
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,9ea413b6899a13577e0c1d8dd4d35e3a8931e427,0.99.3,0.99.3
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,1d76243a43f99146fafb570225bf54905d8f8cfd,0.99.3,0.99.3
