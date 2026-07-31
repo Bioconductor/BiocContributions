@@ -68,10 +68,10 @@ DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb12
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
 DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,807def287741937ea14db714f29c4b52f45c97fb,0.99.16,0.99.16
-DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,8f3955af0cb57491cc1755de371ae566f0759962,0.99.2,0.99.2
+DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,db8b853f2ded195d8bab9925d143d65a91cc63fe,0.99.3,0.99.3
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,af793485579b83d5a731ee15e07974f332fe37da,0.99.1,0.99.1
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,ca2b5a7821e0665c56133d328e46d060beb65709,0.99.1,0.99.1
-BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,36a82ada9f2f956658a71711da07e23968ff9361,0.99.11,0.99.11
+BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,2fbb7e2230e42af8a3fa8f4fb3fe12b1d9920f88,0.99.11,0.99.11
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,3a984c90fa6842405ef985ae1ab44a25799aac45,0.99.2,0.99.2
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
