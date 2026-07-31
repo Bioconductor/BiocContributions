@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,1701fef9f7bc258014a8c597e6bf13ad956239dd,0.99.7,0.99.7
-faissR,tkcaccia/faissR,tkcaccia,86,1551294698585e3772f6d7042ea14c988784ea69,0.99.20,0.99.20
+faissR,tkcaccia/faissR,tkcaccia,86,30a1dc83a1f0af91536c4f1bd947ede7e659d326,0.99.20,0.99.20
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,2526ebd5d184c58b468b844384011d3b27e91456,0.99.0,0.99.0
@@ -67,7 +67,7 @@ multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d8290177
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb120e1de2,0.99.0,0.99.0
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
-DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,807def287741937ea14db714f29c4b52f45c97fb,0.99.16,0.99.16
+DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,82537b9643f902945518c31302c7c46063b21c6c,0.99.17,0.99.17
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,db8b853f2ded195d8bab9925d143d65a91cc63fe,0.99.3,0.99.3
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,af793485579b83d5a731ee15e07974f332fe37da,0.99.1,0.99.1
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,ca2b5a7821e0665c56133d328e46d060beb65709,0.99.1,0.99.1
