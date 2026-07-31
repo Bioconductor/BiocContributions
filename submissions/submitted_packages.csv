@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,1701fef9f7bc258014a8c597e6bf13ad956239dd,0.99.7,0.99.7
-faissR,tkcaccia/faissR,tkcaccia,86,72dff9acd6044b601b06cf03547c46eb2a96f177,0.99.20,0.99.20
+faissR,tkcaccia/faissR,tkcaccia,86,1551294698585e3772f6d7042ea14c988784ea69,0.99.20,0.99.20
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,2526ebd5d184c58b468b844384011d3b27e91456,0.99.0,0.99.0
@@ -67,11 +67,11 @@ multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d8290177
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb120e1de2,0.99.0,0.99.0
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
-DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,88443c3711118e5075e03c89c8b5ab2a7a30925e,0.99.15,0.99.15
+DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,807def287741937ea14db714f29c4b52f45c97fb,0.99.16,0.99.16
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,8f3955af0cb57491cc1755de371ae566f0759962,0.99.2,0.99.2
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,af793485579b83d5a731ee15e07974f332fe37da,0.99.1,0.99.1
-DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,9f6b66196e64c7251ebd80374b0d49770e34447e,0.99.00,0.99.00
-BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,cc54c7910e73a13f742e29e40858c95228d060e3,0.99.11,0.99.11
+DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,ca2b5a7821e0665c56133d328e46d060beb65709,0.99.1,0.99.1
+BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,36a82ada9f2f956658a71711da07e23968ff9361,0.99.11,0.99.11
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,3a984c90fa6842405ef985ae1ab44a25799aac45,0.99.2,0.99.2
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
