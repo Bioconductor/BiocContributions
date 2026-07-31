@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,703ef3d680ffde397df49a3af5dc8c235c665299,0.99.6,0.99.6
-faissR,tkcaccia/faissR,tkcaccia,86,a940833182e3ab5fc54ae0647f1d82e4314c2a1b,0.99.19,0.99.19
+faissR,tkcaccia/faissR,tkcaccia,86,6b1382c54bc18eefa308c18acf702985f1f5dc48,0.99.19,0.99.19
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,2526ebd5d184c58b468b844384011d3b27e91456,0.99.0,0.99.0
@@ -83,5 +83,5 @@ BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a620
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,1d76243a43f99146fafb570225bf54905d8f8cfd,0.99.3,0.99.3
 QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,3b71935b8fc3ce5b0eccbb133e31ef055c9ea970,0.99.0,0.99.0
 normScore,juliagcurras/normScore,juliagcurras,120,47af971f61f93185c1e690870bc9f0c77110531e,0.99.0,0.99.0
-drugannotR,CMG-UA/drugannotR,VasLem,121,,0.99.0,0.99.0
-RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,,0.99.0,0.99.0
+drugannotR,CMG-UA/drugannotR,VasLem,121,297c30b30dc50bef32f432998a0a58d63a2c9da9,0.99.0,0.99.0
+RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,3305e7097df7d0bc547fa7e0021ba3afc74544ba,0.99.0,0.99.0
