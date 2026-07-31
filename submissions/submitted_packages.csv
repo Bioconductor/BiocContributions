@@ -39,7 +39,7 @@ pepitope,mschubert/pepitope,mschubert,62,823beedc9afd6cefb3d1c46cea9acf093c6f373
 multipointR,mjemons/multipointR,mjemons,63,4a1f5257b6ea830580d85170d9fcad0d5c4f15c1,0.99.5,0.99.5
 PACMOSData,lipikakalson/PACMOSData,lipikakalson,64,9af6dddc1afeba81185d39f5ed2802c9ce238b57,0.99.0,0.99.0
 reglScatterplotR,george123ya/reglScatterplotR,george123ya,65,fb859590b9d946af3161aaa301a98305f434fe8f,0.99.3,0.99.3
-CySA,baj12/CySA,baj12,66,ea4fe1e060ae7721531cc89f2f1e01e4275ca7d4,0.99.25,0.99.25
+CySA,baj12/CySA,baj12,66,121afcd903b4705f029bdf9f32568569365cb3e7,0.99.26,0.99.26
 karioCaS,thiagoparentefiocruz/karioCaS,thiagoparentefiocruz,67,c981b4bc7bc0253098d1a1077fa369c60cb22011,0.99.15,0.99.15
 scOverlay,bernatgel/scOverlay,bernatgel,68,f685f9fbb7d658e1d3ac215b9dc6d1a021087d21,0.99.0,0.99.0
 GPlinksR,Corawang123/GPlinksR,Corawang123,69,d0db3cf96636a4a77c2bef83abd328f2f1d2f80f,0.99.2,0.99.2
@@ -54,8 +54,8 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,5d8244d87cc93be82c46942eb42e9eb3ed7a5254,0.99.0,0.99.0
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,703ef3d680ffde397df49a3af5dc8c235c665299,0.99.6,0.99.6
-faissR,tkcaccia/faissR,tkcaccia,86,6b1382c54bc18eefa308c18acf702985f1f5dc48,0.99.19,0.99.19
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,1701fef9f7bc258014a8c597e6bf13ad956239dd,0.99.7,0.99.7
+faissR,tkcaccia/faissR,tkcaccia,86,d0ea28bf0982894f037a2f4ffec89a5aba01200e,0.99.19,0.99.19
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,2526ebd5d184c58b468b844384011d3b27e91456,0.99.0,0.99.0
@@ -85,4 +85,4 @@ QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,3b71935b8fc3ce5b
 normScore,juliagcurras/normScore,juliagcurras,120,47af971f61f93185c1e690870bc9f0c77110531e,0.99.0,0.99.0
 drugannotR,CMG-UA/drugannotR,VasLem,121,297c30b30dc50bef32f432998a0a58d63a2c9da9,0.99.0,0.99.0
 RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,3305e7097df7d0bc547fa7e0021ba3afc74544ba,0.99.0,0.99.0
-GeneSCARAB,ramosgonzmarc/GeneSCARAB,ramosgonzmarc,123,,0.99.0,0.99.0
+GeneSCARAB,ramosgonzmarc/GeneSCARAB,ramosgonzmarc,123,d5ccd4756eadc075144441df9f4fdeca56354209,0.99.0,0.99.0
