@@ -67,7 +67,7 @@ multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d8290177
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb120e1de2,0.99.0,0.99.0
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
-DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,82537b9643f902945518c31302c7c46063b21c6c,0.99.17,0.99.17
+DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,f48543ddbacc2e1d383f2ff4489d4ef1a49e94c3,0.99.18,0.99.18
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,db8b853f2ded195d8bab9925d143d65a91cc63fe,0.99.3,0.99.3
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,af793485579b83d5a731ee15e07974f332fe37da,0.99.1,0.99.1
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,ca2b5a7821e0665c56133d328e46d060beb65709,0.99.1,0.99.1
