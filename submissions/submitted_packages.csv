@@ -70,7 +70,7 @@ SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad4
 DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,f48543ddbacc2e1d383f2ff4489d4ef1a49e94c3,0.99.18,0.99.18
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,3910735c15482cc4a418fbaa7801709935f39276,0.99.4,0.99.4
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,dc1684337ad4a12e4ed812dadf8519b68fa92d5c,0.99.2,0.99.2
-DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,ca2b5a7821e0665c56133d328e46d060beb65709,0.99.1,0.99.1
+DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,c84a166bc81b32686a90e4c067ef13ab510c387d,0.99.2,0.99.2
 BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,2fbb7e2230e42af8a3fa8f4fb3fe12b1d9920f88,0.99.11,0.99.11
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,3a984c90fa6842405ef985ae1ab44a25799aac45,0.99.2,0.99.2
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
