@@ -71,7 +71,7 @@ DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,4584228522beb81ffe175
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,9ce49c8846ae2cb59f9b156df6a5c55e4e29afc0,0.99.5,0.99.5
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,16d704e7e06ef9127df482641d60ad6753dff27e,0.99.3,0.99.3
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,1222ee7108524ac05f5cd749ae8aa72ee0ad4ea4,0.99.4,0.99.4
-BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,2fbb7e2230e42af8a3fa8f4fb3fe12b1d9920f88,0.99.11,0.99.11
+BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,d52d4e24fc5416b0e724c6e52d32160777582237,0.99.13,0.99.13
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,e934617ec397702130b112768cf220adffec3f1e,0.99.4,0.99.4
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
