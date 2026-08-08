@@ -54,7 +54,7 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,2ec5fdb4273984efbe22f448371f18d9a2d9dc68,0.99.10,0.99.10
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,1ed19ea94b1ea83d356054fcace56c372041f3c9,0.99.12,0.99.12
 faissR,tkcaccia/faissR,tkcaccia,86,6433ebc996e8da0264083997241dd55c97a09778,0.99.21,0.99.21
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
@@ -92,4 +92,4 @@ gDRplots,gdrplatform/gDRplots,gladkia,128,bf895eb6534df266221d76232875acb6f75138
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
 perturbMatch,soulj/perturbMatch,soulj,131,a288362c29e3805d66b37a7d325b41295687b459,0.99.0,0.99.0
 geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,568a8ee6ff85a45b5e3a609496f0c7c9a00506c7,0.99.0,0.99.0
-BatchVaria,cmpmolonc/BatchVaria,nmoir,133,,0.99.0,0.99.0
+BatchVaria,cmpmolonc/BatchVaria,nmoir,133,698c572b74912cc01f2f756d1d7fc09861801c15,0.99.0,0.99.0
