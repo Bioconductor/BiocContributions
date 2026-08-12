@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,c1afdeb50182b1e57aba92f5a7bf53f03500fc3d,0.99.16,0.99.16
-faissR,tkcaccia/faissR,tkcaccia,86,6433ebc996e8da0264083997241dd55c97a09778,0.99.21,0.99.21
+faissR,tkcaccia/faissR,tkcaccia,86,d5f0e0306a9b3f68b3bd28d9468d2bcfab9a3816,0.99.22,0.99.22
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,2526ebd5d184c58b468b844384011d3b27e91456,0.99.0,0.99.0
@@ -99,5 +99,5 @@ Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214
 cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,020e675314d95d7cd730db010e4f72cec241a07f,0.99.0,0.99.0
 ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,7a26c6222a3f91fcff5a21a3732361f4ff3a9ac3,0.99.0,0.99.0
-fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,,0.99.1,0.99.1
-KODAMA,tkcaccia/KODAMA,tkcaccia,144,,0.99.1,0.99.1
+fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,6362ab1d8604dbb955d7384505c8c9348a269e10,0.99.1,0.99.1
+KODAMA,tkcaccia/KODAMA,tkcaccia,144,27f2db7a92b7fabd5f8650289df738e116499efd,0.99.1,0.99.1
