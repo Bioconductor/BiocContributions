@@ -68,7 +68,7 @@ DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,16b317590f66b7def03930ec62ffd9cb12
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
 DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,4584228522beb81ffe175dc7b3cb53125570ac5e,0.99.20,0.99.20
-DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,4c90780d4e2d0c48fa7591bc18a3b967c8aee6bd,0.99.6,0.99.6
+DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,78e52ab0ff4f37b3c69ff784bbe8d3fee0c66c4a,0.99.7,0.99.7
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,7a4c6c8ba00dcff359db928680ab6ace7e770a7f,0.99.4,0.99.4
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,1222ee7108524ac05f5cd749ae8aa72ee0ad4ea4,0.99.4,0.99.4
 BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,abeb8d3fa056eb0752f7ff54fef979b0ea953f72,0.99.14,0.99.14
@@ -103,4 +103,4 @@ fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,d19d82db6058cc0360df14799eb2b8280565
 KODAMA,tkcaccia/KODAMA,tkcaccia,144,c8f2af6b5c79a959e8b1604a13e075eed67af86e,0.99.6,0.99.6
 hmagmaR,aydanasg/hmagmaR,aydanasg,146,e7e875cb1d1baf51b36cca89e8b8219517905709,0.99.1,0.99.1
 iconic,sbresnahan/iconic,sbresnahan,147,c92216b4c9342ca5353d30372d54743a67bfe5f9,0.99.0,0.99.0
-circaTime,dralperenuysal/circaTime,dralperenuysal,149,,0.99.0,0.99.0
+circaTime,dralperenuysal/circaTime,dralperenuysal,149,5802a38d60f1209ec938e8592adb30591077c0ab,0.99.0,0.99.0
