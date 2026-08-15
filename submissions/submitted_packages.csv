@@ -49,7 +49,7 @@ woven,NathanBresette/woven,NathanBresette,73,de2c80bd0d77dd2b33c65e163955c235976
 tTEscanR,avarassanchez/tTEscanR,avarassanchez,75,15ef446eab4e4274fdcf7c6c19747280731a8b24,0.99.0,0.99.0
 SwitchClass,PYangLab/SwitchClass,DiXiao3447,76,621f63937e8ab56c244489e6b2af8ad356ca68c8,0.99.1,0.99.1
 MsBackendMetabolomicsWorkbench,rformassspectrometry/MsBackendMetabolomicsWorkbench,gabrieletome,77,f5cfd61cb0a1418225d6d9ed60160db8e7478816,0.99.1,0.99.1
-scCertify,Jaya-Surya-dev/scCertify,Jaya-Surya-dev,78,fa40af93a6d2e38067856781131ff384f2090409,0.99.4,0.99.4
+scCertify,Jaya-Surya-dev/scCertify,Jaya-Surya-dev,78,5acb24059eaf5a4e65d9e3d006236a250877fa8a,0.99.5,0.99.5
 PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7ee89796a19691ec2dfba36d1af3432bc,0.99.4,0.99.4
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
@@ -109,4 +109,4 @@ CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,0b8287b6479f5714f3b8035c24
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,9c84979052466a8f16b5d277876d928ff5da9353,0.99.0,0.99.0
 TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,7e12f13b836242b5275dccaceb2574618ec6fbcc,0.99.3,0.99.3
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,5f0721c3dbc2086c56aa21c600dfda721e5b68d2,0.99.0,0.99.0
-remart,Huber-group-EMBL/remart,Bisaloo,155,,0.99.0,0.99.0
+remart,Huber-group-EMBL/remart,Bisaloo,155,213ae7ae1037c27b11972564ee9bb832b4d090fa,0.99.0,0.99.0
