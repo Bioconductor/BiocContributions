@@ -14,7 +14,7 @@ pgen2gds,zhengxwen/pgen2gds,zhengxwen,35,fd65e5f0a08617d0b541cd5bd2e708328025f99
 gesel,LTLA/gesel,LTLA,36,e3df246ecefb5ffb954841ffa258b8721725fc48,0.99.5,0.99.5
 MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,7d7f9675e13e549d29766f5ea709ee7d5cbae06a,0.99.1,0.99.1
 SimiCviz,ML4BM-Lab/SimiCviz,irenemaring,38,f681f0ca684cdb7e7f0cedf1532b83090cdb6cb0,0.99.2,0.99.2
-grayleafspotr,rotsl/grayleafspotr,rotsl,39,f20df7997594cf160adcb104981385cd02ed1ce1,0.99.5,0.99.5
+grayleafspotr,rotsl/grayleafspotr,rotsl,39,ceea1dc53f1bbfa2884209ee00b5a1c2fb655b3b,0.99.5,0.99.5
 TiDEomics,hte123/TiDEomics,hte123,40,495ea291e23c244a73116e67b1aa2500e54f5c53,0.99.4,0.99.4
 bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0.99.4,0.99.4
 geneslator,knowmics-lab/geneslator,GMicale,42,9e45c4ff5ffc43164d050c5930e677eea4a05e5e,0.99.6,0.99.6
@@ -92,7 +92,7 @@ gDRplots,gdrplatform/gDRplots,gladkia,128,bf895eb6534df266221d76232875acb6f75138
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
 perturbMatch,soulj/perturbMatch,soulj,131,a288362c29e3805d66b37a7d325b41295687b459,0.99.0,0.99.0
 geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,92ddbedbbdd83a00ae04b81ed0f02a34eabebff9,0.99.1,0.99.1
-BatchVaria,cmpmolonc/BatchVaria,nmoir,133,698c572b74912cc01f2f756d1d7fc09861801c15,0.99.0,0.99.0
+BatchVaria,cmpmolonc/BatchVaria,nmoir,133,12ba53491b1b28685da2e313e1b0f13f5f7279e5,0.99.1,0.99.1
 TxDb.Osativa.MSU.RGAP7,kabilanbio/TxDb.Osativa.MSU.RGAP7,kabilanbio,134,4a9203a6dcd756b4116e8e144b6f8e6bf3fd6ba0,0.99.8,0.99.8
 GENCODEHub,paulYRP/GENCODEHub,paulYRP,135,af9a22e5bfc548b98ecf742de013c254bf93349f,0.99.0,0.99.0
 Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214f977201e86ab836c,0.99.2,0.99.2
@@ -109,4 +109,4 @@ CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,0b8287b6479f5714f3b8035c24
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,9c84979052466a8f16b5d277876d928ff5da9353,0.99.0,0.99.0
 TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,9cc56fda84dd9bff1fd571fffbb4fd0942107c62,0.99.4,0.99.4
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,5f0721c3dbc2086c56aa21c600dfda721e5b68d2,0.99.0,0.99.0
-remart,Huber-group-EMBL/remart,Bisaloo,155,213ae7ae1037c27b11972564ee9bb832b4d090fa,0.99.0,0.99.0
+remart,Huber-group-EMBL/remart,Bisaloo,155,8d4e2bc5002a7452fb1b7e935165c8f2c137d00b,0.99.1,0.99.1
