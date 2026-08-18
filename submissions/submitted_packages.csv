@@ -58,7 +58,7 @@ fastPLS,tkcaccia/fastPLS,tkcaccia,84,aa797af7908fd568b22e207ebae08e7fcde0c0e5,0.
 faissR,tkcaccia/faissR,tkcaccia,86,d5f0e0306a9b3f68b3bd28d9468d2bcfab9a3816,0.99.22,0.99.22
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
-cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,5e677536413adeee9a294f44a6c1ae1984bb6d63,0.99.0,0.99.0
+cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,8b98d38a3a1f2a9ed8d05970a823d7d4391699b4,0.99.0,0.99.0
 QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3ebc,1.99.8,1.99.8
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
 pepVet,LangeLab/pepVet,eneskemalergin,98,3adcd3e3b435b4f5e2d298ea3daf5b9409e8922d,0.99.1,0.99.1
@@ -109,4 +109,4 @@ CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,0b8287b6479f5714f3b8035c24
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,9c84979052466a8f16b5d277876d928ff5da9353,0.99.0,0.99.0
 TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,9cc56fda84dd9bff1fd571fffbb4fd0942107c62,0.99.4,0.99.4
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,5f0721c3dbc2086c56aa21c600dfda721e5b68d2,0.99.0,0.99.0
-remart,Huber-group-EMBL/remart,Bisaloo,155,8d4e2bc5002a7452fb1b7e935165c8f2c137d00b,0.99.1,0.99.1
+remart,Huber-group-EMBL/remart,Bisaloo,155,82aad4f7dd5acd210f3145d1e9f71fc7d64dae32,0.99.2,0.99.2
