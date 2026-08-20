@@ -74,10 +74,10 @@ DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,3326af988e4b456b7dffc7408
 BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,abeb8d3fa056eb0752f7ff54fef979b0ea953f72,0.99.14,0.99.14
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,8adfe599d3f80b2b133980c3d4aad7d91a515661,0.99.6,0.99.6
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,f803046564e579926901ebbf37490e4f04513e8c,0.99.0,0.99.0
-MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,2f3c7368b28f16e64d4be8948285510d48e8f4a6,0.99.1,0.99.1
+MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,bf02e980eafca4a5b9256812b6edca0f4ad89332,0.99.3,0.99.3
 mesa,cruk-mi/mesa,fpmartinez10,113,d1e773bcd13ea818fe85a21122968974fb65e204,0.99.6,0.99.6
 ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
-quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,5c4c7970b91364342c504a3a4d3fd462aecf15a8,0.99.5,0.99.5
+quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a27ccd18b,0.99.6,0.99.6
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,59ee34c9486b117327b11cca6e7fdab153f4ba66,0.99.100,0.99.100
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,af0326ca12f6a4dd74614fc7da56a1f164af85cb,0.99.5,0.99.5
