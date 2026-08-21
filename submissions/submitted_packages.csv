@@ -113,6 +113,6 @@ remart,Huber-group-EMBL/remart,Bisaloo,155,8bae606e0555df893abbaffe7859b717d19d1
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
-methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,c44cbd761366dee359ab9b6a21167b5d4280fd4d,0.99.1,0.99.1
-methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,0f0087993c0d6e91c25c5d41ce6273dc482df5a7,0.99.0,0.99.0
-methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,0416752aa19e44ef3f727d30faf2923202fd82f8,0.99.0,0.99.0
+methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,399d16661c5a6cb4ece83f801ec7b0027705d95a,0.99.2,0.99.2
+methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,78e2d355b4efcfc3c1692685956715479e429758,0.99.2,0.99.2
+methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,86ad386d30a408460662acae598753b7c9967c79,0.99.2,0.99.2
