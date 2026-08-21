@@ -115,3 +115,4 @@ SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285a
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,c44cbd761366dee359ab9b6a21167b5d4280fd4d,0.99.1,0.99.1
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,,0.99.0,0.99.0
+methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,,0.99.0,0.99.0
