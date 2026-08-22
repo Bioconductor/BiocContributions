@@ -99,7 +99,7 @@ Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214
 cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,020e675314d95d7cd730db010e4f72cec241a07f,0.99.0,0.99.0
 ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,2268654e2c6e562686de2078ad3908ad207e638d,0.99.1,0.99.1
-fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,d19d82db6058cc0360df14799eb2b8280565ebf2,0.99.5,0.99.5
+fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,27c93890c96a4e84eb1ae7bd8860018f9f239634,0.99.6,0.99.6
 KODAMA,tkcaccia/KODAMA,tkcaccia,144,4fc0f1551a7388429153c75a602d72a8af544642,0.99.7,0.99.7
 hmagmaR,aydanasg/hmagmaR,aydanasg,146,1794f4feb9839de84ffa016040b662d6e7a49d57,0.99.3,0.99.3
 iconic,sbresnahan/iconic,sbresnahan,147,04fe2ccfd4537079c3599c2c665becc25f7b0c34,0.99.3,0.99.3
@@ -118,4 +118,4 @@ methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,86ad386d30a408460662acae598753b7c9967c79,0.99.2,0.99.2
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,639ea66b11dee609ad2373b59c0e088616cfe183,0.99.0,0.99.0
-HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,8a0dc5a78281ad3674020f8a03c502985cf65b38,0.99.0,0.99.0
+HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,c151ba694ddcc813cb4b6255c269afd02fcb13a2,0.99.1,0.99.1
