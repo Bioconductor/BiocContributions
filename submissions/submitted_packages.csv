@@ -54,7 +54,7 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,73f9b9a84f19f263c38955998554ccdcd6f0deda,0.99.25,0.99.25
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,2fff98a0fb8296489d21ec549fbaa65c6310ac9b,0.99.27,0.99.27
 faissR,tkcaccia/faissR,tkcaccia,86,2fe0f760115152df7b6589c6266e148aa12ff881,0.99.23,0.99.23
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
@@ -81,7 +81,7 @@ quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,c5cedb2fbef9217f464f24804950db6d6e9cdcda,0.99.105,0.99.105
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,af0326ca12f6a4dd74614fc7da56a1f164af85cb,0.99.5,0.99.5
-QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,3b71935b8fc3ce5b0eccbb133e31ef055c9ea970,0.99.0,0.99.0
+QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,cfe8a3a46d34120686511678ee4954b55f4871c4,0.99.0,0.99.0
 normScore,juliagcurras/normScore,juliagcurras,120,61470a5e021896e4392568bd53fc22b96a3b37dc,0.99.1,0.99.1
 drugannotR,CMG-UA/drugannotR,VasLem,121,297c30b30dc50bef32f432998a0a58d63a2c9da9,0.99.0,0.99.0
 RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,1af6f113d5fabc9f378786d2e64404d5d382b31f,0.99.1,0.99.1
@@ -99,7 +99,7 @@ Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214
 cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,020e675314d95d7cd730db010e4f72cec241a07f,0.99.0,0.99.0
 ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,2268654e2c6e562686de2078ad3908ad207e638d,0.99.1,0.99.1
-fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,b8683bca3dccf1aef75e30b9222170439f69b420,0.99.7,0.99.7
+fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,1c28600d49a22ef2c92f26f5b99d560e3f9a5ccd,0.99.9,0.99.9
 KODAMA,tkcaccia/KODAMA,tkcaccia,144,4fc0f1551a7388429153c75a602d72a8af544642,0.99.7,0.99.7
 hmagmaR,aydanasg/hmagmaR,aydanasg,146,1794f4feb9839de84ffa016040b662d6e7a49d57,0.99.3,0.99.3
 iconic,sbresnahan/iconic,sbresnahan,147,04fe2ccfd4537079c3599c2c665becc25f7b0c34,0.99.3,0.99.3
