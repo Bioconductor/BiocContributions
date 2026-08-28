@@ -63,7 +63,7 @@ QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3eb
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
 pepVet,LangeLab/pepVet,eneskemalergin,98,3adcd3e3b435b4f5e2d298ea3daf5b9409e8922d,0.99.1,0.99.1
 ClinicalVariantR,safarafique/ClinicalVariantR,safarafique,100,57c68ae6816e3171a574ea2be49ea6e0e19d1dff,0.99.3,0.99.3
-multipletR,Alex05a/multipletR,Alex05a,101,445e7f1f5e2227ee660bdf6acfbf11d829017707,0.99.0,0.99.0
+multipletR,Alex05a/multipletR,Alex05a,101,5ebeb0a4a82d71861904f8a49d11dd5c0644b6a9,0.99.1,0.99.1
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,e472f4450be06bab6220afa880d3b7d39ea1d146,0.99.2,0.99.2
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
@@ -72,13 +72,13 @@ DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,78e52ab0ff4f37b3c69ff784bbe8d
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,7a4c6c8ba00dcff359db928680ab6ace7e770a7f,0.99.4,0.99.4
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,3326af988e4b456b7dffc7408f3940ba81bfe214,0.99.6,0.99.6
 BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,22ef969167c1e45c69916e23a5523ea815853bec,0.99.16,0.99.16
-MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,b92a4c74a99fc3a02e4b1ed5b09a23a8c4778bbc,0.99.8,0.99.8
+MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,fa58c8a6a304feee63493654e3213452b46bb799,0.99.9,0.99.9
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,7b6cfc364237c6c857f61b4fa9ef5e027c6fd81b,0.99.1,0.99.1
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,bf02e980eafca4a5b9256812b6edca0f4ad89332,0.99.3,0.99.3
 mesa,cruk-mi/mesa,fpmartinez10,113,d1e773bcd13ea818fe85a21122968974fb65e204,0.99.6,0.99.6
 ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a27ccd18b,0.99.6,0.99.6
-CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,c5cedb2fbef9217f464f24804950db6d6e9cdcda,0.99.105,0.99.105
+CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,9bb15e102ef9ff6c160d29e6278a4e9be551e834,0.99.106,0.99.106
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,af0326ca12f6a4dd74614fc7da56a1f164af85cb,0.99.5,0.99.5
 QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,78a0985fbbfb45d265aa2c20313de495e3d59169,0.99.1,0.99.1
@@ -99,7 +99,7 @@ Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214
 cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,020e675314d95d7cd730db010e4f72cec241a07f,0.99.0,0.99.0
 ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,2268654e2c6e562686de2078ad3908ad207e638d,0.99.1,0.99.1
-fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,1c28600d49a22ef2c92f26f5b99d560e3f9a5ccd,0.99.9,0.99.9
+fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,99e79de9a05090df1b30c7496fff8fe07d180dd6,0.99.12,0.99.12
 KODAMA,tkcaccia/KODAMA,tkcaccia,144,4fc0f1551a7388429153c75a602d72a8af544642,0.99.7,0.99.7
 hmagmaR,aydanasg/hmagmaR,aydanasg,146,1794f4feb9839de84ffa016040b662d6e7a49d57,0.99.3,0.99.3
 iconic,sbresnahan/iconic,sbresnahan,147,04fe2ccfd4537079c3599c2c665becc25f7b0c34,0.99.3,0.99.3
@@ -113,7 +113,7 @@ remart,Huber-group-EMBL/remart,Bisaloo,155,8bae606e0555df893abbaffe7859b717d19d1
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
-methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,4c9b69732f6e87e71d823e98bea3b9813505d403,0.99.5,0.99.5
+methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,85d817e699d3ce8ad91b270f95469cd9b468b920,0.99.6,0.99.6
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,5a09ca25e7a21ce5bf20a81f545b07d6c6447b11,0.99.6,0.99.6
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,2cc062d5cceb6fc3d79a173594783adc687bacee,0.99.7,0.99.7
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
@@ -123,5 +123,5 @@ dmsa,teindor/dmsa,teindor,166,56c67196ceb5ce94778e0458735db0767c7d2672,0.99.8,0.
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,079a30adc7695f60da432e16db9e4f56eb002129,0.99.3,0.99.3
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
-prolfqua,cpanse/prolfqua,cpanse,171,,0.99.0,0.99.0
-DiPPER,jepelt/DiPPER,jepelt,172,,0.99.0,0.99.0
+prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
+DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
