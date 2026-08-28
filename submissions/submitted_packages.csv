@@ -81,7 +81,7 @@ quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,c5cedb2fbef9217f464f24804950db6d6e9cdcda,0.99.105,0.99.105
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,af0326ca12f6a4dd74614fc7da56a1f164af85cb,0.99.5,0.99.5
-QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,cfe8a3a46d34120686511678ee4954b55f4871c4,0.99.0,0.99.0
+QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,78a0985fbbfb45d265aa2c20313de495e3d59169,0.99.1,0.99.1
 normScore,juliagcurras/normScore,juliagcurras,120,61470a5e021896e4392568bd53fc22b96a3b37dc,0.99.1,0.99.1
 drugannotR,CMG-UA/drugannotR,VasLem,121,297c30b30dc50bef32f432998a0a58d63a2c9da9,0.99.0,0.99.0
 RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,1af6f113d5fabc9f378786d2e64404d5d382b31f,0.99.1,0.99.1
@@ -113,7 +113,7 @@ remart,Huber-group-EMBL/remart,Bisaloo,155,8bae606e0555df893abbaffe7859b717d19d1
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
-methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,6ba43c457d913ebb09bc3ffbae6caa5904851d08,0.99.4,0.99.4
+methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,4c9b69732f6e87e71d823e98bea3b9813505d403,0.99.5,0.99.5
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,5a09ca25e7a21ce5bf20a81f545b07d6c6447b11,0.99.6,0.99.6
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,2cc062d5cceb6fc3d79a173594783adc687bacee,0.99.7,0.99.7
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
@@ -122,4 +122,4 @@ HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,c151ba694ddcc813cb4b6255c269afd
 dmsa,teindor/dmsa,teindor,166,56c67196ceb5ce94778e0458735db0767c7d2672,0.99.8,0.99.8
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,079a30adc7695f60da432e16db9e4f56eb002129,0.99.3,0.99.3
-saintexpress,prolfqua/saintexpress,wolski,170,,0.99.0,0.99.0
+saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
