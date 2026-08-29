@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,2fff98a0fb8296489d21ec549fbaa65c6310ac9b,0.99.27,0.99.27
-faissR,tkcaccia/faissR,tkcaccia,86,2fe0f760115152df7b6589c6266e148aa12ff881,0.99.23,0.99.23
+faissR,tkcaccia/faissR,tkcaccia,86,1306ac549e1dd2c9c37dba07e80e5eba21c7b247,0.99.25,0.99.25
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,9d157392a0f33d4da1b59a19ba471089b1d29fb2,0.99.3,0.99.3
@@ -63,7 +63,7 @@ QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3eb
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
 pepVet,LangeLab/pepVet,eneskemalergin,98,3adcd3e3b435b4f5e2d298ea3daf5b9409e8922d,0.99.1,0.99.1
 ClinicalVariantR,safarafique/ClinicalVariantR,safarafique,100,57c68ae6816e3171a574ea2be49ea6e0e19d1dff,0.99.3,0.99.3
-multipletR,Alex05a/multipletR,Alex05a,101,5ebeb0a4a82d71861904f8a49d11dd5c0644b6a9,0.99.1,0.99.1
+multipletR,Alex05a/multipletR,Alex05a,101,bd4f9df229f4eee68c8c657322133b433b54c89a,0.99.3,0.99.3
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,e472f4450be06bab6220afa880d3b7d39ea1d146,0.99.2,0.99.2
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
@@ -99,7 +99,7 @@ Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214
 cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,020e675314d95d7cd730db010e4f72cec241a07f,0.99.0,0.99.0
 ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,2268654e2c6e562686de2078ad3908ad207e638d,0.99.1,0.99.1
-fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,99e79de9a05090df1b30c7496fff8fe07d180dd6,0.99.12,0.99.12
+fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,c7054bd83a1cd291e74f52a8c209df3a8998d339,0.99.13,0.99.13
 KODAMA,tkcaccia/KODAMA,tkcaccia,144,4fc0f1551a7388429153c75a602d72a8af544642,0.99.7,0.99.7
 hmagmaR,aydanasg/hmagmaR,aydanasg,146,1794f4feb9839de84ffa016040b662d6e7a49d57,0.99.3,0.99.3
 iconic,sbresnahan/iconic,sbresnahan,147,04fe2ccfd4537079c3599c2c665becc25f7b0c34,0.99.3,0.99.3
@@ -126,5 +126,5 @@ saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
 cpgdirectionData,teindor/cpgdirectionData,teindor,173,d1148739a18482dd42c710a00454158e602f4e09,0.99.0,0.99.0
-cpgdirection,teindor/cpgdirection,teindor,174,930201b5be1abf2f35d81a33a89b6015055f231c,2.99.0,2.99.0
+cpgdirection,teindor/cpgdirection,teindor,174,93e71ed85885be3eb69f51bf4894008337052ba6,2.99.1,2.99.1
 RAMEN,ropensci/RAMEN,ErickNavarroD,175,eaea2c9408e27f1119f151599773f2e98bc20038,2.99.0,2.99.0
