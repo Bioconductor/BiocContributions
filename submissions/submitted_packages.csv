@@ -54,7 +54,7 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,9872dba3420fa137757633f1da83bb258d504912,0.99.29,0.99.29
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,d6ed8599626fd986f4342ebafc3cf466deb27667,0.99.31,0.99.31
 faissR,tkcaccia/faissR,tkcaccia,86,97e970135cbae897323790175b2194b693563d4e,0.99.34,0.99.34
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
@@ -114,8 +114,8 @@ DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,f68d667cba6f74eda32689d77dfb9a8e36f5975a,0.99.7,0.99.7
-methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,5a09ca25e7a21ce5bf20a81f545b07d6c6447b11,0.99.6,0.99.6
-methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,2cc062d5cceb6fc3d79a173594783adc687bacee,0.99.7,0.99.7
+methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,89e3690dd15c5c35fb4dae47dd6e606a8924f9b6,0.99.7,0.99.7
+methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,26b29a34a2deaa1324f286108d10d93ac2262815,0.99.8,0.99.8
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,c151ba694ddcc813cb4b6255c269afd02fcb13a2,0.99.1,0.99.1
