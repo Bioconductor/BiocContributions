@@ -90,7 +90,7 @@ MagellanNTK,edyp-lab/MagellanNTK,PomKokca,124,7969b0f427347038f7ebb24c0f531988da
 LongOmicsTraj,nzkermani/LongOmicsTraj,nzkermani,125,ce77a50a783db8de74cc42a71971218513b49b4c,0.99.0,0.99.0
 gDRplots,gdrplatform/gDRplots,gladkia,128,16bb88760e4797c19d6c0918dd1a51493e70e6a5,0.99.2,0.99.2
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
-perturbMatch,soulj/perturbMatch,soulj,131,a288362c29e3805d66b37a7d325b41295687b459,0.99.0,0.99.0
+perturbMatch,soulj/perturbMatch,soulj,131,e442b34211707edae7d0fa4342d60ac9e2e452f6,0.99.1,0.99.1
 geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,92ddbedbbdd83a00ae04b81ed0f02a34eabebff9,0.99.1,0.99.1
 BatchVaria,cmpmolonc/BatchVaria,nmoir,133,12ba53491b1b28685da2e313e1b0f13f5f7279e5,0.99.1,0.99.1
 TxDb.Osativa.MSU.RGAP7,kabilanbio/TxDb.Osativa.MSU.RGAP7,kabilanbio,134,4a9203a6dcd756b4116e8e144b6f8e6bf3fd6ba0,0.99.8,0.99.8
@@ -119,14 +119,14 @@ methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,c151ba694ddcc813cb4b6255c269afd02fcb13a2,0.99.1,0.99.1
-dmsa,teindor/dmsa,teindor,166,56c67196ceb5ce94778e0458735db0767c7d2672,0.99.8,0.99.8
+dmsa,teindor/dmsa,teindor,166,1671d33da22612f222b9df3f3e290e0e045037e6,0.99.10,0.99.10
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,079a30adc7695f60da432e16db9e4f56eb002129,0.99.3,0.99.3
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
 cpgdirectionData,teindor/cpgdirectionData,teindor,173,66f5a3ca4505c2db0fa81537a18285961bcb0379,0.99.1,0.99.1
-cpgdirection,teindor/cpgdirection,teindor,174,70ee830a91e044863b101ce9be22ecbc9582d5a6,2.99.4,2.99.4
+cpgdirection,teindor/cpgdirection,teindor,174,65bde2ab8603b63bc6041c3913fad9280e939790,2.99.5,2.99.5
 RAMEN,ropensci/RAMEN,ErickNavarroD,175,eaea2c9408e27f1119f151599773f2e98bc20038,2.99.0,2.99.0
 sceptre,Katsevich-Lab/sceptre,timothy-barry,176,77f084cc9ed489918bad9d413821dac11a037a37,0.99.0,0.99.0
 GeneTrackR,Renscq/GeneTrackR,Renscq,177,c1210d89f4a537192fc6c6aba5782c83b3643ca6,0.99.2,0.99.2
