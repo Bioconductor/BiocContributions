@@ -114,8 +114,8 @@ DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,f68d667cba6f74eda32689d77dfb9a8e36f5975a,0.99.7,0.99.7
-methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,89e3690dd15c5c35fb4dae47dd6e606a8924f9b6,0.99.7,0.99.7
-methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,26b29a34a2deaa1324f286108d10d93ac2262815,0.99.8,0.99.8
+methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,197482f0ec054ffbaefe0fd5252083bfb7fcfee1,0.99.8,0.99.8
+methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,71fe7c5e38c3bc14ee51b399ad72de4571ba567c,0.99.9,0.99.9
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,c151ba694ddcc813cb4b6255c269afd02fcb13a2,0.99.1,0.99.1
