@@ -71,7 +71,7 @@ DuckDBDataFrame,Genentech/DuckDBDataFrame,aboyounp-gne,105,4584228522beb81ffe175
 DuckDBArray,Genentech/DuckDBArray,aboyounp-gne,106,78e52ab0ff4f37b3c69ff784bbe8d3fee0c66c4a,0.99.7,0.99.7
 DuckDBGRanges,Genentech/DuckDBGRanges,aboyounp-gne,107,7a4c6c8ba00dcff359db928680ab6ace7e770a7f,0.99.4,0.99.4
 DuckDBSpatial,Genentech/DuckDBSpatial,aboyounp-gne,108,3326af988e4b456b7dffc7408f3940ba81bfe214,0.99.6,0.99.6
-BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,728c8c2130b8fb051a9546990aab7994eddc74d8,0.99.20,0.99.20
+BiocDuckDB,Genentech/BiocDuckDB,aboyounp-gne,109,ee7bf0510b4b2de242ad5184009fd319a811acb6,0.99.21,0.99.21
 MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,110,3eedb9ada306adf511d7a52c6604743325938575,0.99.12,0.99.12
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,7b6cfc364237c6c857f61b4fa9ef5e027c6fd81b,0.99.1,0.99.1
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,bf02e980eafca4a5b9256812b6edca0f4ad89332,0.99.3,0.99.3
@@ -130,7 +130,7 @@ cpgdirection,teindor/cpgdirection,teindor,174,65bde2ab8603b63bc6041c3913fad9280e
 RAMEN,ropensci/RAMEN,ErickNavarroD,175,eaea2c9408e27f1119f151599773f2e98bc20038,2.99.0,2.99.0
 sceptre,Katsevich-Lab/sceptre,timothy-barry,176,77f084cc9ed489918bad9d413821dac11a037a37,0.99.0,0.99.0
 GeneTrackR,Renscq/GeneTrackR,Renscq,177,c1210d89f4a537192fc6c6aba5782c83b3643ca6,0.99.2,0.99.2
-epiPortrait,zying106/epiPortrait,zying106,178,7794b550109a07b1df17b991208cb4e13f729735,0.99.1,0.99.1
+epiPortrait,zying106/epiPortrait,zying106,178,d93be7cfdd0e74adf3fd5517f352ddb19a544402,0.99.2,0.99.2
 savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1dbdf87ca512ad1b7980,0.99.0,0.99.0
-CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,,0.99.0,0.99.0
+CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,c8d7c3b99b59072699c2c320ca57cd2e2a9ae6ce,0.99.0,0.99.0
 strainspy,gtonkinhill/strainspy,Sudaraka88,182,,0.99.0,0.99.0
