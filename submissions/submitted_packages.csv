@@ -54,7 +54,7 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,ef371d08fbda92a156236e6c58da896462a182a4,0.99.35,0.99.35
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,24e8e124894defd670468ff8a1758d25d2628233,0.99.39,0.99.39
 faissR,tkcaccia/faissR,tkcaccia,86,97e970135cbae897323790175b2194b693563d4e,0.99.34,0.99.34
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
@@ -107,8 +107,8 @@ circaTime,dralperenuysal/circaTime,dralperenuysal,149,8e31f0fc449ac725ee8f1db771
 MiCARA,BushnaqSafa/MiCARA,BushnaqSafa,150,6a16dc1aa313bec8472b012574ac4f3e91bf8e18,0.99.1,0.99.1
 CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,1321597b3d5f9b9c6eda941b8b3fa475265f83ca,0.99.1,0.99.1
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,9c84979052466a8f16b5d277876d928ff5da9353,0.99.0,0.99.0
-TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,9cc56fda84dd9bff1fd571fffbb4fd0942107c62,0.99.4,0.99.4
-TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,5f0721c3dbc2086c56aa21c600dfda721e5b68d2,0.99.0,0.99.0
+TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,2dbcf0144136e9ce8db8d24885097af4703baa3c,0.99.5,0.99.5
+TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d9f06b9587f261745e6858654,0.99.1,0.99.1
 remart,Huber-group-EMBL/remart,Bisaloo,155,8bae606e0555df893abbaffe7859b717d19d1cc4,0.99.5,0.99.5
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
@@ -118,7 +118,7 @@ methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,71fe7c5e38c3bc14ee51b399ad72de4571ba567c,0.99.9,0.99.9
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
-HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,c151ba694ddcc813cb4b6255c269afd02fcb13a2,0.99.1,0.99.1
+HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,079a30adc7695f60da432e16db9e4f56eb002129,0.99.3,0.99.3
