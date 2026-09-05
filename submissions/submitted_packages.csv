@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,24e8e124894defd670468ff8a1758d25d2628233,0.99.39,0.99.39
-faissR,tkcaccia/faissR,tkcaccia,86,97e970135cbae897323790175b2194b693563d4e,0.99.34,0.99.34
+faissR,tkcaccia/faissR,tkcaccia,86,9594b9161fd9e9f2826919a746ef5b9dd8b0fe64,0.99.34,0.99.34
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,9d157392a0f33d4da1b59a19ba471089b1d29fb2,0.99.3,0.99.3
@@ -135,4 +135,4 @@ savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1d
 CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,839206527eeeecca67f6d6c4e82496319ea39ecb,0.99.1,0.99.1
 strainspy,gtonkinhill/strainspy,Sudaraka88,182,4a347f7624580c374a732d5e2c66b5490ebd759c,0.99.0,0.99.0
 OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,,0.99.0,0.99.0
-IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,,0.99.3,0.99.3
+IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156a3eac7b4a4f4fa907e,0.99.3,0.99.3
