@@ -53,9 +53,9 @@ scCertify,Jaya-Surya-dev/scCertify,Jaya-Surya-dev,78,0e13ef10371255f9416410bc51c
 PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7ee89796a19691ec2dfba36d1af3432bc,0.99.4,0.99.4
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
-GSE142512,paulYRP/GSE142512,paulYRP,82,653ecc6a0980ecb22fe12c924942bf5d4094e12c,0.99.1,0.99.1
+GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,0.99.2,0.99.2
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,24e8e124894defd670468ff8a1758d25d2628233,0.99.39,0.99.39
-faissR,tkcaccia/faissR,tkcaccia,86,9594b9161fd9e9f2826919a746ef5b9dd8b0fe64,0.99.34,0.99.34
+faissR,tkcaccia/faissR,tkcaccia,86,b24b79ac7b379b2a5182321045b0b4de9034241a,0.99.35,0.99.35
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,9d157392a0f33d4da1b59a19ba471089b1d29fb2,0.99.3,0.99.3
@@ -86,7 +86,7 @@ normScore,juliagcurras/normScore,juliagcurras,120,61470a5e021896e4392568bd53fc22
 drugannotR,CMG-UA/drugannotR,VasLem,121,297c30b30dc50bef32f432998a0a58d63a2c9da9,0.99.0,0.99.0
 RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,1af6f113d5fabc9f378786d2e64404d5d382b31f,0.99.1,0.99.1
 GeneSCARAB,ramosgonzmarc/GeneSCARAB,ramosgonzmarc,123,6cd09f3de4c51f068ac826dd083298c0a9477cc5,0.99.3,0.99.3
-MagellanNTK,edyp-lab/MagellanNTK,PomKokca,124,7969b0f427347038f7ebb24c0f531988da519645,0.99.33,0.99.33
+MagellanNTK,edyp-lab/MagellanNTK,PomKokca,124,41030502ede5e2b181a95bdc85590886a425ff49,0.99.34,0.99.34
 LongOmicsTraj,nzkermani/LongOmicsTraj,nzkermani,125,ce77a50a783db8de74cc42a71971218513b49b4c,0.99.0,0.99.0
 gDRplots,gdrplatform/gDRplots,gladkia,128,16bb88760e4797c19d6c0918dd1a51493e70e6a5,0.99.2,0.99.2
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
