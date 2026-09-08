@@ -54,7 +54,7 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,0.99.2,0.99.2
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,a2b89010dcb35b74b53f836b2f81922fccb47ab4,0.99.44,0.99.44
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,c1c66e30ef262a642e9d3bbdb99f03dd6a9ac22b,0.99.53,0.99.53
 faissR,tkcaccia/faissR,tkcaccia,86,b24b79ac7b379b2a5182321045b0b4de9034241a,0.99.35,0.99.35
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
@@ -78,7 +78,7 @@ MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,bf02e980eafca4a5b9256812b6edca0f4ad8
 mesa,cruk-mi/mesa,fpmartinez10,113,d1e773bcd13ea818fe85a21122968974fb65e204,0.99.6,0.99.6
 ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a27ccd18b,0.99.6,0.99.6
-CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,5fe4b4b1d881e0ff6269d1a784b191787369c073,0.99.107,0.99.107
+CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,cca6b7c89987e499dd2e811b0c4d3151dfefffd8,0.99.108,0.99.108
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,af0326ca12f6a4dd74614fc7da56a1f164af85cb,0.99.5,0.99.5
 QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,44584989fc4d21da27f2c1ad1bed6577da11dd8f,0.99.3,0.99.3
