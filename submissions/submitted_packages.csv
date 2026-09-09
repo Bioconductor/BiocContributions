@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,0.99.2,0.99.2
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,17d876bda7614d0bc3a8830de37787d6a420c33c,0.99.55,0.99.55
-faissR,tkcaccia/faissR,tkcaccia,86,b24b79ac7b379b2a5182321045b0b4de9034241a,0.99.35,0.99.35
+faissR,tkcaccia/faissR,tkcaccia,86,0bc7dddb707d498f852dd6f9b018ddaeaea15f1e,0.99.38,0.99.38
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,9d157392a0f33d4da1b59a19ba471089b1d29fb2,0.99.3,0.99.3
@@ -121,7 +121,7 @@ spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880d
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
-rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,c5c3adbd8405a4aa1788f1ed871838f977a302b4,0.99.7,0.99.7
+rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,4b6d2b0f78a4a031bb503225f6ad38f736fa022a,0.99.8,0.99.8
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
