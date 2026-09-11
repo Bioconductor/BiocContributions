@@ -54,7 +54,7 @@ PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7
 inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,0.99.2,0.99.2
-fastPLS,tkcaccia/fastPLS,tkcaccia,84,8de5f09aec7fd576a0ad75e1ef27a4870fc47942,0.99.58,0.99.58
+fastPLS,tkcaccia/fastPLS,tkcaccia,84,b0c5515ccb941464b0beae12075d25e3ae286ed8,0.99.61,0.99.61
 faissR,tkcaccia/faissR,tkcaccia,86,2944707111afef6fbcfa0e1daa0fd4a826aa0fb5,0.99.41,0.99.41
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
@@ -121,7 +121,7 @@ spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880d
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
-rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,3676ca5672ef3708843f087e53bfe3da0acb000c,0.99.12,0.99.12
+rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,b2723321407a561ab45c0979f1e2aa10a528e766,0.99.13,0.99.13
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
@@ -139,5 +139,5 @@ IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156
 NADIA,sciordia/NADIA,sciordia,186,377447470e0c17713d6041a337db689954dd30f3,0.99.1,0.99.1
 path2path,jli-stat/path2path,jli-stat,187,796771ed197205cb9713f4bf130f3ea0c05fac81,0.99.2,0.99.2
 scGenePanel,vandydata/scGenePanel,jpcartailler,188,1d4e19d4fdb306687abdb7d0e3b6e36ef06787cb,0.99.0,0.99.0
-GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,0100d680c39c02a875ce6a764dff7a345794a8ff,0.99.2,0.99.2
+GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,a34217e343acaad25b75409d28f82e0ae4dfd2ea,0.99.3,0.99.3
 mgcca,isglobal-brge/mgcca,dpelegri,191,,0.99.0,0.99.0
