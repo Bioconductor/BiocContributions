@@ -92,7 +92,7 @@ gDRplots,gdrplatform/gDRplots,gladkia,128,16bb88760e4797c19d6c0918dd1a51493e70e6
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
 perturbMatch,soulj/perturbMatch,soulj,131,e442b34211707edae7d0fa4342d60ac9e2e452f6,0.99.1,0.99.1
 geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,92ddbedbbdd83a00ae04b81ed0f02a34eabebff9,0.99.1,0.99.1
-BatchVaria,cmpmolonc/BatchVaria,nmoir,133,12ba53491b1b28685da2e313e1b0f13f5f7279e5,0.99.1,0.99.1
+BatchVaria,cmpmolonc/BatchVaria,nmoir,133,8e053fe4c4c817e6b9ffc698feeae78be6389285,0.99.2,0.99.2
 TxDb.Osativa.MSU.RGAP7,kabilanbio/TxDb.Osativa.MSU.RGAP7,kabilanbio,134,a071379e416013f714abb0d5d5141dd5f83ada2c,0.99.9,0.99.9
 GENCODEHub,paulYRP/GENCODEHub,paulYRP,135,af9a22e5bfc548b98ecf742de013c254bf93349f,0.99.0,0.99.0
 Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,5505d951ae2ca82c725b4214f977201e86ab836c,0.99.2,0.99.2
@@ -139,11 +139,11 @@ IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156
 NADIA,sciordia/NADIA,sciordia,186,377447470e0c17713d6041a337db689954dd30f3,0.99.1,0.99.1
 path2path,jli-stat/path2path,jli-stat,187,796771ed197205cb9713f4bf130f3ea0c05fac81,0.99.2,0.99.2
 scGenePanel,vandydata/scGenePanel,jpcartailler,188,1d4e19d4fdb306687abdb7d0e3b6e36ef06787cb,0.99.0,0.99.0
-GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,cc7b8d5cde9f0b059c640470dd2492665cf05927,0.99.4,0.99.4
+GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,b70de72bc803eced53221afe5ef33c846873c97f,0.99.5,0.99.5
 mgcca,isglobal-brge/mgcca,dpelegri,191,a1ab2a8a3bd48a29bc2ed7629b69c5c39deb238e,0.99.1,0.99.1
 consensusRegions,sebastian-gregoricchio/consensusRegions,sebastian-gregoricchio,192,0c07646e81c5b0c99e6f39e685ef716198146eb2,0.99.0,0.99.0
 CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe47173822da2186a,0.99.1,0.99.1
 MsExperimentStash,RforMassSpectrometry/MsExperimentStash,jorainer,194,0ec93413391bc11547f67cba37cca8e1e9292d1f,0.99.0,0.99.0
 scProkaR,Monash-Li-Lab/scProkaR,JinxinMonash,195,65667863f7857fb1b74992fcd835cb25bb0b5ca3,0.99.0,0.99.0
 tewas,teindor/tewas,teindor,196,0aaf79170d4887216a12119bc5ffe9f240770fca,0.99.2,0.99.2
-MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,,0.99.0,0.99.0
+MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,92e95f4839cab01676db246616012c1fd05fcd37,0.99.0,0.99.0
