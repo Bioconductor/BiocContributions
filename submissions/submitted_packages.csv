@@ -91,7 +91,7 @@ LongOmicsTraj,nzkermani/LongOmicsTraj,nzkermani,125,ce77a50a783db8de74cc42a71971
 gDRplots,gdrplatform/gDRplots,gladkia,128,16bb88760e4797c19d6c0918dd1a51493e70e6a5,0.99.2,0.99.2
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
 perturbMatch,soulj/perturbMatch,soulj,131,e442b34211707edae7d0fa4342d60ac9e2e452f6,0.99.1,0.99.1
-geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,92ddbedbbdd83a00ae04b81ed0f02a34eabebff9,0.99.1,0.99.1
+geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,fc7c42488fb41c981b1ba90968d88e69f4b7492c,0.99.2,0.99.2
 BatchVaria,cmpmolonc/BatchVaria,nmoir,133,8e053fe4c4c817e6b9ffc698feeae78be6389285,0.99.2,0.99.2
 TxDb.Osativa.MSU.RGAP7,kabilanbio/TxDb.Osativa.MSU.RGAP7,kabilanbio,134,a071379e416013f714abb0d5d5141dd5f83ada2c,0.99.9,0.99.9
 GENCODEHub,paulYRP/GENCODEHub,paulYRP,135,af9a22e5bfc548b98ecf742de013c254bf93349f,0.99.0,0.99.0
@@ -146,4 +146,4 @@ CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe4
 MsExperimentStash,RforMassSpectrometry/MsExperimentStash,jorainer,194,0ec93413391bc11547f67cba37cca8e1e9292d1f,0.99.0,0.99.0
 scProkaR,Monash-Li-Lab/scProkaR,JinxinMonash,195,65667863f7857fb1b74992fcd835cb25bb0b5ca3,0.99.0,0.99.0
 tewas,teindor/tewas,teindor,196,0aaf79170d4887216a12119bc5ffe9f240770fca,0.99.2,0.99.2
-MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,92e95f4839cab01676db246616012c1fd05fcd37,0.99.0,0.99.0
+MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,31b721882ef146fbcfa76cfe0b3da3138e64009f,0.99.0,0.99.0
