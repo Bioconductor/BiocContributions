@@ -78,7 +78,7 @@ MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,bf02e980eafca4a5b9256812b6edca0f4ad8
 mesa,cruk-mi/mesa,fpmartinez10,113,d1e773bcd13ea818fe85a21122968974fb65e204,0.99.6,0.99.6
 ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a27ccd18b,0.99.6,0.99.6
-CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,151d6217452795c12e6365cf493b33686a7b7e05,0.99.112,0.99.112
+CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,d940cd445950ff9596f6003eb22faf9435a7c7a9,0.99.113,0.99.113
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
 exploreSE,jaspitzer/exploreSE,jaspitzer,118,af0326ca12f6a4dd74614fc7da56a1f164af85cb,0.99.5,0.99.5
 QFeaturesGUI,rformassspectrometry/QFeaturesGUI,leopoldguyot,119,44584989fc4d21da27f2c1ad1bed6577da11dd8f,0.99.3,0.99.3
@@ -145,4 +145,4 @@ consensusRegions,sebastian-gregoricchio/consensusRegions,sebastian-gregoricchio,
 CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe47173822da2186a,0.99.1,0.99.1
 MsExperimentStash,RforMassSpectrometry/MsExperimentStash,jorainer,194,0ec93413391bc11547f67cba37cca8e1e9292d1f,0.99.0,0.99.0
 scProkaR,Monash-Li-Lab/scProkaR,JinxinMonash,195,65667863f7857fb1b74992fcd835cb25bb0b5ca3,0.99.0,0.99.0
-tewas,teindor/tewas,teindor,196,7af3ca6e1dd9c5d7635141fd9b65d16112bd106b,0.99.0,0.99.0
+tewas,teindor/tewas,teindor,196,0aaf79170d4887216a12119bc5ffe9f240770fca,0.99.2,0.99.2
