@@ -20,7 +20,7 @@ bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0
 geneslator,knowmics-lab/geneslator,GMicale,42,9e45c4ff5ffc43164d050c5930e677eea4a05e5e,0.99.6,0.99.6
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,e05b2c1b49fa8798367d609c411c3104f41c6351,0.99.5,0.99.5
 PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,c82f17845ae1e3df13f6fd877d7b04ae0cccaa71,0.99.6,0.99.6
-sbivar,sthawinke/sbivar,sthawinke,45,7813e962edab2900fa33166ff22456f672a94396,0.99.36,0.99.36
+sbivar,sthawinke/sbivar,sthawinke,45,e380636ec450e10b0c058c77fc886aaa479d338a,0.99.36,0.99.36
 epiwraps,ETHZ-INS/epiwraps,plger,46,cf5c736795330ca0ef5bf4ae4cae4d5cc9550e51,0.99.125,0.99.125
 DAssemble,himelmallick/DAssemble,Nalin21478,47,c2869f9a07d461a8eb9266e29b9df9fd54ecefaf,0.99.3,0.99.3
 IntegratedLearner,himelmallick/IntegratedLearner,Nalin21478,48,11ed1dcf1cdfd84a237ba6c04551a1c1ffa640af,0.99.2,0.99.2
@@ -55,7 +55,7 @@ inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,0.99.2,0.99.2
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,987558640ea7466ddefa58577b98a5682476e618,0.99.67,0.99.67
-faissR,tkcaccia/faissR,tkcaccia,86,4a553decd373a09c94f1137cf69bda97434229dc,0.99.43,0.99.43
+faissR,tkcaccia/faissR,tkcaccia,86,e4a295169d8c8dd7399b0e035d3c1b5b28f0d968,0.99.44,0.99.44
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,546e22ee46af97f44d9418df99baefc584f702f0,0.99.3,0.99.3
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,9d157392a0f33d4da1b59a19ba471089b1d29fb2,0.99.3,0.99.3
