@@ -45,7 +45,7 @@ scOverlay,bernatgel/scOverlay,bernatgel,68,f685f9fbb7d658e1d3ac215b9dc6d1a021087
 GPlinksR,Corawang123/GPlinksR,Corawang123,69,d0db3cf96636a4a77c2bef83abd328f2f1d2f80f,0.99.2,0.99.2
 MsStash,RforMassSpectrometry/MsStash,jorainer,70,9c872a2d9b647cc1e4cc20b9ee9c076f1853cfb2,0.99.0,0.99.0
 consensusTADs,CSOgroup/consensusTADs,ipumin,72,407491a14f2b402dbd14931b22ac175697befc29,0.99.4,0.99.4
-woven,NathanBresette/woven,NathanBresette,73,6526ad440697b26f9b472e94e0eb7576da362092,0.99.2,0.99.2
+woven,NathanBresette/woven,NathanBresette,73,479e925ae0164d624212d2de335066a03a8a61f5,0.99.2,0.99.2
 tTEscanR,avarassanchez/tTEscanR,avarassanchez,75,1be8219db30ae169eeb954b620825f62932afab8,0.99.1,0.99.1
 SwitchClass,PYangLab/SwitchClass,DiXiao3447,76,621f63937e8ab56c244489e6b2af8ad356ca68c8,0.99.1,0.99.1
 MsBackendMetabolomicsWorkbench,rformassspectrometry/MsBackendMetabolomicsWorkbench,gabrieletome,77,f5cfd61cb0a1418225d6d9ed60160db8e7478816,0.99.1,0.99.1
@@ -139,7 +139,7 @@ IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156
 NADIA,sciordia/NADIA,sciordia,186,377447470e0c17713d6041a337db689954dd30f3,0.99.1,0.99.1
 path2path,jli-stat/path2path,jli-stat,187,796771ed197205cb9713f4bf130f3ea0c05fac81,0.99.2,0.99.2
 scGenePanel,vandydata/scGenePanel,jpcartailler,188,1d4e19d4fdb306687abdb7d0e3b6e36ef06787cb,0.99.0,0.99.0
-GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,55bc21f11b9ca70ed2a73f117e303c37109cc82a,0.99.9,0.99.9
+GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,ffa7f66321633ef1feb70634d7c1c0a8633d29c3,0.99.10,0.99.10
 mgcca,isglobal-brge/mgcca,dpelegri,191,ef29e67873b65b8f4b564ca0385727f8fca712af,0.99.2,0.99.2
 consensusRegions,sebastian-gregoricchio/consensusRegions,sebastian-gregoricchio,192,0c07646e81c5b0c99e6f39e685ef716198146eb2,0.99.0,0.99.0
 CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe47173822da2186a,0.99.1,0.99.1
