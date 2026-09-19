@@ -139,7 +139,7 @@ IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156
 NADIA,sciordia/NADIA,sciordia,186,377447470e0c17713d6041a337db689954dd30f3,0.99.1,0.99.1
 path2path,jli-stat/path2path,jli-stat,187,796771ed197205cb9713f4bf130f3ea0c05fac81,0.99.2,0.99.2
 scGenePanel,vandydata/scGenePanel,jpcartailler,188,1d4e19d4fdb306687abdb7d0e3b6e36ef06787cb,0.99.0,0.99.0
-GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,844391687f0bb0fbcf1f1351f834c2c29f4d2217,0.99.13,0.99.13
+GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,a146cc4d8b433fb851682ce3d736958f3041279f,0.99.14,0.99.14
 mgcca,isglobal-brge/mgcca,dpelegri,191,ef29e67873b65b8f4b564ca0385727f8fca712af,0.99.2,0.99.2
 consensusRegions,sebastian-gregoricchio/consensusRegions,sebastian-gregoricchio,192,0c07646e81c5b0c99e6f39e685ef716198146eb2,0.99.0,0.99.0
 CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe47173822da2186a,0.99.1,0.99.1
@@ -153,4 +153,4 @@ WithinHostExperiment,CuiweiG/WithinHostExperiment,CuiweiG,199,f168704b3f8dd1c071
 paweh,akilanthony/paweh,akilanthony,202,1587c4e7e5899956a986e87123c1542840221e11,0.99.0,0.99.0
 cascadeR,NICHD-BSPC/cascadeR,mitraak,203,4b808c2791f6e963c856bc0897f00588726d880f,0.99.0,0.99.0
 panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,f765d4bc33d740407f4f9ca2005a8276e8905863,0.99.0,0.99.0
-loopQTL,rhielab/loopQTL,Tim-wuuu,206,,0.99.0,0.99.0
+loopQTL,rhielab/loopQTL,Tim-wuuu,206,541e6504dbcfdc7a81bd5bb43d4e467f96d88c47,0.99.0,0.99.0
