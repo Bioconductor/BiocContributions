@@ -63,7 +63,7 @@ QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3eb
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
 pepVet,LangeLab/pepVet,eneskemalergin,98,3adcd3e3b435b4f5e2d298ea3daf5b9409e8922d,0.99.1,0.99.1
 ClinicalVariantR,safarafique/ClinicalVariantR,safarafique,100,57c68ae6816e3171a574ea2be49ea6e0e19d1dff,0.99.3,0.99.3
-multipletR,Alex05a/multipletR,Alex05a,101,5cff5c3fa7ad323c70c67d0b933e0014953f3e79,0.99.8,0.99.8
+multipletR,Alex05a/multipletR,Alex05a,101,ef3bf6a114957533fb32245fca8f11a7ffbadafc,0.99.9,0.99.9
 DgeaHeatmap,leolanci/DgeaHeatmap,leolanci,102,dfd1130ce3c1b496229589df1cf06950bcb31fcb,0.99.3,0.99.3
 mdclust,Herbermann/mdclust,Herbermann,103,8b9a1e25f9d84f0f8966baa05dafdfb3f27e236d,0.99.2,0.99.2
 SPAROscore,MangiolaLaboratory/SPAROscore,venkatk89,104,8b88c48c521deb93ee59fdad41fbd661d525d45d,0.99.3,0.99.3
@@ -106,13 +106,13 @@ iconic,sbresnahan/iconic,sbresnahan,147,04fe2ccfd4537079c3599c2c665becc25f7b0c34
 circaTime,dralperenuysal/circaTime,dralperenuysal,149,8e31f0fc449ac725ee8f1db771a369d57e505b29,0.99.2,0.99.2
 MiCARA,BushnaqSafa/MiCARA,BushnaqSafa,150,6816336511d85ddd5cdcf0374520102f84da32a1,0.99.2,0.99.2
 CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,1321597b3d5f9b9c6eda941b8b3fa475265f83ca,0.99.1,0.99.1
-SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,9c84979052466a8f16b5d277876d928ff5da9353,0.99.0,0.99.0
+SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,86dc96c231ee8c8eb9a25605e449627222dff50e,0.99.5,0.99.5
 TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,2dbcf0144136e9ce8db8d24885097af4703baa3c,0.99.5,0.99.5
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d9f06b9587f261745e6858654,0.99.1,0.99.1
 remart,Huber-group-EMBL/remart,Bisaloo,155,8bae606e0555df893abbaffe7859b717d19d1cc4,0.99.5,0.99.5
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,c44e3dc0380bc3001f994bf8196e52569746796c,0.99.0,0.99.0
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,f50df814020a1828b9c90d44d33579ab938ee2e9,0.99.9,0.99.9
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,f68d667cba6f74eda32689d77dfb9a8e36f5975a,0.99.7,0.99.7
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,197482f0ec054ffbaefe0fd5252083bfb7fcfee1,0.99.8,0.99.8
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,71fe7c5e38c3bc14ee51b399ad72de4571ba567c,0.99.9,0.99.9
