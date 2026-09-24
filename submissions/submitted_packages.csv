@@ -111,8 +111,8 @@ TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbi
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d9f06b9587f261745e6858654,0.99.1,0.99.1
 remart,Huber-group-EMBL/remart,Bisaloo,155,8bae606e0555df893abbaffe7859b717d19d1cc4,0.99.5,0.99.5
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
-SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,bf76c998cb4b3d66a1f26873a871026b6f285af1,0.99.0,0.99.0
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,f50df814020a1828b9c90d44d33579ab938ee2e9,0.99.9,0.99.9
+SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,649a349bfcd9b80a5917f66b799ec69cdcde63c4,0.99.4,0.99.4
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,24ba1b7bd4677a7da1d7b3b8010a39def8e884b6,0.99.9,0.99.9
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,f68d667cba6f74eda32689d77dfb9a8e36f5975a,0.99.7,0.99.7
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,197482f0ec054ffbaefe0fd5252083bfb7fcfee1,0.99.8,0.99.8
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,71fe7c5e38c3bc14ee51b399ad72de4571ba567c,0.99.9,0.99.9
@@ -155,6 +155,6 @@ cascadeR,NICHD-BSPC/cascadeR,mitraak,203,4b808c2791f6e963c856bc0897f00588726d880
 panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7ceac8f66a97e11e0,0.99.2,0.99.2
 loopQTL,rhielab/loopQTL,Tim-wuuu,206,541e6504dbcfdc7a81bd5bb43d4e467f96d88c47,0.99.0,0.99.0
 enviPathR,enviPath/enviPathR,RiboRings,207,e7aee7bf4d2cccdec4a46bfab179e19b9ecbfa42,0.99.0,0.99.0
-thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,3adf0b19e647718959a2faf5c4fb20f30a608990,0.99.2,0.99.2
-PACE,ecool50/PACE,ecool50,209,ebd69679b28cef3560b857686627a1215e07f644,0.99.1,0.99.1
+thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,63839eba25f846ad6682e04bb9b122b7a8a87916,0.99.4,0.99.4
+PACE,ecool50/PACE,ecool50,209,db0dadb9985faf766b4903178cd2f67ed13da52c,0.99.1,0.99.1
 ConvergeR,pauldeboissier1/ConvergeR,pauldeboissier1,210,7bd6c882173290123e12a8abc8ae52b2f14a41c8,0.99.0,0.99.0
