@@ -146,7 +146,7 @@ CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe4
 MsExperimentStash,RforMassSpectrometry/MsExperimentStash,jorainer,194,0ec93413391bc11547f67cba37cca8e1e9292d1f,0.99.0,0.99.0
 scProkaR,Monash-Li-Lab/scProkaR,JinxinMonash,195,65667863f7857fb1b74992fcd835cb25bb0b5ca3,0.99.0,0.99.0
 tewas,teindor/tewas,teindor,196,0aaf79170d4887216a12119bc5ffe9f240770fca,0.99.2,0.99.2
-MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,eb4170f4e13519d14d6cb74ed62f759ae3fcf960,0.99.4,0.99.4
+MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,bedfe97978016592a5aec1dc05043d027b0f93dd,0.99.5,0.99.5
 exposomeSC,CuiweiG/exposomeSC,CuiweiG,200,138cf4e27ace58c1018832a67d21ad91d8f49d1e,0.99.1,0.99.1
 crossarrayEWAS,bioinfbrad/crossarrayEWAS,kkamieniecka,201,98c5a2d84a55e4b8dc4d16d60297a17583818ffe,0.99.0,0.99.0
 WithinHostExperiment,CuiweiG/WithinHostExperiment,CuiweiG,199,f168704b3f8dd1c071c85030bae68fe0014efe4e,0.99.0,0.99.0
