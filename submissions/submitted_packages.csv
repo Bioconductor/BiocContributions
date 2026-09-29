@@ -114,7 +114,7 @@ DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,649a349bfcd9b80a5917f66b799ec69cdcde63c4,0.99.4,0.99.4
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,2b2d6771d2ac6afea460d73381d74e6e39728c8b,0.99.10,0.99.10
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,f68d667cba6f74eda32689d77dfb9a8e36f5975a,0.99.7,0.99.7
-methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,197482f0ec054ffbaefe0fd5252083bfb7fcfee1,0.99.8,0.99.8
+methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,ccfec14ac4fd3051da6fef5833fb8fd376b0f312,0.99.9,0.99.9
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,71fe7c5e38c3bc14ee51b399ad72de4571ba567c,0.99.9,0.99.9
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
@@ -132,7 +132,7 @@ sceptre,Katsevich-Lab/sceptre,timothy-barry,176,77f084cc9ed489918bad9d413821dac1
 GeneTrackR,Renscq/GeneTrackR,Renscq,177,c1210d89f4a537192fc6c6aba5782c83b3643ca6,0.99.2,0.99.2
 epiPortrait,zying106/epiPortrait,zying106,178,6cf60bc418ff0ed4b4db992e9ac8ff2f5741a52b,0.99.3,0.99.3
 savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1dbdf87ca512ad1b7980,0.99.0,0.99.0
-CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,839206527eeeecca67f6d6c4e82496319ea39ecb,0.99.1,0.99.1
+CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,a8872c9ab24095276b610087fe94b03d548bdef4,0.99.2,0.99.2
 strainspy,gtonkinhill/strainspy,Sudaraka88,182,4a347f7624580c374a732d5e2c66b5490ebd759c,0.99.0,0.99.0
 OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,,0.99.0,0.99.0
 IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156a3eac7b4a4f4fa907e,0.99.3,0.99.3
