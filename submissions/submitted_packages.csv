@@ -115,7 +115,7 @@ SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,649a349bfcd9b80a5917f66b799ec69cdcde63
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,2b2d6771d2ac6afea460d73381d74e6e39728c8b,0.99.10,0.99.10
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,b5f8d620558b7caf854a1c3a43f7b543dd284240,0.99.9,0.99.9
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,ccfec14ac4fd3051da6fef5833fb8fd376b0f312,0.99.9,0.99.9
-methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,c0d2f3defb181c601240c7e5464a62b679e103db,0.99.10,0.99.10
+methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,36b7ff4402a0183df9feedad05841b1c0e2a783c,0.99.11,0.99.11
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
@@ -167,4 +167,4 @@ GDSAnnotator,zhengxwen/GDSAnnotator,zhengxw-ab,217,e10f37db8216272badb8b46b849f3
 pdactrace,jibeomko/pdactrace,jibeomko,218,337859c74f427e1ce580faf52aa97234f82de1e4,0.99.25,0.99.25
 MRCCC,bitansa/MRCCC,bitansa,219,c425721d6610f9f582a77e3e92ad1e4ce1b8e3e9,0.99.1,0.99.1
 Tweedieverse,himelmallick/Tweedieverse,Nalin21478,220,ff6cd82bbff5c638fdfa24f7023178724d574de2,0.99.0,0.99.0
-myoRDNA,MuscleOmicsLab/myoRDNA,danvau98,222,,0.99.0,0.99.0
+myoRDNA,MuscleOmicsLab/myoRDNA,danvau98,222,6566f90c92137aa995eb35759432633ff202d0a8,0.99.0,0.99.0
