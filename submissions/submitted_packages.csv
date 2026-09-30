@@ -14,7 +14,7 @@ pgen2gds,zhengxwen/pgen2gds,zhengxwen,35,fd65e5f0a08617d0b541cd5bd2e708328025f99
 gesel,LTLA/gesel,LTLA,36,e3df246ecefb5ffb954841ffa258b8721725fc48,0.99.5,0.99.5
 MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,7d7f9675e13e549d29766f5ea709ee7d5cbae06a,0.99.1,0.99.1
 SimiCviz,ML4BM-Lab/SimiCviz,irenemaring,38,f681f0ca684cdb7e7f0cedf1532b83090cdb6cb0,0.99.2,0.99.2
-grayleafspotr,rotsl/grayleafspotr,rotsl,39,8d0fa9c018d9af827906729421f06a6aba38379c,0.99.7,0.99.7
+grayleafspotr,rotsl/grayleafspotr,rotsl,39,93893c2836cff7be6bad436abb7a30da2f35e9c8,0.99.8,0.99.8
 TiDEomics,hte123/TiDEomics,hte123,40,495ea291e23c244a73116e67b1aa2500e54f5c53,0.99.4,0.99.4
 bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0.99.4,0.99.4
 geneslator,knowmics-lab/geneslator,GMicale,42,9e45c4ff5ffc43164d050c5930e677eea4a05e5e,0.99.6,0.99.6
@@ -114,7 +114,7 @@ DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,649a349bfcd9b80a5917f66b799ec69cdcde63c4,0.99.4,0.99.4
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,2b2d6771d2ac6afea460d73381d74e6e39728c8b,0.99.10,0.99.10
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,b5f8d620558b7caf854a1c3a43f7b543dd284240,0.99.9,0.99.9
-methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,ccfec14ac4fd3051da6fef5833fb8fd376b0f312,0.99.9,0.99.9
+methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,77f2b8e7da865845e94f20383287db14793021dc,0.99.10,0.99.10
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,36b7ff4402a0183df9feedad05841b1c0e2a783c,0.99.11,0.99.11
 RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.99.0,0.99.0
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
@@ -132,7 +132,7 @@ sceptre,Katsevich-Lab/sceptre,timothy-barry,176,77f084cc9ed489918bad9d413821dac1
 GeneTrackR,Renscq/GeneTrackR,Renscq,177,c1210d89f4a537192fc6c6aba5782c83b3643ca6,0.99.2,0.99.2
 epiPortrait,zying106/epiPortrait,zying106,178,6cf60bc418ff0ed4b4db992e9ac8ff2f5741a52b,0.99.3,0.99.3
 savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1dbdf87ca512ad1b7980,0.99.0,0.99.0
-CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,a8872c9ab24095276b610087fe94b03d548bdef4,0.99.2,0.99.2
+CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,59834e99e4d7d3d6ee31651f5fdf623f5d1172c4,0.99.3,0.99.3
 strainspy,gtonkinhill/strainspy,Sudaraka88,182,4a347f7624580c374a732d5e2c66b5490ebd759c,0.99.0,0.99.0
 OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,,0.99.0,0.99.0
 IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156a3eac7b4a4f4fa907e,0.99.3,0.99.3
