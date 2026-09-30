@@ -14,7 +14,7 @@ pgen2gds,zhengxwen/pgen2gds,zhengxwen,35,fd65e5f0a08617d0b541cd5bd2e708328025f99
 gesel,LTLA/gesel,LTLA,36,e3df246ecefb5ffb954841ffa258b8721725fc48,0.99.5,0.99.5
 MsBackendMassIVE,rformassspectrometry/MsBackendMassIVE,gabrieletome,37,7d7f9675e13e549d29766f5ea709ee7d5cbae06a,0.99.1,0.99.1
 SimiCviz,ML4BM-Lab/SimiCviz,irenemaring,38,f681f0ca684cdb7e7f0cedf1532b83090cdb6cb0,0.99.2,0.99.2
-grayleafspotr,rotsl/grayleafspotr,rotsl,39,93893c2836cff7be6bad436abb7a30da2f35e9c8,0.99.8,0.99.8
+grayleafspotr,rotsl/grayleafspotr,rotsl,39,72e6f8b41985daad453e504e305ccf7be723362c,0.99.9,0.99.9
 TiDEomics,hte123/TiDEomics,hte123,40,495ea291e23c244a73116e67b1aa2500e54f5c53,0.99.4,0.99.4
 bHIVE,BorchLab/bHIVE,ncborcherding,41,914ee98cd652fcf0a5be7fcf89213a8cb6dd4c68,0.99.4,0.99.4
 geneslator,knowmics-lab/geneslator,GMicale,42,9e45c4ff5ffc43164d050c5930e677eea4a05e5e,0.99.6,0.99.6
@@ -132,7 +132,7 @@ sceptre,Katsevich-Lab/sceptre,timothy-barry,176,77f084cc9ed489918bad9d413821dac1
 GeneTrackR,Renscq/GeneTrackR,Renscq,177,c1210d89f4a537192fc6c6aba5782c83b3643ca6,0.99.2,0.99.2
 epiPortrait,zying106/epiPortrait,zying106,178,6cf60bc418ff0ed4b4db992e9ac8ff2f5741a52b,0.99.3,0.99.3
 savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1dbdf87ca512ad1b7980,0.99.0,0.99.0
-CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,59834e99e4d7d3d6ee31651f5fdf623f5d1172c4,0.99.3,0.99.3
+CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,8ef9c9253891b8cc71c27d532ca5ac8c27204472,0.99.3,0.99.3
 strainspy,gtonkinhill/strainspy,Sudaraka88,182,4a347f7624580c374a732d5e2c66b5490ebd759c,0.99.0,0.99.0
 OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,,0.99.0,0.99.0
 IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,ffd1e392e847aa08400156a3eac7b4a4f4fa907e,0.99.3,0.99.3
