@@ -121,7 +121,7 @@ spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880d
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
-rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,8e41919fea6d94e2f8344e0db8e3af4ba1a1e823,0.99.16,0.99.16
+rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,ba824ed9ade62c17e8a1d66186c4f52473ab832f,0.99.18,0.99.18
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
@@ -160,7 +160,7 @@ PACE,ecool50/PACE,ecool50,209,aebae84ffefb98a4bd7fdcf81df3812b5c50b7f4,0.99.5,0.
 ConvergeR,pauldeboissier1/ConvergeR,pauldeboissier1,210,7bd6c882173290123e12a8abc8ae52b2f14a41c8,0.99.0,0.99.0
 OmniCorr,veronicaquarato/OmniCorr,veronicaquarato,212,56669bc8964f725aac6d3c05d2fffa0d2d149bbd,0.99.0,0.99.0
 STRprofilerR,j-andrews7/STRprofilerR,j-andrews7,213,1fa091e6b7ac684ccb2a96685c9851f979fe5aea,0.99.0,0.99.0
-hcocena,BioCompNet/hcocena,Ulas-lab,214,20e425dc16a0bf7881434b739add01e1d09591d1,0.99.10,0.99.10
+hcocena,BioCompNet/hcocena,Ulas-lab,214,4b2bd5c767c034fb5fa2f93d6f86e4aeee6dda73,0.99.11,0.99.11
 postexportKinetics,bioinformatics-sannio/postexportKinetics,luucee,215,1d7e4b9743442aa8f69f225c9e49c354ed58fd51,0.99.0,0.99.0
 scSimEval,kabilanbio/scSimEval,kabilanbio,216,19a3d74bcbb0a0c5ba9458c786a39fc3a48cc762,0.99.4,0.99.4
 GDSAnnotator,zhengxwen/GDSAnnotator,zhengxw-ab,217,e10f37db8216272badb8b46b849f34e70f2b5baa,0.99.1,0.99.1
