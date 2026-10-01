@@ -88,7 +88,7 @@ RmzTabM,rformassspectrometry/RmzTabM,jorainer,122,1af6f113d5fabc9f378786d2e64404
 GeneSCARAB,ramosgonzmarc/GeneSCARAB,ramosgonzmarc,123,6cd09f3de4c51f068ac826dd083298c0a9477cc5,0.99.3,0.99.3
 MagellanNTK,edyp-lab/MagellanNTK,PomKokca,124,41030502ede5e2b181a95bdc85590886a425ff49,0.99.34,0.99.34
 LongOmicsTraj,nzkermani/LongOmicsTraj,nzkermani,125,ce77a50a783db8de74cc42a71971218513b49b4c,0.99.0,0.99.0
-gDRplots,gdrplatform/gDRplots,gladkia,128,16bb88760e4797c19d6c0918dd1a51493e70e6a5,0.99.2,0.99.2
+gDRplots,gdrplatform/gDRplots,gladkia,128,8cf2b9f567aa8b34ca295a1f3bcffa38b1d42f4b,0.99.3,0.99.3
 perturbMatchData,soulj/perturbMatchData,soulj,130,e06622bf7a7e7a759d2c5940f9bba7ea5e9bca16,0.99.0,0.99.0
 perturbMatch,soulj/perturbMatch,soulj,131,e442b34211707edae7d0fa4342d60ac9e2e452f6,0.99.1,0.99.1
 geneClusterPattern,jianhong/geneClusterPattern,jianhong,132,fc7c42488fb41c981b1ba90968d88e69f4b7492c,0.99.2,0.99.2
@@ -121,7 +121,7 @@ spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880d
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
-rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,4eec58559bf16b300e08ca1e4a356bca8fce1740,0.99.18,0.99.18
+rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,87ca9c5af9cf928126098bb7419c7d77026b325a,0.99.19,0.99.19
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
