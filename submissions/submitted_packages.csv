@@ -96,7 +96,7 @@ BatchVaria,cmpmolonc/BatchVaria,nmoir,133,8e053fe4c4c817e6b9ffc698feeae78be63892
 TxDb.Osativa.MSU.RGAP7,kabilanbio/TxDb.Osativa.MSU.RGAP7,kabilanbio,134,a071379e416013f714abb0d5d5141dd5f83ada2c,0.99.9,0.99.9
 GENCODEHub,paulYRP/GENCODEHub,paulYRP,135,af9a22e5bfc548b98ecf742de013c254bf93349f,0.99.0,0.99.0
 Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,7e1341d4b980180def60a3459aa60b56d1bf8b3f,0.99.3,0.99.3
-cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,020e675314d95d7cd730db010e4f72cec241a07f,0.99.0,0.99.0
+cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,b9656b513aeeb3264ec53372a629d74602d3d88f,0.99.1,0.99.1
 ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,2268654e2c6e562686de2078ad3908ad207e638d,0.99.1,0.99.1
 fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,774ecd3667e466d28abfc65f729c0fe9f24a4630,0.99.17,0.99.17
@@ -121,7 +121,7 @@ spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880d
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
-rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,ba824ed9ade62c17e8a1d66186c4f52473ab832f,0.99.18,0.99.18
+rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,4eec58559bf16b300e08ca1e4a356bca8fce1740,0.99.18,0.99.18
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
 DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
