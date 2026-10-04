@@ -76,7 +76,7 @@ MultiAssaySpatialExperiment,Genentech/MultiAssaySpatialExperiment,aboyounp-gne,1
 SpectraStash,RforMassSpectrometry/SpectraStash,jorainer,111,7b6cfc364237c6c857f61b4fa9ef5e027c6fd81b,0.99.1,0.99.1
 MRManalyzeR,MJS-708/MRManalyzeR,MJS-708,112,bc4868431f638c23b5e3b583350430d53cd4cf24,0.99.5,0.99.5
 mesa,cruk-mi/mesa,fpmartinez10,113,f86769559748bee527fc926e1c184eef6eb4f762,0.99.7,0.99.7
-ggwas,bczech/ggwas,bczech,114,e1b338bb19a50955a278d498da0b8bcd16fe2943,0.99.8,0.99.8
+ggwas,bczech/ggwas,bczech,114,724f6861c6ba695fa38da52417e46fd044ec9687,0.99.10,0.99.10
 quantMSImageR,MJS-708/quantMSImageR,MJS-708,115,a4d3b2c68d27a4b28b078962c48dbc9a27ccd18b,0.99.6,0.99.6
 CyFj11,C3BI-pasteur-fr/CyFj11,baj12,116,d940cd445950ff9596f6003eb22faf9435a7c7a9,0.99.113,0.99.113
 BreedingExperiment,mqfarooqi1/BreedingExperiment,mqfarooqi1,117,2583cd94eff1a6203d3e3510b187fe7e734019e0,0.99.4,0.99.4
@@ -160,7 +160,7 @@ PACE,ecool50/PACE,ecool50,209,aebae84ffefb98a4bd7fdcf81df3812b5c50b7f4,0.99.5,0.
 ConvergeR,pauldeboissier1/ConvergeR,pauldeboissier1,210,7bd6c882173290123e12a8abc8ae52b2f14a41c8,0.99.0,0.99.0
 OmniCorr,veronicaquarato/OmniCorr,veronicaquarato,212,56669bc8964f725aac6d3c05d2fffa0d2d149bbd,0.99.0,0.99.0
 STRprofilerR,j-andrews7/STRprofilerR,j-andrews7,213,1fa091e6b7ac684ccb2a96685c9851f979fe5aea,0.99.0,0.99.0
-hcocena,BioCompNet/hcocena,Ulas-lab,214,4b2bd5c767c034fb5fa2f93d6f86e4aeee6dda73,0.99.11,0.99.11
+hcocena,BioCompNet/hcocena,Ulas-lab,214,9c6cd4173b5d6faf9a398f75f32ee6e003d582c4,0.99.12,0.99.12
 postexportKinetics,bioinformatics-sannio/postexportKinetics,luucee,215,1d7e4b9743442aa8f69f225c9e49c354ed58fd51,0.99.0,0.99.0
 scSimEval,kabilanbio/scSimEval,kabilanbio,216,19a3d74bcbb0a0c5ba9458c786a39fc3a48cc762,0.99.4,0.99.4
 GDSAnnotator,zhengxwen/GDSAnnotator,zhengxw-ab,217,e10f37db8216272badb8b46b849f34e70f2b5baa,0.99.1,0.99.1
