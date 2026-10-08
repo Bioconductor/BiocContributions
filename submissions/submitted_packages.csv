@@ -141,7 +141,7 @@ path2path,jli-stat/path2path,jli-stat,187,796771ed197205cb9713f4bf130f3ea0c05fac
 scGenePanel,vandydata/scGenePanel,jpcartailler,188,1d4e19d4fdb306687abdb7d0e3b6e36ef06787cb,0.99.0,0.99.0
 GenomicDataStream,GabrielHoffman/GenomicDataStream,GabrielHoffman,190,93cc3a5ba9c8ee04ea5b451b455f82fb45d196cb,0.99.28,0.99.28
 mgcca,isglobal-brge/mgcca,dpelegri,191,a3a9b7d531952df3f063766bbab6c213d2e8720f,0.99.6,0.99.6
-consensusRegions,sebastian-gregoricchio/consensusRegions,sebastian-gregoricchio,192,48480ecbe5c8108732e58ef351047c11b5d95933,0.99.1,0.99.1
+consensusRegions,sebastian-gregoricchio/consensusRegions,sebastian-gregoricchio,192,4d4519bbd07089b38086c5f197a574d9408a0043,0.99.2,0.99.2
 CDEnrich,Yushan-Chen-829/CDEnrich,Yushan-Chen-829,193,d86e75ed329ab06ed90e825fe47173822da2186a,0.99.1,0.99.1
 MsExperimentStash,RforMassSpectrometry/MsExperimentStash,jorainer,194,0ec93413391bc11547f67cba37cca8e1e9292d1f,0.99.0,0.99.0
 scProkaR,Monash-Li-Lab/scProkaR,JinxinMonash,195,65625a075ac790dea113885d948f8f902f06b567,0.99.1,0.99.1
@@ -165,7 +165,7 @@ postexportKinetics,bioinformatics-sannio/postexportKinetics,luucee,215,1d7e4b974
 scSimEval,kabilanbio/scSimEval,kabilanbio,216,19a3d74bcbb0a0c5ba9458c786a39fc3a48cc762,0.99.4,0.99.4
 GDSAnnotator,zhengxwen/GDSAnnotator,zhengxw-ab,217,e10f37db8216272badb8b46b849f34e70f2b5baa,0.99.1,0.99.1
 pdactrace,jibeomko/pdactrace,jibeomko,218,337859c74f427e1ce580faf52aa97234f82de1e4,0.99.25,0.99.25
-MRCCC,bitansa/MRCCC,bitansa,219,afc46645c741050001a887fb62453e03dc437623,0.99.3,0.99.3
+MRCCC,bitansa/MRCCC,bitansa,219,692912ca347a99a31d882b35cee3ec376f3a2f16,0.99.4,0.99.4
 Tweedieverse,himelmallick/Tweedieverse,Nalin21478,220,ff6cd82bbff5c638fdfa24f7023178724d574de2,0.99.0,0.99.0
 myoRDNA,MuscleOmicsLab/myoRDNA,danvau98,222,6566f90c92137aa995eb35759432633ff202d0a8,0.99.0,0.99.0
 orthoRibbon,jianhong/orthoRibbon,jianhong,223,6977197dc87454c4a646420fb36bc65affeaf672,0.99.0,0.99.0
