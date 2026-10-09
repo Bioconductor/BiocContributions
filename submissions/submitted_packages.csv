@@ -120,11 +120,11 @@ RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.9
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
-TweedSpot,himelmallick/TweedSpot,Nalin21478,167,8cd4f81fc60409b95972e311a4196610ed58d0d8,0.99.0,0.99.0
+TweedSpot,himelmallick/TweedSpot,Nalin21478,167,261ffa417464c641c1267f490984421572a8ad66,0.99.1,0.99.1
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,87ca9c5af9cf928126098bb7419c7d77026b325a,0.99.19,0.99.19
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,c3ac48d03a9bcbe8035ac53dcfc42c4d279d074e,0.99.0,0.99.0
-DiPPER,jepelt/DiPPER,jepelt,172,20a337c262a3737f207ead9cf7d9971ac949c73b,0.99.0,0.99.0
+DiPPER,jepelt/DiPPER,jepelt,172,2584e995bbcdf9e4134c3cbb72811794a54292f3,0.99.1,0.99.1
 cpgdirectionData,teindor/cpgdirectionData,teindor,173,66f5a3ca4505c2db0fa81537a18285961bcb0379,0.99.1,0.99.1
 cpgdirection,teindor/cpgdirection,teindor,174,65bde2ab8603b63bc6041c3913fad9280e939790,2.99.5,2.99.5
 RAMEN,ropensci/RAMEN,ErickNavarroD,175,eaea2c9408e27f1119f151599773f2e98bc20038,2.99.0,2.99.0
@@ -176,7 +176,7 @@ OmicsChrono,mateopedersen/OmicsChrono,mateopedersen,227,efd97c08b6088abfd95c4581
 PscanR,Federico77z/PscanR,Federico77z,228,7d85dbf6d8c85045e5997bd06caf754c6f0a5e1f,0.99.1,0.99.1
 lantern,yuw444/lantern,yuw444,229,30a0592330d5358765e8a4f0fa7086d8a7181e1d,0.99.0,0.99.0
 geneticumap,sysbio-bioinf/geneticumap,hanniball253,231,2b2f83e6cb7431fe27f06239656c6033a85d340f,0.99.2,0.99.2
-SpatialData.plot,HelenaLC/SpatialData.plot,HelenaLC,232,a214f162d422cad39303a5bb7ad7da0864fee290,0.99.8,0.99.8
+SpatialData.plot,HelenaLC/SpatialData.plot,HelenaLC,232,c1b70d4388fb8ed1e677727ee8dee55ca0e468c0,0.99.9,0.99.9
 scDonorAudit,Emr-27/scDonorAudit,Emr-27,233,95479b9d6f73e7e80f2b3245ce41028e1769771d,0.99.9,0.99.9
 myTestPkg,jwokaty/myTestPkg,jwokaty,235,f690c66bfb71cc0b5e1b436babee1e55c6cbd475,0.99.0,0.99.0
-SpatialData.data,HelenaLC/SpatialData.data,HelenaLC,236,,0.99.10,0.99.10
+SpatialData.data,HelenaLC/SpatialData.data,HelenaLC,236,6b50042343c958072832d09a894e05d1b1274c2c,0.99.10,0.99.10
