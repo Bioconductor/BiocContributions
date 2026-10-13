@@ -156,7 +156,7 @@ panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7
 loopQTL,rhielab/loopQTL,Tim-wuuu,206,541e6504dbcfdc7a81bd5bb43d4e467f96d88c47,0.99.0,0.99.0
 enviPathR,enviPath/enviPathR,RiboRings,207,f88082d53abcdae046d4da03f303c4d3eee0737c,0.99.0,0.99.0
 thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,7a2e85246e4277dbc3779f17d9cb282c424ba635,0.99.6,0.99.6
-PACE,ecool50/PACE,ecool50,209,dda2d8639a1c9722492f74a6803dc8d061b92821,0.99.9,0.99.9
+PACE,ecool50/PACE,ecool50,209,ef0aec4c3340c61586940696982c67c55dca0dd8,0.99.11,0.99.11
 ConvergeR,pauldeboissier1/ConvergeR,pauldeboissier1,210,7bd6c882173290123e12a8abc8ae52b2f14a41c8,0.99.0,0.99.0
 OmniCorr,veronicaquarato/OmniCorr,veronicaquarato,212,56669bc8964f725aac6d3c05d2fffa0d2d149bbd,0.99.0,0.99.0
 STRprofilerR,j-andrews7/STRprofilerR,j-andrews7,213,1fa091e6b7ac684ccb2a96685c9851f979fe5aea,0.99.0,0.99.0
@@ -182,4 +182,4 @@ myTestPkg,jwokaty/myTestPkg,jwokaty,235,f690c66bfb71cc0b5e1b436babee1e55c6cbd475
 SpatialData.data,HelenaLC/SpatialData.data,HelenaLC,236,6b50042343c958072832d09a894e05d1b1274c2c,0.99.10,0.99.10
 HaploBreedR,aksruchi/HaploBreedR,aksruchi,239,3c3b7b9e8bf7acbca53c066b4c5ee9ef32a702a8,0.99.1,0.99.1
 RPBC,elizabethamona/RPBC,elizabethamona,240,8003fca6d154688fee5949b690e5a12622e90a1f,0.99.0,0.99.0
-PhiSpace,mao-lab-org/PhiSpace,jiadongm,241,,0.99.0,0.99.0
+PhiSpace,mao-lab-org/PhiSpace,jiadongm,241,12f41dbd5d7a630cdf78163d0e41663714b16fa3,0.99.0,0.99.0
