@@ -21,7 +21,7 @@ geneslator,knowmics-lab/geneslator,GMicale,42,9e45c4ff5ffc43164d050c5930e677eea4
 MetaPathNet,zhaojie-wang/MetaPathNet,zhaojie-wang,43,e05b2c1b49fa8798367d609c411c3104f41c6351,0.99.5,0.99.5
 PlantTxDbHub,kabilanbio/PlantTxDbHub,kabilanbio,44,c82f17845ae1e3df13f6fd877d7b04ae0cccaa71,0.99.6,0.99.6
 sbivar,sthawinke/sbivar,sthawinke,45,7f6f847b591e9c4b82fdd8a42fbb57433a8b4f59,0.99.37,0.99.37
-epiwraps,ETHZ-INS/epiwraps,plger,46,b2e3dd398ff2c534ecc57fc575d858d6bc5f8674,0.99.127,0.99.127
+epiwraps,ETHZ-INS/epiwraps,plger,46,36d073d88751ba9a9624c41d2a2666a1bb1a6250,0.99.128,0.99.128
 DAssemble,himelmallick/DAssemble,Nalin21478,47,c2869f9a07d461a8eb9266e29b9df9fd54ecefaf,0.99.3,0.99.3
 IntegratedLearner,himelmallick/IntegratedLearner,Nalin21478,48,11ed1dcf1cdfd84a237ba6c04551a1c1ffa640af,0.99.2,0.99.2
 scCompoundDE,SubhadipJana1409/scCompoundDE,SubhadipJana1409,49,19b2a6307f15ba27ae379fff5f38ff945ed298b8,0.99.1,0.99.1
@@ -120,7 +120,7 @@ RhyME,njuelsdke/RhyME,njuelsdke,163,a654abc4176812d036808097256bc0ae46c3ca9f,0.9
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,9c2b7182b715c84cbee01a0a0cdccc8b7fdc96aa,0.99.11,0.99.11
-TweedSpot,himelmallick/TweedSpot,Nalin21478,167,261ffa417464c641c1267f490984421572a8ad66,0.99.1,0.99.1
+TweedSpot,himelmallick/TweedSpot,Nalin21478,167,4b657c7eb6bc13f61c137866a21775c0f56828e2,0.99.2,0.99.2
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,87ca9c5af9cf928126098bb7419c7d77026b325a,0.99.19,0.99.19
 saintexpress,prolfqua/saintexpress,wolski,170,0a90a3d7f53a0a9aa69ca919bd9937a159791379,0.99.0,0.99.0
 prolfqua,cpanse/prolfqua,cpanse,171,b4c32d626072f56ec669dd942242fccea444237b,0.99.2,0.99.2
@@ -133,7 +133,7 @@ GeneTrackR,Renscq/GeneTrackR,Renscq,177,c1210d89f4a537192fc6c6aba5782c83b3643ca6
 epiPortrait,zying106/epiPortrait,zying106,178,6cf60bc418ff0ed4b4db992e9ac8ff2f5741a52b,0.99.3,0.99.3
 savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1dbdf87ca512ad1b7980,0.99.0,0.99.0
 CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,d6427f4cbef12efcf958a078b27ffed87e04a96d,0.99.4,0.99.4
-strainspy,gtonkinhill/strainspy,Sudaraka88,182,4a347f7624580c374a732d5e2c66b5490ebd759c,0.99.0,0.99.0
+strainspy,gtonkinhill/strainspy,Sudaraka88,182,0f52016e05b5f22ee05f4be549c228d142184daa,0.99.3,0.99.3
 OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,,0.99.0,0.99.0
 IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,3fb4f51f06c5fac7a6784e1e998eea55025e930b,0.99.4,0.99.4
 NADIA,sciordia/NADIA,sciordia,186,377447470e0c17713d6041a337db689954dd30f3,0.99.1,0.99.1
@@ -156,7 +156,7 @@ panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7
 loopQTL,rhielab/loopQTL,Tim-wuuu,206,541e6504dbcfdc7a81bd5bb43d4e467f96d88c47,0.99.0,0.99.0
 enviPathR,enviPath/enviPathR,RiboRings,207,f88082d53abcdae046d4da03f303c4d3eee0737c,0.99.0,0.99.0
 thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,7a2e85246e4277dbc3779f17d9cb282c424ba635,0.99.6,0.99.6
-PACE,ecool50/PACE,ecool50,209,98efc890c0101fc51495ef568c00eeb14565040d,0.99.18,0.99.18
+PACE,ecool50/PACE,ecool50,209,d40461a174d9e526a1186bfc51921099259719d6,0.99.20,0.99.20
 ConvergeR,pauldeboissier1/ConvergeR,pauldeboissier1,210,7bd6c882173290123e12a8abc8ae52b2f14a41c8,0.99.0,0.99.0
 OmniCorr,veronicaquarato/OmniCorr,veronicaquarato,212,56669bc8964f725aac6d3c05d2fffa0d2d149bbd,0.99.0,0.99.0
 STRprofilerR,j-andrews7/STRprofilerR,j-andrews7,213,fd1cfb3da2a0cc3f8169aba65a6226d3060e61b9,0.99.1,0.99.1
