@@ -112,7 +112,7 @@ TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,649a349bfcd9b80a5917f66b799ec69cdcde63c4,0.99.4,0.99.4
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,2b2d6771d2ac6afea460d73381d74e6e39728c8b,0.99.10,0.99.10
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,5fdffe5e1dcc0bcedd615dff18d86911cdfeaf9a,0.99.11,0.99.11
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,b5f8d620558b7caf854a1c3a43f7b543dd284240,0.99.9,0.99.9
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,aa2458d007367227bfbd11e7e78ee278933876e3,0.99.11,0.99.11
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,4574c6473f263aa3bb64ad1858230defbfe02ee4,0.99.12,0.99.12
@@ -156,7 +156,7 @@ panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7
 loopQTL,rhielab/loopQTL,Tim-wuuu,206,541e6504dbcfdc7a81bd5bb43d4e467f96d88c47,0.99.0,0.99.0
 enviPathR,enviPath/enviPathR,RiboRings,207,f88082d53abcdae046d4da03f303c4d3eee0737c,0.99.0,0.99.0
 thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,7a2e85246e4277dbc3779f17d9cb282c424ba635,0.99.6,0.99.6
-PACE,ecool50/PACE,ecool50,209,ec0dc8e9194086944d0c6b8114fc194fcc2a07a2,0.99.16,0.99.16
+PACE,ecool50/PACE,ecool50,209,98efc890c0101fc51495ef568c00eeb14565040d,0.99.18,0.99.18
 ConvergeR,pauldeboissier1/ConvergeR,pauldeboissier1,210,7bd6c882173290123e12a8abc8ae52b2f14a41c8,0.99.0,0.99.0
 OmniCorr,veronicaquarato/OmniCorr,veronicaquarato,212,56669bc8964f725aac6d3c05d2fffa0d2d149bbd,0.99.0,0.99.0
 STRprofilerR,j-andrews7/STRprofilerR,j-andrews7,213,fd1cfb3da2a0cc3f8169aba65a6226d3060e61b9,0.99.1,0.99.1
