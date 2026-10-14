@@ -57,7 +57,7 @@ GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,987558640ea7466ddefa58577b98a5682476e618,0.99.67,0.99.67
 faissR,tkcaccia/faissR,tkcaccia,86,31ceac2d8959d9b70ddc16753f51f3d836bb3826,0.99.47,0.99.47
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
-selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,e05ac94ae7ae2cf57692084d00564358487e9d47,0.99.4,0.99.4
+selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,a718f878dec03726dc60a908d9a58ec59bc2e402,0.99.5,0.99.5
 cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,9d157392a0f33d4da1b59a19ba471089b1d29fb2,0.99.3,0.99.3
 QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3ebc,1.99.8,1.99.8
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
@@ -134,7 +134,7 @@ epiPortrait,zying106/epiPortrait,zying106,178,6cf60bc418ff0ed4b4db992e9ac8ff2f57
 savingBiocObjects,mikelove/savingBiocObjects,mikelove,180,ece00a77c43c31ddb66b1dbdf87ca512ad1b7980,0.99.0,0.99.0
 CanvasXpressBio,neuhausi/CanvasXpressBio,neuhausi,181,d6427f4cbef12efcf958a078b27ffed87e04a96d,0.99.4,0.99.4
 strainspy,gtonkinhill/strainspy,Sudaraka88,182,0f52016e05b5f22ee05f4be549c228d142184daa,0.99.3,0.99.3
-OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,1ffa9601a6e2f2321d3c93ff21edcff54daccc45,0.99.0,0.99.0
+OrnTx,lashikakarnal/OrnTx,lashikakarnal,184,a84a2d0341fee0a9f906d7563196093079424f93,0.99.0,0.99.0
 IntrinsicScan,memedesimo98/IntrinsicScan,memedesimo98,185,3fb4f51f06c5fac7a6784e1e998eea55025e930b,0.99.4,0.99.4
 NADIA,sciordia/NADIA,sciordia,186,377447470e0c17713d6041a337db689954dd30f3,0.99.1,0.99.1
 path2path,jli-stat/path2path,jli-stat,187,c894be73d98aacb1015dd3cff911fbbaab0fc005,0.99.4,0.99.4
@@ -183,4 +183,4 @@ SpatialData.data,HelenaLC/SpatialData.data,HelenaLC,236,6b50042343c958072832d09a
 HaploBreedR,aksruchi/HaploBreedR,aksruchi,239,3c3b7b9e8bf7acbca53c066b4c5ee9ef32a702a8,0.99.1,0.99.1
 RPBC,elizabethamona/RPBC,elizabethamona,240,8003fca6d154688fee5949b690e5a12622e90a1f,0.99.0,0.99.0
 PhiSpace,mao-lab-org/PhiSpace,jiadongm,241,12f41dbd5d7a630cdf78163d0e41663714b16fa3,0.99.0,0.99.0
-superintervalsr,kcleal/superintervalsr,kcleal,242,,0.99.7,0.99.7
+superintervalsr,kcleal/superintervalsr,kcleal,242,4b82cdc3017dcdf5a28d1ad5fa6f16250b2268af,0.99.7,0.99.7
