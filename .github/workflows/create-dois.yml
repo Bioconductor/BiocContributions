@@ -1,0 +1,61 @@
+name: Create Missing DOIs
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # daily, 06:17 UTC
+  workflow_dispatch:
+    inputs:
+      production:
+        description: "Create PRODUCTION DOIs (cannot be deleted). Default is DataCite test."
+        type: boolean
+        default: false
+      dry_run:
+        description: "List what would be created, create nothing"
+        type: boolean
+        default: false
+      package:
+        description: "Only this package (optional)"
+        type: string
+        default: ""
+      since:
+        description: "Only check issues closed on or after this date (YYYY-MM-DD). Empty = all."
+        type: string
+        default: ""
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: create-dois
+  cancel-in-progress: false
+
+jobs:
+  create_dois:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+
+      - run: pip install requests
+
+      - name: Create missing DOIs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIOC_ORG_TOKEN: ${{ secrets.BIOC_ORG_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ORG_NAME: Bioconductor
+          TEAM_SLUG: packagereviewers
+          ACCEPT_LABELS: package accepted
+          BIOC_PKG_HOSTING_ORG: bioconductor-source
+          BIOC_PKG_HOSTING_TOKEN: ${{ secrets.BIOC_PKG_HOSTING_TOKEN }}
+          DOI_SINCE: ${{ inputs.since }}
+          DOI_PRODUCTION: ${{ inputs.production == true && 'true' || 'false' }}
+          DRY_RUN: ${{ inputs.dry_run == true && 'true' || 'false' }}
+          ONLY_PACKAGE: ${{ inputs.package }}
+          DATACITE_USERNAME: ${{ secrets.DATACITE_USERNAME }}
+          DATACITE_PASSWORD: ${{ secrets.DATACITE_PASSWORD }}
+          DATACITE_TESTING_USERNAME: ${{ secrets.DATACITE_TESTING_USERNAME }}
+          DATACITE_TESTING_PASSWORD: ${{ secrets.DATACITE_TESTING_PASSWORD }}
+        run: python scripts/create_missing_dois.py
