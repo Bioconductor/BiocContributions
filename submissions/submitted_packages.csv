@@ -111,8 +111,8 @@ TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbi
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d9f06b9587f261745e6858654,0.99.1,0.99.1
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
-SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,649a349bfcd9b80a5917f66b799ec69cdcde63c4,0.99.4,0.99.4
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,5fdffe5e1dcc0bcedd615dff18d86911cdfeaf9a,0.99.11,0.99.11
+SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,c6e2c19c29edfebd3b68d47313c618c3a989385b,0.99.4,0.99.4
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,7f9d36cb4104783c982ac87711aee5942afc0ba8,0.99.12,0.99.12
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,b5f8d620558b7caf854a1c3a43f7b543dd284240,0.99.9,0.99.9
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,aa2458d007367227bfbd11e7e78ee278933876e3,0.99.11,0.99.11
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,4574c6473f263aa3bb64ad1858230defbfe02ee4,0.99.12,0.99.12
