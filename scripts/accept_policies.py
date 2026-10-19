@@ -92,7 +92,10 @@ def main():
         post_comment(issue_number,
             "✅ Bioconductor policies accepted.\n\n"
             "Your submission will now proceed to the build and check process.\n"
-            "When build/check is clean a reviewer will be assigned for indepth review."
+            "Once a build and check is clean, a reviewer will be assigned to conduct an in-depth review.\n\n"
+            "ℹ️ Due to the high volume of incoming submissions,\n"
+            "there may be a wait of several weeks after reviewer assignment before a review is posted.\n"
+            "Thank you for your patience and understanding.\n"
         )
 
     remove_label(issue_number, "awaiting policy acceptance")  
