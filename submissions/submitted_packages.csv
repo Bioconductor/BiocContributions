@@ -165,7 +165,7 @@ postexportKinetics,bioinformatics-sannio/postexportKinetics,luucee,215,1d7e4b974
 scSimEval,kabilanbio/scSimEval,kabilanbio,216,66014e94b87477e738e6289ce108436d9eb85596,0.99.7,0.99.7
 GDSAnnotator,zhengxwen/GDSAnnotator,zhengxw-ab,217,4ec0ebe7b3417edca4f0d413751d009de84bb33e,0.99.2,0.99.2
 pdactrace,jibeomko/pdactrace,jibeomko,218,337859c74f427e1ce580faf52aa97234f82de1e4,0.99.25,0.99.25
-MRCCC,bitansa/MRCCC,bitansa,219,692912ca347a99a31d882b35cee3ec376f3a2f16,0.99.4,0.99.4
+MRCCC,bitansa/MRCCC,bitansa,219,81dd38e2559b826411a0327ac507e106aa8116ec,0.99.5,0.99.5
 Tweedieverse,himelmallick/Tweedieverse,Nalin21478,220,ff6cd82bbff5c638fdfa24f7023178724d574de2,0.99.0,0.99.0
 myoRDNA,MuscleOmicsLab/myoRDNA,danvau98,222,6566f90c92137aa995eb35759432633ff202d0a8,0.99.0,0.99.0
 orthoRibbon,jianhong/orthoRibbon,jianhong,223,6977197dc87454c4a646420fb36bc65affeaf672,0.99.0,0.99.0
@@ -190,4 +190,4 @@ MultiOmicsCancer,maryam6770/MultiOmicsCancer,maryam6770,245,73eedda6903246e07203
 conformeR,juslecl/conformeR,juslecl,247,8f7f9b8ade1b14b8805c666d9f077e2da030a6c8,0.99.1,0.99.1
 SegStability,ramakrishna-p21/SegStability,ramakrishna-p21,248,5fb71c13678f50f107286e26265bf706b0938960,0.99.0,0.99.0
 OncoSeq,babasaraki/OncoSeq,babasaraki,250,643f30db164ade2531fe39146cfe7271670a7d43,0.99.0,0.99.0
-HTAN,seandavi/HTAN,seandavi,251,,0.99.1,0.99.1
+HTAN,seandavi/HTAN,seandavi,251,aa1306374791bae6e07b42718d9882787daae8eb,0.99.1,0.99.1
