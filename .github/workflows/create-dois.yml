@@ -12,7 +12,7 @@ on:
       dry_run:
         description: "Show what would be created"
         type: boolean
-        default: false
+        default: true
       package:
         description: "(optional) Only this package"
         type: string
