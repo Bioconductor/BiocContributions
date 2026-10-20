@@ -124,7 +124,7 @@ def mark_error(issue, message):
     requests.post(issue_api(issue["number"], "/labels"), headers=GH, json={"labels": [ERROR_LABEL]}, timeout=20)
     requests.post(
         issue_api(issue["number"], "/comments"), headers=GH, timeout=20,
-        json={"body": f"DOI creation failed for this package. It will be retried daily.\n\n```\n{message}\n```"},
+        json={"body": f"DOI creation failed for this package. It will be retried daily.\nPlease contact the Bioconductor Core Team if not resolved after a week."},
     )
 
 
