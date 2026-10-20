@@ -77,7 +77,6 @@ def doi_exists(pkg, testing=True):
 
 
 def build_payload(pkg, authors, pubyear, testing=True, event="publish"):
-    cfg = _CONFIG[testing]
     authors_list = normalize_authors(authors)
     if not authors_list:
         raise ValueError(f"No authors available for {pkg}; DataCite requires creators")

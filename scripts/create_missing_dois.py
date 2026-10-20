@@ -170,11 +170,9 @@ def process(issue):
 
 def main():
     mode = "TESTING" if TESTING else "PRODUCTION"
-    if not SINCE:
-        SINCE = "the beginning"
     print(f"[INFO] DOI mode: {mode}")
     print(f"[INFO] dry run: {DRY_RUN}")
-    print(f"[INFO] closed since {SINCE}")
+    print(f"[INFO] closed since {SINCE or 'the beginning'}")
     print(f"[INFO] labels {ACCEPT_LABELS}")
     issues = closed_accepted_issues()
     print(f"[INFO] {len(issues)} closed accepted issues to check")

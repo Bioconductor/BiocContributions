@@ -200,7 +200,7 @@ Bioconductor devel location. This includes:
 	5. Close the issue
         6. Create a doi
 
-Note: Dois are created daily. When doi creation fails, the issue will get a `doi-error'
+Note: Dois are created daily. When doi creation fails, the issue will get a `doi-error`
 label and a comment that doi creation failed. Creation will be reattempted daily until
 it is successful and the error label will be changed to a `doi-created` label.
 
