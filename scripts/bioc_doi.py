@@ -83,7 +83,7 @@ def build_payload(pkg, authors, pubyear, testing=True, event="publish"):
         raise ValueError(f"No authors available for {pkg}; DataCite requires creators")
     return {
         "data": {
-            "type": "dois",  # required by the DataCite JSON:API; was missing before
+            "type": "dois",
             "attributes": {
                 "doi": doi_name(pkg, testing),
                 "event": event,

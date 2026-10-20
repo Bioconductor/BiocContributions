@@ -154,7 +154,7 @@ def process(issue):
 
     actor = accepted_by(issue["number"])
     if not actor or not is_team_member(actor):
-        return "skipped", f"acceptance label not added by an active team member (actor: {actor})"
+        return "skipped", f"acceptance label not added by an active team member"
 
     desc = parse_description(fetch_description(pkg))
     authors = desc.get("Authors") or [issue["user"]["login"]]
@@ -170,7 +170,12 @@ def process(issue):
 
 def main():
     mode = "TESTING" if TESTING else "PRODUCTION"
-    print(f"[INFO] DOI mode: {mode}; dry run: {DRY_RUN}; closed since {SINCE or 'the beginning'}; labels {ACCEPT_LABELS}")
+    if not SINCE:
+        SINCE = "the beginning"
+    print(f"[INFO] DOI mode: {mode}")
+    print(f"[INFO] dry run: {DRY_RUN}")
+    print(f"[INFO] closed since {SINCE}")
+    print(f"[INFO] labels {ACCEPT_LABELS}")
     issues = closed_accepted_issues()
     print(f"[INFO] {len(issues)} closed accepted issues to check")
 

@@ -6,15 +6,15 @@ on:
   workflow_dispatch:
     inputs:
       production:
-        description: "Create PRODUCTION DOIs (cannot be deleted). Default is DataCite test."
+        description: "Create PRODUCTION DOIs (WARNING: DOIs cannot be deleted)."
         type: boolean
         default: false
       dry_run:
-        description: "List what would be created, create nothing"
+        description: "Show what would be created"
         type: boolean
         default: false
       package:
-        description: "Only this package (optional)"
+        description: "(optional) Only this package"
         type: string
         default: ""
       since:
