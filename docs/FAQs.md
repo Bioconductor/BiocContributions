@@ -27,6 +27,15 @@ review in the old system and already exists on the Bioconductor git server and
 gitolite file. The Bioconductor Core Team will have to run clean up BEFORE the
 issue is accepted to avoid conflicts. They will remove the label once the issue is cleaned.
 
+#### Doi Creation
+
+Dois are created daily after package acceptance and issue closure. When a package's doi
+is successfully created, the closed issue will get a `doi-created` label. If doi creation
+fails, the issue will get a `doi-error` label and a comment. The GitHub Action will attempt
+to create the doi until it is successful and the `doi-error` label will be replaced with
+`doi-created`. Please contact the Bioconductor Core Team if the doi isn't created within
+a week.
+
 ## Commits and Build Reports
 
 #### No Commit Message 

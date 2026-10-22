@@ -198,6 +198,11 @@ Bioconductor devel location. This includes:
 	3. Create a BiocCredential account to manage ssh-keys for push access to the new location
 	4. Remove the package from the new submission organization and r-universe registry
 	5. Close the issue
+        6. Create a doi
+
+Note: Dois are created daily. When doi creation fails, the issue will get a `doi-error`
+label and a comment that doi creation failed. Creation will be reattempted daily until
+it is successful and the error label will be changed to a `doi-created` label.
 
 ### Package Decline
 
