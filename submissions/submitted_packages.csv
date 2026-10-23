@@ -149,7 +149,7 @@ tewas,teindor/tewas,teindor,196,0aaf79170d4887216a12119bc5ffe9f240770fca,0.99.2,
 MsBackendParquet,computational-metabolomics/MsBackendParquet,oss6,198,2261368dbf788d4e2edd4b8b87a68281d206d1d9,0.99.8,0.99.8
 exposomeSC,CuiweiG/exposomeSC,CuiweiG,200,138cf4e27ace58c1018832a67d21ad91d8f49d1e,0.99.1,0.99.1
 crossarrayEWAS,bioinfbrad/crossarrayEWAS,kkamieniecka,201,06c22f5a07c1872149ef117568f4580538736413,0.99.1,0.99.1
-WithinHostExperiment,CuiweiG/WithinHostExperiment,CuiweiG,199,f168704b3f8dd1c071c85030bae68fe0014efe4e,0.99.0,0.99.0
+WithinHostExperiment,CuiweiG/WithinHostExperiment,CuiweiG,199,51a60fb1f06235e50db99051e1c71ff70a0be2b8,0.99.1,0.99.1
 paweh,akilanthony/paweh,akilanthony,202,1587c4e7e5899956a986e87123c1542840221e11,0.99.0,0.99.0
 cascadeR,NICHD-BSPC/cascadeR,mitraak,203,5b38b273677d0c3be3de484ae2db2faa9a1512e3,0.99.1,0.99.1
 panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7ceac8f66a97e11e0,0.99.2,0.99.2
@@ -191,4 +191,4 @@ conformeR,juslecl/conformeR,juslecl,247,8f7f9b8ade1b14b8805c666d9f077e2da030a6c8
 SegStability,ramakrishna-p21/SegStability,ramakrishna-p21,248,5fb71c13678f50f107286e26265bf706b0938960,0.99.0,0.99.0
 OncoSeq,babasaraki/OncoSeq,babasaraki,250,bd8f94f1b58466fc830bab58ae5889cd19031a51,0.99.1,0.99.1
 HTAN,seandavi/HTAN,seandavi,251,aa1306374791bae6e07b42718d9882787daae8eb,0.99.1,0.99.1
-splitTypeR,adeschen/splitTypeR,adeschen,252,,0.99.3,0.99.3
+splitTypeR,adeschen/splitTypeR,adeschen,252,7da03866fbd9b98d6f686389562cba08f6c35a1f,0.99.3,0.99.3
