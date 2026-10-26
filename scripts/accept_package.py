@@ -534,7 +534,7 @@ def build_gitolite_entry(repository, id_str, hook_suffix):
     return [
         f"repo packages/{repository}",
         f"    RW devel = {id_str}",
-        "#    RW RELEASE_3_12 = {id_str}",
+        f"#    RW RELEASE_3_12 = {id_str}",
         f"    option hook.pre-receive = pre-receive-hook-{hook_suffix}",
         ""
     ]
