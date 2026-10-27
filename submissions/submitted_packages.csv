@@ -111,8 +111,8 @@ TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbi
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d9f06b9587f261745e6858654,0.99.1,0.99.1
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
-SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,c6e2c19c29edfebd3b68d47313c618c3a989385b,0.99.4,0.99.4
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,4fe65786dd5f454b2259b1c15741b41342f44ebf,0.99.15,0.99.15
+SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,6586bc3b56675e75562b0b7948b5fd9214de2246,0.99.5,0.99.5
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,d06b866bbc5e6efcfa8b6a28c4d03a7533a7ae82,0.99.16,0.99.16
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,b5f8d620558b7caf854a1c3a43f7b543dd284240,0.99.9,0.99.9
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,aa2458d007367227bfbd11e7e78ee278933876e3,0.99.11,0.99.11
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,4574c6473f263aa3bb64ad1858230defbfe02ee4,0.99.12,0.99.12
@@ -184,7 +184,7 @@ HaploBreedR,aksruchi/HaploBreedR,aksruchi,239,3c3b7b9e8bf7acbca53c066b4c5ee9ef32
 RPBC,elizabethamona/RPBC,elizabethamona,240,8003fca6d154688fee5949b690e5a12622e90a1f,0.99.0,0.99.0
 PhiSpace,mao-lab-org/PhiSpace,jiadongm,241,12f41dbd5d7a630cdf78163d0e41663714b16fa3,0.99.0,0.99.0
 superintervalsr,kcleal/superintervalsr,kcleal,242,4b82cdc3017dcdf5a28d1ad5fa6f16250b2268af,0.99.7,0.99.7
-causalASCEND,SparkAILab/causalASCEND,SteveElites,243,7cf8b14398f93d25c8ea1f720557c7741a64ebf3,0.99.1,0.99.1
+causalASCEND,SparkAILab/causalASCEND,SteveElites,243,31fd6c2af9162ae0d08ad9e2ea9df67823113be2,0.99.1,0.99.1
 miREA,laixn/miREA,Joy-707,244,e28e12c04c2fe4b121a59202d40f72cfb9a8326b,0.99.2,0.99.2
 MultiOmicsCancer,maryam6770/MultiOmicsCancer,maryam6770,245,73eedda6903246e07203d3ab8f3f7d298e67d75b,0.99.2,0.99.2
 conformeR,juslecl/conformeR,juslecl,247,8f7f9b8ade1b14b8805c666d9f077e2da030a6c8,0.99.1,0.99.1
