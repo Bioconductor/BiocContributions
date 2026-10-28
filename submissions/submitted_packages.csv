@@ -51,7 +51,7 @@ SwitchClass,PYangLab/SwitchClass,DiXiao3447,76,621f63937e8ab56c244489e6b2af8ad35
 MsBackendMetabolomicsWorkbench,rformassspectrometry/MsBackendMetabolomicsWorkbench,gabrieletome,77,f5cfd61cb0a1418225d6d9ed60160db8e7478816,0.99.1,0.99.1
 scCertify,Jaya-Surya-dev/scCertify,Jaya-Surya-dev,78,0e13ef10371255f9416410bc51c0a97488edcdfb,0.99.7,0.99.7
 PTMsToPathwaysData,UM-Applied-Algorithms-Lab/PTMsToPathwaysData,lgw2,79,0ddd97b7ee89796a19691ec2dfba36d1af3432bc,0.99.4,0.99.4
-inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,f9187cfeadb9d5edd19e17e692c41ea4215fdfb5,0.99.1,0.99.1
+inferRecom,catherinefayemahoney/inferRecom,catherinefayemahoney,80,be3d8c333e0fd8dd45c9b15761efc52721d9dba1,0.99.3,0.99.3
 GSE280465,paulYRP/GSE280465,paulYRP,81,4103a96db75ce15959a423aa5382f14f2cb96376,0.99.0,0.99.0
 GSE142512,paulYRP/GSE142512,paulYRP,82,14ab5717895f73ddf57370426e3cdcbafd5b81b4,0.99.2,0.99.2
 fastPLS,tkcaccia/fastPLS,tkcaccia,84,987558640ea7466ddefa58577b98a5682476e618,0.99.67,0.99.67
@@ -116,7 +116,7 @@ SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,d06b866bbc5e6efcfa8b6a28c4d03a7533a7a
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,b5f8d620558b7caf854a1c3a43f7b543dd284240,0.99.9,0.99.9
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,aa2458d007367227bfbd11e7e78ee278933876e3,0.99.11,0.99.11
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,4574c6473f263aa3bb64ad1858230defbfe02ee4,0.99.12,0.99.12
-RhyME,njuelsdke/RhyME,njuelsdke,163,edbb44f159b4341526f4afd1bc02ed512e170ccd,0.99.2,0.99.2
+RhyME,njuelsdke/RhyME,njuelsdke,163,f74096e3d2a124202ce604fe0dbb853dbddb314d,0.99.3,0.99.3
 spatialDESeq,sahalpaladan/spatialDESeq,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,723b0a4e2080f3c79342a1961253322b568e20bc,0.99.20,0.99.20
