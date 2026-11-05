@@ -201,3 +201,4 @@ bigWig,guertinlab/bigWig,guertinlab,258,d47c725ec4c1cc8af34ce986c40f8622cf9c7424
 IsoNetAnalyzeR,IsoformAnalysisGroup/IsoNetAnalyzeR,dskanakoglou,259,62ad64d2add7adc50679cff0fd6eaca4a9b9c52f,0.99.0,0.99.0
 R4AOP,SidraAdil/R4AOP,SidraAdil,260,eb071472349b3f7395850e7c21a2553db5466696,0.99.0,0.99.0
 apbCatalogR,anndata-omics-bridge/apbCatalogR,wolski,261,f7fb9e1f2a19466f15bd2803782576f9cf543dab,0.99.0,0.99.0
+spliceTerrain,baerlachlan/spliceTerrain,baerlachlan,263,,0.99.0,0.99.0
