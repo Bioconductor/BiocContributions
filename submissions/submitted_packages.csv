@@ -97,7 +97,7 @@ TxDb.Osativa.MSU.RGAP7,kabilanbio/TxDb.Osativa.MSU.RGAP7,kabilanbio,134,a071379e
 GENCODEHub,paulYRP/GENCODEHub,paulYRP,135,af9a22e5bfc548b98ecf742de013c254bf93349f,0.99.0,0.99.0
 Protein2Tissue,ChrYang/Protein2Tissue,emmachenlingo,136,980167283b3ebd382e351c4a60381eeff107b3c2,0.99.6,0.99.6
 cellchatr,mayankgandhi13/cellchatr,mayankgandhi13,137,b9656b513aeeb3264ec53372a629d74602d3d88f,0.99.1,0.99.1
-ECLIPSE,eburns10/ECLIPSE,eburns10,138,4a503aa36ff7438cf75f4fcfb7d8c52fc16feb76,0.99.0,0.99.0
+ECLIPSE,eburns10/ECLIPSE,eburns10,138,0778cc5bc8539e7ab0246d59ff8b45e9443f722f,0.99.2,0.99.2
 bppg,mpc-bioinformatics/bppg,KarinSchork,140,2268654e2c6e562686de2078ad3908ad207e638d,0.99.1,0.99.1
 fastEmbedR,tkcaccia/fastEmbedR,tkcaccia,142,774ecd3667e466d28abfc65f729c0fe9f24a4630,0.99.17,0.99.17
 KODAMA,tkcaccia/KODAMA,tkcaccia,144,4fc0f1551a7388429153c75a602d72a8af544642,0.99.7,0.99.7
@@ -122,7 +122,7 @@ HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b4
 dmsa,teindor/dmsa,teindor,166,723b0a4e2080f3c79342a1961253322b568e20bc,0.99.20,0.99.20
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,60006a53969c961294b0f2775d371c8cd431b623,0.99.3,0.99.3
 rnaSentry,Ghrieb/rnaSentry,Ghrieb,168,87ca9c5af9cf928126098bb7419c7d77026b325a,0.99.19,0.99.19
-saintexpress,prolfqua/saintexpress,wolski,170,1a9851bde526972dde015841bc5140ee3ea25f71,0.99.2,0.99.2
+saintexpress,prolfqua/saintexpress,wolski,170,4a75f215233e8c7ca9e7782aab467115eff9a6de,0.99.3,0.99.3
 prolfqua,cpanse/prolfqua,cpanse,171,b4c32d626072f56ec669dd942242fccea444237b,0.99.2,0.99.2
 DiPPER,jepelt/DiPPER,jepelt,172,2584e995bbcdf9e4134c3cbb72811794a54292f3,0.99.1,0.99.1
 cpgdirectionData,teindor/cpgdirectionData,teindor,173,66f5a3ca4505c2db0fa81537a18285961bcb0379,0.99.1,0.99.1
@@ -197,7 +197,7 @@ MacrophageFramework,AlessandroPalma-hub/MacrophageFramework,AlessandroPalma-hub,
 fuzzyCell,shreyarajeshrao/fuzzyCell,shreyarajeshrao,255,4f7eca6ef12e16fc7e34049a6a21cc687f81182a,0.99.1,0.99.1
 alabaster.treese,microbiome/alabaster.treese,TuomasBorman,256,3b36e901884ec7ae1ad27165401d4fd142495255,0.99.0,0.99.0
 RGenEDA,mikemartinez99/RGenEDA,mikemartinez99,257,74da9a9dc06243fa9a768e859c278ed80bfa2cc0,0.99.0,0.99.0
-bigWig,guertinlab/bigWig,guertinlab,258,5841ec51f71d7b6674b1a0a07d85cde357cf9447,0.99.9,0.99.9
+bigWig,guertinlab/bigWig,guertinlab,258,0f20cf9d4ed5ef61ce51ad9390f30ac7d9756977,0.99.10,0.99.10
 IsoNetAnalyzeR,IsoformAnalysisGroup/IsoNetAnalyzeR,dskanakoglou,259,62ad64d2add7adc50679cff0fd6eaca4a9b9c52f,0.99.0,0.99.0
 R4AOP,SidraAdil/R4AOP,SidraAdil,260,eb071472349b3f7395850e7c21a2553db5466696,0.99.0,0.99.0
 apbCatalogR,anndata-omics-bridge/apbCatalogR,wolski,261,f7fb9e1f2a19466f15bd2803782576f9cf543dab,0.99.0,0.99.0
