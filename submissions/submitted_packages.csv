@@ -108,7 +108,7 @@ MiCARA,BushnaqSafa/MiCARA,BushnaqSafa,150,6816336511d85ddd5cdcf0374520102f84da32
 CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,1321597b3d5f9b9c6eda941b8b3fa475265f83ca,0.99.1,0.99.1
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,86dc96c231ee8c8eb9a25605e449627222dff50e,0.99.5,0.99.5
 TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,2dbcf0144136e9ce8db8d24885097af4703baa3c,0.99.5,0.99.5
-TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,1b0b9602987e7c2d9f06b9587f261745e6858654,0.99.1,0.99.1
+TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,b0bc8f3f01ee18a794a741c1d60bfce88563a9fc,0.99.2,0.99.2
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,6586bc3b56675e75562b0b7948b5fd9214de2246,0.99.5,0.99.5
