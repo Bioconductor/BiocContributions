@@ -58,7 +58,7 @@ fastPLS,tkcaccia/fastPLS,tkcaccia,84,987558640ea7466ddefa58577b98a5682476e618,0.
 faissR,tkcaccia/faissR,tkcaccia,86,31ceac2d8959d9b70ddc16753f51f3d836bb3826,0.99.47,0.99.47
 scMAGeCK,weili-lab/scMAGeCK,davidliwei,89,2fb1abfdac73e1427d8e1601f8894e93f88ccc03,0.99.1,0.99.1
 selexprepR,marcorotanegroni/selexprepR,marcorotanegroni,90,63cf3ab07ce84272d7caefa1b6204d0c037820b5,0.99.7,0.99.7
-cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,321bfb7f680ce36e655f083a828b54a5f8df06d7,0.99.5,0.99.5
+cellpaintr,ChristofSeiler/cellpaintr,ChristofSeiler,93,f405de6c4e1873c4eb1f09fbf7ea000b9424535b,0.99.6,0.99.6
 QuickBLAST,vizkidd/QuickBLAST,vizkidd,96,11ca2e56bc4cb2f2bf3e8556e941ab4ff58f3ebc,1.99.8,1.99.8
 OmicsLake,matsui-lab/OmicsLake,ymatts,97,eceb3a640fdc75c21fff167784d13feb1849cf4d,0.99.3,0.99.3
 pepVet,LangeLab/pepVet,eneskemalergin,98,3adcd3e3b435b4f5e2d298ea3daf5b9409e8922d,0.99.1,0.99.1
@@ -107,7 +107,7 @@ circaTime,dralperenuysal/circaTime,dralperenuysal,149,e7b8bea4c594da5e2db1691747
 MiCARA,BushnaqSafa/MiCARA,BushnaqSafa,150,52e4c0ae21a3eb7b9c1dacb9faf0065f6684daa2,0.99.3,0.99.3
 CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,1321597b3d5f9b9c6eda941b8b3fa475265f83ca,0.99.1,0.99.1
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,86dc96c231ee8c8eb9a25605e449627222dff50e,0.99.5,0.99.5
-TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,3afc7e7d0f83be2047b964cfc9550bd0b76bc781,0.99.6,0.99.6
+TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,456cc7f18a13099ec7abab2fe95297a2a5728eb8,0.99.6,0.99.6
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,b0bc8f3f01ee18a794a741c1d60bfce88563a9fc,0.99.2,0.99.2
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
