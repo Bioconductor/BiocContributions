@@ -203,6 +203,6 @@ R4AOP,SidraAdil/R4AOP,SidraAdil,260,eb071472349b3f7395850e7c21a2553db5466696,0.9
 apbCatalogR,anndata-omics-bridge/apbCatalogR,wolski,261,f7fb9e1f2a19466f15bd2803782576f9cf543dab,0.99.0,0.99.0
 spliceTerrain,baerlachlan/spliceTerrain,baerlachlan,263,a3633eefaeeb0e808c73ee3bc788584fa8a83dae,0.99.0,0.99.0
 tn5bias,plger/tn5bias,plger,264,,0.99.5,0.99.5
-thanatome,hachepunto/thanatome,hachepunto,265,,0.99.0,0.99.0
-spiDE,BhuvaLab/spiDE,bhuvad,266,,0.99.37,0.99.37
-bgnormR,BhuvaLab/bgnormR,bhuvad,267,,0.99.5,0.99.5
+thanatome,hachepunto/thanatome,hachepunto,265,59b84cfa9a5f3a83a5eba4b6c816954e6463efe8,0.99.0,0.99.0
+spiDE,BhuvaLab/spiDE,bhuvad,266,f8fe17e1f9b75412d22f6ad8bc0368359a09cbc8,0.99.37,0.99.37
+bgnormR,BhuvaLab/bgnormR,bhuvad,267,f00c8046b507411b762c93af91839f88e34bf232,0.99.5,0.99.5
