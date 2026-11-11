@@ -111,8 +111,8 @@ TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbi
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,b0bc8f3f01ee18a794a741c1d60bfce88563a9fc,0.99.2,0.99.2
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
-SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,6586bc3b56675e75562b0b7948b5fd9214de2246,0.99.5,0.99.5
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,d06b866bbc5e6efcfa8b6a28c4d03a7533a7ae82,0.99.16,0.99.16
+SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,19acfa4eed3725b7ca3b93d4ade9a75da8725f13,0.99.6,0.99.6
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,57a65e7ac15c99248174faf332e8353677a991d0,0.99.18,0.99.18
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,3d268921030880b0467897535f5683c13bd58d35,0.99.10,0.99.10
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,3ff2182a4c09126410225ae78224eca708a2be2d,0.99.12,0.99.12
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,48b39abbb65157e483aa1dc423224670432d15ba,0.99.13,0.99.13
@@ -186,7 +186,7 @@ PhiSpace,mao-lab-org/PhiSpace,jiadongm,241,12f41dbd5d7a630cdf78163d0e41663714b16
 superintervalsr,kcleal/superintervalsr,kcleal,242,222703a248d7e2e05de8fca1fe9027b903be1636,0.99.8,0.99.8
 causalASCEND,SparkAILab/causalASCEND,SteveElites,243,783ea1b55c71b2d27f14a8f22cd2c313336f9a5e,0.99.5,0.99.5
 miREA,laixn/miREA,Joy-707,244,e28e12c04c2fe4b121a59202d40f72cfb9a8326b,0.99.2,0.99.2
-MultiOmicsCancer,maryam6770/MultiOmicsCancer,maryam6770,245,f593daca082052b0475dec802dae7944923e50ab,0.99.4,0.99.4
+MultiOmicsCancer,maryam6770/MultiOmicsCancer,maryam6770,245,194680466e5680b0a7c6fd0813d28648670f830b,0.99.5,0.99.5
 conformeR,juslecl/conformeR,juslecl,247,8f7f9b8ade1b14b8805c666d9f077e2da030a6c8,0.99.1,0.99.1
 SegStability,ramakrishna-p21/SegStability,ramakrishna-p21,248,5fb71c13678f50f107286e26265bf706b0938960,0.99.0,0.99.0
 OncoSeq,babasaraki/OncoSeq,babasaraki,250,bd8f94f1b58466fc830bab58ae5889cd19031a51,0.99.1,0.99.1
