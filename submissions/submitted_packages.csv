@@ -112,7 +112,7 @@ TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,b0bc8f3f01ee18a7
 remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,19acfa4eed3725b7ca3b93d4ade9a75da8725f13,0.99.6,0.99.6
-SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,57a65e7ac15c99248174faf332e8353677a991d0,0.99.18,0.99.18
+SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,120331af76b951103d76e06423a34db81a75015c,0.99.19,0.99.19
 methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,3d268921030880b0467897535f5683c13bd58d35,0.99.10,0.99.10
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,3ff2182a4c09126410225ae78224eca708a2be2d,0.99.12,0.99.12
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,48b39abbb65157e483aa1dc423224670432d15ba,0.99.13,0.99.13
