@@ -153,7 +153,7 @@ WithinHostExperiment,CuiweiG/WithinHostExperiment,CuiweiG,199,9e659ffdb7cb02bf9c
 paweh,akilanthony/paweh,akilanthony,202,1587c4e7e5899956a986e87123c1542840221e11,0.99.0,0.99.0
 cascadeR,NICHD-BSPC/cascadeR,mitraak,203,5b38b273677d0c3be3de484ae2db2faa9a1512e3,0.99.1,0.99.1
 panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7ceac8f66a97e11e0,0.99.2,0.99.2
-loopQTL,rhielab/loopQTL,Tim-wuuu,206,541e6504dbcfdc7a81bd5bb43d4e467f96d88c47,0.99.0,0.99.0
+loopQTL,rhielab/loopQTL,Tim-wuuu,206,884c641c987e88c30c097ebc9e121a7700ef73c0,0.99.1,0.99.1
 enviPathR,enviPath/enviPathR,RiboRings,207,f88082d53abcdae046d4da03f303c4d3eee0737c,0.99.0,0.99.0
 thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,7a2e85246e4277dbc3779f17d9cb282c424ba635,0.99.6,0.99.6
 PACE,ecool50/PACE,ecool50,209,d40461a174d9e526a1186bfc51921099259719d6,0.99.20,0.99.20
@@ -203,7 +203,7 @@ R4AOP,SidraAdil/R4AOP,SidraAdil,260,eb071472349b3f7395850e7c21a2553db5466696,0.9
 apbCatalogR,anndata-omics-bridge/apbCatalogR,wolski,261,4573ef2fdc3d45421854125be43c2158f21fae94,0.99.4,0.99.4
 spliceTerrain,baerlachlan/spliceTerrain,baerlachlan,263,a3633eefaeeb0e808c73ee3bc788584fa8a83dae,0.99.0,0.99.0
 tn5bias,plger/tn5bias,plger,264,,0.99.5,0.99.5
-thanatome,hachepunto/thanatome,hachepunto,265,59b84cfa9a5f3a83a5eba4b6c816954e6463efe8,0.99.0,0.99.0
+thanatome,hachepunto/thanatome,hachepunto,265,ffe7a823608a61c0db366f17a62d640b21f8279d,0.99.1,0.99.1
 spiDE,BhuvaLab/spiDE,bhuvad,266,b0649a48f028f81e24cff5d6da94f1cd57812745,0.99.38,0.99.38
 bgnormR,BhuvaLab/bgnormR,bhuvad,267,f00c8046b507411b762c93af91839f88e34bf232,0.99.5,0.99.5
 repli,dzijlmans/repli,dzijlmans,270,1b34d069e664daac36145ebbd065f1bc1a01fe8e,0.99.0,0.99.0
