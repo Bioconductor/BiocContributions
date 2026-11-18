@@ -377,10 +377,6 @@ def main():
 
             if pkg_match:
                 package_name = pkg_match.group(1).strip()
-                if package_name != repo:
-                    failures.append(
-                        f"Package name '{package_name}' does not match repository name '{repo}'."
-                    )
 
             package_version = ""
             if version_match:

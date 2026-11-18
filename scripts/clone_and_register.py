@@ -3,8 +3,8 @@ import json
 import sys
 import subprocess
 import requests
-import re
 import shutil
+from submission_utils import extract_repo, fetch_package_name
 
 # ----------------------------
 # Environment / Tokens
@@ -134,16 +134,22 @@ def protect_devel(repo_name):
 # ----------------------------
 def clone_and_push():
     msg = ""
-    match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)(?:\.git)?", issue_body)
-    if not match:
+    source_owner, source_repo = extract_repo(issue_body)
+    if not source_owner or not source_repo:
         print("❌ No valid GitHub repo URL found in issue body.")
         post_comment(f"❌  No valid GitHub repo found: ask admins for assistance")
         sys.exit(1)
 
-    source_owner, source_repo = match.groups()
-    source_repo = source_repo.removesuffix(".git")
+    # The staging repo and registry entry are named after the DESCRIPTION
+    # Package field; the source repo name may differ (e.g. foo-R).
+    package_name = fetch_package_name(source_owner, source_repo, headers=HEADERS)
+    if not package_name:
+        print(f"❌ Could not read Package from DESCRIPTION in {source_owner}/{source_repo}")
+        post_comment(f"❌  Could not read the package name from DESCRIPTION in {source_owner}/{source_repo} : ask admins for assistance")
+        sys.exit(1)
+
     source_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{source_owner}/{source_repo}.git"
-    target_url = f"https://x-access-token:{BIOC_STAGING_TOKEN}@github.com/{BIOC_STAGING_ORG}/{source_repo}.git"
+    target_url = f"https://x-access-token:{BIOC_STAGING_TOKEN}@github.com/{BIOC_STAGING_ORG}/{package_name}.git"
 
     # Fetch source default branch
     repo_api_url = f"https://api.github.com/repos/{source_owner}/{source_repo}"
@@ -155,26 +161,26 @@ def clone_and_push():
     source_default_branch = r.json().get("default_branch", "main")
 
     # Check if target repo exists and is empty
-    target_repo_api_url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{source_repo}"
+    target_repo_api_url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{package_name}"
     r_target = requests.get(target_repo_api_url, headers=BIOC_STAGING_HEADERS)
     if r_target.status_code == 404:
-        create_target_repo(source_repo)
+        create_target_repo(package_name)
         repo_empty = True
     elif r_target.status_code == 200:
         r_contents = requests.get(f"{target_repo_api_url}/contents", headers=BIOC_STAGING_HEADERS)
         if r_contents.status_code == 200 and len(r_contents.json()) > 0:
-            msg = (f"ℹ️ Target repository **{BIOC_STAGING_ORG}/{source_repo}** already exists and is not empty.\n"
+            msg = (f"ℹ️ Target repository **{BIOC_STAGING_ORG}/{package_name}** already exists and is not empty.\n"
                    "  - Cloning is skipped to avoid overwriting existing content.\n")
-            add_collaborator(source_repo, original_submitter, permission="write")
-            return f"{BIOC_STAGING_ORG}/{source_repo}", msg
+            add_collaborator(package_name, original_submitter, permission="write")
+            return package_name, msg
         repo_empty = True
     else:
         print(f"❌ Failed to check target repo: {r_target.text}")
         sys.exit(1)
 
     try:
-        subprocess.run(["git", "clone", source_url], check=True)
-        os.chdir(source_repo)
+        subprocess.run(["git", "clone", source_url, package_name], check=True)
+        os.chdir(package_name)
         subprocess.run(["git", "config", "user.name", "Bioconductor Bot"], check=True)
         subprocess.run(["git", "config", "user.email", "bot@bioconductor.org"], check=True)
         subprocess.run(["git", "branch", "-M", "devel"], check=True)
@@ -185,30 +191,29 @@ def clone_and_push():
             subprocess.run(["git", "push", "-u", "origin", "devel"], check=True)
 
         os.chdir("..")
-        shutil.rmtree(source_repo)
+        shutil.rmtree(package_name)
 
-        set_default_branch(source_repo, "devel")
-        protect_devel(source_repo)
+        set_default_branch(package_name, "devel")
+        protect_devel(package_name)
        
-        msg = f"✅ Cloned **{source_owner}/{source_repo}** → **{BIOC_STAGING_ORG}/{source_repo}** (branch: `devel`)"
+        msg = f"✅ Cloned **{source_owner}/{source_repo}** → **{BIOC_STAGING_ORG}/{package_name}** (branch: `devel`)"
 
-        add_collaborator(source_repo, original_submitter, permission="write")
+        add_collaborator(package_name, original_submitter, permission="write")
         
     except subprocess.CalledProcessError as e:
         print(f"❌ Git operation failed: {e}")
         post_comment(f"❌  Failed to clone : ask admins for assistance")
         sys.exit(1)
 
-    return f"{BIOC_STAGING_ORG}/{source_repo}", msg
+    return package_name, msg
 
 # ----------------------------
 # Update packages.json
 # ----------------------------
-def update_registry(repo_path):
+def update_registry(package_name):
     msg = ""
     registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
-    repo_url = f"https://github.com/{repo_path}"
-    package_name = repo_path.split("/")[-1]
+    repo_url = f"https://github.com/{BIOC_STAGING_ORG}/{package_name}"
     clone_url = f"https://x-access-token:{BIOC_STAGING_TOKEN}@github.com/{BIOC_STAGING_ORG}/{registry_repo}.git"
 
     try:
@@ -259,8 +264,8 @@ def update_registry(repo_path):
 # ----------------------------
 if __name__ == "__main__":
     add_label("pre-review")
-    repo_path, clone_msg = clone_and_push()
-    registry_msg = update_registry(repo_path)
+    package_name, clone_msg = clone_and_push()
+    registry_msg = update_registry(package_name)
 
     full_message = f"""
 {clone_msg}
@@ -269,13 +274,13 @@ if __name__ == "__main__":
 
 Your package is cloned to the Bioconductor new submission source repository and r-universe for testing. 
 
-We have added you as a collaborator at https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+We have added you as a collaborator at https://github.com/{BIOC_STAGING_ORG}/{package_name}
 You will need to accept the github invitation to push future changes.
 **Task:** Please accept collaborator access now.
 
 If you want to push command line updates, you need to update your remotes:
 ```
-  git remote add {SPB_RUNIVERSE} git@github.com:{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+  git remote add {SPB_RUNIVERSE} git@github.com:{BIOC_STAGING_ORG}/{package_name}
   git push {SPB_RUNIVERSE} devel
 ```
 
@@ -291,7 +296,7 @@ If you do not receive a build report within 24 hours please ask for assistance.
 
 This is true for every subsequent push to trigger a new build.
 You can check if your changes were properly commited to the Bioconductor respository by
-    checking https://github.com/{BIOC_STAGING_ORG}/{repo_path.split('/')[-1]}
+    checking https://github.com/{BIOC_STAGING_ORG}/{package_name}
 
 We encourage you to sync and maintain both your personal and Bioconductor GitHub repository
 You can mimic R-universe builds on your personal GitHub repository before

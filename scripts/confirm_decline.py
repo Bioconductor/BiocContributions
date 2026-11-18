@@ -1,10 +1,10 @@
 import os
 import json
 import requests
-import re
 import sys
 import base64
 import time
+from submission_utils import package_from_issue
 
 # --------------------------------------------
 # Environment
@@ -61,13 +61,6 @@ def close_issue(issue_number):
     if r.status_code >= 300:
         print(f"[WARN] Failed to close issue: {r.status_code} {r.text}")
 
-def extract_repo(issue_body):
-    match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)", issue_body)
-    if not match:
-        return None, None
-    owner_submit, repo_submit = match.group(1), match.group(2)
-    return owner_submit, repo_submit
-
 def get_issue(issue_number):
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{issue_number}"
     r = requests.get(url, headers=HEADERS, timeout=10)
@@ -112,7 +105,7 @@ def delete_temp_repo(repo_name):
         print(f"[WARN] Failed to delete repo: {url} {r.status_code} {r.text}")
 
 
-def remove_from_registry(repo_name):
+def remove_from_registry(package):
     registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
 
     url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{registry_repo}/contents/packages.json"
@@ -125,24 +118,24 @@ def remove_from_registry(repo_name):
     data = r.json()
     content = json.loads(base64.b64decode(data["content"]).decode())
 
-    new_content = [x for x in content if x.get("package") != repo_name]
+    new_content = [x for x in content if x.get("package") != package]
 
     if len(new_content) == len(content):
-        print(f"[INFO] {repo_name} not found in registry")
+        print(f"[INFO] {package} not found in registry")
         return
 
     updated = json.dumps(new_content, indent=2)
 
     r = requests.put(url, headers=BIOC_STAGING_HEADERS, json={
-        "message": f"Remove {repo_name}",
+        "message": f"Remove {package}",
         "content": base64.b64encode(updated.encode()).decode(),
         "sha": data["sha"]
     })
     if r.status_code >= 300:
-        print(f"[WARN] Failed to update registry: {repo_name} {r.status_code} {r.text}")
+        print(f"[WARN] Failed to update registry: {package} {r.status_code} {r.text}")
         return
 
-    print(f"[INFO] Removed {repo_name} from registry")
+    print(f"[INFO] Removed {package} from registry")
 
 
 def main():
@@ -166,7 +159,8 @@ def main():
     issue_number = event["issue"]["number"]
     issue = get_issue(issue_number)
     issue_body = issue.get("body") or ""
-    owner_submit, repo_submit = extract_repo(issue_body)
+    # Staging repo and registry entry are named after the DESCRIPTION Package
+    owner_submit, repo_submit, package = package_from_issue(issue_body, headers=HEADERS, issue_number=issue_number)
     
     # --------------------------------------------
     # Verify Confirm Delete by admin or assignee
@@ -193,14 +187,11 @@ def main():
     # --------------------------------------------
     # extra repo, delete clone and from registry
     # --------------------------------------------
-    if repo_submit and repo_submit.endswith(".git"):
-        repo_submit = repo_submit[:-4]
-
-    if repo_submit:
-        delete_temp_repo(repo_submit)
-        remove_from_registry(repo_submit)
+    if package:
+        delete_temp_repo(package)
+        remove_from_registry(package)
     else:
-        print(f"[WARN] Could not extract repo from issue body: {issue_number} ")
+        print(f"[WARN] Could not determine package from issue body: {issue_number} ")
 
     # --------------------------------------------
     # clean up labels
