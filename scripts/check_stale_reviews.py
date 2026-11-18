@@ -2,7 +2,7 @@ import os
 import json
 import requests
 import base64
-import re
+from submission_utils import package_from_issue
 # --------------------------------------------
 # Environment
 # --------------------------------------------
@@ -108,20 +108,18 @@ def find_repos_without_issues(open_packages, org_repos):
 def extract_package(issue, failures=None):
     if failures is None:
         failures = []
+    # Registry entries and staging repos are named after the DESCRIPTION
+    # Package field, which may differ from the repository name.
     issue_body = issue.get("body") or ""
-    match = re.search(
-        r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)",
-        issue_body
+    owner, repo, package = package_from_issue(
+        issue_body, headers=HEADERS, issue_number=issue.get("number")
     )
-    if not match:
+    if not repo:
         failures.append(
             f"Issue #{issue.get('number')} missing valid GitHub repo URL"
         )
         return None
-    owner, repo = match.group(1), match.group(2)
-    if repo.endswith(".git"):
-        repo = repo[:-4]
-    return repo
+    return package
 
 
 # --------------------------------------------

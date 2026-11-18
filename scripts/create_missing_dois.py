@@ -21,6 +21,7 @@ import requests
 
 from bioc_doi import create_doi, doi_exists, doi_name
 from description_utils import parse_description
+from submission_utils import package_from_issue as submission_package_from_issue
 
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 BIOC_ORG_TOKEN = os.environ.get("BIOC_ORG_TOKEN") or GITHUB_TOKEN
@@ -93,14 +94,11 @@ def is_team_member(username):
 
 
 def package_from_issue(issue):
-    import re
-    m = re.search(
-        r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)", issue.get("body") or ""
+    """Package name from the submissions CSV, else the submitted repo's DESCRIPTION."""
+    _, _, package = submission_package_from_issue(
+        issue.get("body") or "", headers=GH, issue_number=issue.get("number")
     )
-    if not m:
-        return None
-    repo = m.group(2)
-    return repo[:-4] if repo.endswith(".git") else repo
+    return package
 
 
 def fetch_description(pkg):

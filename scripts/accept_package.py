@@ -3,7 +3,6 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 import subprocess
-import re
 import sys
 import base64
 import time
@@ -11,6 +10,7 @@ import sqlite3
 from collections import Counter
 import shutil
 from description_utils import parse_description
+from submission_utils import package_from_issue, parse_package_field
 
 
 # --------------------------------------------
@@ -166,14 +166,6 @@ def create_github_repo(repo_name):
 # --------------------------------------------
 # Helper Functions Parsing and Extracting
 # --------------------------------------------
-def extract_repo(issue_body):
-    match = re.search(r"(?:https://github\.com/|git@github\.com:)([\w\-]+)/([\w\.\-]+)", issue_body)
-    if not match:
-        return None, None
-    owner, repo = match.group(1), match.group(2)
-    return owner, repo
-
-
 def get_description_file(repo):
     url = f"https://raw.githubusercontent.com/{BIOC_STAGING_ORG}/{repo}/devel/DESCRIPTION"
     try:
@@ -530,9 +522,9 @@ def clone_gitolite_admin(dest_dir):
     )
 
 
-def build_gitolite_entry(repository, id_str, hook_suffix):
+def build_gitolite_entry(package, id_str, hook_suffix):
     return [
-        f"repo packages/{repository}",
+        f"repo packages/{package}",
         f"    RW devel = {id_str}",
         f"#    RW RELEASE_3_12 = {id_str}",
         f"    option hook.pre-receive = pre-receive-hook-{hook_suffix}",
@@ -540,7 +532,7 @@ def build_gitolite_entry(repository, id_str, hook_suffix):
     ]
 
 
-def update_packages_conf(ids, repository, pkg_type, gitolite_dir):
+def update_packages_conf(ids, package, pkg_type, gitolite_dir):
     conf_path = os.path.join(gitolite_dir, "conf", "packages.conf")
     if not os.path.exists(conf_path):
         raise RuntimeError("packages.conf not found")
@@ -557,7 +549,7 @@ def update_packages_conf(ids, repository, pkg_type, gitolite_dir):
     hook_suffix = "software" if type_str == "software" else "dataexp-workflow"
     id_str = " ".join(ids)
 
-    print(f"[INFO] Adding gitolite entry for {repository}")
+    print(f"[INFO] Adding gitolite entry for {package}")
 
     with open(conf_path, "r") as f:
         lines = f.read().splitlines()
@@ -565,13 +557,13 @@ def update_packages_conf(ids, repository, pkg_type, gitolite_dir):
         lines.pop()
     if lines:
         lines.append("")
-    lines.extend(build_gitolite_entry(repository, id_str, hook_suffix))
+    lines.extend(build_gitolite_entry(package, id_str, hook_suffix))
     with open(conf_path, "w") as f:
         f.write("\n".join(lines) + "\n")
 
     return True
 
-def commit_and_push_gitolite(gitolite_dir, repository, dry_run=False):
+def commit_and_push_gitolite(gitolite_dir, package, dry_run=False):
 
     subprocess.run(["git", "checkout", "master"], check=True, cwd=gitolite_dir, env=_git_env())
     subprocess.run(["git", "pull", "origin", "master"], check=True, cwd=gitolite_dir, env=_git_env())
@@ -587,7 +579,7 @@ def commit_and_push_gitolite(gitolite_dir, repository, dry_run=False):
     has_changes = changed.returncode != 0
     if has_changes:
         subprocess.run(["git", "add", "conf/packages.conf"], check=True, cwd=gitolite_dir, env=_git_env())
-        subprocess.run(["git", "commit", "-m", f"Add package {repository}"], check=True, cwd=gitolite_dir, env=_git_env())
+        subprocess.run(["git", "commit", "-m", f"Add package {package}"], check=True, cwd=gitolite_dir, env=_git_env())
 
         if not dry_run:
             subprocess.run(["git", "push", "origin", "master"], check=True, cwd=gitolite_dir, env=_git_env())
@@ -598,11 +590,11 @@ def commit_and_push_gitolite(gitolite_dir, repository, dry_run=False):
         print("[INFO] No gitolite changes detected — skipping commit")
 	
 
-def configure_gitolite(ids, repository, pkg_type, dry_run=False):
+def configure_gitolite(ids, package, pkg_type, dry_run=False):
     gitolite_dir = "/tmp/gitolite-admin"
     clone_gitolite_admin(gitolite_dir)
-    update_packages_conf(ids, repository, pkg_type, gitolite_dir)
-    commit_and_push_gitolite(gitolite_dir, repository, dry_run)
+    update_packages_conf(ids, package, pkg_type, gitolite_dir)
+    commit_and_push_gitolite(gitolite_dir, package, dry_run)
 
 
 # -----------------------------------------------
@@ -1015,13 +1007,13 @@ def commit_and_push_manifest(manifest_dir, package, pkg_type, dry_run=False):
     print("[INFO] Manifest updated")
 
 
-def update_manifest(pkg_type, repo, dry_run=False):
+def update_manifest(pkg_type, package, dry_run=False):
     dest_dir = "/tmp/manifest"
     manifest_dir = clone_manifest_repo(dest_dir)
-    changed = add_package_to_manifest(manifest_dir, pkg_type, repo)
+    changed = add_package_to_manifest(manifest_dir, pkg_type, package)
     if not changed:
         return
-    commit_and_push_manifest(manifest_dir, repo, pkg_type, dry_run=dry_run)
+    commit_and_push_manifest(manifest_dir, package, pkg_type, dry_run=dry_run)
 
 
 # ----------------------------
@@ -1040,7 +1032,7 @@ def delete_temp_repo(repo_name):
         print(f"[WARN] Failed to delete repo: {r.status_code} {r.text}")
 
 
-def remove_from_registry(repo_name):
+def remove_from_registry(package):
     registry_repo = f"{SPB_RUNIVERSE}.r-universe.dev"
 
     url = f"https://api.github.com/repos/{BIOC_STAGING_ORG}/{registry_repo}/contents/packages.json"
@@ -1053,23 +1045,23 @@ def remove_from_registry(repo_name):
     data = r.json()
     content = json.loads(base64.b64decode(data["content"]).decode())
 
-    new_content = [x for x in content if x.get("package") != repo_name]
+    new_content = [x for x in content if x.get("package") != package]
 
     if len(new_content) == len(content):
-        print(f"[INFO] {repo_name} not found in registry")
+        print(f"[INFO] {package} not found in registry")
         return
 
     updated = json.dumps(new_content, indent=2)
 
     r = requests.put(url, headers=BIOC_STAGING_HEADERS, json={
-        "message": f"Remove {repo_name}",
+        "message": f"Remove {package}",
         "content": base64.b64encode(updated.encode()).decode(),
         "sha": data["sha"]
     })
     if r.status_code >= 300:
         print(f"[WARN] Failed to update registry: {r.status_code} {r.text}")
 
-    print(f"[INFO] Removed {repo_name} from registry")
+    print(f"[INFO] Removed {package} from registry")
 
 
 
@@ -1113,20 +1105,34 @@ def main():
     # --------------- -----------------------------
     # extra repo
     # --------------------------------------------
-    owner, repo = extract_repo(issue_body)
-    if repo and repo.endswith(".git"):
-        repo = repo[:-4]
+    # The package name comes from DESCRIPTION, not the repository name
+    # (e.g. a repo named foo-R holding Package: foo). The staging repo,
+    # gitolite, git.bioconductor.org, hosting repo and manifest all use it.
+    owner, repo, package = package_from_issue(issue_body, headers=HEADERS, issue_number=issue_number)
 
-    if not owner or not repo:
-        print("[ERROR] Could not extract repository from issue body")
+    if not owner or not repo or not package:
+        print("[ERROR] Could not determine repository or package name from issue body")
         sys.exit(1)
 
     # --------------------------------------------
     # package type based on bioctype / biocViews
     # --------------------------------------------
-    desc_text = get_description_file(repo)
+    desc_text = get_description_file(package)
     if not desc_text:
         print("[ERROR] DESCRIPTION file not found — cannot proceed")
+        sys.exit(1)
+    staged_package = parse_package_field(desc_text)
+    if staged_package != package:
+        print(
+            f"[ERROR] Package name mismatch: submitted repo {owner}/{repo} has "
+            f"'{package}' but staged DESCRIPTION has '{staged_package}'"
+        )
+        post_comment(issue_number, f"""ERROR:
+The package name in the submitted repository DESCRIPTION ('{package}') does not
+match the staged DESCRIPTION ('{staged_package}'). A Bioconductor admin needs
+to resolve this before the package can be accepted.
+""")
+        remove_label(issue_number, "package accepted")
         sys.exit(1)
     sqlite_path = "/tmp/biocViews.sqlite"
     download_biocviews_sqlite(sqlite_path)
@@ -1162,7 +1168,7 @@ def main():
 
     try:
         print("[INFO] gitolite configuration step")
-        configure_gitolite(valid_ids, repo, pkg_type, dry_run=False)
+        configure_gitolite(valid_ids, package, pkg_type, dry_run=False)
     except Exception as e:
         print(f"[ERROR] Gitolite configuration failed: {e}")
         pipeline_success = False
@@ -1180,7 +1186,7 @@ We appreciate your patience as we investigate
     # --------------------------------------------
     try:
         print("[INFO] cloning to git.bioconductor.org step")
-        transfer_to_git_bioc(repo, dry_run=False)
+        transfer_to_git_bioc(package, dry_run=False)
     except Exception as e:
         print(f"[ERROR] Cloning to git.bioconductor.org failed: {e}")
         pipeline_success = False
@@ -1198,48 +1204,48 @@ We appreciate your patience as we investigate
     # --------------------------------------------
     github_hosting_error = False
     try:
-        github_repo_status = github_repo_exists(repo)
+        github_repo_status = github_repo_exists(package)
         if github_repo_status is True:
-            print(f"[ERROR] GitHub repository already exists: {BIOC_PKG_HOSTING_ORG}/{repo}")
+            print(f"[ERROR] GitHub repository already exists: {BIOC_PKG_HOSTING_ORG}/{package}")
             github_hosting_error = True
         elif github_repo_status is False:
-            print(f"[INFO] GitHub repository does not exist: {BIOC_PKG_HOSTING_ORG}/{repo}")
-            create_repo_res = create_github_repo(repo)
+            print(f"[INFO] GitHub repository does not exist: {BIOC_PKG_HOSTING_ORG}/{package}")
+            create_repo_res = create_github_repo(package)
             if not create_repo_res:
                 print("[WARN] GitHub repository was not created")
                 github_hosting_error = True
             else:
-                transfer_to_bioc_github_hosting(repo)
-                default_branch_res = set_default_branch(repo, "devel")
+                transfer_to_bioc_github_hosting(package)
+                default_branch_res = set_default_branch(package, "devel")
                 if not default_branch_res:
                     print("[WARN] GitHub default branch not set to devel")
                     github_hosting_error = True
-                protect_devel_branch = protect_branch(repo, "devel")
+                protect_devel_branch = protect_branch(package, "devel")
                 if not protect_devel_branch:
                     print("[WARN] GitHub devel branch protection was not applied")
                     github_hosting_error = True
-                admin_force_res = admin_force_push_devel_and_release(repo)
+                admin_force_res = admin_force_push_devel_and_release(package)
                 if not admin_force_res:
                     print("[WARN] GitHub admin force push ruleset was not applied")
                     github_hosting_error = True
-                disallow_release_res = disallow_release_branch(repo)
+                disallow_release_res = disallow_release_branch(package)
                 if not disallow_release_res:
                     print("[WARN] GitHub disallow release branch ruleset was not applied")
                     github_hosting_error = True
-                topics_res = set_repository_topics(repo, pkg_type)
+                topics_res = set_repository_topics(package, pkg_type)
                 if not topics_res:
                     print("[WARN] GitHub topics not applied")
                     github_hosting_error = True
-                actions_res = disable_actions(repo)
+                actions_res = disable_actions(package)
                 if not actions_res:
                     print("[WARN] GitHub Actions could not be disabled")         
                     github_hosting_error = True
-                workflows = get_workflows(repo)
+                workflows = get_workflows(package)
                 if workflows is None:
                     github_hosting_error = True
                 else:
                     for workflow in workflows:
-                        workflow_res = disable_workflow(repo, workflow["id"], workflow["name"])
+                        workflow_res = disable_workflow(package, workflow["id"], workflow["name"])
                         if not workflow_res:
                             github_hosting_error = True               
         else:
@@ -1258,7 +1264,7 @@ We appreciate your patience as we investigate
     # --------------------------------------------
 
     try:
-        update_manifest(pkg_type, repo, dry_run=False)
+        update_manifest(pkg_type, package, dry_run=False)
     except Exception as e:
         print(f"[ERROR] Adding to Manifest failed: {e}")
         closing_comment="""ERROR:
@@ -1276,16 +1282,16 @@ We appreciate your patience as we investigate
     #   DOI creation is handled separately by the
     #     create-dois workflow (scripts/create_missing_dois.py)
     # --------------------------------------------
-    if repo:
+    if package:
         if pipeline_success:
             print("[INFO] Cleaning tempbioc")
-            delete_temp_repo(repo)
-            remove_from_registry(repo)
+            delete_temp_repo(package)
+            remove_from_registry(package)
         else:
             print("[WARN] Either gitolite configuration or cloning failed.")
             print("[Skip] Skipping removal from SPB for debugging.")
     else:
-        print(f"[WARN] Could not extract repo from issue body: {issue_number} ")
+        print(f"[WARN] Could not extract package from issue body: {issue_number} ")
 
     # --------------------------------------------
     # clean up labels
@@ -1323,7 +1329,7 @@ It has been added to the official Bioconductor devel system.
 If you want to push command line updates, you need to update your remotes:
 ```
   git remote remove {SPB_RUNIVERSE}
-  git remote add upstream git@git.bioconductor.org:packages/{repo}
+  git remote add upstream git@git.bioconductor.org:packages/{package}
   git push upstream devel
 ```
 
