@@ -152,7 +152,7 @@ crossarrayEWAS,bioinfbrad/crossarrayEWAS,kkamieniecka,201,06c22f5a07c1872149ef11
 WithinHostExperiment,CuiweiG/WithinHostExperiment,CuiweiG,199,9e659ffdb7cb02bf9cde14c5787458260519b720,0.99.2,0.99.2
 paweh,akilanthony/paweh,akilanthony,202,1587c4e7e5899956a986e87123c1542840221e11,0.99.0,0.99.0
 cascadeR,NICHD-BSPC/cascadeR,mitraak,203,5b38b273677d0c3be3de484ae2db2faa9a1512e3,0.99.1,0.99.1
-panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,3c568707473aaa686ea79cb7ceac8f66a97e11e0,0.99.2,0.99.2
+panpathAudit,gkanogiannis/panpathAudit,gkanogiannis,204,ef2a1766107bf9e2f7dd9e374ee451e8402a514b,0.99.3,0.99.3
 loopQTL,rhielab/loopQTL,Tim-wuuu,206,884c641c987e88c30c097ebc9e121a7700ef73c0,0.99.1,0.99.1
 enviPathR,enviPath/enviPathR,RiboRings,207,f88082d53abcdae046d4da03f303c4d3eee0737c,0.99.0,0.99.0
 thyroidBRS,camilasauria/thyroidBRS,hachepunto,208,7a2e85246e4277dbc3779f17d9cb282c424ba635,0.99.6,0.99.6
@@ -209,5 +209,5 @@ bgnormR,BhuvaLab/bgnormR,bhuvad,267,f00c8046b507411b762c93af91839f88e34bf232,0.9
 repli,dzijlmans/repli,dzijlmans,270,1b34d069e664daac36145ebbd065f1bc1a01fe8e,0.99.0,0.99.0
 exploreDE,fgcz/exploreDE,wolski,271,12714c093944c75b55446d3c4dab079e3ae132ae,0.99.0,0.99.0
 SACAT,Statwright/SACAT,yiqianomics,272,2d8ff486466c61689a1384cbefcc4c70a34bae11,0.99.2,0.99.2
-looOmics,btanay041/looOmics,btanay041,273,760cef504294bbac288dbea2b2ff970d4f9ce081,0.99.0,0.99.0
+looOmics,btanay041/looOmics,btanay041,273,80e5b65126d735d9aa23ef22205e180e38d1ecd7,0.99.1,0.99.1
 GOxploreR,shaileshtripathi/GOxploreR,shaileshtripathi,274,1e1810bd9bcdb488f3e6795680e7809e00483a65,0.99.0,0.99.0
