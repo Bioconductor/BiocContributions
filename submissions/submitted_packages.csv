@@ -109,7 +109,7 @@ CorNetto,bradleyalexward/CorNetto,bradleyalexward,151,1321597b3d5f9b9c6eda941b8b
 SpaMTPData,BCRL-tylu/SpaMTPData,BCRL-tylu,152,86dc96c231ee8c8eb9a25605e449627222dff50e,0.99.5,0.99.5
 TxDb.Athaliana.Ensembl.TAIR10,kabilanbio/TxDb.Athaliana.Ensembl.TAIR10,kabilanbio,153,e0c6297d8ed84367343f1fbff8644cdd5fd18c51,0.99.7,0.99.7
 TxDb.Gmax.JGI.Gmv4,kabilanbio/TxDb.Gmax.JGI.Gmv4,kabilanbio,154,b0bc8f3f01ee18a794a741c1d60bfce88563a9fc,0.99.2,0.99.2
-remart,Huber-group-EMBL/remart,Bisaloo,155,5a2c37746c551a76516b35d27e03579fd8df22d0,0.99.6,0.99.6
+remart,Huber-group-EMBL/remart,Bisaloo,155,8205c5ebf42eb217e924765f0a0f09abec217f59,0.99.7,0.99.7
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,19acfa4eed3725b7ca3b93d4ade9a75da8725f13,0.99.6,0.99.6
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,9dc3674a937376767d10e1e25a19a386bbed8cf1,0.99.20,0.99.20
@@ -211,5 +211,5 @@ exploreDE,fgcz/exploreDE,wolski,271,12714c093944c75b55446d3c4dab079e3ae132ae,0.9
 SACAT,Statwright/SACAT,yiqianomics,272,2d8ff486466c61689a1384cbefcc4c70a34bae11,0.99.2,0.99.2
 looOmics,btanay041/looOmics,btanay041,273,80e5b65126d735d9aa23ef22205e180e38d1ecd7,0.99.1,0.99.1
 GOxploreR,shaileshtripathi/GOxploreR,shaileshtripathi,274,1e1810bd9bcdb488f3e6795680e7809e00483a65,0.99.0,0.99.0
-omicslog,tidyomics/omicslog,jdhenaos,275,3fe00c8a3a92bfcf878d4dca2305a5d4c5f9c3d9,0.99.0,0.99.0
+omicslog,tidyomics/omicslog,jdhenaos,275,d90be2c820ee6ff28c92f86833df8890db4d5c46,0.99.1,0.99.1
 spiSEE,RighelliLab/spiSEE,emiledvn,276,,0.99.0,0.99.0
