@@ -113,7 +113,7 @@ remart,Huber-group-EMBL/remart,Bisaloo,155,15647c8ed24f2bb35d9625a718e6e259ed645
 DEP,MVlab-hub/DEP,MVlab-hub,157,2ead1655d93f1fc45b9af33bc3f228cfa23c08a5,3.99.0,3.99.0
 SpaMTPdb,BCRL-tylu/SpaMTPdb,BCRL-tylu,158,19acfa4eed3725b7ca3b93d4ade9a75da8725f13,0.99.6,0.99.6
 SpaMTP,SpaMTP-project/SpaMTP,BCRL-tylu,159,9dc3674a937376767d10e1e25a19a386bbed8cf1,0.99.20,0.99.20
-methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,3d268921030880b0467897535f5683c13bd58d35,0.99.10,0.99.10
+methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,63336b67f03051112feccc58c7ca62ed90f29a89,0.99.11,0.99.11
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,3ff2182a4c09126410225ae78224eca708a2be2d,0.99.12,0.99.12
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,48b39abbb65157e483aa1dc423224670432d15ba,0.99.13,0.99.13
 RhyME,njuelsdke/RhyME,njuelsdke,163,f74096e3d2a124202ce604fe0dbb853dbddb314d,0.99.3,0.99.3
