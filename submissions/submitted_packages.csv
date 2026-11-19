@@ -202,7 +202,7 @@ IsoNetAnalyzeR,IsoformAnalysisGroup/IsoNetAnalyzeR,dskanakoglou,259,0cb548bb2705
 R4AOP,SidraAdil/R4AOP,SidraAdil,260,eb071472349b3f7395850e7c21a2553db5466696,0.99.0,0.99.0
 apbCatalogR,anndata-omics-bridge/apbCatalogR,wolski,261,4573ef2fdc3d45421854125be43c2158f21fae94,0.99.4,0.99.4
 spliceTerrain,baerlachlan/spliceTerrain,baerlachlan,263,a3633eefaeeb0e808c73ee3bc788584fa8a83dae,0.99.0,0.99.0
-tn5bias,plger/tn5bias,plger,264,,0.99.5,0.99.5
+tn5bias,plger/tn5bias,plger,264,5b42f726089986c366b39167b97a31e44a00a7f3,0.99.5,0.99.5
 thanatome,hachepunto/thanatome,hachepunto,265,ffe7a823608a61c0db366f17a62d640b21f8279d,0.99.1,0.99.1
 spiDE,BhuvaLab/spiDE,bhuvad,266,b0649a48f028f81e24cff5d6da94f1cd57812745,0.99.38,0.99.38
 bgnormR,BhuvaLab/bgnormR,bhuvad,267,f00c8046b507411b762c93af91839f88e34bf232,0.99.5,0.99.5
@@ -214,4 +214,4 @@ GOxploreR,shaileshtripathi/GOxploreR,shaileshtripathi,274,1e1810bd9bcdb488f3e679
 omicslog,tidyomics/omicslog,jdhenaos,275,d90be2c820ee6ff28c92f86833df8890db4d5c46,0.99.1,0.99.1
 spiSEE,RighelliLab/spiSEE,emiledvn,276,7ed9a5bbc43dedd3c50059fe3b8969f943b7c27d,0.99.2,0.99.2
 CPTACdata,waldronlab/CPTACdata,LiNk-NY,277,cbfed6ac186f6a6ed57711844b874cb21e965dd0,0.99.10,0.99.10
-plasticdb,VictorGambarini/plasticdb,VictorGambarini,279,807c8c951406c19746d318da77453d7247ef9451,0.99.5,0.99.5
+plasticdb,VictorGambarini/plasticdb,VictorGambarini,279,90db73eeb0d0b0927216e34fe0323fced9456ad6,0.99.6,0.99.6
