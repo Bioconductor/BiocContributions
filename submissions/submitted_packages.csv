@@ -222,3 +222,4 @@ STBench,Lahiru-lsb/STBench,Lahiru-lsb,283,ac3a9276f0f313a4c39fe8e03f92214a83e7b9
 methylVCF,xec-cm/methylVCF,xec-cm,284,7e5b0e7fdf8e8ae30b46cc56307e7f580f76d956,0.99.0,0.99.0
 TriGer,MATRIX-Research-Lab/TriGer,FrederickHuangLin,285,113056aef49bf535992d1414c95f01f87baee3f8,0.99.0,0.99.0
 geneSetSimplifyR,IsoformAnalysisGroup/geneSetSimplifyR,chihs-dtu,286,5cf71e43b2b4fbc97cbea7ee0c1304a34e7ca194,0.99.0,0.99.0
+MetVAE,MATRIX-Research-Lab/MetVAE,FrederickHuangLin,287,,0.99.0,0.99.0
