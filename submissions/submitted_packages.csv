@@ -117,7 +117,7 @@ methylTFR,EpigenomeInformatics/methylTFR,igunduz,160,63336b67f03051112feccc58c7c
 methylTFRAnnotationHg38,EpigenomeInformatics/methylTFRAnnotationHg38,igunduz,161,3ff2182a4c09126410225ae78224eca708a2be2d,0.99.12,0.99.12
 methylTFRAnnotationMm10,EpigenomeInformatics/methylTFRAnnotationMm10,igunduz,162,48b39abbb65157e483aa1dc423224670432d15ba,0.99.13,0.99.13
 RhyME,njuelsdke/RhyME,njuelsdke,163,f74096e3d2a124202ce604fe0dbb853dbddb314d,0.99.3,0.99.3
-spatialLagGLM,sahalpaladan/spatialLagGLM,sahalpaladan,164,4d47b184b1a32a11fa37880de5696e5ac5459ac4,0.99.2,0.99.2
+spatialLagGLM,sahalpaladan/spatialLagGLM,sahalpaladan,164,dd24d41fefa3d316afa02e9f8bdcfd5c0b446936,0.99.4,0.99.4
 HuMMANet,ShivangiV-IIITD/HuMMANet,Nalin21478,165,26746cac223f922f6d4f915a3c107b41bbeb302d,0.99.2,0.99.2
 dmsa,teindor/dmsa,teindor,166,e4c1133938aa6c52375e6b45701eb1b476fba6cd,0.99.29,0.99.29
 TweedSpot,himelmallick/TweedSpot,Nalin21478,167,60006a53969c961294b0f2775d371c8cd431b623,0.99.3,0.99.3
